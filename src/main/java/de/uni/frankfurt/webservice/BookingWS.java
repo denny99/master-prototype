@@ -3,7 +3,7 @@ package de.uni.frankfurt.webservice;
 import de.uni.frankfurt.database.Booking;
 import de.uni.frankfurt.database.DatabaseMock;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.JSONParser;
+import de.uni.frankfurt.json.wrapper.JSONParser;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
@@ -32,15 +32,6 @@ public class BookingWS {
     return parser.toJSON(databaseMock.getBookings());
   }
 
-  @Path("/{bookingId}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getPassengerById(
-      @PathParam("bookingId") String id
-  ) throws ResourceNotFoundException {
-    return parser.toJSON(databaseMock.getBookingById(id));
-  }
-
   @Path("/")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -49,5 +40,14 @@ public class BookingWS {
     Booking b = databaseMock.createBooking(
         parser.fromJSON(bookingJSON, Booking.class));
     return parser.toJSON(b);
+  }
+
+  @Path("/{bookingId}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getPassengerById(
+      @PathParam("bookingId") String id
+  ) throws ResourceNotFoundException {
+    return parser.toJSON(databaseMock.getBookingById(id));
   }
 }

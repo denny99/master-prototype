@@ -1,7 +1,7 @@
 package de.uni.frankfurt.database;
 
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.JSONParser;
+import de.uni.frankfurt.json.wrapper.JSONParser;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +19,8 @@ public class AircraftTest {
 
   @Test
   public void createJSON() throws ResourceNotFoundException {
-    LOG.info(parser.getJsonb().toJson(new Aircraft("1", "1", "2", 3)));
-    String s = parser.getJsonb().toJson(database.getFlightById("1"));
+    LOG.info(parser.toJSON(new Aircraft("1", "1", "2", 3)));
+    String s = parser.toJSON(database.getFlightById("1"));
     LOG.info(s);
   }
 }

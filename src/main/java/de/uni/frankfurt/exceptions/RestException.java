@@ -1,12 +1,25 @@
 package de.uni.frankfurt.exceptions;
 
-import javax.json.bind.annotation.JsonbTransient;
-
 public class RestException extends Throwable {
+  private final int statusCode;
+  private final String errorMessage;
+  private final String type;
 
-  @JsonbTransient
-  @Override
-  public StackTraceElement[] getStackTrace() {
-    return super.getStackTrace();
+  RestException(int statusCode, String errorMessage, Class clazz) {
+    this.errorMessage = errorMessage;
+    this.statusCode = statusCode;
+    this.type = clazz.getSimpleName();
+  }
+
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
+
+  public String getType() {
+    return type;
   }
 }

@@ -48,11 +48,20 @@ public class Airport {
     this.city = city;
   }
 
-  public boolean matchesCountry(String country) {
-    return country.isEmpty() || this.country.equals(country);
-  }
-
+  /**
+   * @param city name of the city
+   * @return true if airport is in city
+   */
   public boolean matchesCity(String city) {
     return city.isEmpty() || this.city.equals(city);
+  }
+
+  /**
+   *
+   * @param country country two letter code
+   * @return true if airport is in country
+   */
+  public boolean matchesCountry(String country) {
+    return country.isEmpty() || this.country.equals(country);
   }
 }

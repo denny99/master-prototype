@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ *
+ */
 @Named
 @SessionScoped
 public class DatabaseMock implements Serializable {
@@ -66,44 +69,10 @@ public class DatabaseMock implements Serializable {
   }
 
   /**
-   * @param country Target Country
-   * @param city    Target City
-   * @param date    min. Date for flight
-   * @return found results
+   * @param booking booking to create
+   * @return created booking with correct data
+   * @throws ResourceNotFoundException flight not found
    */
-  public ArrayList<Flight> searchFlight(
-      String country, String city, Date date) {
-    ArrayList<Flight> results = new ArrayList<>();
-    for (Flight flight : flights) {
-      if (flight.getArrival().matchesCountry(country) &&
-          flight.getArrival().matchesCity(city) &&
-          flight.getDateTime().after(date)) {
-        results.add(flight);
-      }
-    }
-    return results;
-
-  }
-
-  public Passenger getPassengerById(
-      String id) throws ResourceNotFoundException {
-    for (Passenger passenger : this.passengers) {
-      if (passenger.getId().equals(id)) {
-        return passenger;
-      }
-    }
-    throw new ResourceNotFoundException(id);
-  }
-
-  public Booking getBookingById(String id) throws ResourceNotFoundException {
-    for (Booking booking : this.bookings) {
-      if (booking.getId().equals(id)) {
-        return booking;
-      }
-    }
-    throw new ResourceNotFoundException(id);
-  }
-
   public Booking createBooking(
       Booking booking) throws ResourceNotFoundException {
     Flight f = this.getFlightById(booking.getFlight().getId());
@@ -123,9 +92,13 @@ public class DatabaseMock implements Serializable {
         return flight;
       }
     }
-    throw new ResourceNotFoundException(id);
+    throw new ResourceNotFoundException(id, Flight.class);
   }
 
+  /**
+   * @param passengers passengers to create
+   * @return created objects
+   */
   public ArrayList<Passenger> createPassengers(
       ArrayList<Passenger> passengers) {
     // force random id
@@ -136,10 +109,80 @@ public class DatabaseMock implements Serializable {
     return result;
   }
 
+  /**
+   * @param p passenger to create
+   * @return created object
+   */
   public Passenger createPassenger(Passenger p) {
     // force random id
-    Passenger p1 = new Passenger(p.getName());
+    Passenger p1 = new Passenger(p.getName(), p.getIdCardNumber());
     this.passengers.add(p1);
     return p1;
+  }
+
+  /**
+   * @param id id of booking
+   * @return found booking
+   * @throws ResourceNotFoundException id does not exist
+   */
+  public Booking getBookingById(String id) throws ResourceNotFoundException {
+    for (Booking booking : this.bookings) {
+      if (booking.getId().equals(id)) {
+        return booking;
+      }
+    }
+    throw new ResourceNotFoundException(id, Booking.class);
+  }
+
+  /**
+   * @param id id of passenger
+   * @return found passenger
+   * @throws ResourceNotFoundException id does not exist
+   */
+  public Passenger getPassengerById(
+      String id) throws ResourceNotFoundException {
+    for (Passenger passenger : this.passengers) {
+      if (passenger.getId().equals(id)) {
+        return passenger;
+      }
+    }
+    throw new ResourceNotFoundException(id, Passenger.class);
+  }
+
+  /**
+   * @param id id card number
+   * @return returns a list of all passenger containing the given number (autocomplete)
+   */
+  public ArrayList<Passenger> getPassengersByIdCardNumber(
+      String id) {
+    ArrayList<Passenger> passengers = new ArrayList<>();
+    for (Passenger passenger : this.passengers) {
+      if (passenger.getIdCardNumber()
+          .toLowerCase()
+          .contains(id.toLowerCase())) {
+        passengers.add(passenger);
+      }
+    }
+    return passengers;
+  }
+
+  /**
+   * @param country Target Country
+   * @param city    Target City
+   * @param date    min. Date for flight
+   * @return found results
+   */
+  public ArrayList<Flight> searchFlight(
+      String country, String city, Date date) {
+    ArrayList<Flight> results = new ArrayList<>();
+    for (Flight flight : flights) {
+      if (flight.getArrival().matchesCountry(country) &&
+          flight.getArrival().matchesCity(city) &&
+          flight.getDateTime().after(date)) {
+        results.add(flight);
+      }
+    }
+    return results;
+
   }
 }

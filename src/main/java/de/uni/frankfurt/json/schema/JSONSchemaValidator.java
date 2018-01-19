@@ -1,11 +1,11 @@
-package de.uni.frankfurt.json;
+package de.uni.frankfurt.json.schema;
 
 import de.uni.frankfurt.json.annotations.JsonSchema;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-abstract class JSONSchemaValidator {
+public abstract class JSONSchemaValidator {
 
   protected boolean validateSchema(
       Object object) {

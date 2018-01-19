@@ -1,6 +1,7 @@
-package de.uni.frankfurt.json;
+package de.uni.frankfurt.json.deserializer;
 
 import de.uni.frankfurt.database.Passenger;
+import de.uni.frankfurt.json.schema.JSONSchemaValidator;
 import org.apache.log4j.Logger;
 
 import javax.json.bind.serializer.DeserializationContext;

@@ -3,7 +3,7 @@ package de.uni.frankfurt.webservice;
 import de.uni.frankfurt.database.DatabaseMock;
 import de.uni.frankfurt.database.Flight;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.JSONParser;
+import de.uni.frankfurt.json.wrapper.JSONParser;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -26,6 +26,15 @@ public class FlightWS {
   FlightWS() {
   }
 
+  @Path("/{flightId}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getFlightById(
+      @PathParam("flightId") String id
+  ) throws ResourceNotFoundException {
+    return parser.toJSON(databaseMock.getFlightById(id));
+  }
+
   @Path("/")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
@@ -44,14 +53,5 @@ public class FlightWS {
       e.printStackTrace();
       return parser.toJSON(e.getMessage());
     }
-  }
-
-  @Path("/{flightId}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getFlightById(
-      @PathParam("flightId") String id
-  ) throws ResourceNotFoundException {
-    return parser.toJSON(databaseMock.getFlightById(id));
   }
 }

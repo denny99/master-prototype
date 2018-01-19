@@ -11,18 +11,24 @@ public class Passenger {
       required = true
   )
   private String name;
+  private String idCardNumber;
 
   public Passenger() {
   }
 
-  public Passenger(String name) {
+  public Passenger(String name, String idCardNumber) {
     this.id = String.valueOf(
         ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
     this.name = name;
+    this.idCardNumber = idCardNumber;
   }
 
   public String getId() {
     return id;
+  }
+
+  public String getIdCardNumber() {
+    return idCardNumber;
   }
 
   public void setId(String id) {

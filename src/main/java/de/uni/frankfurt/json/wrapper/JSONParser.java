@@ -1,4 +1,10 @@
-package de.uni.frankfurt.json;
+package de.uni.frankfurt.json.wrapper;
+
+import de.uni.frankfurt.json.adapter.RestExceptionAdapter;
+import de.uni.frankfurt.json.deserializer.AircraftDeserializer;
+import de.uni.frankfurt.json.deserializer.AirportDeserializer;
+import de.uni.frankfurt.json.deserializer.FlightDeserializer;
+import de.uni.frankfurt.json.deserializer.PassengerDeserializer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -14,6 +20,7 @@ public class JSONParser {
   public JSONParser() {
     JsonbConfig config = new JsonbConfig()
         .withFormatting(true)
+        .withAdapters(new RestExceptionAdapter())
         .withDeserializers(new AircraftDeserializer(),
             new AirportDeserializer(), new FlightDeserializer(),
             new PassengerDeserializer());
@@ -21,11 +28,11 @@ public class JSONParser {
     this.jsonb = JsonbBuilder.create(config);
   }
 
-  public String toJSON(Object o) {
-    return this.jsonb.toJson(o);
-  }
-
   public <T> T fromJSON(String s, Class<T> clazz) {
     return this.jsonb.fromJson(s, clazz);
+  }
+
+  public String toJSON(Object o) {
+    return this.jsonb.toJson(o);
   }
 }
