@@ -11,8 +11,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Path("/flights")
 @RequestScoped
@@ -41,12 +41,15 @@ public class FlightWS {
   public String getFlights(
       @DefaultValue("") @QueryParam("country") String country,
       @DefaultValue("") @QueryParam("city") String city,
-      @DefaultValue("01-01-2018") @QueryParam("date") String isoDate
+      @DefaultValue("2018-01-01") @QueryParam("date") String isoDate,
+      @DefaultValue("100") @QueryParam("limit") int limit,
+      @DefaultValue("0") @QueryParam("offset") int offset
   ) {
     try {
-      SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       Date date = formatter.parse(isoDate);
-      ArrayList<Flight> flights = this.databaseMock.searchFlight(country, city,
+      List<Flight> flights = this.databaseMock.searchFlight(limit, offset,
+          country, city,
           date);
       return parser.toJSON(flights);
     } catch (ParseException e) {

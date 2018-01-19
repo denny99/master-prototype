@@ -19,7 +19,7 @@ public class AircraftTest {
 
   @Test
   public void createJSON() throws ResourceNotFoundException {
-    LOG.info(parser.toJSON(new Aircraft("1", "1", "2", 3)));
+    LOG.info(parser.toJSON(new Aircraft("1", "2", 3)));
     String s = parser.toJSON(database.getFlightById("1"));
     LOG.info(s);
   }

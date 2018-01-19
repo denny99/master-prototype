@@ -1,14 +1,16 @@
 package de.uni.frankfurt.database;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Aircraft {
   private String id;
   private String model;
   private String name;
   private Integer passengerCount;
 
-  public Aircraft(
-      String id, String model, String name, Integer passengerCount) {
-    this.id = id;
+  public Aircraft(String model, String name, Integer passengerCount) {
+    this.id = String.valueOf(
+        ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
     this.model = model;
     this.name = name;
     this.passengerCount = passengerCount;

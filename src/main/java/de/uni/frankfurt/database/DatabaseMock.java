@@ -1,6 +1,7 @@
 package de.uni.frankfurt.database;
 
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
+import de.uni.frankfurt.util.RandomDateGenerator;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.SessionScoped;
@@ -8,6 +9,8 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -17,17 +20,24 @@ import java.util.Date;
 public class DatabaseMock implements Serializable {
   private static final Logger LOG = Logger.getLogger(DatabaseMock.class);
 
-  private Aircraft ac1 = new Aircraft("1", "Boeing 747", "MKA", 240);
-  private Aircraft ac2 = new Aircraft("2", "Boeing 777", "GDS", 440);
-  private Aircraft ac3 = new Aircraft("3", "Airbus A320", "LGR", 210);
-
-  private Airport a1 = new Airport("EDDF", "Frankfurt Airport", "DE",
+  private static Airport a1 = new Airport("EDDF", "Frankfurt Airport", "DE",
       "Frankfurt");
-  private Airport a2 = new Airport("EDDB", "Berlin Schönefeld", "DE",
+  private static Airport a2 = new Airport("EDDB", "Berlin Schönefeld", "DE",
       "Berlin");
-
-  private Flight f1 = new Flight(ac1, a1, a2, "1", new Date());
-  private Flight f2 = new Flight(ac2, a1, a2, "1", new Date());
+  private static Airport a3 = new Airport("EDAH", "Heringsdorf", "DE",
+      "Heringsdorf");
+  private static Airport a4 = new Airport("EDDW", "Bremen", "DE", "Bremen");
+  private static Airport a5 = new Airport("EDDH", "Hamburg", "DE", "Hamburg");
+  private static Airport a6 = new Airport("EDDP", "Leipzig/Halle", "DE",
+      "Leipzig");
+  private static Airport a7 = new Airport("EDDM", "München", "DE", "München");
+  private static Airport a8 = new Airport("EDDR", "Saarbrücken", "DE",
+      "Saarbrücken");
+  private static Airport a9 = new Airport("EDFH", "Frankfurt Hahn", "DE",
+      "Hahn");
+  private static Airport a10 = new Airport("EDDL", "Düsseldorf", "DE",
+      "Düsseldorf");
+  private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
   private ArrayList<Aircraft> aircrafts = new ArrayList<>();
   private ArrayList<Airport> airports = new ArrayList<>();
@@ -39,17 +49,45 @@ public class DatabaseMock implements Serializable {
   public DatabaseMock() {
     // TODO setup initial data
     LOG.info("constructing aircrafts");
-    this.aircrafts.add(ac1);
-    this.aircrafts.add(ac2);
-    this.aircrafts.add(ac3);
+    for (int i = 0; i < 100; i++) {
+      String manufacturer = ThreadLocalRandom.current().nextInt(0, 1 + 1) == 0 ?
+          "Boeing " :
+          "Airbus ";
+
+      Aircraft a = new Aircraft(
+          manufacturer + ThreadLocalRandom.current().nextInt(200, 801),
+          String.valueOf(
+              ThreadLocalRandom.current().nextInt(1000000, 10000000)),
+          ThreadLocalRandom.current().nextInt(100, 301));
+      this.aircrafts.add(a);
+    }
 
     LOG.info("constructing airports");
     this.airports.add(a1);
     this.airports.add(a2);
+    this.airports.add(a3);
+    this.airports.add(a4);
+    this.airports.add(a5);
+    this.airports.add(a6);
+    this.airports.add(a7);
+    this.airports.add(a8);
+    this.airports.add(a9);
+    this.airports.add(a10);
 
     LOG.info("constructing flights");
-    this.flights.add(f1);
-    this.flights.add(f2);
+    for (int i = 0; i < 10000; i++) {
+      int departureIndex = ThreadLocalRandom.current()
+          .nextInt(0, this.airports.size());
+      int arrivalIndex = ThreadLocalRandom.current()
+          .nextInt(0, this.airports.size());
+      int aircraftIndex = ThreadLocalRandom.current()
+          .nextInt(0, this.aircrafts.size());
+      Date dateTime = randomDateGenerator.getDate();
+      Flight f = new Flight(this.aircrafts.get(aircraftIndex),
+          this.airports.get(departureIndex), this.airports.get(arrivalIndex),
+          dateTime);
+      this.flights.add(f);
+    }
   }
 
   public ArrayList<Aircraft> getAircrafts() {
@@ -167,13 +205,15 @@ public class DatabaseMock implements Serializable {
   }
 
   /**
+   * @param limit   max number of results
+   * @param offset  number of results to skip
    * @param country Target Country
    * @param city    Target City
    * @param date    min. Date for flight
    * @return found results
    */
-  public ArrayList<Flight> searchFlight(
-      String country, String city, Date date) {
+  public List<Flight> searchFlight(
+      int limit, int offset, String country, String city, Date date) {
     ArrayList<Flight> results = new ArrayList<>();
     for (Flight flight : flights) {
       if (flight.getArrival().matchesCountry(country) &&
@@ -182,7 +222,10 @@ public class DatabaseMock implements Serializable {
         results.add(flight);
       }
     }
-    return results;
-
+    if (results.size() > limit) {
+      return results.subList(offset, offset + limit);
+    } else {
+      return results;
+    }
   }
 }
