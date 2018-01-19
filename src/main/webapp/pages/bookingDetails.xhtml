@@ -4,15 +4,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ace="http://www.icefaces.org/icefaces/components"
-      xmlns:icecore="http://www.icefaces.org/icefaces/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+>
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
         <h2>This is Page2</h2>
         <h:form>
-            <h:commandButton action="index?faces-redirect = true"
+            <h:commandButton action="/index?faces-redirect=true"
                              value="Back To Home Page"/>
         </h:form>
     </ui:define>

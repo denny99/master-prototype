@@ -7,16 +7,11 @@
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
-    <ui:define name="header">
-        <script type="application/javascript" src="angular/js/test.js"/>
-    </ui:define>
-
     <ui:define name="content">
-        <h2>Welcome</h2>
-        <hr/>
-
+        <h2>This is Page2</h2>
         <h:form>
-            <h:commandButton action="/pages/flightOverview" value="View Flights"/>
+            <h:commandButton action="/index?faces-redirect=true"
+                             value="Back To Home Page"/>
         </h:form>
     </ui:define>
 </ui:composition>
