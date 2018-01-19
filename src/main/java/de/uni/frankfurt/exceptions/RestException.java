@@ -1,6 +1,6 @@
 package de.uni.frankfurt.exceptions;
 
-public class RestException extends Throwable {
+public abstract class RestException extends Throwable {
   private final int statusCode;
   private final String errorMessage;
   private final String type;

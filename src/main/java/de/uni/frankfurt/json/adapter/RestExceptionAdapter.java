@@ -6,9 +6,9 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.bind.adapter.JsonbAdapter;
 
-public class RestExceptionAdapter implements JsonbAdapter<RestException, JsonObject> {
+public class RestExceptionAdapter<T extends RestException> implements JsonbAdapter<T, JsonObject> {
   @Override
-  public JsonObject adaptToJson(RestException c) {
+  public JsonObject adaptToJson(T c) {
     return Json.createObjectBuilder()
         .add("type", c.getType())
         .add("message", c.getErrorMessage())
@@ -23,7 +23,7 @@ public class RestExceptionAdapter implements JsonbAdapter<RestException, JsonObj
    * @return nothing
    */
   @Override
-  public RestException adaptFromJson(JsonObject jsonObject) {
+  public T adaptFromJson(JsonObject jsonObject) {
     return null;
   }
 }
