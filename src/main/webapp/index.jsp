@@ -1,9 +1,3 @@
-<html>
-<head>
-</head>
-<body>
-	<%
-		response.sendRedirect("./index.jsf");
-	%>
-</body>
-</html>
+<%
+    response.sendRedirect("./index.jsf");
+%>

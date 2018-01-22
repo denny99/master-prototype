@@ -1,0 +1,54 @@
+/**
+ * special stylesheet for autocompletion box
+ * author daniel kagemann
+ * created 2015-07-27
+ */
+
+.autocomplete {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.475);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.475);
+    min-width: 179px;
+    width: auto;
+    border-radius: 5px;
+}
+
+.autocomplete--item, .autocomplete--more {
+    background-color: #fff;
+    padding: 2px 10px;
+    cursor: pointer;
+    border-top-style: dotted;
+    border-bottom-style: dotted;
+    border-color: rgba(0, 0, 0, .6);
+    border-width: 1px;
+}
+
+.autocomplete--item:first-child {
+    border-top-style: solid;
+}
+
+.autocomplete--item:last-child {
+    border-bottom-style: solid;
+}
+
+.autocomplete--item:hover,
+.selected {
+    background-color: #4a7698;
+    opacity: 0.8;
+    color: #fff
+}
+
+/** classes used for parameters **/
+/**.p-ident {background-color:#b00038;color:#fff !important;}
+.p-regexp {background-color:#515151;color:#fff !important;}
+.p-loc {background-color:#4a7698; color:#fff !important;}
+.p-equiv {font-style:italic;}
+.p-prefix {background-color:#529a47; color:#fff !important;}
+.p-suffix {background-color:#d3a30e; color:#000 !important;}
+.p-fuzzy {border-bottom:1px solid #6aa8d9;}
+.p-synonym {background-color:#c5c5c5;color:#404040 !important;}
+.p-diff {background-color:#e5e5e5;color:#b00038 !important;font-weight:bold;}
+*/

@@ -1,0 +1,255 @@
+/* ALLGEMEINES FORM CSS */
+
+/* Checkboxen */
+.form .control label {
+    vertical-align: middle;
+    margin-left: 8px;
+    line-height: 19px;
+    width: 95%;
+    display: inline-block;
+}
+
+.form .control .input-radio,
+.form .control .input-checkbox {
+    margin: 7px 0;
+}
+
+.form .control .input-radio input,
+.form .control .input-checkbox input {
+    display: inline-block;
+    margin: 4px 0 0;
+    width: 13px;
+    height: 13px;
+    vertical-align: top;
+}
+
+html .form .control label {
+    *display: inline;
+}
+
+html .form .control .input-radio input {
+    *display: inline;
+}
+
+html .form .control .input-checkbox input {
+    *display: inline;
+}
+
+/* Text und Select */
+
+.form .input-text,
+.form .input-select {
+    margin-bottom: 20px;
+}
+
+.form .input-text input,
+.form .input-text textarea,
+.form .input-select select {
+    border: 1px solid #ccd8e4;
+    background: #FFF;
+    padding: 1px 0;
+    font-size: 13px;
+    color: #4c4c4c;
+    width: 55%;
+}
+
+.form .expanded input,
+.form .expanded select {
+    width: 40%;
+}
+
+.form .fullSizeSelect select {
+    width: 55% !important;
+}
+
+.form .inline {
+    display: inline;
+    width: auto;
+    float: left;
+    margin-right: 15px;
+}
+
+.form .inline .sub-label {
+    width: auto;
+    font-weight: normal;
+    position: relative
+}
+
+/*Sub-Label ohne Umbruch*/
+.form .inline input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.form .input-text .inline input {
+    margin-right: 0
+}
+
+.form .input-text .inline .sub-label {
+    width: 100%;
+}
+
+/*Sub-Label mit Umbruch*/
+.form .input-text .inline input {
+    width: 100%;
+    clear: left
+}
+
+.form .input-radio .inline,
+.form .input-radio .inline input {
+    *float: none
+}
+
+.form .control.inline {
+    float: left;
+}
+
+.form .input-text input {
+    height: 18px;
+}
+
+.form .input-select select {
+    height: 22px;
+}
+
+.form .input-radio .label, /* Pseudo Label*/
+.form .input-text .label, /* Pseudo Label*/
+.form .input-select .label, /* Pseudo Label*/
+.form .input-text label,
+.form .input-select label {
+    display: inline-block;
+    width: 24%;
+    font-size: 13px;
+    line-height: 22px;
+    font-weight: bold;
+    float: left;
+}
+
+html .form .input-text label {
+    *display: inline;
+}
+
+html .form .input-select label {
+    *display: inline;
+}
+
+.form .long-label label {
+    width: 62%;
+    font-weight: normal;
+}
+
+.form .long-label input {
+    width: 17%;
+}
+
+.form .expanded .label, /* Pseudo Label*/
+.form .expanded .label, /* Pseudo Label*/
+.form .expanded .label, /* Pseudo Label*/
+.form .expanded label,
+.form .expanded label {
+    width: 45%;
+}
+
+/* Übersichtsseite */
+.summary .text {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.summary .text .label-name {
+    display: inline-block;
+    width: 24%;
+    font-size: 13px;
+    line-height: 22px;
+    font-weight: normal;
+}
+
+.summary .text .label-value {
+    display: inline-block;
+    width: 46%;
+    font-size: 13px;
+    line-height: 22px;
+    font-weight: bold;
+}
+
+.summary .text .label-name {
+    *display: inline;
+}
+
+.summary .text .label-value {
+    *display: inline;
+}
+
+/* Sonderfälle */
+
+.form .input-select select {
+    width: auto;
+    margin-right: 1px;
+}
+
+.form .input-text input.street {
+    width: 46%;
+    margin-right: 1%;
+}
+
+.form .input-text input.number {
+    width: 7%;
+}
+
+.form .input-text input.zip {
+    width: 15%;
+    margin-right: 1%;
+}
+
+.form .input-text input.city {
+    width: 38%;
+}
+
+.form .birth input.smallcity {
+    width: 28%;
+    margin-right: 1%;
+}
+
+.form .birth input.city,
+.form .employed input.city {
+    width: 38%;
+    margin-right: 1%;
+}
+
+.form .input-text input.dd {
+    width: 7%;
+    margin-right: 1%
+}
+
+.form .input-text input.mm {
+    width: 7%;
+    margin-right: 1%
+}
+
+.form .input-text input.yyyy {
+    width: 7%;
+}
+
+.form .input-text input.ddmmyyyy {
+    width: 15%;
+}
+
+.form .input-select select.max {
+    width: 55%;
+}
+
+.form .input-select select.marital-status {
+    width: 30%;
+}
+
+.lineSeperator .text {
+    border-bottom: 1px solid #ccd8e4;
+}
+
+form .last {
+    border: none !important;
+}
+
+.fullwidth {
+    width: 100%
+}

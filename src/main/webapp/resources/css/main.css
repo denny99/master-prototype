@@ -1,0 +1,111 @@
+html, body {
+    background-color: transparent;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10px;
+}
+
+#stepViewer {
+    position: relative;
+    height: 52px;
+}
+
+#stepViewer li {
+    display: block;
+    float: left;
+    height: 52px;
+    width: 170px;
+    background-image: url("#{resource['images:background-7steps.png']}");
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    margin-left: -82px;
+    padding-left: 23px;
+    font-size: 14px;
+    color: #93afca;
+    line-height: 18px;
+    font-weight: bold;
+}
+
+#stepViewer li.active {
+    background-position: 0px -52px;
+    color: #FFF;
+}
+
+#stepViewer li.first {
+    width: 188px;
+    margin-left: -45px;
+    padding-left: 5px;
+    background-image: url("#{resource['images:background-7steps-first.png']}");
+    background-position: 0 0;
+}
+
+#stepViewer li.first div {
+    width: 75px !important;
+}
+
+#stepViewer li.first.active {
+    background-position: 0px -52px;
+}
+
+#stepViewer li.last {
+    width: 100px;
+    margin-left: -82px;
+    padding-left: 22px;
+    background-image: url("#{resource['images:background-7steps-last.png']}");
+    background-position: 0 0;
+}
+
+#stepViewer li.last.active {
+    background-position: 0px -52px;
+}
+
+#stepViewer li a, #stepViewer li a:hover {
+    color: #93afca;
+    text-decoration: none;
+}
+
+#stepViewer li.active a, #stepViewer li.active a:hover {
+    color: #FFF;
+    text-decoration: none;
+}
+
+#stepViewer li span {
+    position: relative;
+    top: 50%;
+    margin-top: -10px;
+    display: block;
+    float: left;
+    width: 13px;
+    height: 17px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFF;
+    padding-left: 4px;
+    background-image: url("#{resource['images:sprite7.png']}");
+    background-position: 0px 1px;
+    background-repeat: no-repeat;
+}
+
+#stepViewer li.active span {
+    background-position: 0.5px -15.5px;
+    color: #ba9d59;
+}
+
+#stepViewer li div {
+    position: relative;
+    top: 50%;
+    margin-top: -18px;
+    margin-left: 22px;
+    font-size: 13px;
+    width: 60px;
+}
+
+#stepViewer li div.singleLine {
+    margin-top: -10px;
+}
+
+#stepViewer .last div {
+    width: 66px !important;
+}
