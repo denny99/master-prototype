@@ -1,7 +1,8 @@
 package de.uni.frankfurt.database;
 
+import de.uni.frankfurt.util.ThreadLocalRandom;
+
 import java.util.Date;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Flight {
   private Aircraft aircraft;
@@ -14,7 +15,7 @@ public class Flight {
       Aircraft aircraft, Airport departure,
       Airport arrival, Date dateTime) {
     this.id = String.valueOf(
-        ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
+        ThreadLocalRandom.nextInt(0, 100000000 + 1));
     this.aircraft = aircraft;
     this.departure = departure;
     this.arrival = arrival;

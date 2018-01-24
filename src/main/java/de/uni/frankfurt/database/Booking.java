@@ -1,7 +1,8 @@
 package de.uni.frankfurt.database;
 
+import de.uni.frankfurt.util.ThreadLocalRandom;
+
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Booking {
   private String id;
@@ -15,7 +16,7 @@ public class Booking {
       Flight flight,
       ArrayList<Passenger> passengers) {
     this.id = String.valueOf(
-        ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
+        ThreadLocalRandom.nextInt(0, 100000000 + 1));
     this.flight = flight;
     this.passengers = passengers;
   }

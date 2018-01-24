@@ -1,15 +1,10 @@
 package de.uni.frankfurt.database;
 
-import de.uni.frankfurt.json.annotations.JsonSchema;
 
-import java.util.concurrent.ThreadLocalRandom;
+import de.uni.frankfurt.util.ThreadLocalRandom;
 
 public class Passenger {
   private String id;
-
-  @JsonSchema(
-      required = true
-  )
   private String name;
   private String idCardNumber;
 
@@ -18,7 +13,7 @@ public class Passenger {
 
   public Passenger(String name, String idCardNumber) {
     this.id = String.valueOf(
-        ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
+        ThreadLocalRandom.nextInt(0, 100000000 + 1));
     this.name = name;
     this.idCardNumber = idCardNumber;
   }

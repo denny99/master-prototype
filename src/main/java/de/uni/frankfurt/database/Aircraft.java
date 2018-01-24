@@ -1,6 +1,6 @@
 package de.uni.frankfurt.database;
 
-import java.util.concurrent.ThreadLocalRandom;
+import de.uni.frankfurt.util.ThreadLocalRandom;
 
 public class Aircraft {
   private String id;
@@ -10,7 +10,7 @@ public class Aircraft {
 
   public Aircraft(String model, String name, Integer passengerCount) {
     this.id = String.valueOf(
-        ThreadLocalRandom.current().nextInt(0, 100000000 + 1));
+        ThreadLocalRandom.nextInt(0, 100000000 + 1));
     this.model = model;
     this.name = name;
     this.passengerCount = passengerCount;

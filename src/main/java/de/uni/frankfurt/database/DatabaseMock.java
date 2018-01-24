@@ -2,6 +2,7 @@ package de.uni.frankfurt.database;
 
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.util.RandomDateGenerator;
+import de.uni.frankfurt.util.ThreadLocalRandom;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.SessionScoped;
@@ -10,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -39,26 +39,26 @@ public class DatabaseMock implements Serializable {
       "Düsseldorf");
   private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
-  private ArrayList<Aircraft> aircrafts = new ArrayList<>();
-  private ArrayList<Airport> airports = new ArrayList<>();
-  private ArrayList<Flight> flights = new ArrayList<>();
-  private ArrayList<Passenger> passengers = new ArrayList<>();
-  private ArrayList<Booking> bookings = new ArrayList<>();
+  private ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
+  private ArrayList<Airport> airports = new ArrayList<Airport>();
+  private ArrayList<Flight> flights = new ArrayList<Flight>();
+  private ArrayList<Passenger> passengers = new ArrayList<Passenger>();
+  private ArrayList<Booking> bookings = new ArrayList<Booking>();
 
 
   public DatabaseMock() {
     // TODO setup initial data
     LOG.info("constructing aircrafts");
     for (int i = 0; i < 100; i++) {
-      String manufacturer = ThreadLocalRandom.current().nextInt(0, 1 + 1) == 0 ?
+      String manufacturer = ThreadLocalRandom.nextInt(0, 1 + 1) == 0 ?
           "Boeing " :
           "Airbus ";
 
       Aircraft a = new Aircraft(
-          manufacturer + ThreadLocalRandom.current().nextInt(200, 801),
+          manufacturer + ThreadLocalRandom.nextInt(200, 801),
           String.valueOf(
-              ThreadLocalRandom.current().nextInt(1000000, 10000000)),
-          ThreadLocalRandom.current().nextInt(100, 301));
+              ThreadLocalRandom.nextInt(1000000, 10000000)),
+          ThreadLocalRandom.nextInt(100, 301));
       this.aircrafts.add(a);
     }
 
@@ -76,11 +76,11 @@ public class DatabaseMock implements Serializable {
 
     LOG.info("constructing flights");
     for (int i = 0; i < 10000; i++) {
-      int departureIndex = ThreadLocalRandom.current()
+      int departureIndex = ThreadLocalRandom
           .nextInt(0, this.airports.size());
-      int arrivalIndex = ThreadLocalRandom.current()
+      int arrivalIndex = ThreadLocalRandom
           .nextInt(0, this.airports.size());
-      int aircraftIndex = ThreadLocalRandom.current()
+      int aircraftIndex = ThreadLocalRandom
           .nextInt(0, this.aircrafts.size());
       Date dateTime = randomDateGenerator.getDate();
       Flight f = new Flight(this.aircrafts.get(aircraftIndex),
@@ -140,7 +140,7 @@ public class DatabaseMock implements Serializable {
   public ArrayList<Passenger> createPassengers(
       ArrayList<Passenger> passengers) {
     // force random id
-    ArrayList<Passenger> result = new ArrayList<>();
+    ArrayList<Passenger> result = new ArrayList<Passenger>();
     for (Passenger p : passengers) {
       result.add(this.createPassenger(p));
     }
@@ -193,7 +193,7 @@ public class DatabaseMock implements Serializable {
    */
   public ArrayList<Passenger> getPassengersByIdCardNumber(
       String id) {
-    ArrayList<Passenger> passengers = new ArrayList<>();
+    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
     for (Passenger passenger : this.passengers) {
       if (passenger.getIdCardNumber()
           .toLowerCase()
@@ -214,7 +214,7 @@ public class DatabaseMock implements Serializable {
    */
   public List<Flight> searchFlight(
       int limit, int offset, String country, String city, Date date) {
-    ArrayList<Flight> results = new ArrayList<>();
+    ArrayList<Flight> results = new ArrayList<Flight>();
     for (Flight flight : flights) {
       if (flight.getArrival().matchesCountry(country) &&
           flight.getArrival().matchesCity(city) &&
