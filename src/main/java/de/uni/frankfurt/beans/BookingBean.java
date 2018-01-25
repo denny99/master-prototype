@@ -28,6 +28,10 @@ public class BookingBean implements Serializable {
     return selectedFlight;
   }
 
+  public BookingFormBean getBookingFormBean() {
+    return bookingFormBean;
+  }
+
   public String createPassengers() {
     this.passengerFormBean.initPassengers(
         this.bookingFormBean.getPassengerCount());

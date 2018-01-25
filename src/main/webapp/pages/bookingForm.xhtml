@@ -3,72 +3,44 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>This is Page2</h2>
+        <h:outputScript library="js" name="bookingForm.js"/>
+        <h2>Basic Data</h2>
         <h:form id="passengerData" styleClass="ice-skin-rime">
-            <f:event id="multiFieldValidationEvent"
-                     listener="#{passengerFormBean.validateForm}" type="postValidate"/>
-
             <!-- select number of passengers slider -->
             <!-- checkbox for insurance -->
             <!-- display flight data -->
-            <h:panelGroup id="obgContainer" layout="block"
+            <h:panelGroup id="basicData" layout="block"
                           styleClass="contentLevelContainer blockArea">
-
-                <ui:fragment rendered="#{passengerFormBean.obgRendered}">
-                    <div class="lFloat indented inputFieldGroup">
-                        <span class="iceOutTxt masInfoFieldLabel minindented">OBG-Nummer:</span>
-                        <h:inputText id="obg_nummer" required="true"
-                                     styleClass="iceInpTxt kdInputField"
-                                     value="#{passengerFormBean.obgNummer}" maxlength="4"
-                                     validatorMessage="Überprüfen Sie bitte Ihre Eingabe im obigen Feld!"
-                                     converter="obgConverter"
-                                     requiredMessage="Geben Sie bitte eine OBG-Nummer ein!"
-                                     disabled="#{not sessionInfosBean.kundendialogRolle}">
-                            <f:validateRegex pattern="^[0-9]{1,4}$"/>
-                            <f:ajax event="change" execute="@this"
-                                    onevent="onEventResponse"
-                                    render="@this obg_nummer_msg :passengerFormBean:buttonWrapper :passengerFormBean:fortsetzenBtnWrapper"
-                                    listener="#{passengerFormBean.scoringListener}"/>
-                        </h:inputText>
-                        <div class="clear"/>
-                        <h:message styleClass="iceMsgError inputFieldLabel"
-                                   id="obg_nummer_msg" for="obg_nummer"/>
-                    </div>
-                </ui:fragment>
-
-                <ui:fragment rendered="#{passengerFormBean.beraternummerRendered}">
-                    <div class="lFloat indented inputFieldGroup">
-                        <span class="iceOutTxt masInfoFieldLabel minindented">Beraternummer:</span>
-                        <h:inputText id="berater_nummer" required="true"
-                                     styleClass="iceInpTxt kdInputField"
-                                     value="#{passengerFormBean.beraterDaten.beraterNummer}" maxlength="4"
-                                     converter="beraternummerConverter"
-                                     validatorMessage="Überprüfen Sie bitte Ihre Eingabe im obigen Feld!"
-                                     requiredMessage="Geben Sie bitte eine Beraternummer ein!"
-                                     disabled="#{passengerFormBean.basisdatenDisabled}">
-                            <f:validator validatorId="beraternummerValidator"/>
-                            <f:ajax execute="@this" onevent="onEventResponse"
-                                    render="@this berater_nummer_msg :applicationInfoForm"
-                                    listener="#{passengerFormBean.beraternummerListener}"/>
-                        </h:inputText>
-                        <div class="clear"/>
-                        <h:message styleClass="iceMsgError inputFieldLabel"
-                                   id="berater_nummer_msg" for="berater_nummer"/>
-                    </div>
-                </ui:fragment>
-                <div class="clear"/>
+                <h:inputHidden id="passengerCountOutput" value="#{bookingBean.bookingFormBean.passengerCount}"/>
+                <div id="passengerSlider" style="position:relative;top:6px;width:133px;">
+                    <img id="schieberImg" src="../resources/images/bar150.gif" width="150" height="12" alt=""
+                         class="schieberImg"/>
+                </div>
+                <div class="inputFieldGroup" style="margin-top: 5px;">
+                    <h:selectBooleanCheckbox id="insuranceCB"
+                                             value="#{bookingBean.bookingFormBean.travelInsurance}">
+                        <f:ajax event="valueChange" execute="@this"
+                                render="@this confirmMsg0"/>
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel id="insuranceLabel" for="insuranceCB"
+                                   style="position:relative;top:-2px;"
+                                   styleClass="InfoFieldLabel minindented">Reisezusatzversicherung buchen (15.99€)</h:outputLabel>
+                    <h:message id="confirmMsg0"
+                               styleClass="iceMsgError inputFieldLabel" for="insuranceCB"/>
+                    <div class="clear"/>
+                </div>
             </h:panelGroup>
 
             <h:commandButton value="Continue"
                              action="#{bookingBean.createPassengers}"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton action="/pages/flightOverview"
-                             value="Cancel/>
+                             value="Cancel"/>
         </h:form>
     </ui:define>
 </ui:composition>

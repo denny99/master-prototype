@@ -49,7 +49,8 @@ public class PassengerFormBean {
     return "";
   }
 
-  public void validateForm(
+  public Object validateForm(
       final ComponentSystemEvent event) {
+    return null;
   }
 }
