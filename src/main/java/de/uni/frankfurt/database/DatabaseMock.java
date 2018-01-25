@@ -223,7 +223,7 @@ public class DatabaseMock implements Serializable {
       }
     }
     if (results.size() > limit) {
-      return results.subList(offset, offset + limit);
+      return results.subList(offset, Math.min(offset + limit, results.size()));
     } else {
       return results;
     }

@@ -64,4 +64,8 @@ public class Flight {
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
+
+  public boolean foreignTravel() {
+    return !this.departure.getCountry().equals(this.arrival.getCountry());
+  }
 }

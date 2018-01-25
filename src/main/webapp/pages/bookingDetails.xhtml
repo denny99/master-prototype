@@ -10,8 +10,17 @@
     <ui:define name="content">
         <h2>This is Page2</h2>
         <h:form>
-            <h:commandButton action="/index?faces-redirect=true"
-                             value="Back To Home Page"/>
+            <!-- show all entered data -->
+
+            <h:commandButton value="Finish"
+                             action="#{bookingBean.endBooking}"
+                             styleClass="iceCmdBtn btnOption"/>
+            <h:commandButton value="Back"
+                             action="#{bookingBean.passengerFormBean.back}"
+                             styleClass="iceCmdBtn btnOption"/>
+            <h:commandButton value="Cancel"
+                             action="/pages/flightOverview"
+                             styleClass="iceCmdBtn btnOption"/>
         </h:form>
     </ui:define>
 </ui:composition>

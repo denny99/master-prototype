@@ -53,7 +53,7 @@ public class Airport {
    * @return true if airport is in city
    */
   public boolean matchesCity(String city) {
-    return city.isEmpty() || this.city.equals(city);
+    return city == null || city.isEmpty() || this.city.equals(city);
   }
 
   /**

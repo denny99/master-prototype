@@ -3,10 +3,14 @@ package de.uni.frankfurt.database;
 
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
+import java.util.Date;
+
 public class Passenger {
   private String id;
   private String name;
   private String idCardNumber;
+  private String passportNumber;
+  private Date birthDay;
 
   public Passenger() {
   }
@@ -26,6 +30,14 @@ public class Passenger {
     return idCardNumber;
   }
 
+  public Date getBirthDay() {
+    return birthDay;
+  }
+
+  public void setBirthDay(Date birthDay) {
+    this.birthDay = birthDay;
+  }
+
   public void setId(String id) {
     this.id = id;
   }
@@ -36,5 +48,13 @@ public class Passenger {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getPassportNumber() {
+    return passportNumber;
+  }
+
+  public void setPassportNumber(String passportNumber) {
+    this.passportNumber = passportNumber;
   }
 }

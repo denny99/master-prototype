@@ -13,9 +13,9 @@
             <div class="contentLevelContainer">
                 <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
                 <h:inputText id="flightFilterInput"
-                             styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.filter}"
+                             styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.arrivalFilter}"
                              validatorMessage="Check your input in the field above">
-                    <f:validateRegex pattern="^[A-Za-z0-9ß-üÄ-Ü\.\-\s\*]*$"/>
+                    <f:validateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
                 </h:inputText>
                 <h:message id="filterMsg" styleClass="iceMsgError inputFieldLabel"
                            for="flightFilterInput"/>
@@ -23,20 +23,22 @@
                 <span class="iceOutTxt iceOutLbl"
                       style="font-size: 10px; color: black;">You can search for Arrival locations</span>
                 <div class="clear"/>
-                <h:commandButton value="search"
-                                 immediate="true"
+                <h:commandButton value="Search"
                                  style="margin-top:10px;"
                                  action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
                                  id="flightSearchButton"/>
             </div>
+        </h:form>
 
-            <div class="clear"/>
+        <div class="clear"/>
+
+        <h:form>
             <h:panelGroup layout="block" styleClass="blockArea"
                           style="width:1192px;"
                           rendered="#{flightOverviewBean.searched}"
                           id="searchWrapper">
                 <h2>Flug Übersicht</h2>
-                <ace:dataTable id="flightsTable" value="#{flightOverviewBean.flights}" var="flight" rows="10"
+                <ace:dataTable id="flightsTable" value="#{flightOverviewBean.searchResults}" var="flight" rows="10"
                                paginator="true">
                     <ace:column>
                         <f:facet name="header">
@@ -56,10 +58,25 @@
                         </f:facet>
                         <span class="iceOutTxt center blockArea">#{flight.dateTime}</span>
                     </ace:column>
+                    <ace:column>
+                        <f:facet name="header">
+                            <span class="iceOutTxt">Action</span>
+                        </f:facet>
+                        <h:panelGrid columns="2">
+                            <h:commandButton value="View"
+                                             action="#{flightDetailsBean.viewFlight(flight)}"
+                                             styleClass="iceCmdBtn btnOption"/>
+                            <h:commandButton value="Book"
+                                             action="#{bookingBean.startBooking(flight)}"
+                                             styleClass="iceCmdBtn btnOption"/>
+                        </h:panelGrid>
+                    </ace:column>
                 </ace:dataTable>
             </h:panelGroup>
+
             <div class="clear"/>
-            <h:commandButton action="/index?faces-redirect=true"
+            <hr/>
+            <h:commandButton action="/index"
                              value="Back To Home Page"/>
         </h:form>
     </ui:define>

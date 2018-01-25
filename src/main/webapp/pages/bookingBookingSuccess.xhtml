@@ -13,14 +13,9 @@
             <f:event id="multiFieldValidationEvent"
                      listener="#{passengerFormBean.multiFieldValidation}" type="postValidate"/>
 
-            <!-- Render form for every passenger -->
-            <!-- if other country -->
-            <!-- id number or passport id -->
-            <!-- ajax for prefilling data when id exists -->
-            <!-- validate numbers if existing check existing data for correctness -->
-            <!-- Firstname -->
-            <!-- Lastname -->
-            <!-- Birthday with dp + converter -->
+            <!-- select number of passengers slider -->
+            <!-- checkbox for insurance -->
+            <!-- display flight data -->
             <h:panelGroup id="obgContainer" layout="block"
                           styleClass="contentLevelContainer blockArea">
 
@@ -68,14 +63,9 @@
                 </ui:fragment>
                 <div class="clear"/>
             </h:panelGroup>
-            <h:commandButton value="Continue"
-                             action="#{bookingBean.passengerFormBean.next}"
-                             styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton action="#{bookingBean.passengerFormBean.back}"
-                             value="Back"/>
-            <h:commandButton value="Cancel"
-                             action="/pages/flightOverview"
-                             styleClass="iceCmdBtn btnOption"/>
+
+            <h:commandButton action="/index?faces-redirect=true"
+                             value="Back To Home Page"/>
         </h:form>
     </ui:define>
 </ui:composition>
