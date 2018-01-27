@@ -1,6 +1,6 @@
 package de.uni.frankfurt.beans;
 
-import de.uni.frankfurt.database.Flight;
+import de.uni.frankfurt.database.entity.Flight;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -18,18 +18,17 @@ public class BookingBean implements Serializable {
   @Inject
   private Conversation conversation;
 
-  private Flight selectedFlight;
-
   public PassengerFormBean getPassengerFormBean() {
     return passengerFormBean;
   }
 
-  public Flight getSelectedFlight() {
-    return selectedFlight;
-  }
-
   public BookingFormBean getBookingFormBean() {
     return bookingFormBean;
+  }
+
+  public String cancelBooking() {
+    conversation.end();
+    return "/pages/flightOverview";
   }
 
   public String createPassengers() {
@@ -38,17 +37,18 @@ public class BookingBean implements Serializable {
     return "/pages/passengerForm";
   }
 
-  public String endBooking() {
+  public String finishBooking() {
+    // save data to db
+
     // conversation end
     conversation.end();
     return "/pages/bookingSuccess";
   }
 
   public String startBooking(Flight flight) {
-    this.selectedFlight = flight;
+    this.bookingFormBean.setSelectedFlight(flight);
     // start conversation
     conversation.begin();
-    ;
     return "/pages/bookingForm";
   }
 }

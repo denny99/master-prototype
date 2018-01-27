@@ -1,6 +1,6 @@
 package de.uni.frankfurt.beans;
 
-import de.uni.frankfurt.database.Passenger;
+import de.uni.frankfurt.database.entity.Passenger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ComponentSystemEvent;

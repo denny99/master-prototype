@@ -11,17 +11,58 @@
         <h:outputScript library="js" name="bookingForm.js"/>
         <h2>Basic Data</h2>
         <h:form id="passengerData" styleClass="ice-skin-rime">
-            <!-- select number of passengers slider -->
-            <!-- checkbox for insurance -->
             <!-- display flight data -->
+
+            <!-- select number of passengers slider -->
             <h:panelGroup id="basicData" layout="block"
                           styleClass="contentLevelContainer blockArea">
-                <h:inputHidden id="passengerCountOutput" value="#{bookingBean.bookingFormBean.passengerCount}"/>
-                <div id="passengerSlider" style="position:relative;top:6px;width:133px;">
-                    <img id="schieberImg" src="../resources/images/bar150.gif" width="150" height="12" alt=""
-                         class="schieberImg"/>
+                <div id="sliderDiv" class="inputFieldGroup center">
+                    <div class="inputFieldGroup center" style="*margin-top:-15px;">
+                        <h:inputText value="#{bookingBean.bookingFormBean.passengerCount}"
+                                     id="passengerCountOutput"
+                                     style="color: #003B78 !important; text-align:center;"
+                                     onchange="javascript:updateSlider();"
+                                     validator="#{bookingBean.bookingFormBean.validatePassengerCount}"
+                                     converterMessage="Enter only Numbers!">
+                            <f:convertNumber pattern="##,###" groupingUsed="true"
+                                             locale="de"/>
+                            <f:ajax event="blur" execute="@this" render="costMsg"
+                                    listener="#{bookingBean.bookingFormBean.costsListener}"
+                                    onevent="onEventResponse"/>
+                        </h:inputText>
+                        <span style="*margin-left: 4px;">€</span>
+                    </div>
+                    <div style="position: relative; bottom: 0px;">
+                        <div id="dispo_bestaetigung_form_id:kb_wunschbetrag_schieber_div">
+                            <div id="passengerCountSlider" style="position:relative;top:6px;width:133px;">
+                                <img id="sliderImage" src="../resources/images/bar150.gif" width="150" height="12"
+                                     alt="" class="sliderImg"/>
+                            </div>
+                        </div>
+                        <h:outputText id="costs"
+                                      value="#{bookingFormBean.flightCosts}"
+                                      styleClass="iceOutTxt ssInfoFieldLabel2">
+                            <f:convertNumber pattern="##,###" groupingUsed="true"
+                                             locale="de-DE"/>
+                        </h:outputText>
+                        <span>€</span>
+                    </div>
+
+                    <h:inputHidden id="sliderIndexHidden"
+                                   value="#{bookingBean.bookingFormBean.passengerCount}"/>
+                    <h:inputHidden id="maxSliderTickHidden"
+                                   value="#{bookingBean.bookingFormBean.maxPassengers}"/>
                 </div>
-                <div class="inputFieldGroup" style="margin-top: 5px;">
+            </h:panelGroup>
+            <h:message id="costMsg"
+                       style="width:404px; text-align:center;"
+                       styleClass="iceMsgError inputFieldLabel minindented"
+                       for="passengerCountOutput"/>
+
+            <!-- checkbox for insurance -->
+            <h:panelGroup layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <div class="indented inputFieldGroup" style="margin-top: 5px;">
                     <h:selectBooleanCheckbox id="insuranceCB"
                                              value="#{bookingBean.bookingFormBean.travelInsurance}">
                         <f:ajax event="valueChange" execute="@this"
@@ -39,7 +80,7 @@
             <h:commandButton value="Continue"
                              action="#{bookingBean.createPassengers}"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton action="/pages/flightOverview"
+            <h:commandButton styleClass="iceCmdBtn btnOption" action="#{bookingBean.cancelBooking}"
                              value="Cancel"/>
         </h:form>
     </ui:define>

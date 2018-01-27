@@ -1,4 +1,4 @@
-package de.uni.frankfurt.database;
+package de.uni.frankfurt.database.entity;
 
 
 import de.uni.frankfurt.util.ThreadLocalRandom;
@@ -26,6 +26,10 @@ public class Passenger {
     return id;
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public String getIdCardNumber() {
     return idCardNumber;
   }
@@ -36,10 +40,6 @@ public class Passenger {
 
   public void setBirthDay(Date birthDay) {
     this.birthDay = birthDay;
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
   public String getName() {

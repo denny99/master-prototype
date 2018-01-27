@@ -1,6 +1,6 @@
 package de.uni.frankfurt.beans;
 
-import de.uni.frankfurt.database.Flight;
+import de.uni.frankfurt.database.entity.Flight;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;

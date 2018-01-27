@@ -1,4 +1,4 @@
-package de.uni.frankfurt.database;
+package de.uni.frankfurt.database.entity;
 
 import de.uni.frankfurt.util.ThreadLocalRandom;
 

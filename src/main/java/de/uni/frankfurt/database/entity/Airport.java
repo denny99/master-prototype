@@ -1,4 +1,4 @@
-package de.uni.frankfurt.database;
+package de.uni.frankfurt.database.entity;
 
 public class Airport {
   private String code;
@@ -57,7 +57,6 @@ public class Airport {
   }
 
   /**
-   *
    * @param country country two letter code
    * @return true if airport is in country
    */

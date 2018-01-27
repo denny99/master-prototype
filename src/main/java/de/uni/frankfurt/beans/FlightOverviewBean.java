@@ -1,7 +1,7 @@
 package de.uni.frankfurt.beans;
 
-import de.uni.frankfurt.database.DatabaseMock;
-import de.uni.frankfurt.database.Flight;
+import de.uni.frankfurt.database.entity.Flight;
+import de.uni.frankfurt.database.service.FlightService;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import java.util.List;
 @SessionScoped
 public class FlightOverviewBean implements Serializable {
   @Inject
-  private DatabaseMock databaseMock;
+  private FlightService flightService;
   private boolean searched;
   private String arrivalFilter;
   private List<Flight> searchResults = new ArrayList<Flight>();
@@ -38,7 +38,7 @@ public class FlightOverviewBean implements Serializable {
 
   public String searchFlight() {
     searched = true;
-    searchResults = databaseMock.searchFlight(100000, 0, "DE",
+    searchResults = flightService.searchFlight(100000, 0, "DE",
         this.arrivalFilter,
         new Date());
     return null;

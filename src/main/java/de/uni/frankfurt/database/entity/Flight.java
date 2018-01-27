@@ -1,4 +1,4 @@
-package de.uni.frankfurt.database;
+package de.uni.frankfurt.database.entity;
 
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
@@ -10,16 +10,18 @@ public class Flight {
   private Airport arrival;
   private String id;
   private Date dateTime;
+  private Integer costs;
 
   public Flight(
       Aircraft aircraft, Airport departure,
-      Airport arrival, Date dateTime) {
+      Airport arrival, Date dateTime, Integer costs) {
     this.id = String.valueOf(
         ThreadLocalRandom.nextInt(0, 100000000 + 1));
     this.aircraft = aircraft;
     this.departure = departure;
     this.arrival = arrival;
     this.dateTime = dateTime;
+    this.costs = costs;
   }
 
   public Flight() {
@@ -27,6 +29,10 @@ public class Flight {
 
   public Aircraft getAircraft() {
     return aircraft;
+  }
+
+  public Integer getCosts() {
+    return costs;
   }
 
   public void setAircraft(Aircraft aircraft) {
