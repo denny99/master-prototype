@@ -7,31 +7,39 @@ import java.util.Date;
 
 public class Passenger {
   private String id;
-  private String name;
+  private String firstName;
+  private String lastName;
   private String idCardNumber;
   private String passportNumber;
   private Date birthDay;
+  private int luggageCount;
 
   public Passenger() {
   }
 
-  public Passenger(String name, String idCardNumber) {
+  public Passenger(
+      String firstName, String lastName, String idCardNumber,
+      String passportNumber, Date birthDay, int luggageCount) {
     this.id = String.valueOf(
         ThreadLocalRandom.nextInt(0, 100000000 + 1));
-    this.name = name;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.idCardNumber = idCardNumber;
+    this.passportNumber = passportNumber;
+    this.birthDay = birthDay;
+    this.luggageCount = luggageCount;
   }
 
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getIdCardNumber() {
     return idCardNumber;
+  }
+
+  public String getFirstName() {
+    return firstName;
   }
 
   public Date getBirthDay() {
@@ -42,12 +50,28 @@ public class Passenger {
     this.birthDay = birthDay;
   }
 
-  public String getName() {
-    return name;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public int getLuggageCount() {
+    return luggageCount;
+  }
+
+  public void setLuggageCount(int luggageCount) {
+    this.luggageCount = luggageCount;
+  }
+
+  public void setIdCardNumber(String idCardNumber) {
+    this.idCardNumber = idCardNumber;
   }
 
   public String getPassportNumber() {

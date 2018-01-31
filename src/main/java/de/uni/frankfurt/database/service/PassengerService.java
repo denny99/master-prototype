@@ -45,7 +45,9 @@ public class PassengerService implements Serializable {
    */
   public Passenger createPassenger(Passenger p) {
     // force random id
-    Passenger p1 = new Passenger(p.getName(), p.getIdCardNumber());
+    Passenger p1 = new Passenger(p.getFirstName(), p.getLastName(),
+        p.getIdCardNumber(), p.getPassportNumber(), p.getBirthDay(),
+        p.getLuggageCount());
     this.databaseMock.addPassenger(p1);
     return p1;
   }

@@ -8,10 +8,10 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>This is Page2</h2>
+        <h2>Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</h2>
         <h:form id="passengerData" styleClass="ice-skin-rime">
             <f:event id="multiFieldValidationEvent"
-                     listener="#{passengerFormBean.multiFieldValidation}" type="postValidate"/>
+                     listener="#{passengerFormBean.validateForm}" type="postValidate"/>
 
             <!-- Render form for every passenger -->
             <!-- if other country -->
@@ -25,55 +25,14 @@
             <h:panelGroup id="obgContainer" layout="block"
                           styleClass="contentLevelContainer blockArea">
 
-                <ui:fragment rendered="#{passengerFormBean.obgRendered}">
-                    <div class="lFloat indented inputFieldGroup">
-                        <span class="iceOutTxt masInfoFieldLabel minindented">OBG-Nummer:</span>
-                        <h:inputText id="obg_nummer" required="true"
-                                     styleClass="iceInpTxt kdInputField"
-                                     value="#{passengerFormBean.obgNummer}" maxlength="4"
-                                     validatorMessage="Überprüfen Sie bitte Ihre Eingabe im obigen Feld!"
-                                     converter="obgConverter"
-                                     requiredMessage="Geben Sie bitte eine OBG-Nummer ein!"
-                                     disabled="#{not sessionInfosBean.kundendialogRolle}">
-                            <f:validateRegex pattern="^[0-9]{1,4}$"/>
-                            <f:ajax event="change" execute="@this"
-                                    onevent="onEventResponse"
-                                    render="@this obg_nummer_msg :passengerFormBean:buttonWrapper :passengerFormBean:fortsetzenBtnWrapper"
-                                    listener="#{passengerFormBean.scoringListener}"/>
-                        </h:inputText>
-                        <div class="clear"/>
-                        <h:message styleClass="iceMsgError inputFieldLabel"
-                                   id="obg_nummer_msg" for="obg_nummer"/>
-                    </div>
-                </ui:fragment>
-
-                <ui:fragment rendered="#{passengerFormBean.beraternummerRendered}">
-                    <div class="lFloat indented inputFieldGroup">
-                        <span class="iceOutTxt masInfoFieldLabel minindented">Beraternummer:</span>
-                        <h:inputText id="berater_nummer" required="true"
-                                     styleClass="iceInpTxt kdInputField"
-                                     value="#{passengerFormBean.beraterDaten.beraterNummer}" maxlength="4"
-                                     converter="beraternummerConverter"
-                                     validatorMessage="Überprüfen Sie bitte Ihre Eingabe im obigen Feld!"
-                                     requiredMessage="Geben Sie bitte eine Beraternummer ein!"
-                                     disabled="#{passengerFormBean.basisdatenDisabled}">
-                            <f:validator validatorId="beraternummerValidator"/>
-                            <f:ajax execute="@this" onevent="onEventResponse"
-                                    render="@this berater_nummer_msg :applicationInfoForm"
-                                    listener="#{passengerFormBean.beraternummerListener}"/>
-                        </h:inputText>
-                        <div class="clear"/>
-                        <h:message styleClass="iceMsgError inputFieldLabel"
-                                   id="berater_nummer_msg" for="berater_nummer"/>
-                    </div>
-                </ui:fragment>
                 <div class="clear"/>
             </h:panelGroup>
             <h:commandButton value="Continue"
-                             action="#{bookingBean.passengerFormBean.next}"
+                             action="#{passengerFormBean.next}"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton action="#{bookingBean.passengerFormBean.back}"
-                             value="Back"/>
+            <h:commandButton action="#{passengerFormBean.back}"
+                             value="Back"
+                             styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Cancel"
                              action="/pages/flightOverview"
                              styleClass="iceCmdBtn btnOption"/>

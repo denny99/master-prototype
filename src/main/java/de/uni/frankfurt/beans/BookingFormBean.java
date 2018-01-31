@@ -3,7 +3,7 @@ package de.uni.frankfurt.beans;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.service.BookingService;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -14,30 +14,38 @@ import javax.inject.Named;
 import java.io.Serializable;
 
 @Named
-@RequestScoped
+@ConversationScoped
 public class BookingFormBean implements Serializable {
-  private int passengerCount = 1;
+  private int passengerCount;
   private boolean travelInsurance;
   private Flight selectedFlight;
+  private Integer maxPassengers;
+  private Integer flightCosts;
   @Inject
   private BookingService bookingService;
-  private Integer flightCosts;
-  private Integer maxPassengers;
 
   public boolean isTravelInsurance() {
     return travelInsurance;
+  }
+
+  public void setTravelInsurance(boolean travelInsurance) {
+    this.travelInsurance = travelInsurance;
   }
 
   public Integer getFlightCosts() {
     return flightCosts;
   }
 
+  public void setFlightCosts(Integer flightCosts) {
+    this.flightCosts = flightCosts;
+  }
+
   public Integer getMaxPassengers() {
     return maxPassengers;
   }
 
-  public void setTravelInsurance(boolean travelInsurance) {
-    this.travelInsurance = travelInsurance;
+  public void setMaxPassengers(Integer maxPassengers) {
+    this.maxPassengers = maxPassengers;
   }
 
   public int getPassengerCount() {
@@ -48,16 +56,20 @@ public class BookingFormBean implements Serializable {
     this.passengerCount = passengerCount;
   }
 
+  public Flight getSelectedFlight() {
+    return selectedFlight;
+  }
+
   public void setSelectedFlight(Flight selectedFlight) {
     this.selectedFlight = selectedFlight;
+    this.flightCosts = selectedFlight.getCosts();
     this.maxPassengers = bookingService.getFreeSeats(selectedFlight);
   }
 
   public Object costsListener(final AjaxBehaviorEvent event) {
     final UIInput input = (UIInput) event.getComponent();
     final Integer count = (Integer) input.getValue();
-    flightCosts = count * selectedFlight.getCosts();
-    // TODO update costs text
+    this.setFlightCosts(count * this.selectedFlight.getCosts());
     return null;
   }
 
@@ -65,10 +77,11 @@ public class BookingFormBean implements Serializable {
       final FacesContext fc, final UIComponent component, final Object value) {
     if (value != null) {
       final Integer passengerCount = (Integer) value;
-      if (!bookingService.canCheckIn(passengerCount)) {
+      if (!this.bookingService.canCheckIn(this.selectedFlight,
+          passengerCount)) {
         ((UIInput) component).setValid(false);
         final String msg = String.format("Max %s free seats on the aircraft",
-            10);
+            this.bookingService.getFreeSeats(this.selectedFlight));
         fc.addMessage(component.getClientId(fc), new FacesMessage(msg));
       }
     }

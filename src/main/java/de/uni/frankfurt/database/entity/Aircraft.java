@@ -23,10 +23,6 @@ public class Aircraft {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getModel() {
     return model;
   }
