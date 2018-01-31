@@ -67,6 +67,24 @@ public class PassengerService implements Serializable {
     throw new ResourceNotFoundException(id, Passenger.class);
   }
 
+  public Passenger getPassengerByIdCardNumber(String idCardNumber) {
+    for (Passenger passenger : this.databaseMock.getPassengers()) {
+      if (passenger.getIdCardNumber().equals(idCardNumber)) {
+        return passenger;
+      }
+    }
+    return null;
+  }
+
+  public Passenger getPassengerByPassportNumber(String passportNumber) {
+    for (Passenger passenger : this.databaseMock.getPassengers()) {
+      if (passenger.getPassportNumber().equals(passportNumber)) {
+        return passenger;
+      }
+    }
+    return null;
+  }
+
   /**
    * @param id id card number
    * @return returns a list of all passenger containing the given number (autocomplete)

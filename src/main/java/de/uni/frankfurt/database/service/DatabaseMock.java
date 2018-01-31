@@ -36,6 +36,9 @@ public class DatabaseMock implements Serializable {
       "Hahn");
   private static Airport a10 = new Airport("EDDL", "Düsseldorf", "DE",
       "Düsseldorf");
+  private static Passenger p1 = new Passenger("Max", "Mustermann", "12345",
+      "P12345", new Date(), 0);
+
   private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
   private ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
@@ -88,6 +91,9 @@ public class DatabaseMock implements Serializable {
           dateTime, costs);
       this.flights.add(f);
     }
+
+    LOG.info("constructing passengers");
+    this.passengers.add(p1);
   }
 
   public ArrayList<Aircraft> getAircrafts() {

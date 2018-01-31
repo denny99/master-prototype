@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
@@ -13,16 +14,77 @@
             <f:event id="multiFieldValidationEvent"
                      listener="#{passengerFormBean.validateForm}" type="postValidate"/>
 
-            <!-- Render form for every passenger -->
-            <!-- if other country -->
             <!-- id number or passport id -->
+            <h:panelGroup id="passportContainer" layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <div class="lFloat indented inputFieldGroup">
+                    <c:choose>
+                        <!-- if other country -->
+                        <c:when test="#{bookingFormBean.selectedFlight.foreignTravel()}">
+                            <!-- passport -->
+                            <span class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
+                            <h:inputText id="passportNumber"
+                                         value="#{passengerFormBean.currentPassenger.passportNumber}" required="true"
+                                         requiredMessage="Insert your Passport Number">
+                                <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
+                                        render="@form"/>
+                            </h:inputText>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- id card -->
+                            <span class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
+                            <h:inputText id="idCardNumber"
+                                         value="#{passengerFormBean.currentPassenger.idCardNumber}" required="true"
+                                         requiredMessage="Insert your Id Card Number">
+                                <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
+                                        render="@form"/>
+                            </h:inputText>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+                <div class="clear"/>
+            </h:panelGroup>
             <!-- ajax for prefilling data when id exists -->
             <!-- validate numbers if existing check existing data for correctness -->
-            <!-- Firstname -->
-            <!-- Lastname -->
-            <!-- Birthday with dp + converter -->
+            <h:panelGroup id="personalDataContainer" layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <!-- if number exists show force edit button -->
+                <c:if test="#{passengerFormBean.existingUser}">
+                    <div class="indented inputFieldGroup">
+                        <h:commandButton value="Edit Data"
+                                         styleClass="iceCmdBtn btnOption">
+                            <f:ajax render="@form" execute="@this" listener="#{passengerFormBean.forceEditListener}"/>
+                        </h:commandButton>
+                    </div>
+                </c:if>
+                <!-- Firstname -->
+                <div class="lFloat indented inputFieldGroup">
+                    <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
+                    <h:inputText readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 value="#{passengerFormBean.currentPassenger.firstName}" required="true"
+                                 requiredMessage="Insert your Firstname"/>
+                </div>
+                <!-- Lastname -->
+                <div class="lFloat indented inputFieldGroup">
+                    <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
+                    <h:inputText readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 value="#{passengerFormBean.currentPassenger.lastName}" required="true"
+                                 requiredMessage="Insert your Lastname"/>
+                </div>
+                <!-- Birthday with dp + converter -->
+                <div class="lFloat indented inputFieldGroup">
+                    <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
+                    <h:inputText readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 value="#{passengerFormBean.currentPassenger.birthDay}" required="true"
+                                 requiredMessage="Insert your Birthdate"
+                                 converter="de.uni.frankfurt.DateConverter"/>
+                </div>
+                <div class="clear"/>
+            </h:panelGroup>
+
             <!-- luggage radio -->
-            <h:panelGroup id="obgContainer" layout="block"
+            <h:panelGroup id="luggageContainer" layout="block"
                           styleClass="contentLevelContainer blockArea">
 
                 <div class="clear"/>

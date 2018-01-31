@@ -1,9 +1,13 @@
 package de.uni.frankfurt.beans;
 
 import de.uni.frankfurt.database.entity.Passenger;
+import de.uni.frankfurt.database.service.PassengerService;
 
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.component.UIInput;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -13,9 +17,22 @@ public class PassengerFormBean implements Serializable {
   private Passenger[] passengers;
   private int currentPassengerIndex;
   private Passenger currentPassenger;
+  private boolean existingUser;
+  private boolean forceEdit;
+
+  @Inject
+  private PassengerService passengerService;
 
   public Passenger getCurrentPassenger() {
     return currentPassenger;
+  }
+
+  public boolean isExistingUser() {
+    return existingUser;
+  }
+
+  public void setExistingUser(boolean existingUser) {
+    this.existingUser = existingUser;
   }
 
   public void setCurrentPassenger(
@@ -37,6 +54,14 @@ public class PassengerFormBean implements Serializable {
 
   public void setCurrentPassengerIndex(int currentPassengerIndex) {
     this.currentPassengerIndex = currentPassengerIndex;
+  }
+
+  public boolean isForceEdit() {
+    return forceEdit;
+  }
+
+  public void setForceEdit(boolean forceEdit) {
+    this.forceEdit = forceEdit;
   }
 
   public String back() {
@@ -67,8 +92,38 @@ public class PassengerFormBean implements Serializable {
     return "";
   }
 
+  public Object forceEditListener(final AjaxBehaviorEvent event) {
+    this.forceEdit = true;
+    return null;
+  }
+
+  public Object passportIdListener(final AjaxBehaviorEvent event) {
+    this.forceEdit = false;
+    Passenger p;
+
+    final UIInput input = (UIInput) event.getComponent();
+    final String number = (String) input.getValue();
+    String id = input.getId();
+    if (id.equals("passportNumber")) {
+      p = passengerService.getPassengerByPassportNumber(number);
+    } else {
+      p = passengerService.getPassengerByIdCardNumber(number);
+    }
+
+    if (p != null) {
+      this.currentPassenger.setBirthDay(p.getBirthDay());
+      this.currentPassenger.setFirstName(p.getFirstName());
+      this.currentPassenger.setLastName(p.getLastName());
+      this.existingUser = true;
+    } else {
+      this.existingUser = false;
+    }
+    return null;
+  }
+
   public Object validateForm(
       final ComponentSystemEvent event) {
+    // TODO validate some stuff?
     return null;
   }
 }

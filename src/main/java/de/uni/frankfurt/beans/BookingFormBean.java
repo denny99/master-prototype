@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Named
 @ConversationScoped
 public class BookingFormBean implements Serializable {
-  private int passengerCount;
+  private int passengerCount = 1;
   private boolean travelInsurance;
   private Flight selectedFlight;
   private Integer maxPassengers;
