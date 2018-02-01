@@ -14,6 +14,12 @@ public class FlightDetailsBean {
     return selectedFlight;
   }
 
+  /**
+   * init bean and show file
+   *
+   * @param flight clicked file
+   * @return
+   */
   public String viewFlight(Flight flight) {
     this.selectedFlight = flight;
     return "/pages/flightDetails";

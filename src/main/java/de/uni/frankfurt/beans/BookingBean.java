@@ -30,21 +30,42 @@ public class BookingBean implements Serializable {
     return bookingFormBean;
   }
 
+  /**
+   * move back to passenger form
+   *
+   * @return file path
+   * @ bookingDetails
+   */
   public String back() {
     return "/pages/passengerForm";
   }
 
+  /**
+   * cancel booking process and reset data
+   * @ bookingDetails/passengerForm/bookingForm
+   * @return return to flight overview
+   */
   public String cancelBooking() {
     conversation.end();
     return "/pages/flightOverview";
   }
 
+  /**
+   * init passengerForm bean (creates new empty passengers)
+   * @return passengerForm file
+   */
   public String createPassengers() {
     this.passengerFormBean.initPassengers(
         this.bookingFormBean.getPassengerCount());
     return "/pages/passengerForm";
   }
 
+  /**
+   * save booking and show success message
+   * @ bookingDetails
+   * @return bookingSuccess file
+   * @throws ResourceNotFoundException should never ever happen
+   */
   public String finishBooking() throws ResourceNotFoundException {
     // save data to db
     this.bookingService.createBooking(this.bookingFormBean.getSelectedFlight(),
@@ -56,6 +77,12 @@ public class BookingBean implements Serializable {
     return "/pages/bookingSuccess";
   }
 
+  /**
+   * inits bookingForm bean
+   * @ flightOverview
+   * @param flight flight clicked in the datatable
+   * @return bookingForm file
+   */
   public String startBooking(Flight flight) {
     this.bookingFormBean.setSelectedFlight(flight);
     // start conversation

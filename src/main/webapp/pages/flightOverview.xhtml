@@ -9,25 +9,26 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h:form styleClass="ice-skin-rime">
-            <div class="contentLevelContainer">
-                <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
-                <h:inputText id="flightFilterInput"
-                             styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.arrivalFilter}"
-                             validatorMessage="Check your input in the field above">
-                    <f:validateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
-                </h:inputText>
-                <h:message id="filterMsg" styleClass="iceMsgError inputFieldLabel"
-                           for="flightFilterInput"/>
-                <div class="clear"/>
-                <span class="iceOutTxt iceOutLbl"
-                      style="font-size: 10px; color: black;">You can search for Arrival locations</span>
-                <div class="clear"/>
-                <h:commandButton value="Search"
-                                 style="margin-top:10px;"
-                                 action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
-                                 id="flightSearchButton"/>
+        <h:form styleClass="ice-skin-rime contentLevelContainer">
+            <div class="inputFieldGroup">
+                <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
             </div>
+            <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
+            <h:inputText id="flightFilterInput"
+                         styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.arrivalFilter}"
+                         validatorMessage="Check your input in the field above">
+                <f:validateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
+            </h:inputText>
+            <h:message id="filterMsg" styleClass="iceMsgError inputFieldLabel"
+                       for="flightFilterInput"/>
+            <div class="clear"/>
+            <span class="iceOutTxt iceOutLbl"
+                  style="font-size: 10px; color: black;">You can search for Arrival locations</span>
+            <div class="clear"/>
+            <h:commandButton value="Search"
+                             style="margin-top:10px;"
+                             action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
+                             id="flightSearchButton"/>
         </h:form>
 
         <div class="clear"/>

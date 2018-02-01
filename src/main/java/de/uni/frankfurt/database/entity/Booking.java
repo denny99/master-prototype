@@ -32,12 +32,16 @@ public class Booking {
     return flight;
   }
 
+  public void setFlight(Flight flight) {
+    this.flight = flight;
+  }
+
   public boolean isInsurance() {
     return insurance;
   }
 
-  public void setFlight(Flight flight) {
-    this.flight = flight;
+  public void setInsurance(boolean insurance) {
+    this.insurance = insurance;
   }
 
   public ArrayList<Passenger> getPassengers() {
@@ -47,9 +51,5 @@ public class Booking {
   public void setPassengers(
       ArrayList<Passenger> passengers) {
     this.passengers = passengers;
-  }
-
-  public void setInsurance(boolean insurance) {
-    this.insurance = insurance;
   }
 }

@@ -21,6 +21,7 @@ public class BookingFormBean implements Serializable {
   private Flight selectedFlight;
   private Integer maxPassengers;
   private Integer flightCosts;
+
   @Inject
   private BookingService bookingService;
 
@@ -70,6 +71,13 @@ public class BookingFormBean implements Serializable {
     this.maxPassengers = bookingService.getFreeSeats(selectedFlight);
   }
 
+  /**
+   * recalculates costs when changing the input
+   *
+   * @param event ajax event
+   * @return nothing
+   * @ bookingForm:passengerCountOutput
+   */
   public Object costsListener(final AjaxBehaviorEvent event) {
     final UIInput input = (UIInput) event.getComponent();
     final Integer count = (Integer) input.getValue();
@@ -77,6 +85,13 @@ public class BookingFormBean implements Serializable {
     return null;
   }
 
+  /**
+   * validate max number of passenger for flight
+   * @ bookingForm:passengerCountOutput
+   * @param fc context
+   * @param component affected component
+   * @param value value entered in input
+   */
   public void validatePassengerCount(
       final FacesContext fc, final UIComponent component, final Object value) {
     if (value != null) {

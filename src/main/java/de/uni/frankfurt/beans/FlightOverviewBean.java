@@ -36,6 +36,12 @@ public class FlightOverviewBean implements Serializable {
     this.arrivalFilter = arrivalFilter;
   }
 
+  /**
+   * basic search query for datatable
+   *
+   * @return nothing
+   * @ flightOverview:flightFilterInput
+   */
   public String searchFlight() {
     searched = true;
     searchResults = flightService.searchFlight(100000, 0, "DE",

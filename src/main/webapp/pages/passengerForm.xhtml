@@ -9,10 +9,10 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <div class="inputFieldGroup">
-            <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
-        </div>
         <h:form id="passengerData" styleClass="ice-skin-rime">
+            <div class="inputFieldGroup">
+                <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
+            </div>
             <f:event id="multiFieldValidationEvent"
                      listener="#{passengerFormBean.validateForm}" type="postValidate"/>
 
@@ -54,7 +54,7 @@
                 <!-- if number exists show force edit button -->
                 <c:if test="#{passengerFormBean.existingUser}">
                     <div class="indented inputFieldGroup">
-                        <h:commandButton value="Edit Data"
+                        <h:commandButton id="forceEditButton" value="Edit Data"
                                          styleClass="iceCmdBtn btnOption">
                             <f:ajax render="@form" execute="@this" listener="#{passengerFormBean.forceEditListener}"/>
                         </h:commandButton>
@@ -99,10 +99,17 @@
                 </h:selectOneRadio>
                 <div class="clear"/>
             </h:panelGroup>
+
+            <h:message styleClass="iceMsgError inputFieldLabel"
+                       for="idCardNumber" id="idCardErrorMessage"/>
+
+            <h:message styleClass="iceMsgError inputFieldLabel"
+                       for="passportNumber" id="passportErrorMessage"/>
+
             <h:commandButton value="Cancel"
                              action="#{bookingBean.cancelBooking}"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton action="#{passengerFormBean.back}"
+            <h:commandButton immediate="true" action="#{passengerFormBean.back}"
                              value="Back"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Continue"

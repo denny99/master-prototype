@@ -29,7 +29,7 @@
                         <span class="iceOutTxt kdInputFieldLabel"
                               style="width: 200px;">Flight Costs:</span>
                         <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
-                                      value="#{bookingFormBean.passengerCount * bookingFormBean.selectedFlight.costs}">
+                                      value="#{bookingFormBean.flightCosts}">
                             <f:convertNumber pattern="##,###" groupingUsed="true"
                                              locale="de"/>
                         </h:outputText>

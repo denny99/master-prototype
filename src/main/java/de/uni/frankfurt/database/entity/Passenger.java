@@ -38,8 +38,16 @@ public class Passenger {
     return idCardNumber;
   }
 
+  public void setIdCardNumber(String idCardNumber) {
+    this.idCardNumber = idCardNumber;
+  }
+
   public String getFirstName() {
     return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
   public Date getBirthDay() {
@@ -48,10 +56,6 @@ public class Passenger {
 
   public void setBirthDay(Date birthDay) {
     this.birthDay = birthDay;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
   }
 
   public String getLastName() {
@@ -68,10 +72,6 @@ public class Passenger {
 
   public void setLuggageCount(int luggageCount) {
     this.luggageCount = luggageCount;
-  }
-
-  public void setIdCardNumber(String idCardNumber) {
-    this.idCardNumber = idCardNumber;
   }
 
   public String getPassportNumber() {

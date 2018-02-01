@@ -4,7 +4,9 @@ import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.PassengerService;
 
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.SelectItem;
@@ -17,12 +19,13 @@ import java.util.List;
 @Named
 @ConversationScoped
 public class PassengerFormBean implements Serializable {
+  private static final String PASSPORT_INPUT_ID = "passengerData:passportNumber";
+  private static final String ID_CARD_INPUT_ID = "passengerData:idCardNumber";
   private Passenger[] passengers;
   private int currentPassengerIndex;
   private Passenger currentPassenger;
   private boolean existingUser;
   private boolean forceEdit;
-
   @Inject
   private PassengerService passengerService;
 
@@ -30,8 +33,17 @@ public class PassengerFormBean implements Serializable {
     return currentPassenger;
   }
 
+  public void setCurrentPassenger(
+      Passenger currentPassenger) {
+    this.currentPassenger = currentPassenger;
+  }
+
   public boolean isExistingUser() {
     return existingUser;
+  }
+
+  public void setExistingUser(boolean existingUser) {
+    this.existingUser = existingUser;
   }
 
   public List<SelectItem> getLuggageItems() {
@@ -41,15 +53,6 @@ public class PassengerFormBean implements Serializable {
     items.add(new SelectItem(2, "2 Bags"));
     items.add(new SelectItem(3, "3 Bags"));
     return items;
-  }
-
-  public void setExistingUser(boolean existingUser) {
-    this.existingUser = existingUser;
-  }
-
-  public void setCurrentPassenger(
-      Passenger currentPassenger) {
-    this.currentPassenger = currentPassenger;
   }
 
   public Passenger[] getPassengers() {
@@ -76,6 +79,11 @@ public class PassengerFormBean implements Serializable {
     this.forceEdit = forceEdit;
   }
 
+  /**
+   * go back to last passenger
+   *
+   * @return current page or last page
+   */
   public String back() {
     if (currentPassengerIndex == 0) {
       return "/pages/bookingForm";
@@ -85,6 +93,23 @@ public class PassengerFormBean implements Serializable {
     return "";
   }
 
+  /**
+   * enables inputs for personal data when prefilled
+   *
+   * @param event ajax event
+   * @return nothing
+   * @ passengerForm:forceEditButton
+   */
+  public Object forceEditListener(final AjaxBehaviorEvent event) {
+    this.forceEdit = true;
+    return null;
+  }
+
+  /**
+   * inits passenger array
+   *
+   * @param passengerCount amount of passenger to check in
+   */
   public void initPassengers(int passengerCount) {
     this.passengers = new Passenger[passengerCount];
     for (int i = 0; i < passengers.length; i++) {
@@ -95,20 +120,27 @@ public class PassengerFormBean implements Serializable {
     this.currentPassenger = this.passengers[this.currentPassengerIndex];
   }
 
+  /**
+   * goto next passenger;
+   *
+   * @return next page or current page
+   */
   public String next() {
-    this.currentPassengerIndex++;
-    if (this.currentPassengerIndex == this.passengers.length) {
+    if (this.currentPassengerIndex + 1 == this.passengers.length) {
       return "/pages/bookingDetails";
     }
+    this.currentPassengerIndex++;
     this.currentPassenger = this.passengers[currentPassengerIndex];
     return "";
   }
 
-  public Object forceEditListener(final AjaxBehaviorEvent event) {
-    this.forceEdit = true;
-    return null;
-  }
-
+  /**
+   * checks for existing user
+   *
+   * @param event ajax event
+   * @return nothing
+   * @ passengerForm:passportNumber/idCardNumber
+   */
   public Object passportIdListener(final AjaxBehaviorEvent event) {
     this.forceEdit = false;
     Passenger p;
@@ -133,9 +165,44 @@ public class PassengerFormBean implements Serializable {
     return null;
   }
 
+  /**
+   * validates form
+   * checks for duplicated passports/ids
+   *
+   * @param event event
+   * @return errorMessage or nothing
+   * @ passengerForm:passengerData
+   */
   public Object validateForm(
       final ComponentSystemEvent event) {
-    // TODO validate some stuff?
+    int foundIdCards = 0;
+    int foundPassports = 0;
+    for (Passenger passenger : this.passengers) {
+      if (passenger.getPassportNumber() != null && passenger.getPassportNumber()
+          .equals(this.currentPassenger.getPassportNumber())) {
+        foundPassports++;
+      }
+      if (passenger.getIdCardNumber() != null && passenger.getIdCardNumber()
+          .equals(this.currentPassenger.getIdCardNumber())) {
+        foundIdCards++;
+      }
+    }
+
+    final FacesMessage isAlreadyRegistered = new FacesMessage(
+        "This passenger is already registered");
+    isAlreadyRegistered.setSeverity(FacesMessage.SEVERITY_ERROR);
+    if (foundIdCards > 1) {
+      // more than one card with the same number exists
+      FacesContext.getCurrentInstance()
+          .addMessage(ID_CARD_INPUT_ID, isAlreadyRegistered);
+      FacesContext.getCurrentInstance().renderResponse();
+    }
+    if (foundPassports > 1) {
+      // more than one card with the same number exists
+      FacesContext.getCurrentInstance()
+          .addMessage(PASSPORT_INPUT_ID, isAlreadyRegistered);
+      FacesContext.getCurrentInstance().renderResponse();
+    }
     return null;
   }
 }

@@ -59,7 +59,7 @@ public class BookingService implements Serializable {
   }
 
   /**
-   * @param flight flight the booking belongs to
+   * @param flight     flight the booking belongs to
    * @param passengers passenger that wanna check in
    * @return created booking with correct data
    * @throws ResourceNotFoundException flight not found
