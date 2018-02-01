@@ -3,17 +3,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
->
+      xmlns:cc="http://java.sun.com/jsf/composite/cc">
 
-<!-- make reusable -->
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>This is Page2</h2>
-        <h:form>
-            <h:commandButton action="/index?faces-redirect=true"
-                             value="Back To Home Page"/>
-        </h:form>
+        <cc:flightDetails headline="true" standalone="true" flight="#{flightDetailsBean.selectedFlight}"/>
     </ui:define>
 </ui:composition>
 </html>

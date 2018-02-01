@@ -30,7 +30,7 @@ public class PassengerService implements Serializable {
    * @return created objects
    */
   public ArrayList<Passenger> createPassengers(
-      ArrayList<Passenger> passengers) {
+      Passenger[] passengers) {
     // force random id
     ArrayList<Passenger> result = new ArrayList<Passenger>();
     for (Passenger p : passengers) {

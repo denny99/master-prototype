@@ -65,10 +65,10 @@ public class BookingService implements Serializable {
    * @throws ResourceNotFoundException flight not found
    */
   public Booking createBooking(
-      Flight flight,
-      ArrayList<Passenger> passengers) throws ResourceNotFoundException {
+      Flight flight, boolean insurance,
+      Passenger[] passengers) throws ResourceNotFoundException {
     Flight f = this.flightService.getFlightById(flight.getId());
-    Booking b = new Booking(f,
+    Booking b = new Booking(f, insurance,
         this.passengerService.createPassengers(passengers));
     this.databaseMock.addBooking(b);
     return b;

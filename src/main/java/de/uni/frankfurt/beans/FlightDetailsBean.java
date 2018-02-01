@@ -10,8 +10,12 @@ import javax.inject.Named;
 public class FlightDetailsBean {
   private Flight selectedFlight;
 
+  public Flight getSelectedFlight() {
+    return selectedFlight;
+  }
+
   public String viewFlight(Flight flight) {
     this.selectedFlight = flight;
-    return "pages/flightDetails";
+    return "/pages/flightDetails";
   }
 }

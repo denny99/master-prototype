@@ -1,6 +1,8 @@
 package de.uni.frankfurt.beans;
 
 import de.uni.frankfurt.database.entity.Flight;
+import de.uni.frankfurt.database.service.BookingService;
+import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -16,6 +18,8 @@ public class BookingBean implements Serializable {
   @Inject
   private BookingFormBean bookingFormBean;
   @Inject
+  private BookingService bookingService;
+  @Inject
   private Conversation conversation;
 
   public PassengerFormBean getPassengerFormBean() {
@@ -24,6 +28,10 @@ public class BookingBean implements Serializable {
 
   public BookingFormBean getBookingFormBean() {
     return bookingFormBean;
+  }
+
+  public String back() {
+    return "/pages/passengerForm";
   }
 
   public String cancelBooking() {
@@ -37,8 +45,11 @@ public class BookingBean implements Serializable {
     return "/pages/passengerForm";
   }
 
-  public String finishBooking() {
+  public String finishBooking() throws ResourceNotFoundException {
     // save data to db
+    this.bookingService.createBooking(this.bookingFormBean.getSelectedFlight(),
+        this.bookingFormBean.getTravelInsurance(),
+        this.passengerFormBean.getPassengers());
 
     // conversation end
     conversation.end();

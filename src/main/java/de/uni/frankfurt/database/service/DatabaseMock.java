@@ -36,8 +36,17 @@ public class DatabaseMock implements Serializable {
       "Hahn");
   private static Airport a10 = new Airport("EDDL", "Düsseldorf", "DE",
       "Düsseldorf");
+  private static Airport a11 = new Airport("EGGL", "London Heathrow", "GB",
+      "London");
+  private static Airport a12 = new Airport("LFPG", "Charles de Gaulle", "FR",
+      "Paris");
+  private static Airport a13 = new Airport("LIRA", "Rom Ciampino", "IT",
+      "Rom");
+
   private static Passenger p1 = new Passenger("Max", "Mustermann", "12345",
       "P12345", new Date(), 0);
+  private static Passenger p2 = new Passenger("Maxine", "Musterfrau", "12344",
+      "P12344", new Date(), 0);
 
   private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
@@ -74,6 +83,9 @@ public class DatabaseMock implements Serializable {
     this.airports.add(a8);
     this.airports.add(a9);
     this.airports.add(a10);
+    this.airports.add(a11);
+    this.airports.add(a12);
+    this.airports.add(a13);
 
     LOG.info("constructing flights");
     for (int i = 0; i < 10000; i++) {
@@ -94,6 +106,7 @@ public class DatabaseMock implements Serializable {
 
     LOG.info("constructing passengers");
     this.passengers.add(p1);
+    this.passengers.add(p2);
   }
 
   public ArrayList<Aircraft> getAircrafts() {

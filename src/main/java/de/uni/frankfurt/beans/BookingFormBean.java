@@ -28,6 +28,10 @@ public class BookingFormBean implements Serializable {
     return travelInsurance;
   }
 
+  public boolean getTravelInsurance() {
+    return travelInsurance;
+  }
+
   public void setTravelInsurance(boolean travelInsurance) {
     this.travelInsurance = travelInsurance;
   }

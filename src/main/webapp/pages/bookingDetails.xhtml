@@ -3,23 +3,99 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite/cc"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>This is Page2</h2>
+        <h2>Booking Overview</h2>
         <h:form>
             <!-- show all entered data -->
+            <cc:flightDetails headline="true" standalone="false" flight="#{bookingFormBean.selectedFlight}"/>
 
-            <h:commandButton value="Finish"
-                             action="#{bookingBean.finishBooking}"
+            <h:panelGroup layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <div class="inputFieldGroup">
+                    <span class="iceOutTxt headerLabel">Basic Data</span>
+                </div>
+                <h:panelGroup layout="block">
+                    <div class="clear" style="height: 6px;"/>
+                    <div class="inputFieldGroup minindented">
+                        <span class="iceOutTxt kdInputFieldLabel"
+                              style="width: 200px;">Passenger Count:</span>
+                        <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                      value="#{bookingFormBean.passengerCount}"/>
+                        <span class="iceOutTxt kdInputFieldLabel"
+                              style="width: 200px;">Flight Costs:</span>
+                        <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                      value="#{bookingFormBean.passengerCount * bookingFormBean.selectedFlight.costs}">
+                            <f:convertNumber pattern="##,###" groupingUsed="true"
+                                             locale="de"/>
+                        </h:outputText>
+                        <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                      rendered="#{bookingFormBean.travelInsurance}"
+                                      value="Travel Insurance"
+                        />
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <div class="inputFieldGroup">
+                    <span class="iceOutTxt headerLabel">Passenger Data</span>
+                </div>
+                <ui:repeat value="#{passengerFormBean.passengers}" var="passenger">
+                    <h:panelGroup layout="block">
+                        <div class="clear" style="height: 6px;"/>
+                        <div class="inputFieldGroup minindented">
+                            <c:choose>
+                                <!-- if other country -->
+                                <c:when test="#{bookingFormBean.selectedFlight.foreignTravel()}">
+                                    <!-- passport -->
+                                    <span class="iceOutTxt kdInputFieldLabel"
+                                          style="width: 200px;">Passenger Passport:</span>
+                                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                                  value="#{passenger.passportNumber}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- id card -->
+                                    <span class="iceOutTxt kdInputFieldLabel"
+                                          style="width: 200px;">Passenger Id Card:</span>
+                                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                                  value="#{passenger.idCardNumber}"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">Passenger Firstname:</span>
+                            <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                          value="#{passenger.firstName}"/>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">Passenger Lastname:</span>
+                            <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                          value="#{passenger.lastName}"/>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">Passenger Birthdate:</span>
+                            <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                          value="#{passenger.birthDay}"
+                                          converter="de.uni.frankfurt.ShortDateConverter"/>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">Passenger # Luggage:</span>
+                            <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                          value="#{passenger.luggageCount}"/>
+                        </div>
+                    </h:panelGroup>
+                </ui:repeat>
+            </h:panelGroup>
+
+            <h:commandButton value="Cancel"
+                             action="#{bookingBean.cancelBooking}"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Back"
-                             action="#{passengerFormBean.back}"
+                             action="#{bookingBean.back}"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton value="Cancel"
-                             action="/pages/flightOverview"
+            <h:commandButton value="Finish"
+                             action="#{bookingBean.finishBooking}"
                              styleClass="iceCmdBtn btnOption"/>
         </h:form>
     </ui:define>

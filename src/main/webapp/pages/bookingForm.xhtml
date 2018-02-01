@@ -4,50 +4,77 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ice="http://www.icesoft.com/icefaces/component"
+      xmlns:cc="http://java.sun.com/jsf/composite/cc"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
         <h:outputScript library="js" name="bookingForm.js"/>
-        <h2>Basic Data</h2>
         <h:form id="bookingData" styleClass="ice-skin-rime">
             <!-- display flight data -->
+            <cc:flightDetails headline="true" standalone="false" flight="#{bookingFormBean.selectedFlight}"/>
 
             <!-- select number of passengers slider -->
             <h:panelGroup id="basicData" layout="block"
                           styleClass="contentLevelContainer blockArea">
-                <div id="sliderDiv" class="inputFieldGroup center">
-                    <div class="inputFieldGroup center" style="*margin-top:-15px;">
-                        <h:inputText value="#{bookingFormBean.passengerCount}"
-                                     id="passengerCountOutput"
-                                     style="color: #003B78 !important; text-align:center;"
-                                     onchange="updateSlider();"
-                                     validator="#{bookingFormBean.validatePassengerCount}"
-                                     converterMessage="Enter only Numbers">
-                            <f:ajax event="blur" execute="@this" render="costMsg"
-                                    listener="#{bookingFormBean.costsListener}"/>
-                        </h:inputText>
-                        <span style="*margin-left: 4px;"># Passengers</span>
+                <div class="inputFieldGroup">
+                    <span class="iceOutTxt headerLabel">Basic Data</span>
+                </div>
+                <h:panelGroup layout="block" id="sliderGroup" styleClass="indented topMargin">
+                    <div class="inputFieldGroup center" style="width: 450px;">
+                        <span class="iceOutTxt iceOutLbl ssLabel">Select desired amount of passengers</span>
                     </div>
-                    <div style="position: relative; bottom: 0px;">
-                        <div id="slider_div">
-                            <div id="passengerCountSlider" style="position:relative;top:6px;width:133px;">
-                                <img id="sliderImage" src="../resources/images/bar150.gif" width="150" height="12"
-                                     alt="" class="sliderImg"/>
+                    <div id="passengerContainer" class="blockArea">
+                        <div class="inputFieldGroup" id="passengerAmountContainer">
+                            <ice:panelGroup panelTooltip="passengerTooltip"
+                                            style="position: relative; width: 100%; top: -15px;"
+                                            styleClass="infoBubble"/>
+                            <div class="clear"/>
+                            <div id="sliderDiv" class="inputFieldGroup center">
+                                <div class="inputFieldGroup center" style="*margin-top:-15px;">
+                                    <h:inputText value="#{bookingFormBean.passengerCount}"
+                                                 id="passengerCountOutput"
+                                                 style="color: #003B78 !important; text-align:center;"
+                                                 onchange="updateSlider();"
+                                                 validator="#{bookingFormBean.validatePassengerCount}"
+                                                 converterMessage="Enter only Numbers">
+                                        <f:ajax event="blur" execute="@this" render="costMsg"
+                                                listener="#{bookingFormBean.costsListener}"/>
+                                    </h:inputText>
+                                    <span style="*margin-left: 4px;"># Passengers</span>
+                                </div>
+                                <div style="position: relative; bottom: 0px;">
+                                    <div id="slider_div">
+                                        <div id="passengerCountSlider" style="position:relative;top:6px;width:133px;">
+                                            <img id="sliderImage" src="../resources/images/bar150.gif" width="150"
+                                                 height="12"
+                                                 alt="" class="sliderImg"/>
+                                        </div>
+                                    </div>
+                                    <h:outputText id="costs"
+                                                  value="Costs p.P. #{bookingFormBean.selectedFlight.costs}"
+                                                  styleClass="iceOutTxt ssInfoFieldLabel2">
+                                        <f:convertNumber pattern="##,###" groupingUsed="true"
+                                                         locale="de-DE"/>
+                                    </h:outputText>
+                                    <span>€</span>
+                                </div>
+
+                                <h:inputHidden id="maxSliderTickHidden"
+                                               value="#{bookingFormBean.maxPassengers}"/>
                             </div>
                         </div>
-                        <h:outputText id="costs"
-                                      value="Costs p.P. #{bookingFormBean.selectedFlight.costs}"
-                                      styleClass="iceOutTxt ssInfoFieldLabel2">
-                            <f:convertNumber pattern="##,###" groupingUsed="true"
-                                             locale="de-DE"/>
-                        </h:outputText>
-                        <span>€</span>
                     </div>
 
-                    <h:inputHidden id="maxSliderTickHidden"
-                                   value="#{bookingFormBean.maxPassengers}"/>
-                </div>
+                    <ice:panelTooltip id="passengerTooltip" hideOn="mouseout">
+                        <f:facet name="body">
+                            <div>
+                                <span class="iceOutTxt">Use the slider or the input to set the amount of passengers</span>
+                            </div>
+                        </f:facet>
+                    </ice:panelTooltip>
+                </h:panelGroup>
             </h:panelGroup>
             <h:message id="costMsg"
                        style="width:404px; text-align:center;"
@@ -63,11 +90,13 @@
                     </h:selectBooleanCheckbox>
                     <h:outputLabel id="insuranceLabel" for="insuranceCB"
                                    style="position:relative;top:-2px;"
-                                   styleClass="InfoFieldLabel minindented">Reisezusatzversicherung buchen (15.99€)</h:outputLabel>
+                                   styleClass="InfoFieldLabel minindented">Reisezusatzversicherung buchen</h:outputLabel>
                     <div class="clear"/>
                 </div>
             </h:panelGroup>
-
+            <h:commandButton value="Cancel"
+                             action="#{bookingBean.cancelBooking}"
+                             styleClass="iceCmdBtn btnOption"/>
             <h:commandButton id="continueBooking" value="Continue"
                              action="#{bookingBean.createPassengers}"
                              styleClass="iceCmdBtn btnOption"/>

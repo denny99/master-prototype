@@ -9,7 +9,9 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</h2>
+        <div class="inputFieldGroup">
+            <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
+        </div>
         <h:form id="passengerData" styleClass="ice-skin-rime">
             <f:event id="multiFieldValidationEvent"
                      listener="#{passengerFormBean.validateForm}" type="postValidate"/>
@@ -78,7 +80,7 @@
                     <h:inputText readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
                                  value="#{passengerFormBean.currentPassenger.birthDay}" required="true"
                                  requiredMessage="Insert your Birthdate"
-                                 converter="de.uni.frankfurt.DateConverter"/>
+                                 converter="de.uni.frankfurt.ShortDateConverter"/>
                 </div>
                 <div class="clear"/>
             </h:panelGroup>
@@ -86,17 +88,25 @@
             <!-- luggage radio -->
             <h:panelGroup id="luggageContainer" layout="block"
                           styleClass="contentLevelContainer blockArea">
-
+                <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
+                <h:selectOneRadio id="luggageSelectionId"
+                                  styleClass="iceSelOneRb masInfoInputField" required="true"
+                                  layout="pageDirection"
+                                  requiredMessage="Select the amount of luggage you want to check in"
+                                  value="#{passengerFormBean.currentPassenger.luggageCount}">
+                    <f:selectItems id="luggageNumbers"
+                                   value="#{passengerFormBean.luggageItems}"/>
+                </h:selectOneRadio>
                 <div class="clear"/>
             </h:panelGroup>
-            <h:commandButton value="Continue"
-                             action="#{passengerFormBean.next}"
+            <h:commandButton value="Cancel"
+                             action="#{bookingBean.cancelBooking}"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton action="#{passengerFormBean.back}"
                              value="Back"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton value="Cancel"
-                             action="/pages/flightOverview"
+            <h:commandButton value="Continue"
+                             action="#{passengerFormBean.next}"
                              styleClass="iceCmdBtn btnOption"/>
         </h:form>
     </ui:define>

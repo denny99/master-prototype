@@ -7,9 +7,12 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @ConversationScoped
@@ -29,6 +32,15 @@ public class PassengerFormBean implements Serializable {
 
   public boolean isExistingUser() {
     return existingUser;
+  }
+
+  public List<SelectItem> getLuggageItems() {
+    ArrayList<SelectItem> items = new ArrayList<SelectItem>();
+    items.add(new SelectItem(0, "No luggage"));
+    items.add(new SelectItem(1, "1 Bag"));
+    items.add(new SelectItem(2, "2 Bags"));
+    items.add(new SelectItem(3, "3 Bags"));
+    return items;
   }
 
   public void setExistingUser(boolean existingUser) {

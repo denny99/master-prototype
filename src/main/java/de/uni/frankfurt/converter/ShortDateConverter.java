@@ -10,10 +10,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@FacesConverter("de.uni.frankfurt.DateConverter")
-public class DateConverter implements Converter {
+@FacesConverter("de.uni.frankfurt.ShortDateConverter")
+public class ShortDateConverter implements Converter {
 
-  private static final String format = "dd.MM.yyyy HH:mm";
+  private static final String format = "dd.MM.yyyy";
   private static final SimpleDateFormat formatter = new SimpleDateFormat(
       format);
 
