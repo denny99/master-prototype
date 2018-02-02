@@ -25,7 +25,7 @@
                         <c:when test="#{bookingFormBean.selectedFlight.foreignTravel()}">
                             <!-- passport -->
                             <span class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
-                            <h:inputText id="passportNumber"
+                            <h:inputText id="passportNumber" maxlength="6"
                                          value="#{passengerFormBean.currentPassenger.passportNumber}" required="true"
                                          requiredMessage="Insert your Passport Number">
                                 <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
@@ -35,7 +35,7 @@
                         <c:otherwise>
                             <!-- id card -->
                             <span class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
-                            <h:inputText id="idCardNumber"
+                            <h:inputText id="idCardNumber" maxlength="5"
                                          value="#{passengerFormBean.currentPassenger.idCardNumber}" required="true"
                                          requiredMessage="Insert your Id Card Number">
                                 <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"

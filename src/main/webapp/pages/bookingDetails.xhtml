@@ -5,6 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite/cc"
+      xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ace="http://www.icefaces.org/icefaces/components"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
@@ -88,6 +89,21 @@
                 </ui:repeat>
             </h:panelGroup>
 
+            <h:panelGroup layout="block"
+                          styleClass="contentLevelContainer blockArea">
+                <h:panelGroup id="tacDiv">
+                    <ice:selectBooleanCheckbox id="tacCheckbox" validator="#{bookingBean.validateTac}"/>
+                    <h:outputLabel id="tacCheckboxLabel" for="tacCheckbox">Accept TAC</h:outputLabel>
+                </h:panelGroup>
+                <ace:tooltip id="tacTooltip" for="tacDiv"
+                             speechBubble="false" showEffect="slide" hideEffect="slide"
+                             showDelay="200" hideDelay="100" position="bottomLeft"
+                             targetPosition="topRight" showEffectLength="200"
+                             hideEffectLength="200" styleClass="icePnlTlTip">
+                    <span class="iceOutTxt"> Some imaginary TAC text. </span>
+                </ace:tooltip>
+            </h:panelGroup>
+
             <h:commandButton value="Cancel"
                              action="#{bookingBean.cancelBooking}"
                              styleClass="iceCmdBtn btnOption"/>
@@ -95,8 +111,26 @@
                              action="#{bookingBean.back}"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Finish"
-                             action="#{bookingBean.finishBooking}"
+                             action="#{bookingBean.confirmBooking}"
                              styleClass="iceCmdBtn btnOption"/>
+
+            <ace:dialog id="infoPopup" header="Information"
+                        visible="#{bookingBean.showInfo}" closable="false" modal="true"
+                        draggable="false" resizable="false" showEffect="fade"
+                        hideEffect="fade" styleClass="popup" showHeader="true">
+                <div class="contentLevelContainer">
+                    <h:panelGroup layout="block" styleClass="inputFieldGroup">
+                        <div class="inputFieldGroup center">
+                            <span class="iceOutTxt inputFieldLabel">When clicking OK, you're booking the flight binding</span>
+                        </div>
+                        <div class="inputFieldGroup center">
+                            <ice:commandButton value="OK" id="as_info_ok"
+                                               action="#{bookingBean.finishBooking}" immediate="true"
+                                               partialSubmit="true" styleClass="btnOption"/>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </ace:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

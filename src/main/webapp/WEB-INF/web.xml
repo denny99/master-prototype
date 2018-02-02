@@ -72,6 +72,11 @@
     </context-param>
 
     <context-param>
+        <param-name>org.icefaces.mandatoryResourceConfiguration</param-name>
+        <param-value>dataTable tooltip dialog</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>org.icefaces.sessionExpiredRedirectURI</param-name>
         <param-value>index.jsp</param-value>
     </context-param>
