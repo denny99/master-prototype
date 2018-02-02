@@ -30,6 +30,7 @@ public class PassengerFormBean implements Serializable {
   private boolean forceEdit;
   @Inject
   private PassengerService passengerService;
+  private boolean passportHelp = false;
 
   public PassengerFormBean() {
     items.add(new SelectItem(0, "No luggage"));
@@ -40,6 +41,10 @@ public class PassengerFormBean implements Serializable {
 
   public Passenger getCurrentPassenger() {
     return currentPassenger;
+  }
+
+  public boolean getPassportHelp() {
+    return this.passportHelp;
   }
 
   public void setCurrentPassenger(
@@ -166,6 +171,18 @@ public class PassengerFormBean implements Serializable {
     } else {
       this.existingUser = false;
     }
+    return null;
+  }
+
+  /**
+   * triggers ice popup
+   *
+   * @param event ajax event
+   * @return noting
+   * @ passengerForm:helpIcon
+   */
+  public Object setPassportHelp(final AjaxBehaviorEvent event) {
+    this.passportHelp = !this.passportHelp;
     return null;
   }
 

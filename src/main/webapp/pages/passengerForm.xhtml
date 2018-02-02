@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
@@ -43,6 +43,10 @@
                             </h:inputText>
                         </c:otherwise>
                     </c:choose>
+                    <h:graphicImage id="helpIcon" library="images"
+                                    name="icon_info.gif">
+                        <f:ajax render="@all" event="click" listener="#{passengerFormBean.setPassportHelp}"/>
+                    </h:graphicImage>
                 </div>
 
                 <div class="clear"/>
@@ -116,6 +120,19 @@
                              action="#{passengerFormBean.next}"
                              styleClass="iceCmdBtn btnOption"/>
         </h:form>
+
+        <ice:panelPopup id="passportHelpPopup"
+                        visible="#{passengerFormBean.passportHelp}" draggable="false"
+                        styleClass="popup frameHolder" autoCentre="true">
+            <f:facet name="body">
+                <div id="iFrameWrapper">
+                    <ice:outputText styleClass="iceOutTxt">
+                        Your passport number should start with P and constist of 5 numbers <br/>
+                        Your id card number should consist of 5 numbers
+                    </ice:outputText>
+                </div>
+            </f:facet>
+        </ice:panelPopup>
     </ui:define>
 </ui:composition>
 </html>

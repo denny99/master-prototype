@@ -109,12 +109,12 @@ public class BookingBean implements Serializable {
   }
 
   /**
-   * validate max number of passenger for flight
+   * validate that tac is accepted
    *
    * @param fc        context
    * @param component affected component
    * @param value     value entered in input
-   * @ bookingForm:passengerCountOutput
+   * @ bookingDetails:tacCheckbox
    */
   public void validateTac(
       final FacesContext fc, final UIComponent component, final Object value) {
