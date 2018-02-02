@@ -21,6 +21,8 @@ import java.util.List;
 public class PassengerFormBean implements Serializable {
   private static final String PASSPORT_INPUT_ID = "passengerData:passportNumber";
   private static final String ID_CARD_INPUT_ID = "passengerData:idCardNumber";
+  private final List<SelectItem> items = new ArrayList<SelectItem>();
+
   private Passenger[] passengers;
   private int currentPassengerIndex;
   private Passenger currentPassenger;
@@ -28,6 +30,13 @@ public class PassengerFormBean implements Serializable {
   private boolean forceEdit;
   @Inject
   private PassengerService passengerService;
+
+  public PassengerFormBean() {
+    items.add(new SelectItem(0, "No luggage"));
+    items.add(new SelectItem(1, "1 Bag"));
+    items.add(new SelectItem(2, "2 Bags"));
+    items.add(new SelectItem(3, "3 Bags"));
+  }
 
   public Passenger getCurrentPassenger() {
     return currentPassenger;
@@ -47,11 +56,6 @@ public class PassengerFormBean implements Serializable {
   }
 
   public List<SelectItem> getLuggageItems() {
-    ArrayList<SelectItem> items = new ArrayList<SelectItem>();
-    items.add(new SelectItem(0, "No luggage"));
-    items.add(new SelectItem(1, "1 Bag"));
-    items.add(new SelectItem(2, "2 Bags"));
-    items.add(new SelectItem(3, "3 Bags"));
     return items;
   }
 

@@ -8,9 +8,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -42,16 +40,18 @@ public class FlightService implements Serializable {
   }
 
   /**
-   * @param limit   max number of results
-   * @param offset  number of results to skip
-   * @param country Target Country
-   * @param city    Target City
-   * @param date    min. Date for flight
+   * @param limit     max number of results
+   * @param offset    number of results to skip
+   * @param country   Target Country
+   * @param city      Target City
+   * @param date      min. Date for flight
+   * @param sortOrder date sort order
    * @return found results
    */
   public List<Flight> searchFlight(
-      int limit, int offset, String country, String city, Date date) {
-    ArrayList<Flight> results = new ArrayList<Flight>();
+      int limit, int offset, String country, String city, Date date,
+      final String sortOrder) {
+    List<Flight> results = new ArrayList<Flight>();
     for (Flight flight : this.databaseMock.getFlights()) {
       if (flight.getArrival().matchesCountry(country) &&
           flight.getArrival().matchesCity(city) &&
@@ -60,9 +60,18 @@ public class FlightService implements Serializable {
       }
     }
     if (results.size() > limit) {
-      return results.subList(offset, Math.min(offset + limit, results.size()));
-    } else {
-      return results;
+      results = results.subList(offset,
+          Math.min(offset + limit, results.size()));
     }
+
+    Collections.sort(results, new Comparator<Flight>() {
+      @Override
+      public int compare(Flight lhs, Flight rhs) {
+        int compareValue = lhs.getDateTime().compareTo(rhs.getDateTime());
+        return sortOrder.equals("asc") ? compareValue : compareValue * -1;
+      }
+    });
+
+    return results;
   }
 }

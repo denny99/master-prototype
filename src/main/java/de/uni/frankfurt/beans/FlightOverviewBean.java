@@ -4,6 +4,7 @@ import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.service.FlightService;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -19,6 +20,13 @@ public class FlightOverviewBean implements Serializable {
   private boolean searched;
   private String arrivalFilter;
   private List<Flight> searchResults = new ArrayList<Flight>();
+  private final ArrayList<SelectItem> options = new ArrayList<SelectItem>();
+  private String sortOrder;
+
+  public FlightOverviewBean() {
+    options.add(new SelectItem("asc", "Ascending"));
+    options.add(new SelectItem("desc", "Descending"));
+  }
 
   public List<Flight> getSearchResults() {
     return searchResults;
@@ -32,8 +40,20 @@ public class FlightOverviewBean implements Serializable {
     return arrivalFilter;
   }
 
+  public String getSortOrder() {
+    return sortOrder;
+  }
+
+  public void setSortOrder(String sortOrder) {
+    this.sortOrder = sortOrder;
+  }
+
   public void setArrivalFilter(String arrivalFilter) {
     this.arrivalFilter = arrivalFilter;
+  }
+
+  public List<SelectItem> getSortOptions() {
+    return options;
   }
 
   /**
@@ -46,7 +66,7 @@ public class FlightOverviewBean implements Serializable {
     searched = true;
     searchResults = flightService.searchFlight(100000, 0, "DE",
         this.arrivalFilter,
-        new Date());
+        new Date(), this.sortOrder);
     return null;
   }
 }

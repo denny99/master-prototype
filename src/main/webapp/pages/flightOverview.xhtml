@@ -19,8 +19,14 @@
                          validatorMessage="Check your input in the field above">
                 <f:validateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
             </h:inputText>
-            <h:message id="filterMsg" styleClass="iceMsgError inputFieldLabel"
-                       for="flightFilterInput"/>
+            <h:selectOneMenu id="sortOrderSelect" styleClass="iceSelOneMnu"
+                             value="#{flightOverviewBean.sortOrder}"
+                             required="true" requiredMessage="Enter a Date Sort Order"
+                             style="bottom: 3px;position: relative;width: 179px;">
+                <f:selectItem itemLabel="Select One"
+                              noSelectionOption="true"/>
+                <f:selectItems value="#{flightOverviewBean.sortOptions}"/>
+            </h:selectOneMenu>
             <div class="clear"/>
             <span class="iceOutTxt iceOutLbl"
                   style="font-size: 10px; color: black;">You can search for Arrival locations</span>
