@@ -258,8 +258,8 @@ AutoComplete.prototype.showResults = function(data) {
       text = this.getOrderText(data[i], ' ');
       if (!(text in this.dataMap)) {
         this.dataMap[text] = text;
-        this.container.append('<div class=\'autocomplete--item\' data-id=''
-            + i + ''>' + text + '</div>');
+        this.container.append('<div class="autocomplete--item" data-id="'
+            + i + '">' + text + '</div>');
       }
     }
 
