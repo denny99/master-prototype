@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
+import java.lang.reflect.Type;
 
 @Named
 @ApplicationScoped
@@ -26,6 +27,10 @@ public class JSONParser {
             new PassengerDeserializer());
 
     this.jsonb = JsonbBuilder.create(config);
+  }
+
+  public <T> T fromJSON(String s, Type clazz) {
+    return this.jsonb.fromJson(s, clazz);
   }
 
   public <T> T fromJSON(String s, Class<T> clazz) {

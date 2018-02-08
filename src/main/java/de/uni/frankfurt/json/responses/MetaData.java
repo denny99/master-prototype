@@ -11,6 +11,12 @@ public class MetaData {
     this.lastOffset = offset - limit > 0 ? offset - limit : 0;
   }
 
+  MetaData() {
+    maxResults = 0;
+    nextOffset = 0;
+    lastOffset = 0;
+  }
+
   public int getMaxResults() {
     return maxResults;
   }
