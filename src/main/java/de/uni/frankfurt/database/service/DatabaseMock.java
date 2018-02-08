@@ -50,11 +50,11 @@ public class DatabaseMock implements Serializable {
 
   private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
-  private ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
-  private ArrayList<Airport> airports = new ArrayList<Airport>();
-  private ArrayList<Flight> flights = new ArrayList<Flight>();
-  private ArrayList<Passenger> passengers = new ArrayList<Passenger>();
-  private ArrayList<Booking> bookings = new ArrayList<Booking>();
+  private ArrayList<Aircraft> aircrafts = new ArrayList<>();
+  private ArrayList<Airport> airports = new ArrayList<>();
+  private ArrayList<Flight> flights = new ArrayList<>();
+  private ArrayList<Passenger> passengers = new ArrayList<>();
+  private ArrayList<Booking> bookings = new ArrayList<>();
 
 
   public DatabaseMock() {

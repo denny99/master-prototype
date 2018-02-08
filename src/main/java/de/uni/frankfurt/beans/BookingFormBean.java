@@ -74,6 +74,8 @@ public class BookingFormBean implements Serializable {
   /**
    * recalculates costs when changing the input
    *
+   * TODO do in FE controller
+   *
    * @param event ajax event
    * @return nothing
    * @ bookingForm:passengerCountOutput
@@ -87,10 +89,15 @@ public class BookingFormBean implements Serializable {
 
   /**
    * validate max number of passenger for flight
-   * @ bookingForm:passengerCountOutput
-   * @param fc context
+   *
+   * do in backend POST booking
+   * TODO additional check in FE
+   * TODO rest route /flights/:id/bookings
+   *
+   * @param fc        context
    * @param component affected component
-   * @param value value entered in input
+   * @param value     value entered in input
+   * @ bookingForm:passengerCountOutput
    */
   public void validatePassengerCount(
       final FacesContext fc, final UIComponent component, final Object value) {

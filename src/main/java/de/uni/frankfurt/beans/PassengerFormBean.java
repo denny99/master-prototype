@@ -43,13 +43,13 @@ public class PassengerFormBean implements Serializable {
     return currentPassenger;
   }
 
-  public boolean getPassportHelp() {
-    return this.passportHelp;
-  }
-
   public void setCurrentPassenger(
       Passenger currentPassenger) {
     this.currentPassenger = currentPassenger;
+  }
+
+  public boolean getPassportHelp() {
+    return this.passportHelp;
   }
 
   public boolean isExistingUser() {
@@ -91,6 +91,8 @@ public class PassengerFormBean implements Serializable {
   /**
    * go back to last passenger
    *
+   * TODO obsolete
+   *
    * @return current page or last page
    */
   public String back() {
@@ -105,6 +107,8 @@ public class PassengerFormBean implements Serializable {
   /**
    * enables inputs for personal data when prefilled
    *
+   * TODO in FE
+   *
    * @param event ajax event
    * @return nothing
    * @ passengerForm:forceEditButton
@@ -116,6 +120,8 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * inits passenger array
+   *
+   * TODO obsolete
    *
    * @param passengerCount amount of passenger to check in
    */
@@ -132,6 +138,8 @@ public class PassengerFormBean implements Serializable {
   /**
    * goto next passenger;
    *
+   * TODO obsolete
+   *
    * @return next page or current page
    */
   public String next() {
@@ -145,6 +153,9 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * checks for existing user
+   *
+   * rest route get passenger by passport number
+   * TODO prefill in FE
    *
    * @param event ajax event
    * @return nothing
@@ -177,6 +188,8 @@ public class PassengerFormBean implements Serializable {
   /**
    * triggers ice popup
    *
+   * TODO do in FE
+   *
    * @param event ajax event
    * @return noting
    * @ passengerForm:helpIcon
@@ -189,6 +202,9 @@ public class PassengerFormBean implements Serializable {
   /**
    * validates form
    * checks for duplicated passports/ids
+   *
+   * TODO check in FE and show error message on server error
+   * check in POST bookings
    *
    * @param event event
    * @return errorMessage or nothing

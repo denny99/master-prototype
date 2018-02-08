@@ -40,23 +40,9 @@ public class BookingBean implements Serializable {
   }
 
   /**
-   * cancel booking process and reset data
-   *
-   * @return return to flight overview
-   * @ bookingDetails/passengerForm/bookingForm
-   */
-  public String cancelBooking() {
-    conversation.end();
-    return "/pages/flightOverview";
-  }
-
-  public String confirmBooking() {
-    this.showInfo = true;
-    return null;
-  }
-
-  /**
    * move back to passenger form
+   * <p>
+   * TODO obsolete
    *
    * @return file path
    * @ bookingDetails
@@ -66,7 +52,31 @@ public class BookingBean implements Serializable {
   }
 
   /**
+   * cancel booking process and reset data
+   *
+   * TODO obsolete
+   *
+   * @return return to flight overview
+   * @ bookingDetails/passengerForm/bookingForm
+   */
+  public String cancelBooking() {
+    conversation.end();
+    return "/pages/flightOverview";
+  }
+
+  /**
+   * TODO obsolete
+   * @return null
+   */
+  public String confirmBooking() {
+    this.showInfo = true;
+    return null;
+  }
+
+  /**
    * init passengerForm bean (creates new empty passengers)
+   *
+   * TODO obsolete
    *
    * @return passengerForm file
    */
@@ -78,6 +88,8 @@ public class BookingBean implements Serializable {
 
   /**
    * save booking and show success message
+   *
+   * POST booking
    *
    * @return bookingSuccess file
    * @throws ResourceNotFoundException should never ever happen
@@ -97,6 +109,8 @@ public class BookingBean implements Serializable {
   /**
    * inits bookingForm bean
    *
+   * TODO obsolete
+   *
    * @param flight flight clicked in the datatable
    * @return bookingForm file
    * @ flightOverview
@@ -110,6 +124,9 @@ public class BookingBean implements Serializable {
 
   /**
    * validate that tac is accepted
+   *
+   * validate on POST booking
+   * TODO in FE Controller show error message when error is thrown on BE
    *
    * @param fc        context
    * @param component affected component

@@ -8,11 +8,12 @@ public class Booking {
   private boolean insurance;
   private String id;
   private Flight flight;
+  // new: required for BE validation
+  private boolean tacAccepted;
   private ArrayList<Passenger> passengers;
 
   public Booking() {
   }
-
   public Booking(
       Flight flight,
       boolean insurance,
@@ -22,6 +23,14 @@ public class Booking {
     this.flight = flight;
     this.passengers = passengers;
     this.insurance = insurance;
+  }
+
+  public boolean isTacAccepted() {
+    return tacAccepted;
+  }
+
+  public void setTacAccepted(boolean tacAccepted) {
+    this.tacAccepted = tacAccepted;
   }
 
   public String getId() {
