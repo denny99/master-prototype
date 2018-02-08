@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+>
+
+<ui:composition template="/pages/templates/baseTemplate.xhtml">
+    <ui:define name="content">
+        <h2>Welcome</h2>
+        <hr/>
+
+        <h:form>
+            <h:commandButton action="/pages/flightOverview" value="View Flights" styleClass="iceCmdBtn btnOption"/>
+        </h:form>
+
+        <div class="clear"/>
+
+        <ui:include src="/pages/includes/versionAnnotation.xhtml"/>
+    </ui:define>
+</ui:composition>
+</html>

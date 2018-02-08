@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite" xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:body>
+    <composite:interface>
+        <composite:attribute name="standalone" required="true"/>
+        <composite:attribute name="headline" required="true"/>
+        <composite:attribute name="flight" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <h:panelGroup layout="block"
+                      styleClass="contentLevelContainer blockArea">
+            <ui:fragment rendered="#{cc.attrs.headline}">
+                <div class="inputFieldGroup">
+                    <span class="iceOutTxt headerLabel">Flight Details</span>
+                </div>
+            </ui:fragment>
+            <h:panelGroup layout="block">
+                <div class="clear" style="height: 6px;"/>
+                <div class="inputFieldGroup minindented">
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Flight Type</span>
+                    <c:choose>
+                        <!-- if other country -->
+                        <c:when test="#{cc.attrs.flight.foreignTravel()}">
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">International Flight</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">National Flight</span>
+                        </c:otherwise>
+                    </c:choose>
+                    <br/>
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Aircraft Model:</span>
+                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                  value="#{cc.attrs.flight.aircraft.model}"/>
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Departure Airport:</span>
+                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                  value="#{cc.attrs.flight.departure.code} #{cc.attrs.flight.departure.city}"/>
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Arrival Airport:</span>
+                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                  value="#{cc.attrs.flight.arrival.code} #{cc.attrs.flight.arrival.city}"/>
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Departure Time:</span>
+                    <h:outputText styleClass="iceOutTxt kdInputFieldLabel"
+                                  value="#{cc.attrs.flight.dateTime}" converter="de.uni.frankfurt.DateConverter"/>
+                </div>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <c:if test="#{cc.attrs.standalone}">
+            <h:form>
+                <h:commandButton value="Back"
+                                 action="/pages/flightOverview"
+                                 styleClass="iceCmdBtn btnOption"/>
+            </h:form>
+        </c:if>
+    </composite:implementation>
+</h:body>
+</html>

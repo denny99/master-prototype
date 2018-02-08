@@ -158,7 +158,7 @@
             next(isTimeout);
           }
         },
-        10
+        10,
     );
   }
 
@@ -186,7 +186,7 @@
           function(e) {
             console.log(e);
             isPrivate = true;
-          }
+          },
       );
     } else if (window.indexedDB && /Firefox/.test(window.navigator.userAgent)) {
       var db;
@@ -205,7 +205,7 @@
               if (!isTimeout) {
                 isPrivate = db.result ? false : true;
               }
-            }
+            },
         );
       }
     } else if (isIE10OrLater(window.navigator.userAgent)) {
@@ -237,7 +237,7 @@
         },
         function next(isTimeout) {
           callback(isPrivate);
-        }
+        },
     );
   }
 
