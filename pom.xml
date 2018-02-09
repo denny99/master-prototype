@@ -21,7 +21,9 @@
 
     <properties>
         <selenium.version>2.40.0</selenium.version>
+        <arquillian.version>1.2.1.Final</arquillian.version>
         <jee.version>8.0</jee.version>
+        <glassfish.version>5.0</glassfish.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.12</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +34,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.2.1.Final</version>
+                <version>${arquillian.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -56,7 +58,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>1.2.1.Final</version>
+            <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- arquillian jersey uses an older jersey version, force new one! -->
@@ -90,7 +92,7 @@
                 <dependency>
                     <groupId>org.glassfish.main.extras</groupId>
                     <artifactId>glassfish-embedded-all</artifactId>
-                    <version>5.0</version>
+                    <version>${glassfish.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
