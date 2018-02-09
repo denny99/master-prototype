@@ -3,7 +3,6 @@ package de.uni.frankfurt.webservice;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.PassengerService;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.responses.ListResponse;
 import de.uni.frankfurt.json.wrapper.JSONParser;
 import org.apache.log4j.Logger;
 
@@ -13,7 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("/passengers")
+@Path("passengers")
 @RequestScoped
 public class PassengerWS {
   private static final Logger LOGGER = Logger.getLogger(PassengerWS.class);
@@ -24,10 +23,7 @@ public class PassengerWS {
   @Inject
   private JSONParser parser;
 
-  PassengerWS() {
-  }
-
-  @Path("/{passengerId}")
+  @Path("{passengerId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getPassengerById(
@@ -36,7 +32,7 @@ public class PassengerWS {
     return parser.toJSON(passengerService.getPassengerById(id));
   }
 
-  @Path("/")
+  @Path("")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getPassengers(
@@ -52,8 +48,6 @@ public class PassengerWS {
     } else {
       passengers = passengerService.getPassengers();
     }
-    return parser.toJSON(
-        new ListResponse<>(passengers, passengers.size(), 0,
-            passengers.size()));
+    return parser.toJSON(passengers);
   }
 }

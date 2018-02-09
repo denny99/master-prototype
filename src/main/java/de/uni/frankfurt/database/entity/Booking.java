@@ -14,6 +14,7 @@ public class Booking {
 
   public Booking() {
   }
+
   public Booking(
       Flight flight,
       boolean insurance,

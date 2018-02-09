@@ -39,6 +39,10 @@ public class Flight {
     return costs;
   }
 
+  public void setCosts(Integer costs) {
+    this.costs = costs;
+  }
+
   public Airport getDeparture() {
     return departure;
   }
@@ -57,6 +61,10 @@ public class Flight {
 
   public String getId() {
     return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public Date getDateTime() {

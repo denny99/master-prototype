@@ -3,7 +3,6 @@ package de.uni.frankfurt.webservice;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.responses.ListResponse;
 import de.uni.frankfurt.json.wrapper.JSONParser;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Path("/flights")
+@Path("flights")
 @RequestScoped
 public class FlightWS {
   @Inject
@@ -24,10 +23,7 @@ public class FlightWS {
   @Inject
   private JSONParser parser;
 
-  FlightWS() {
-  }
-
-  @Path("/{flightId}")
+  @Path("{flightId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getFlightById(
@@ -36,7 +32,7 @@ public class FlightWS {
     return parser.toJSON(flightService.getFlightById(id));
   }
 
-  @Path("/")
+  @Path("")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getFlights(
@@ -53,9 +49,7 @@ public class FlightWS {
       List<Flight> flights = this.flightService.searchFlight(limit, offset,
           country, city,
           date, sortOder);
-      ListResponse<Flight> response = new ListResponse<>(flights,
-          flights.size(), offset, limit);
-      return parser.toJSON(response);
+      return parser.toJSON(flights);
     } catch (ParseException e) {
       e.printStackTrace();
       return parser.toJSON(e.getMessage());

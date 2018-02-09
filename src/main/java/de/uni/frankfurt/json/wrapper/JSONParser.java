@@ -40,4 +40,8 @@ public class JSONParser {
   public String toJSON(Object o) {
     return this.jsonb.toJson(o);
   }
+
+  public String toJSON(Object o, Type type) {
+    return this.jsonb.toJson(o, type);
+  }
 }

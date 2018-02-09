@@ -7,7 +7,6 @@ import de.uni.frankfurt.database.service.BookingService;
 import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ConditionFailedException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
-import de.uni.frankfurt.json.responses.ListResponse;
 import de.uni.frankfurt.json.wrapper.JSONParser;
 import org.apache.log4j.Logger;
 
@@ -18,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Path("/flights/{flightId}/bookings")
+@Path("flights/{flightId}/bookings")
 @RequestScoped
 public class BookingWS {
   private static final Logger LOGGER = Logger.getLogger(BookingWS.class);
@@ -31,24 +30,22 @@ public class BookingWS {
   private JSONParser parser;
 
   @PathParam("flightId")
-  private Flight flight;
+  private String flightId;
 
-  @Path("/")
+  @Path("")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public String getBookings() {
+  public String getBookings() throws ResourceNotFoundException {
     ArrayList<Booking> bookings = this.bookingService.getBookingsByFlight(
-        this.flight);
-    ListResponse<Booking> response = new ListResponse<>(bookings,
-        bookings.size(), 0, bookings.size());
-    return parser.toJSON(response);
+        this.getFlight());
+    return parser.toJSON(bookings);
   }
 
-  private void setFlight(String flightId) throws ResourceNotFoundException {
-    this.flight = flightService.getFlightById(flightId);
+  private Flight getFlight() throws ResourceNotFoundException {
+    return flightService.getFlightById(flightId);
   }
 
-  @Path("/")
+  @Path("")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   public String createBooking(
@@ -61,18 +58,19 @@ public class BookingWS {
     }
 
     // validate max valid number of passengers
-    if (!this.bookingService.canCheckIn(this.flight,
+    if (!this.bookingService.canCheckIn(this.getFlight(),
         b.getPassengers().size())) {
       throw new ConditionFailedException(
           String.format("Max %s free seats on the aircraft",
-              this.bookingService.getFreeSeats(this.flight)), Flight.class);
+              this.bookingService.getFreeSeats(this.getFlight())),
+          Flight.class);
     }
 
     // validate that passport and idcards are unique
     HashMap<String, String> numbers = new HashMap<>();
 
     for (Passenger p : b.getPassengers()) {
-      String requiredNumber = this.flight.foreignTravel() ?
+      String requiredNumber = this.getFlight().foreignTravel() ?
           p.getPassportNumber() :
           p.getIdCardNumber();
       if (numbers.containsKey(requiredNumber)) {
@@ -84,12 +82,12 @@ public class BookingWS {
       }
     }
 
-    b = this.bookingService.createBooking(this.flight, b.isInsurance(),
-        (Passenger[]) b.getPassengers().toArray());
+    b = this.bookingService.createBooking(this.getFlight(), b.isInsurance(),
+        b.getPassengers().toArray(new Passenger[b.getPassengers().size()]));
     return parser.toJSON(b);
   }
 
-  @Path("/{bookingId}")
+  @Path("{bookingId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getBookingById(

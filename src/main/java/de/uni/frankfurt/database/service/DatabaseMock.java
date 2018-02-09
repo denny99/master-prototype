@@ -18,7 +18,10 @@ import java.util.Date;
 @SessionScoped
 public class DatabaseMock implements Serializable {
   private static final Logger LOG = Logger.getLogger(DatabaseMock.class);
-
+  public static Passenger p1 = new Passenger("Max", "Mustermann", "12345",
+      "P12345", new Date(), 0);
+  public static Passenger p2 = new Passenger("Maxine", "Musterfrau", "12344",
+      "P12344", new Date(), 0);
   private static Airport a1 = new Airport("EDDF", "Frankfurt Airport", "DE",
       "Frankfurt");
   private static Airport a2 = new Airport("EDDB", "Berlin Schönefeld", "DE",
@@ -42,12 +45,6 @@ public class DatabaseMock implements Serializable {
       "Paris");
   private static Airport a13 = new Airport("LIRA", "Rom Ciampino", "IT",
       "Rom");
-
-  private static Passenger p1 = new Passenger("Max", "Mustermann", "12345",
-      "P12345", new Date(), 0);
-  private static Passenger p2 = new Passenger("Maxine", "Musterfrau", "12344",
-      "P12344", new Date(), 0);
-
   private RandomDateGenerator randomDateGenerator = new RandomDateGenerator();
 
   private ArrayList<Aircraft> aircrafts = new ArrayList<>();
