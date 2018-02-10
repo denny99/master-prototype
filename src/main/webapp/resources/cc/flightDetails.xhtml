@@ -13,7 +13,7 @@
 
     <composite:implementation>
         <h:panelGroup layout="block"
-                      styleClass="contentLevelContainer blockArea">
+                      styleClass="contentLevelContainer blockArea" id="flightDetailsContainer">
             <ui:fragment rendered="#{cc.attrs.headline}">
                 <div class="inputFieldGroup">
                     <span class="iceOutTxt headerLabel">Flight Details</span>
@@ -57,8 +57,9 @@
         </h:panelGroup>
 
         <c:if test="#{cc.attrs.standalone}">
-            <h:form>
+            <h:form id="pageNav">
                 <h:commandButton value="Back"
+                                 id="backButton"
                                  action="/pages/flightOverview"
                                  styleClass="iceCmdBtn btnOption"/>
             </h:form>

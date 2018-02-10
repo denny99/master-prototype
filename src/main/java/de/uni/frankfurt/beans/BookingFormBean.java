@@ -87,10 +87,11 @@ public class BookingFormBean implements Serializable {
 
   /**
    * validate max number of passenger for flight
-   * @ bookingForm:passengerCountOutput
-   * @param fc context
+   *
+   * @param fc        context
    * @param component affected component
-   * @param value value entered in input
+   * @param value     value entered in input
+   * @ bookingForm:passengerCountOutput
    */
   public void validatePassengerCount(
       final FacesContext fc, final UIComponent component, final Object value) {

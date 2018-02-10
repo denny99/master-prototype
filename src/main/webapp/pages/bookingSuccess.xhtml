@@ -8,9 +8,10 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h2>Booking Successful!</h2>
-        <h:form>
-            <h:commandButton action="/pages/flightOverview" value="Back to Flights" styleClass="iceCmdBtn btnOption"/>
+        <h2 id="bookingCompleteMessage">Booking Successful!</h2>
+        <h:form id="successInfo">
+            <h:commandButton id="completeButton" action="/pages/flightOverview" value="Back to Flights"
+                             styleClass="iceCmdBtn btnOption"/>
         </h:form>
     </ui:define>
 </ui:composition>

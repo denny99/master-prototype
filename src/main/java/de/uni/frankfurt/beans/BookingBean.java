@@ -40,6 +40,16 @@ public class BookingBean implements Serializable {
   }
 
   /**
+   * move back to passenger form
+   *
+   * @return file path
+   * @ bookingDetails
+   */
+  public String back() {
+    return "/pages/passengerForm";
+  }
+
+  /**
    * cancel booking process and reset data
    *
    * @return return to flight overview
@@ -53,16 +63,6 @@ public class BookingBean implements Serializable {
   public String confirmBooking() {
     this.showInfo = true;
     return null;
-  }
-
-  /**
-   * move back to passenger form
-   *
-   * @return file path
-   * @ bookingDetails
-   */
-  public String back() {
-    return "/pages/passengerForm";
   }
 
   /**

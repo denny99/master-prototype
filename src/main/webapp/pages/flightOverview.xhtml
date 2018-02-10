@@ -9,7 +9,7 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h:form styleClass="ice-skin-rime contentLevelContainer">
+        <h:form id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
             <div class="inputFieldGroup">
                 <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
             </div>
@@ -28,6 +28,10 @@
                 <f:selectItems value="#{flightOverviewBean.sortOptions}"/>
             </h:selectOneMenu>
             <div class="clear"/>
+            <h:message styleClass="iceMsgError inputFieldLabel"
+                       for="flightFilterInput" id="searchTermErrorMessage"/>
+            <h:message styleClass="iceMsgError inputFieldLabel"
+                       for="sortOrderSelect" id="sortOrderErrorMessage"/>
             <span class="iceOutTxt iceOutLbl"
                   style="font-size: 10px; color: black;">You can search for Arrival locations</span>
             <div class="clear"/>
@@ -37,25 +41,25 @@
                              id="flightSearchButton"/>
         </h:form>
 
-        <h:form>
+        <h:form id="datatableForm">
             <h:panelGroup layout="block" styleClass="blockArea"
                           style="width:1192px;"
                           rendered="#{flightOverviewBean.searched}"
                           id="searchWrapper">
-                <h2>Flug Übersicht</h2>
+                <h2>Flight Overview</h2>
                 <ace:dataTable id="flightsTable" value="#{flightOverviewBean.searchResults}" var="flight" rows="10"
                                paginator="true">
                     <ace:column>
                         <f:facet name="header">
                             <span class="iceOutTxt">Departure</span>
                         </f:facet>
-                        <span class="iceOutTxt center blockArea">#{flight.departure.city}</span>
+                        <span class="iceOutTxt center blockArea departure">#{flight.departure.city}</span>
                     </ace:column>
                     <ace:column>
                         <f:facet name="header">
                             <span class="iceOutTxt">Arrival</span>
                         </f:facet>
-                        <span class="iceOutTxt center blockArea">#{flight.arrival.city}</span>
+                        <span class="iceOutTxt center blockArea arrival">#{flight.arrival.city}</span>
                     </ace:column>
                     <ace:column>
                         <f:facet name="header">
@@ -69,9 +73,11 @@
                         </f:facet>
                         <h:panelGrid columns="2">
                             <h:commandButton value="View"
+                                             id="viewFlight"
                                              action="#{flightDetailsBean.viewFlight(flight)}"
                                              styleClass="iceCmdBtn btnOption"/>
                             <h:commandButton value="Book"
+                                             id="bookFlight"
                                              action="#{bookingBean.startBooking(flight)}"
                                              styleClass="iceCmdBtn btnOption"/>
                         </h:panelGrid>

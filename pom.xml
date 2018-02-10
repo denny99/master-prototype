@@ -21,7 +21,7 @@
 
     <properties>
         <icefaces.version>3.3.0</icefaces.version>
-        <selenium.version>2.40.0</selenium.version>
+        <selenium.version>3.8.1</selenium.version>
         <log4j.version>1.2.16</log4j.version>
         <junit.version>4.12</junit.version>
         <jee.version>6.0</jee.version>
@@ -74,6 +74,25 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
