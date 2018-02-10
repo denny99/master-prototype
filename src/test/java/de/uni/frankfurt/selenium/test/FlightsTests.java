@@ -137,9 +137,15 @@ public class FlightsTests {
     if (this.passengerFormPage.foreignTravel()) {
       Assert.assertTrue(
           this.action.elementPresent(PassengerFormPage.PASSPORT_ERROR_MESSAGE));
+      this.action.assertTrueTextPresentInElement(
+          PassengerFormPage.PASSPORT_ERROR_MESSAGE,
+          PassengerFormPage.EMPTY_PASSPORT_NUMBER_TEXT);
     } else {
       Assert.assertTrue(
           this.action.elementPresent(PassengerFormPage.IDCARD_ERROR_MESSAGE));
+      this.action.assertTrueTextPresentInElement(
+          PassengerFormPage.IDCARD_ERROR_MESSAGE,
+          PassengerFormPage.EMPTY_IDCARD_NUMBER_TEXT);
     }
 
     // pre fill data and force edit
@@ -152,6 +158,23 @@ public class FlightsTests {
 
     // accept input
     this.passengerFormPage.next();
+
+    // same passenger again
+    this.passengerFormPage.fillForm("12345", "P12345");
+    this.passengerFormPage.next();
+    if (this.passengerFormPage.foreignTravel()) {
+      Assert.assertTrue(
+          this.action.elementPresent(PassengerFormPage.PASSPORT_ERROR_MESSAGE));
+      this.action.assertTrueTextPresentInElement(
+          PassengerFormPage.PASSPORT_ERROR_MESSAGE,
+          PassengerFormPage.DUPLICATED_PASSENGER_TEXT);
+    } else {
+      Assert.assertTrue(
+          this.action.elementPresent(PassengerFormPage.IDCARD_ERROR_MESSAGE));
+      this.action.assertTrueTextPresentInElement(
+          PassengerFormPage.IDCARD_ERROR_MESSAGE,
+          PassengerFormPage.DUPLICATED_PASSENGER_TEXT);
+    }
 
     // fill new second passenger
     this.passengerFormPage.fillForm("12341", "P12341", "Test", "Testonius",
