@@ -27,7 +27,7 @@
                     </div>
                     <div id="passengerContainer" class="blockArea">
                         <div class="inputFieldGroup" id="passengerAmountContainer">
-                            <ice:panelGroup panelTooltip="passengerTooltip"
+                            <ice:panelGroup id="passengerTooltipBubble" panelTooltip="passengerTooltip"
                                             style="position: relative; top: -15px;"
                                             styleClass="infoBubble"/>
                             <div class="clear"/>
@@ -96,8 +96,9 @@
             </h:panelGroup>
             <h:commandButton value="Cancel"
                              action="#{bookingBean.cancelBooking}"
+                             id="cancelBookingButton"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton id="continueBooking" value="Continue"
+            <h:commandButton id="continueButton" value="Continue"
                              action="#{bookingBean.createPassengers}"
                              styleClass="iceCmdBtn btnOption"/>
         </h:form>

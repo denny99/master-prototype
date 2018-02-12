@@ -11,7 +11,7 @@
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
         <h2>Booking Overview</h2>
-        <h:form>
+        <h:form id="bookingDetails">
             <!-- show all entered data -->
             <cc:flightDetails headline="true" standalone="false" flight="#{bookingFormBean.selectedFlight}"/>
 
@@ -94,6 +94,9 @@
                 <h:panelGroup id="tacDiv">
                     <ice:selectBooleanCheckbox id="tacCheckbox" validator="#{bookingBean.validateTac}"/>
                     <h:outputLabel id="tacCheckboxLabel" for="tacCheckbox">Accept TAC</h:outputLabel>
+
+                    <h:message styleClass="iceMsgError inputFieldLabel"
+                               for="tacCheckbox" id="tacErrorMessage"/>
                 </h:panelGroup>
                 <ace:tooltip id="tacTooltip" for="tacDiv"
                              speechBubble="false" showEffect="slide" hideEffect="slide"
@@ -106,11 +109,14 @@
 
             <h:commandButton value="Cancel"
                              action="#{bookingBean.cancelBooking}"
+                             id="cancelBookingButton"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Back"
+                             immediate="true"
                              action="#{bookingBean.back}"
                              styleClass="iceCmdBtn btnOption"/>
             <h:commandButton value="Finish"
+                             id="finishButton"
                              action="#{bookingBean.confirmBooking}"
                              styleClass="iceCmdBtn btnOption"/>
 

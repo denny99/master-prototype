@@ -6,7 +6,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,9 +21,13 @@ public class DateConverter implements Converter {
       FacesContext context, UIComponent component,
       String value) {
 
+    return parseDate(value, formatter);
+  }
+
+  protected Object parseDate(String value, SimpleDateFormat formatter) {
     try {
       return formatter.parse(value);
-    } catch (ParseException e) {
+    } catch (Exception e) {
       FacesMessage msg =
           new FacesMessage("Failed to parse Date",
               "Invalid Date format");

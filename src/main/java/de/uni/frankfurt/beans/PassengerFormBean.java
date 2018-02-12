@@ -19,8 +19,8 @@ import java.util.List;
 @Named
 @ConversationScoped
 public class PassengerFormBean implements Serializable {
-  private static final String PASSPORT_INPUT_ID = "passengerData:passportNumber";
-  private static final String ID_CARD_INPUT_ID = "passengerData:idCardNumber";
+  private static final String PASSPORT_INPUT_ID = "passengerData:passportNumberInput";
+  private static final String ID_CARD_INPUT_ID = "passengerData:idCardNumberInput";
   private final List<SelectItem> items = new ArrayList<SelectItem>();
 
   private Passenger[] passengers;
@@ -168,7 +168,7 @@ public class PassengerFormBean implements Serializable {
     final UIInput input = (UIInput) event.getComponent();
     final String number = (String) input.getValue();
     String id = input.getId();
-    if (id.equals("passportNumber")) {
+    if (id.equals("passportNumberInput")) {
       p = passengerService.getPassengerByPassportNumber(number);
     } else {
       p = passengerService.getPassengerByIdCardNumber(number);
