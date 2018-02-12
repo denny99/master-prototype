@@ -5,7 +5,7 @@ import de.uni.frankfurt.util.RandomDateGenerator;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 import org.apache.log4j.Logger;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
