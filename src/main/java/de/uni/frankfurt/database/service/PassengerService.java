@@ -67,6 +67,11 @@ public class PassengerService implements Serializable {
     throw new ResourceNotFoundException(id, Passenger.class);
   }
 
+  /**
+   *
+   * @param idCardNumber number of passenger
+   * @return found passenger or null
+   */
   public Passenger getPassengerByIdCardNumber(String idCardNumber) {
     for (Passenger passenger : this.databaseMock.getPassengers()) {
       if (passenger.getIdCardNumber().equals(idCardNumber)) {
@@ -76,6 +81,11 @@ public class PassengerService implements Serializable {
     return null;
   }
 
+  /**
+   *
+   * @param passportNumber number of passenger
+   * @return found passenger or null
+   */
   public Passenger getPassengerByPassportNumber(String passportNumber) {
     for (Passenger passenger : this.databaseMock.getPassengers()) {
       if (passenger.getPassportNumber().equals(passportNumber)) {

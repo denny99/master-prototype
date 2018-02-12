@@ -24,6 +24,10 @@ public class Booking {
     this.insurance = insurance;
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public String getId() {
     return id;
   }

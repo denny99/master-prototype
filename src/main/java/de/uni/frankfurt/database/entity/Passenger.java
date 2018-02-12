@@ -30,6 +30,10 @@ public class Passenger {
     this.luggageCount = luggageCount;
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public String getId() {
     return id;
   }

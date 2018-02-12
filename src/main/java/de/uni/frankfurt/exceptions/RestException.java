@@ -1,14 +1,26 @@
 package de.uni.frankfurt.exceptions;
 
-public abstract class RestException extends Throwable {
-  private final int statusCode;
-  private final String errorMessage;
-  private final String type;
+public class RestException extends Throwable {
+  private int statusCode;
+  private String errorMessage;
+  private String type;
 
   RestException(int statusCode, String errorMessage, Class clazz) {
     this.errorMessage = errorMessage;
     this.statusCode = statusCode;
     this.type = clazz.getSimpleName();
+  }
+
+  public void setStatusCode(int statusCode) {
+    this.statusCode = statusCode;
+  }
+
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 
   public int getStatusCode() {

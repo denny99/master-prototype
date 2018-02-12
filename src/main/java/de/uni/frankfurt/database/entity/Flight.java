@@ -27,6 +27,14 @@ public class Flight {
   public Flight() {
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public void setCosts(Integer costs) {
+    this.costs = costs;
+  }
+
   public Aircraft getAircraft() {
     return aircraft;
   }

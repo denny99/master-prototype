@@ -19,6 +19,10 @@ public class Aircraft {
   public Aircraft() {
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public String getId() {
     return id;
   }
