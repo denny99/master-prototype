@@ -79,6 +79,7 @@ public class BookingWSTest {
 
     // create Booking with the 2 static passengers
     Booking b = new Booking(flight, false, passengers);
+    b.setTacAccepted(true);
 
     final Response response = webTarget
         .path(basePath)

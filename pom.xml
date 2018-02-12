@@ -20,7 +20,7 @@
     <name>Master-Prototype</name>
 
     <properties>
-        <selenium.version>2.40.0</selenium.version>
+        <selenium.version>3.8.1</selenium.version>
         <arquillian.version>1.2.1.Final</arquillian.version>
         <jee.version>8.0</jee.version>
         <glassfish.version>5.0</glassfish.version>
@@ -61,7 +61,27 @@
             <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- arquillian jersey uses an older jersey version, force new one! -->
+
+        <!-- selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- arquillian uses an older jersey version, force new one! -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>

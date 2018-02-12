@@ -42,7 +42,7 @@ public class BookingWS {
   }
 
   private Flight getFlight() throws ResourceNotFoundException {
-    return flightService.getFlightById(flightId);
+    return this.flightService.getFlightById(this.flightId);
   }
 
   @Path("")

@@ -12,11 +12,12 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @ApplicationScoped
-public class NotFoundExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
+public class ConditionFailedExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ConditionFailedException> {
+
   @Context
   private HttpHeaders headers;
 
-  public Response toResponse(ResourceNotFoundException ex) {
+  public Response toResponse(ConditionFailedException ex) {
     return this.buildResponse(ex);
   }
 }

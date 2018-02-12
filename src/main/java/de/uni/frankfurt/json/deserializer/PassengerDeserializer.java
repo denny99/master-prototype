@@ -17,7 +17,6 @@ public class PassengerDeserializer extends JSONSchemaValidator implements JsonbD
   public Passenger deserialize(
       JsonParser jsonParser, DeserializationContext deserializationContext,
       Type type) {
-    LOG.info("hello");
     Passenger p = deserializationContext.deserialize(Passenger.class,
         jsonParser);
 
