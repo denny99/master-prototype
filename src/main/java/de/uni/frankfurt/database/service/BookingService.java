@@ -31,12 +31,22 @@ public class BookingService implements Serializable {
     return databaseMock.getBookings();
   }
 
+  /**
+   * @param flight         associated flight
+   * @param passengerCount amount of new passenger
+   * @return true = enough space on aircraft
+   */
   public boolean canCheckIn(
       Flight flight,
       Integer passengerCount) {
     return this.getFreeSeats(flight) >= passengerCount;
   }
 
+  /**
+   *
+   * @param flight associated flight
+   * @return number of free seats in aircraft
+   */
   public Integer getFreeSeats(Flight flight) {
     Integer bookedSeats = 0;
     Integer maxPassengers = flight.getAircraft().getPassengerCount();
@@ -47,6 +57,11 @@ public class BookingService implements Serializable {
     return maxPassengers - bookedSeats;
   }
 
+  /**
+   *
+   * @param flight associated flight
+   * @return all bookings for this flight
+   */
   public ArrayList<Booking> getBookingsByFlight(
       Flight flight) {
     ArrayList<Booking> result = new ArrayList<Booking>();
@@ -70,6 +85,7 @@ public class BookingService implements Serializable {
     Flight f = this.flightService.getFlightById(flight.getId());
     Booking b = new Booking(f, insurance,
         this.passengerService.createPassengers(passengers));
+    b.setTacAccepted(true);
     this.databaseMock.addBooking(b);
     return b;
   }

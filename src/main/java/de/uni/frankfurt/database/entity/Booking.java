@@ -38,6 +38,10 @@ public class Booking {
     return id;
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public Flight getFlight() {
     return flight;
   }

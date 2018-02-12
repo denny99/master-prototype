@@ -4,58 +4,46 @@ import de.uni.frankfurt.database.entity.Booking;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.DatabaseMock;
-import de.uni.frankfurt.json.wrapper.JSONParser;
-import org.jboss.arquillian.container.test.api.Deployment;
+import de.uni.frankfurt.json.wrapper.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.arquillian.junit.InSequence;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 
 @RunWith(Arquillian.class)
-public class BookingWSTest {
-  @ArquillianResource
-  private URL deploymentUrl;
-  private JSONParser parser;
-  private WebTarget webTarget;
-
-  @Deployment
-  public static WebArchive createDeployment() {
-    return ShrinkWrap.create(WebArchive.class)
-        .addPackages(true, "de.uni.frankfurt")
-        .addAsWebInfResource(EmptyAsset.INSTANCE,
-            ArchivePaths.create("beans.xml"));
+public class BookingWSTest extends WSTest {
+  /**
+   * construct url with first found flight
+   *
+   * @return url
+   */
+  @Override
+  public String getResourceURL() {
+    return this.getResourceURL(this.getRandomFlight());
   }
 
-  @Before
-  public void setup() throws MalformedURLException {
-    this.parser = new JSONParser();
-    Client client = ClientBuilder.newClient();
-    webTarget = client.target(
-        URI.create(new URL(deploymentUrl, "api").toExternalForm()));
+  /**
+   * create url with given flight
+   *
+   * @param flight flight
+   * @return rest uri
+   */
+  public String getResourceURL(Flight flight) {
+    // setup basic url
+    return String.format("/flights/%s/bookings", flight.getId());
   }
 
-  // note injection not possible (we are outside of the server)
-  @Test
-  @RunAsClient
-  public void testBookings() {
+  /**
+   * get flight list and return first
+   *
+   * @return first flight
+   */
+  public Flight getRandomFlight() {
     // get all flights
     String jsonFlights = webTarget
         .path("/flights")
@@ -68,10 +56,17 @@ public class BookingWSTest {
         }.getClass().getGenericSuperclass());
 
     // select first random flight
-    Flight flight = flights.get(0);
 
-    // setup basic url
-    String basePath = String.format("/flights/%s/bookings", flight.getId());
+    return flights.get(0);
+  }
+
+  // note injection not possible (we are outside of the server)
+  @Test
+  @InSequence(1)
+  @RunAsClient
+  public void createBooking() {
+    Flight flight = this.getRandomFlight();
+    String basePath = this.getResourceURL(flight);
 
     ArrayList<Passenger> passengers = new ArrayList<>();
     passengers.add(DatabaseMock.p1);
@@ -79,25 +74,45 @@ public class BookingWSTest {
 
     // create Booking with the 2 static passengers
     Booking b = new Booking(flight, false, passengers);
+
+    // test tac not accepted
+    APIResponse<Booking> response = this.postResourceToAPI(basePath, b,
+        Booking.class);
+    Assert.assertTrue("error occurred", response.hasError());
+    Assert.assertEquals("correct http code",
+        response.getError().getStatusCode(), 412);
+    Assert.assertEquals("correct error message",
+        response.getError().getErrorMessage(), "TAC not accepted");
+
+    // correct post
     b.setTacAccepted(true);
+    // get booking
+    response = this.postResourceToAPI(basePath, b, Booking.class);
+    Assert.assertTrue("id created",
+        !response.getResponseObject().getId().isEmpty());
 
-    final Response response = webTarget
-        .path(basePath)
-        .request(MediaType.APPLICATION_JSON)
-        .post(Entity.json(b));
+    // test too many passengers
+    response = this.postResourceToAPI(basePath, b, Booking.class);
+    Assert.assertTrue("error occurred", response.hasError());
+    Assert.assertEquals("correct http code",
+        response.getError().getStatusCode(), 412);
 
+    // test duplicated passenger
+
+  }
+
+  @Test
+  @InSequence(2)
+  @RunAsClient
+  public void getBookingById() {
     // test get booking by id
 
     // test get booking by id with error
+  }
 
-    // test get bookings
-    Booking createdBooking = response.readEntity(Booking.class);
-    Assert.assertTrue("id created", !createdBooking.getId().isEmpty());
-//    ListResponse<Booking> result = parser.fromJSON(response,
-//        new ListResponse<Booking>() {
-//        }.getClass().getGenericSuperclass());
-//    Assert.assertEquals("amount of bookings for flight", 1,
-//        result.getBody().size());
-
+  @Test
+  @InSequence(3)
+  @RunAsClient
+  public void getBookings() {
   }
 }

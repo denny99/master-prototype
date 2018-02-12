@@ -34,6 +34,10 @@ public class Passenger {
     return id;
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public String getIdCardNumber() {
     return idCardNumber;
   }

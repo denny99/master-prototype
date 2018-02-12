@@ -27,6 +27,7 @@ public class Flight {
   public Flight() {
   }
 
+
   public Aircraft getAircraft() {
     return aircraft;
   }
