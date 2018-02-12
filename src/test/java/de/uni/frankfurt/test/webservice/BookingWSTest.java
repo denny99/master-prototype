@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 @RunWith(Arquillian.class)
 public class BookingWSTest extends WSTest {
+  private static Booking createdBooking;
+
   /**
    * construct url with first found flight
    *
@@ -90,29 +92,62 @@ public class BookingWSTest extends WSTest {
     response = this.postResourceToAPI(basePath, b, Booking.class);
     Assert.assertTrue("id created",
         !response.getResponseObject().getId().isEmpty());
+    createdBooking = response.getResponseObject();
+
+    // test duplicated passenger
+    passengers.add(DatabaseMock.p1);
 
     // test too many passengers
     response = this.postResourceToAPI(basePath, b, Booking.class);
     Assert.assertTrue("error occurred", response.hasError());
     Assert.assertEquals("correct http code",
         response.getError().getStatusCode(), 412);
+    Assert.assertEquals("correct error message",
+        response.getError().getErrorMessage(),
+        String.format("Duplicated passenger with number %s",
+            flight.foreignTravel() ?
+                DatabaseMock.p1.getPassportNumber() :
+                DatabaseMock.p1.getIdCardNumber()));
 
-    // test duplicated passenger
+    for (int i = 0; i < 1000; i++) {
+      passengers.add(DatabaseMock.p1);
+    }
 
+    response = this.postResourceToAPI(basePath, b, Booking.class);
+    Assert.assertTrue("error occurred", response.hasError());
+    Assert.assertEquals("correct http code",
+        response.getError().getStatusCode(), 412);
   }
 
   @Test
   @InSequence(2)
   @RunAsClient
   public void getBookingById() {
+    String basePath = this.getResourceURL();
     // test get booking by id
-
+    APIResponse<Booking> response = this.getResourceFromAPI(
+        basePath + "/" + createdBooking.getId(),
+        Booking.class);
+    Assert.assertTrue("no error", !response.hasError());
     // test get booking by id with error
+    response = this.getResourceFromAPI(basePath + "/NOTANID",
+        Booking.class);
+    Assert.assertTrue("error occurred", response.hasError());
+    Assert.assertEquals("correct http code",
+        response.getError().getStatusCode(), 404);
   }
 
   @Test
   @InSequence(3)
   @RunAsClient
   public void getBookings() {
+    String basePath = this.getResourceURL(createdBooking.getFlight());
+    // test get booking by id
+    APIResponse<ArrayList<Booking>> response = this.getResourcesFromAPI(
+        basePath, new ArrayList<Booking>() {
+        }.getClass().getGenericSuperclass());
+    Assert.assertTrue("no error", !response.hasError());
+    Assert.assertEquals("correct amount of bookings",
+        response.getResponseObject().size(), 1);
   }
 }

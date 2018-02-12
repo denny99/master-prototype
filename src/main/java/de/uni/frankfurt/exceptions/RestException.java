@@ -5,6 +5,9 @@ public class RestException extends Throwable {
   private String errorMessage;
   private String type;
 
+  public RestException() {
+  }
+
   RestException(int statusCode, String errorMessage, Class clazz) {
     this.errorMessage = errorMessage;
     this.statusCode = statusCode;

@@ -15,6 +15,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -47,6 +48,20 @@ abstract class WSTest {
         .path(basePath)
         .request(MediaType.APPLICATION_JSON)
         .get(), clazz);
+  }
+
+  /**
+   * retrieve list data from api
+   *
+   * @param basePath rest url
+   * @return object from api
+   */
+  protected <T> APIResponse<T> getResourcesFromAPI(
+      String basePath, Type type) {
+    return new APIResponse<T>(webTarget
+        .path(basePath)
+        .request(MediaType.APPLICATION_JSON)
+        .get(), type);
   }
 
   /**

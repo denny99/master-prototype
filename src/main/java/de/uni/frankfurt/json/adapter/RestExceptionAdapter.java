@@ -11,8 +11,8 @@ public class RestExceptionAdapter<T extends RestException> implements JsonbAdapt
   public JsonObject adaptToJson(T c) {
     return Json.createObjectBuilder()
         .add("type", c.getType())
-        .add("message", c.getErrorMessage())
-        .add("code", c.getStatusCode())
+        .add("errorMessage", c.getErrorMessage())
+        .add("statusCode", c.getStatusCode())
         .build();
   }
 
