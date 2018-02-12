@@ -112,8 +112,6 @@ public class FlightsTests {
 
     // correct input
     this.bookingFormPage.setPassengerAmount("2");
-    Assert.assertTrue(
-        this.action.elementPresent(BookingFormPage.COST_ERROR_MESSAGE));
 
     // open passenger form
     this.passengerFormPage.getPage();
@@ -150,8 +148,8 @@ public class FlightsTests {
 
     // pre fill data and force edit
     this.passengerFormPage.fillForm("12345", "P12345");
-    Assert.assertTrue(!this.action.elementPresentAndEnabled(
-        PassengerFormPage.FIRSTNAME_INPUT));
+    Assert.assertTrue(this.action.elementPresent(
+        PassengerFormPage.FORCE_EDIT_BUTTON));
     this.passengerFormPage.forceEdit();
     Assert.assertTrue(this.action.elementPresentAndEnabled(
         PassengerFormPage.FIRSTNAME_INPUT));

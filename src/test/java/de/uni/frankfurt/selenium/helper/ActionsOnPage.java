@@ -326,6 +326,8 @@ public class ActionsOnPage {
   public boolean elementPresent(final String elementId) {
     boolean b = false;
     try {
+      // wait a bit before checking
+      this.waitForElementDisplayed(elementId);
       b = driver.findElement(By.id(elementId)).isDisplayed();
     } catch (final Exception e) {
       b = false;

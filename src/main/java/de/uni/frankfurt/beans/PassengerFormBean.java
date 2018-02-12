@@ -157,7 +157,7 @@ public class PassengerFormBean implements Serializable {
     final UIInput input = (UIInput) event.getComponent();
     final String number = (String) input.getValue();
     String id = input.getId();
-    if (id.equals("passportNumber")) {
+    if (id.equals("passportNumberInput")) {
       p = passengerService.getPassengerByPassportNumber(number);
     } else {
       p = passengerService.getPassengerByIdCardNumber(number);

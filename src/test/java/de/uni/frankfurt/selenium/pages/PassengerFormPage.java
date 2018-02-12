@@ -5,8 +5,9 @@ import org.openqa.selenium.WebDriver;
 
 public class PassengerFormPage extends Page {
   public static final String FORCE_EDIT_BUTTON = "passengerData:forceEditButton";
-  public static final String CONTINUE_BUTTON = "bookingData:continueButton";
-  public static final String BACK_BUTTON = "bookingData:backButton";
+  public static final String CONTINUE_BUTTON = "passengerData:continueButton";
+  public static final String BOOKING_CONTINUE_BUTTON = "bookingData:continueButton";
+  public static final String BACK_BUTTON = "passengerData:backButton";
   public static final String IDCARD_NUMBER_INPUT = "passengerData:idCardNumberInput";
   public static final String PASSPORT_NUMBER_INPUT = "passengerData:passportNumberInput";
   public static final String FIRSTNAME_INPUT = "passengerData:firstNameInput";
@@ -14,7 +15,7 @@ public class PassengerFormPage extends Page {
   public static final String BIRTHDATE_INPUT = "passengerData:birthDateInput";
   public static final String LUGGAGE_RADIO = "passengerData:luggageRadio:%s";
   public static final String POPUP_ICON = "passengerData:helpIcon";
-  public static final String PASSPORT_HELP_POPUP = "passportHelpPopup";
+  public static final String PASSPORT_HELP_POPUP = "passengerData:passportHelpPopup";
   public static final String FIRSTNAME_ERROR_MESSAGE = "passengerData:firstNameErrorMessage";
   public static final String LASTNAME_ERROR_MESSAGE = "passengerData:lastNameErrorMessage";
   public static final String BIRTHDATE_ERROR_MESSAGE = "passengerData:birthDateErrorMessage";
@@ -71,9 +72,9 @@ public class PassengerFormPage extends Page {
   public void fillForm(
       String idCardNumber, String passportNumber) {
     if (this.foreignTravel()) {
-      this.action.sendKeyInElement(IDCARD_NUMBER_INPUT, idCardNumber);
-    } else {
       this.action.sendKeyInElement(PASSPORT_NUMBER_INPUT, passportNumber);
+    } else {
+      this.action.sendKeyInElement(IDCARD_NUMBER_INPUT, idCardNumber);
     }
   }
 
@@ -95,7 +96,7 @@ public class PassengerFormPage extends Page {
 
   @Override
   public void getPage() {
-    this.action.clickElement(CONTINUE_BUTTON);
+    this.action.clickElement(BOOKING_CONTINUE_BUTTON);
   }
 
   /**

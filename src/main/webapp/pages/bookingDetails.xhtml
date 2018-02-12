@@ -94,6 +94,9 @@
                 <h:panelGroup id="tacDiv">
                     <ice:selectBooleanCheckbox id="tacCheckbox" validator="#{bookingBean.validateTac}"/>
                     <h:outputLabel id="tacCheckboxLabel" for="tacCheckbox">Accept TAC</h:outputLabel>
+
+                    <h:message styleClass="iceMsgError inputFieldLabel"
+                               for="tacCheckbox" id="tacErrorMessage"/>
                 </h:panelGroup>
                 <ace:tooltip id="tacTooltip" for="tacDiv"
                              speechBubble="false" showEffect="slide" hideEffect="slide"
@@ -116,9 +119,6 @@
                              id="finishButton"
                              action="#{bookingBean.confirmBooking}"
                              styleClass="iceCmdBtn btnOption"/>
-
-            <h:message styleClass="iceMsgError inputFieldLabel"
-                       for="tacCheckbox" id="tacErrorMessage"/>
 
             <ace:dialog id="infoPopup" header="Information"
                         visible="#{bookingBean.showInfo}" closable="false" modal="true"

@@ -68,7 +68,7 @@
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
                     <h:inputText id="firstNameInput"
-                                 readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
                                  value="#{passengerFormBean.currentPassenger.firstName}" required="true"
                                  requiredMessage="Insert your Firstname"/>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
                     <h:inputText id="lastNameInput"
-                                 readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
                                  value="#{passengerFormBean.currentPassenger.lastName}" required="true"
                                  requiredMessage="Insert your Lastname"/>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
                     <h:inputText id="birthDateInput"
-                                 readonly="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                 disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
                                  value="#{passengerFormBean.currentPassenger.birthDay}" required="true"
                                  requiredMessage="Insert your Birthdate"
                                  converter="de.uni.frankfurt.ShortDateConverter"/>

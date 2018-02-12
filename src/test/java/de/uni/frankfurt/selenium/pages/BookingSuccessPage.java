@@ -7,7 +7,7 @@ public class BookingSuccessPage extends Page {
   public static final String INFO_POPUP = "bookingDetails:infoPopup_main";
   public static final String INFO_OK_BUTTON = "bookingDetails:as_info_ok";
   public static final String FINISH_BUTTION = "bookingDetails:finishButton";
-  public static final String SUCCESS_MESSAGE = "bookingCompleteMessaage";
+  public static final String SUCCESS_MESSAGE = "bookingCompleteMessage";
   public static final String SUCCESS_BUTTON = "successInfo:completeButton";
 
   public BookingSuccessPage(
