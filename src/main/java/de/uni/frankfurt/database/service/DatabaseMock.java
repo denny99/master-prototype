@@ -5,7 +5,7 @@ import de.uni.frankfurt.util.RandomDateGenerator;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 import org.apache.log4j.Logger;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class DatabaseMock implements Serializable {
   private static final Logger LOG = Logger.getLogger(DatabaseMock.class);
   public static Passenger p1 = new Passenger("Max", "Mustermann", "12345",

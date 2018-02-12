@@ -4,7 +4,7 @@ import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import org.apache.log4j.Logger;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.*;
  *
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class FlightService implements Serializable {
   private static final Logger LOG = Logger.getLogger(FlightService.class);
 
