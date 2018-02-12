@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class BookingService implements Serializable {
   private static final Logger LOG = Logger.getLogger(BookingService.class);
 

@@ -14,7 +14,7 @@ import java.util.*;
  *
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class FlightService implements Serializable {
   private static final Logger LOG = Logger.getLogger(FlightService.class);
 

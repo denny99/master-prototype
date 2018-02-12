@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class DatabaseMock implements Serializable {
   private static final Logger LOG = Logger.getLogger(DatabaseMock.class);
 
