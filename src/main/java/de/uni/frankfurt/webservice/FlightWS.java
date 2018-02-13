@@ -2,6 +2,7 @@ package de.uni.frankfurt.webservice;
 
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.service.FlightService;
+import de.uni.frankfurt.exceptions.BadRequestException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.json.wrapper.JSONParser;
 
@@ -42,7 +43,7 @@ public class FlightWS {
       @DefaultValue("100") @QueryParam("limit") int limit,
       @DefaultValue("0") @QueryParam("offset") int offset,
       @DefaultValue("asc") @QueryParam("sortOrder") String sortOder
-  ) {
+  ) throws BadRequestException {
     try {
       SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
       Date date = formatter.parse(isoDate);
@@ -51,8 +52,7 @@ public class FlightWS {
           date, sortOder);
       return parser.toJSON(flights);
     } catch (ParseException e) {
-      e.printStackTrace();
-      return parser.toJSON(e.getMessage());
+      throw new BadRequestException(isoDate, Date.class);
     }
   }
 }

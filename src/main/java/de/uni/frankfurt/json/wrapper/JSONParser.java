@@ -1,5 +1,6 @@
 package de.uni.frankfurt.json.wrapper;
 
+import de.uni.frankfurt.json.adapter.BadRequestExceptionAdapter;
 import de.uni.frankfurt.json.adapter.ConditionFailedExceptionAdapter;
 import de.uni.frankfurt.json.adapter.ResourceNotFoundExceptionAdapter;
 import de.uni.frankfurt.json.deserializer.AircraftDeserializer;
@@ -23,7 +24,8 @@ public class JSONParser {
     JsonbConfig config = new JsonbConfig()
         .withFormatting(true)
         .withAdapters(new ResourceNotFoundExceptionAdapter(),
-            new ConditionFailedExceptionAdapter())
+            new ConditionFailedExceptionAdapter(),
+            new BadRequestExceptionAdapter())
         .withDeserializers(new AircraftDeserializer(),
             new AirportDeserializer(), new FlightDeserializer(),
             new PassengerDeserializer());

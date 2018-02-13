@@ -8,7 +8,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -64,12 +67,9 @@ public class FlightService implements Serializable {
           Math.min(offset + limit, results.size()));
     }
 
-    Collections.sort(results, new Comparator<Flight>() {
-      @Override
-      public int compare(Flight lhs, Flight rhs) {
-        int compareValue = lhs.getDateTime().compareTo(rhs.getDateTime());
-        return sortOrder.equals("asc") ? compareValue : compareValue * -1;
-      }
+    Collections.sort(results, (lhs, rhs) -> {
+      int compareValue = lhs.getDateTime().compareTo(rhs.getDateTime());
+      return sortOrder.equals("asc") ? compareValue : compareValue * -1;
     });
 
     return results;

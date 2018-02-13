@@ -19,6 +19,8 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 abstract class WSTest {
   @ArquillianResource
@@ -58,9 +60,28 @@ abstract class WSTest {
    */
   protected <T> APIResponse<T> getResourcesFromAPI(
       String basePath, Type type) {
-    return new APIResponse<T>(webTarget
+    return new APIResponse<>(webTarget
         .path(basePath)
         .request(MediaType.APPLICATION_JSON)
+        .get(), type);
+  }
+
+  /**
+   * retrieve list data from api with query
+   *
+   * @param basePath rest url
+   * @return object from api
+   */
+  protected <T> APIResponse<T> getResourcesFromAPI(
+      String basePath, HashMap<String, String> query, Type type) {
+    WebTarget target = webTarget
+        .path(basePath);
+
+    for (Map.Entry<String, String> entry : query.entrySet()) {
+      target = target.queryParam(entry.getKey(), entry.getValue());
+    }
+
+    return new APIResponse<>(target.request(MediaType.APPLICATION_JSON)
         .get(), type);
   }
 
