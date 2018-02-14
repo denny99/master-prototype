@@ -1,40 +1,21 @@
 package de.uni.frankfurt.exceptions;
 
-public class RestException extends Throwable {
-  private int statusCode;
-  private String errorMessage;
-  private String type;
+public interface RestException {
+  // pseudo attributes just for swagger otherwise
+  // every throwable attribute is added to the docs
+  int statusCode = 400;
+  String errorMessage = "";
+  String type = "";
 
-  public RestException() {
-  }
+  int getStatusCode();
 
-  RestException(int statusCode, String errorMessage, Class clazz) {
-    this.errorMessage = errorMessage;
-    this.statusCode = statusCode;
-    this.type = clazz.getSimpleName();
-  }
+  void setStatusCode(int statusCode);
 
-  public int getStatusCode() {
-    return statusCode;
-  }
+  String getErrorMessage();
 
-  public void setStatusCode(int statusCode) {
-    this.statusCode = statusCode;
-  }
+  void setErrorMessage(String message);
 
-  public String getErrorMessage() {
-    return errorMessage;
-  }
+  String getType();
 
-  public void setErrorMessage(String errorMessage) {
-    this.errorMessage = errorMessage;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
+  void setType(String type);
 }

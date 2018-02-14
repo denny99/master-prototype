@@ -1,0 +1,21 @@
+{
+  "resourcePackages": [
+    "de.uni.frankfurt.webservice",
+    "de.uni.frankfurt.database.entity"
+  ],
+  "prettyPrint": true,
+  "openAPI": {
+    "info": {
+      "version": "1.0",
+      "title": "Master Prototype App",
+      "description": "This is an demonstrative Webservice for Testing",
+      "contact": {
+        "email": "s8688833@stud.uni-frankfurt.de"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    }
+  }
+}

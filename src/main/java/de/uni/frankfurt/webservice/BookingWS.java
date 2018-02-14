@@ -7,7 +7,13 @@ import de.uni.frankfurt.database.service.BookingService;
 import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ConditionFailedException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
+import de.uni.frankfurt.exceptions.RestException;
 import de.uni.frankfurt.json.wrapper.JSONParser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
@@ -17,7 +23,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Path("flights/{flightId}/bookings")
+@Path("/flights/{flightId}/bookings")
 @RequestScoped
 public class BookingWS {
   private static final Logger LOGGER = Logger.getLogger(BookingWS.class);
@@ -35,6 +41,18 @@ public class BookingWS {
   @Path("")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Operation(
+      summary = "Get Booking By Id",
+      tags = {"booking"},
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Found Booking",
+              content = @Content(schema = @Schema(implementation = Booking.class))),
+          @ApiResponse(responseCode = "404", description = "Booking not found",
+              content = @Content(schema = @Schema(implementation = RestException.class))),
+          @ApiResponse(responseCode = "404", description = "Flight not found",
+              content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getBookings() throws ResourceNotFoundException {
     ArrayList<Booking> bookings = this.bookingService.getBookingsByFlight(
         this.getFlight());
@@ -48,6 +66,18 @@ public class BookingWS {
   @Path("")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
+  @Operation(
+      summary = "Create new Booking",
+      tags = {"booking"},
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Created Booking",
+              content = @Content(schema = @Schema(implementation = Booking.class))),
+          @ApiResponse(responseCode = "404", description = "Flight not found",
+              content = @Content(schema = @Schema(implementation = RestException.class))),
+          @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
+              content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String createBooking(
       String bookingJSON) throws ResourceNotFoundException, ConditionFailedException {
     Booking b = parser.fromJSON(bookingJSON, Booking.class);
@@ -90,6 +120,17 @@ public class BookingWS {
   @Path("{bookingId}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Operation(
+      summary = "Get Bookings by flight",
+      tags = {"booking"},
+      responses = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Found Bookings",
+              content = @Content(array = @ArraySchema(
+                  schema = @Schema(implementation = Booking.class)))),
+          @ApiResponse(responseCode = "404", description = "Flight not found",
+              content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getBookingById(
       @PathParam("bookingId") String id
   ) throws ResourceNotFoundException {
