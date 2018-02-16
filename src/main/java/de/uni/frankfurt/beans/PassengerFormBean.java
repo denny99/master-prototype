@@ -90,7 +90,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * go back to last passenger
-   *
+   * <p>
    * TODO obsolete
    *
    * @return current page or last page
@@ -106,7 +106,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * enables inputs for personal data when prefilled
-   *
+   * <p>
    * TODO in FE
    *
    * @param event ajax event
@@ -120,7 +120,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * inits passenger array
-   *
+   * <p>
    * TODO obsolete
    *
    * @param passengerCount amount of passenger to check in
@@ -137,7 +137,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * goto next passenger;
-   *
+   * <p>
    * TODO obsolete
    *
    * @return next page or current page
@@ -153,7 +153,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * checks for existing user
-   *
+   * <p>
    * rest route get passenger by passport number
    * TODO prefill in FE
    *
@@ -187,7 +187,7 @@ public class PassengerFormBean implements Serializable {
 
   /**
    * triggers ice popup
-   *
+   * <p>
    * TODO do in FE
    *
    * @param event ajax event
@@ -202,7 +202,7 @@ public class PassengerFormBean implements Serializable {
   /**
    * validates form
    * checks for duplicated passports/ids
-   *
+   * <p>
    * TODO check in FE and show error message on server error
    * check in POST bookings
    *

@@ -3,6 +3,9 @@
     "de.uni.frankfurt.webservice",
     "de.uni.frankfurt.database.entity"
   ],
+  "resourceClasses": [
+    "de.uni.frankfurt.JsonSchemaReader"
+  ],
   "prettyPrint": true,
   "openAPI": {
     "info": {

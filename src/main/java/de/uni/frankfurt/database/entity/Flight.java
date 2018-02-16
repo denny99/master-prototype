@@ -1,13 +1,20 @@
 package de.uni.frankfurt.database.entity;
 
+import de.uni.frankfurt.json.annotations.JsonObject;
+import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
 import java.util.Date;
 
+@JsonObject
 public class Flight {
   private Aircraft aircraft;
   private Airport departure;
   private Airport arrival;
+  @JsonSchema(
+      required = true,
+      maxLength = 10
+  )
   private String id;
   private Date dateTime;
   private Integer costs;

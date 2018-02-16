@@ -16,7 +16,7 @@ public class FlightDetailsBean {
 
   /**
    * init bean and show file
-   *
+   * <p>
    * TODO obsolete
    *
    * @param flight clicked file

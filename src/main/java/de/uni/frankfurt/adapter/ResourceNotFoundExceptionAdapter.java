@@ -1,4 +1,4 @@
-package de.uni.frankfurt.json.adapter;
+package de.uni.frankfurt.adapter;
 
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 

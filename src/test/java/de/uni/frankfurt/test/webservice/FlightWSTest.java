@@ -1,6 +1,7 @@
 package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Flight;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import de.uni.frankfurt.json.wrapper.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -43,7 +44,7 @@ public class FlightWSTest extends WSTest {
   @Test
   @InSequence(1)
   @RunAsClient
-  public void getFlights() throws ParseException {
+  public void getFlights() throws ParseException, JsonSchemaException {
     HashMap<String, String> query = new HashMap<>();
     query.put("limit", "10");
     String basePath = this.getResourceURL();

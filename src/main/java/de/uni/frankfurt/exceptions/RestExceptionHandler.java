@@ -1,6 +1,6 @@
 package de.uni.frankfurt.exceptions;
 
-import de.uni.frankfurt.json.wrapper.JSONParser;
+import de.uni.frankfurt.beans.JSONParserBean;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 abstract class RestExceptionHandler {
 
   @Inject
-  private JSONParser parser;
+  private JSONParserBean parser;
 
   public Response buildResponse(RestException ex) {
 

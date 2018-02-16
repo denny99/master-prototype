@@ -1,5 +1,6 @@
 package de.uni.frankfurt.webservice;
 
+import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.database.entity.Booking;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
@@ -8,7 +9,7 @@ import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ConditionFailedException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
-import de.uni.frankfurt.json.wrapper.JSONParser;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +34,7 @@ public class BookingWS {
   @Inject
   private FlightService flightService;
   @Inject
-  private JSONParser parser;
+  private JSONParserBean parser;
 
   @PathParam("flightId")
   private String flightId;
@@ -79,7 +80,7 @@ public class BookingWS {
           @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String createBooking(
-      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException {
+      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, JsonSchemaException {
     Booking b = parser.fromJSON(bookingJSON, Booking.class);
 
     // new: BE validation for TAC

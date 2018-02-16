@@ -4,6 +4,7 @@ import de.uni.frankfurt.database.entity.Booking;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.DatabaseMock;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import de.uni.frankfurt.json.wrapper.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +27,11 @@ public class BookingWSTest extends WSTest {
    */
   @Override
   public String getResourceURL() {
-    return this.getResourceURL(this.getRandomFlight());
+    try {
+      return this.getResourceURL(this.getRandomFlight());
+    } catch (JsonSchemaException e) {
+      return "";
+    }
   }
 
   /**
@@ -45,7 +50,7 @@ public class BookingWSTest extends WSTest {
    *
    * @return first flight
    */
-  public Flight getRandomFlight() {
+  public Flight getRandomFlight() throws JsonSchemaException {
     // get all flights
     String jsonFlights = webTarget
         .path("/flights")
@@ -66,7 +71,7 @@ public class BookingWSTest extends WSTest {
   @Test
   @InSequence(1)
   @RunAsClient
-  public void createBooking() {
+  public void createBooking() throws JsonSchemaException {
     Flight flight = this.getRandomFlight();
     String basePath = this.getResourceURL(flight);
 
@@ -140,7 +145,7 @@ public class BookingWSTest extends WSTest {
   @Test
   @InSequence(3)
   @RunAsClient
-  public void getBookings() {
+  public void getBookings() throws JsonSchemaException {
     String basePath = this.getResourceURL(createdBooking.getFlight());
     // test get booking by id
     APIResponse<ArrayList<Booking>> response = this.getResourcesFromAPI(

@@ -1,11 +1,11 @@
 package de.uni.frankfurt.webservice;
 
+import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.BadRequestException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
-import de.uni.frankfurt.json.wrapper.JSONParser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -29,7 +29,7 @@ public class FlightWS {
   private FlightService flightService;
 
   @Inject
-  private JSONParser parser;
+  private JSONParserBean parser;
 
   @Path("{flightId}")
   @GET

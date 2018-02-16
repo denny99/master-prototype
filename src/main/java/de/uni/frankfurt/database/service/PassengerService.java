@@ -81,7 +81,6 @@ public class PassengerService implements Serializable {
   }
 
   /**
-   *
    * @param passportNumber passport number of passenger
    * @return found passenger or null
    */

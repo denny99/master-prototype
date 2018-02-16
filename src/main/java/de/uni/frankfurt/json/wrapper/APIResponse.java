@@ -1,6 +1,8 @@
 package de.uni.frankfurt.json.wrapper;
 
+import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.exceptions.RestException;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
@@ -19,8 +21,8 @@ public class APIResponse<T> {
     }
   }
 
-  public APIResponse(Response response, Type type) {
-    JSONParser parser = new JSONParser();
+  public APIResponse(Response response, Type type) throws JsonSchemaException {
+    JSONParserBean parser = new JSONParserBean();
     if (this.isErrorResponse(response)) {
       this.error = response.readEntity(RestException.class);
       this.responseObject = null;

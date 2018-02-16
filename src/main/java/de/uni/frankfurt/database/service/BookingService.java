@@ -43,7 +43,6 @@ public class BookingService implements Serializable {
   }
 
   /**
-   *
    * @param flight associated flight
    * @return number of free seats in aircraft
    */
@@ -58,7 +57,6 @@ public class BookingService implements Serializable {
   }
 
   /**
-   *
    * @param flight associated flight
    * @return all bookings for this flight
    */

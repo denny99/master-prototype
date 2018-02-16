@@ -58,7 +58,7 @@ public class FlightOverviewBean implements Serializable {
 
   /**
    * basic search query for datatable
-   *
+   * <p>
    * get flights rest route
    *
    * @return nothing

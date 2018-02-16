@@ -1,6 +1,7 @@
 package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Passenger;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import de.uni.frankfurt.json.wrapper.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -38,7 +39,7 @@ public class PassengerWSTest extends WSTest {
   @Test
   @InSequence(1)
   @RunAsClient
-  public void getPassengers() {
+  public void getPassengers() throws JsonSchemaException {
     // test simple get
     APIResponse<ArrayList<Passenger>> response = this.getResourcesFromAPI(
         this.getResourceURL(), new ArrayList<Passenger>() {
