@@ -6,6 +6,7 @@ import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.BookingService;
 import de.uni.frankfurt.database.service.FlightService;
+import de.uni.frankfurt.exceptions.BadRequestException;
 import de.uni.frankfurt.exceptions.ConditionFailedException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
@@ -75,13 +76,21 @@ public class BookingWS {
               responseCode = "200",
               description = "Created Booking",
               content = @Content(schema = @Schema(implementation = Booking.class))),
+          @ApiResponse(responseCode = "400", description = "Submitted data is invalid",
+              content = @Content(schema = @Schema(implementation = RestException.class))),
           @ApiResponse(responseCode = "404", description = "Flight not found",
               content = @Content(schema = @Schema(implementation = RestException.class))),
           @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String createBooking(
-      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, JsonSchemaException {
-    Booking b = parser.fromJSON(bookingJSON, Booking.class);
+      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, BadRequestException {
+    Booking b;
+    try {
+      b = parser.fromJSON(bookingJSON, Booking.class);
+    } catch (JsonSchemaException e) {
+      throw new BadRequestException(e.getField() + ":" + e.getReason(),
+          Booking.class);
+    }
 
     // new: BE validation for TAC
     if (!b.isTacAccepted()) {

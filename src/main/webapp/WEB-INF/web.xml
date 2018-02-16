@@ -18,7 +18,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                io.swagger.v3.jaxrs2.integration.resources,de.uni.frankfurt.webservice
+                io.swagger.v3.jaxrs2.integration.resources,de.uni.frankfurt.webservice,de.uni.frankfurt.json.exceptions
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

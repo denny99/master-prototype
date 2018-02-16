@@ -50,12 +50,6 @@
             <version>${jee.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>de.uni.frankfurt.json</groupId>
-            <artifactId>json-schema</artifactId>
-            <scope>compile</scope>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <!-- REST Docs -->
         <dependency>

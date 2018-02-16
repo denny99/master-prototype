@@ -1,9 +1,11 @@
 package de.uni.frankfurt.database.entity;
 
+import de.uni.frankfurt.json.annotations.JsonObject;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
 import java.util.ArrayList;
 
+@JsonObject
 public class Booking {
   private boolean insurance;
   private String id;

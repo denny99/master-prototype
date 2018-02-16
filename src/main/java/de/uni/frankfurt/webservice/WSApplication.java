@@ -13,4 +13,6 @@ public class WSApplication extends Application {
     ModelConverters.getInstance().addConverter(new JsonSchemaConverter(
         Json.mapper()));
   }
+
+
 }
