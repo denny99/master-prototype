@@ -1,17 +1,47 @@
 package de.uni.frankfurt.database.entity;
 
 
+import de.uni.frankfurt.json.annotations.JsonObject;
+import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
 import java.util.Date;
 
+@JsonObject
 public class Passenger {
+  @JsonSchema(
+      required = true,
+      maxLength = 16
+  )
   private String id;
+  @JsonSchema(
+      required = true,
+      maxLength = 32
+  )
   private String firstName;
+  @JsonSchema(
+      required = true,
+      maxLength = 32
+  )
   private String lastName;
+  @JsonSchema(
+      required = true,
+      pattern = "\\d{5}"
+  )
   private String idCardNumber;
+  @JsonSchema(
+      required = true,
+      pattern = "P\\d{5}"
+  )
   private String passportNumber;
+  @JsonSchema(
+      required = true
+  )
   private Date birthDay;
+  @JsonSchema(
+      required = true,
+      enumerable = {"0", "1", "2", "3"}
+  )
   private int luggageCount;
 
   public Passenger() {

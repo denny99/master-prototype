@@ -1,17 +1,35 @@
 package de.uni.frankfurt.database.entity;
 
 import de.uni.frankfurt.json.annotations.JsonObject;
+import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
 import java.util.ArrayList;
 
 @JsonObject
 public class Booking {
+  @JsonSchema(
+      required = true
+  )
   private boolean insurance;
+  @JsonSchema(
+      required = true,
+      maxLength = 16
+  )
   private String id;
+  @JsonSchema(
+      required = true
+  )
   private Flight flight;
   // new: required for BE validation
+  @JsonSchema(
+      required = true
+  )
   private boolean tacAccepted;
+  @JsonSchema(
+      required = true,
+      uniqueItems = true
+  )
   private ArrayList<Passenger> passengers;
 
   public Booking() {

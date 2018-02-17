@@ -11,7 +11,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface JsonSchema {
+  String[] enumerable() default {};
+
   int maxLength() default 0;
 
+  int maximum() default 0;
+
+  int minLength() default 0;
+
+  String pattern() default "";
+
   boolean required() default false;
+
+  boolean uniqueItems() default false;
 }

@@ -1,11 +1,29 @@
 package de.uni.frankfurt.database.entity;
 
+import de.uni.frankfurt.json.annotations.JsonObject;
+import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
+@JsonObject
 public class Aircraft {
+  @JsonSchema(
+      required = true
+  )
   private String id;
+  @JsonSchema(
+      required = true,
+      maxLength = 8
+  )
   private String model;
+  @JsonSchema(
+      required = true,
+      maxLength = 16
+  )
   private String name;
+  @JsonSchema(
+      required = true,
+      maximum = 450
+  )
   private Integer passengerCount;
 
   public Aircraft(String model, String name, Integer passengerCount) {

@@ -1,9 +1,30 @@
 package de.uni.frankfurt.database.entity;
 
+import de.uni.frankfurt.json.annotations.JsonObject;
+import de.uni.frankfurt.json.annotations.JsonSchema;
+
+@JsonObject
 public class Airport {
+  @JsonSchema(
+      required = true,
+      maxLength = 3,
+      minLength = 3
+  )
   private String code;
+  @JsonSchema(
+      required = true,
+      maxLength = 32
+  )
   private String name;
+  @JsonSchema(
+      required = true,
+      enumerable = {"DE", "GB", "IT", "FR", "ES"}
+  )
   private String country;
+  @JsonSchema(
+      required = true,
+      maxLength = 32
+  )
   private String city;
 
   public Airport() {

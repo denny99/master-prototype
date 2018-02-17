@@ -8,15 +8,30 @@ import java.util.Date;
 
 @JsonObject
 public class Flight {
+  @JsonSchema(
+      required = true
+  )
   private Aircraft aircraft;
+  @JsonSchema(
+      required = true
+  )
   private Airport departure;
+  @JsonSchema(
+      required = true
+  )
   private Airport arrival;
   @JsonSchema(
       required = true,
-      maxLength = 10
+      maxLength = 16
   )
   private String id;
+  @JsonSchema(
+      required = true
+  )
   private Date dateTime;
+  @JsonSchema(
+      required = true
+  )
   private Integer costs;
 
   public Flight(
