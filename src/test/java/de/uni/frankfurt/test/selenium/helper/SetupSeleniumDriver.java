@@ -1,7 +1,7 @@
-package de.uni.frankfurt.selenium.helper;
+package de.uni.frankfurt.test.selenium.helper;
 
 import de.uni.frankfurt.helper.PropertiesHelper;
-import de.uni.frankfurt.selenium.enums.SeleniumBrowser;
+import de.uni.frankfurt.test.selenium.enums.SeleniumBrowser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;

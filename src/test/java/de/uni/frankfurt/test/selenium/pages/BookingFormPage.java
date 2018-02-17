@@ -1,6 +1,6 @@
-package de.uni.frankfurt.selenium.pages;
+package de.uni.frankfurt.test.selenium.pages;
 
-import de.uni.frankfurt.selenium.helper.ActionsOnPage;
+import de.uni.frankfurt.test.selenium.helper.ActionsOnPage;
 import org.openqa.selenium.WebDriver;
 
 public class BookingFormPage extends Page {

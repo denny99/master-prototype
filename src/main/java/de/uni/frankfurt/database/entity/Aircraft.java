@@ -20,7 +20,7 @@ public class Aircraft {
   private String id;
   @JsonField(
       required = true,
-      maxLength = 8
+      maxLength = 16
   )
   private String model;
   @JsonField(

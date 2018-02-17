@@ -1,4 +1,4 @@
-package de.uni.frankfurt.selenium.enums;
+package de.uni.frankfurt.test.selenium.enums;
 
 /**
  * Enum für die Browser-Typen der Selenium-Tests

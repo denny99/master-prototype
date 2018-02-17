@@ -7,6 +7,7 @@ import de.uni.frankfurt.exceptions.adapter.ResourceNotFoundExceptionAdapter;
 import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
+import org.apache.log4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -17,11 +18,14 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.*;
 
 @Named
 @ApplicationScoped
 public class JSONParserBean {
+  private static final Logger LOGGER = Logger.getLogger(JSONParserBean.class);
   private final Jsonb jsonb;
+  private static HashMap<String, String> formats;
 
   public JSONParserBean() {
     this.jsonb = JsonbBuilder.create(new JsonbConfig()
@@ -60,7 +64,6 @@ public class JSONParserBean {
 
   private <T> void validateSchema(
       T object) throws JsonSchemaException {
-    // TODO iterate over object props and check annotations
     if (!object.getClass().isAnnotationPresent(JsonObject.class)) {
       return;
     }
@@ -79,25 +82,111 @@ public class JSONParserBean {
           Annotation annotation = field.getAnnotation(JsonField.class);
           JsonField schema = (JsonField) annotation;
 
-          // TODO grab getter and validate something
           Object value = field.get(object);
 
           // required prop
           if (schema.required()) {
-            if (value == null) {
+            if (value == null || (value instanceof String &&
+                ((String) value).isEmpty())) {
               throw new JsonSchemaException(field.getName(), "is required");
             }
           }
 
+          // value is null validation is not required
+          if (value == null) {
+            continue;
+          }
+
           // max length prop
           if (schema.maxLength() != 0) {
-            if (((String) value).length() >= schema.maxLength()) {
+            if (((String) value).length() > schema.maxLength()) {
               throw new JsonSchemaException(field.getName(),
                   String.format("is too long, max %d characters allowed",
                       schema.maxLength()));
             }
           }
 
+          // min length
+          if (schema.minLength() != 0) {
+            if (((String) value).length() < schema.minLength()) {
+              throw new JsonSchemaException(field.getName(),
+                  String.format("is too short, min %d characters required",
+                      schema.minLength()));
+            }
+          }
+
+          // maximum
+          if (schema.maximum() != 0) {
+            // convert to double
+            if (Double.valueOf(value.toString()) > schema.maximum()) {
+              throw new JsonSchemaException(field.getName(),
+                  String.format("is too big, max %f allowed",
+                      schema.maximum()));
+            }
+          }
+
+          // enum
+          if (schema.enumerable().length != 0) {
+            List<String> s = Arrays.asList(schema.enumerable());
+            if (!s.contains(value.toString())) {
+              throw new JsonSchemaException(field.getName(),
+                  String.format("has no enum for %s. Only one of %s is allowed",
+                      value.toString(), Arrays.toString(schema.enumerable())));
+            }
+          }
+
+          // pattern
+          if (!schema.pattern().isEmpty()) {
+            if (!value.toString().matches(schema.pattern())) {
+              throw new JsonSchemaException(field.getName(),
+                  String.format("doesn't match the pattern %s",
+                      schema.pattern()));
+            }
+          }
+
+          // read only
+          if (schema.readOnly()) {
+            field.set(object, null);
+          }
+
+          // unique
+          if (schema.uniqueItems()) {
+            Iterable<Object> items = new ArrayList<>();
+            if (value instanceof Object[]) {
+              items = Arrays.asList((Object[]) value);
+            } else if (value instanceof Iterable) {
+              items = (Iterable<Object>) value;
+            }
+
+            HashSet<Object> set = new HashSet<>();
+            for (Object o : items) {
+              if (set.contains(o)) {
+                throw new JsonSchemaException(field.getName(),
+                    String.format("does not allow duplicate values (%s)",
+                        o));
+              } else {
+                set.add(o);
+              }
+            }
+          }
+
+          // dependency
+          if (schema.dependency().length != 0) {
+            for (String s : schema.dependency()) {
+              try {
+                Field declaredField = object.getClass().getDeclaredField(s);
+                if (declaredField.get(object) == null) {
+                  throw new JsonSchemaException(field.getName(),
+                      String.format("dependency is not fulfilled for %s",
+                          declaredField.getName()));
+                }
+              } catch (NoSuchFieldException e) {
+                // when this happens the dependency is not setup properly
+                LOGGER.error(e.toString());
+              }
+            }
+
+          }
         }
       }
     } catch (IllegalAccessException e) {

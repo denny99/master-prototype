@@ -1,9 +1,9 @@
-package de.uni.frankfurt.selenium.helper;
+package de.uni.frankfurt.test.selenium.helper;
 
-import de.uni.frankfurt.selenium.exceptions.ElementNotDisplayedException;
-import de.uni.frankfurt.selenium.exceptions.ElementNotEnabledException;
-import de.uni.frankfurt.selenium.exceptions.ElementNotSelectedException;
-import de.uni.frankfurt.selenium.exceptions.WantedTextNotFoundException;
+import de.uni.frankfurt.test.selenium.exceptions.ElementNotDisplayedException;
+import de.uni.frankfurt.test.selenium.exceptions.ElementNotEnabledException;
+import de.uni.frankfurt.test.selenium.exceptions.ElementNotSelectedException;
+import de.uni.frankfurt.test.selenium.exceptions.WantedTextNotFoundException;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;

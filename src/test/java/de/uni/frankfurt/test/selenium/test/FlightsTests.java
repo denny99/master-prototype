@@ -1,9 +1,9 @@
-package de.uni.frankfurt.selenium.test;
+package de.uni.frankfurt.test.selenium.test;
 
-import de.uni.frankfurt.selenium.enums.SeleniumBrowser;
-import de.uni.frankfurt.selenium.helper.ActionsOnPage;
-import de.uni.frankfurt.selenium.helper.SetupSeleniumDriver;
-import de.uni.frankfurt.selenium.pages.*;
+import de.uni.frankfurt.test.selenium.enums.SeleniumBrowser;
+import de.uni.frankfurt.test.selenium.helper.ActionsOnPage;
+import de.uni.frankfurt.test.selenium.helper.SetupSeleniumDriver;
+import de.uni.frankfurt.test.selenium.pages.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

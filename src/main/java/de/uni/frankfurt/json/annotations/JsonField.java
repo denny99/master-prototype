@@ -19,7 +19,7 @@ public @interface JsonField {
 
   int maxLength() default 0;
 
-  int maximum() default 0;
+  double maximum() default 0;
 
   int minLength() default 0;
 

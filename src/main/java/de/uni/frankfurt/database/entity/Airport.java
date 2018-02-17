@@ -9,8 +9,8 @@ public class Airport {
       title = "ICAO Code",
       description = "International ICAO Code of this Airport",
       required = true,
-      maxLength = 3,
-      minLength = 3,
+      maxLength = 4,
+      minLength = 4,
       readOnly = true
   )
   private String code;

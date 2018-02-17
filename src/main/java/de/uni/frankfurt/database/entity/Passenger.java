@@ -27,12 +27,12 @@ public class Passenger {
   private String lastName;
   @JsonField(
       required = true,
-      pattern = "\\d{5}"
+      pattern = "^\\d{5}$"
   )
   private String idCardNumber;
   @JsonField(
       required = true,
-      pattern = "P\\d{5}"
+      pattern = "^P\\d{5}$"
   )
   private String passportNumber;
   @JsonField(
