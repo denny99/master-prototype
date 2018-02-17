@@ -15,8 +15,6 @@ public @interface JsonField {
 
   String description() default "";
 
-  boolean readOnly() default false;
-
   String[] enumerable() default {};
 
   int maxLength() default 0;
@@ -27,9 +25,11 @@ public @interface JsonField {
 
   String pattern() default "";
 
+  boolean readOnly() default false;
+
   boolean required() default false;
 
-  boolean uniqueItems() default false;
-
   String title() default "";
+
+  boolean uniqueItems() default false;
 }

@@ -20,13 +20,11 @@ public class Airport {
   )
   private String name;
   @JsonField(
-      required = true,
       enumerable = {"DE", "GB", "IT", "FR", "ES"},
       dependency = {"flight"}
   )
   private String country;
   @JsonField(
-      required = true,
       maxLength = 32,
       dependency = {"country"}
   )

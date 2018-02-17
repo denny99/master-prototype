@@ -51,6 +51,22 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
+  protected String resolveFormat(
+      Annotated a) {
+    return super.resolveFormat(a);
+  }
+
+  @Override
+  protected Object resolveExample(
+      Annotated a) {
+    JsonObject jsonObject = getJsonObject(a);
+    if (jsonObject != null) {
+      return jsonObject.example().isEmpty() ? null : jsonObject.example();
+    }
+    return super.resolveExample(a);
+  }
+
+  @Override
   protected Boolean resolveReadOnly(
       Annotated a) {
     JsonField schema = getJsonField(a);
@@ -58,6 +74,18 @@ public class JsonSchemaConverter extends ModelResolver {
       return schema.readOnly();
     }
     return super.resolveReadOnly(a);
+  }
+
+  @Override
+  protected Boolean resolveNullable(
+      Annotated a) {
+    return super.resolveNullable(a);
+  }
+
+  @Override
+  protected BigDecimal resolveMultipleOf(
+      Annotated a) {
+    return super.resolveMultipleOf(a);
   }
 
   @Override
@@ -81,9 +109,9 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
-  protected String resolveFormat(
+  protected BigDecimal resolveMinimum(
       Annotated a) {
-    return super.resolveFormat(a);
+    return super.resolveMinimum(a);
   }
 
   @Override
@@ -99,15 +127,15 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
-  protected Boolean resolveNullable(
+  protected Boolean resolveExclusiveMinimum(
       Annotated a) {
-    return super.resolveNullable(a);
+    return super.resolveExclusiveMinimum(a);
   }
 
   @Override
-  protected BigDecimal resolveMultipleOf(
+  protected Boolean resolveExclusiveMaximum(
       Annotated a) {
-    return super.resolveMultipleOf(a);
+    return super.resolveExclusiveMaximum(a);
   }
 
   @Override
@@ -118,6 +146,18 @@ public class JsonSchemaConverter extends ModelResolver {
       return schema.pattern();
     }
     return super.resolvePattern(a);
+  }
+
+  @Override
+  protected Integer resolveMinProperties(
+      Annotated a) {
+    return super.resolveMinProperties(a);
+  }
+
+  @Override
+  protected Integer resolveMaxProperties(
+      Annotated a) {
+    return super.resolveMaxProperties(a);
   }
 
   @Override
@@ -141,9 +181,9 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
-  protected BigDecimal resolveMinimum(
+  protected Boolean resolveWriteOnly(
       Annotated a) {
-    return super.resolveMinimum(a);
+    return super.resolveWriteOnly(a);
   }
 
   /**
@@ -163,25 +203,9 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
-  protected Object resolveExample(
-      Annotated a) {
-    JsonObject jsonObject = getJsonObject(a);
-    if (jsonObject != null) {
-      return jsonObject.example().isEmpty() ? null : jsonObject.example();
-    }
-    return super.resolveExample(a);
-  }
-
-  @Override
-  protected Boolean resolveExclusiveMinimum(
-      Annotated a) {
-    return super.resolveExclusiveMinimum(a);
-  }
-
-  @Override
-  protected Boolean resolveExclusiveMaximum(
-      Annotated a) {
-    return super.resolveExclusiveMaximum(a);
+  protected Discriminator resolveDiscriminator(
+      JavaType type, ModelConverterContext context) {
+    return super.resolveDiscriminator(type, context);
   }
 
   @Override
@@ -195,16 +219,12 @@ public class JsonSchemaConverter extends ModelResolver {
     }
   }
 
-  @Override
-  protected Integer resolveMinProperties(
-      Annotated a) {
-    return super.resolveMinProperties(a);
-  }
-
-  @Override
-  protected Integer resolveMaxProperties(
-      Annotated a) {
-    return super.resolveMaxProperties(a);
+  private Boolean resolveUnique(Annotated a) {
+    JsonField schema = getJsonField(a);
+    if (schema != null) {
+      return schema.uniqueItems();
+    }
+    return false;
   }
 
   private JsonField getJsonField(Annotated a) {
@@ -214,30 +234,10 @@ public class JsonSchemaConverter extends ModelResolver {
     return null;
   }
 
-  @Override
-  protected Boolean resolveWriteOnly(
-      Annotated a) {
-    return super.resolveWriteOnly(a);
-  }
-
   private JsonObject getJsonObject(Annotated a) {
     if (a.hasAnnotation(JsonObject.class)) {
       return a.getAnnotation(JsonObject.class);
     }
     return null;
-  }
-
-  private Boolean resolveUnique(Annotated a) {
-    JsonField schema = getJsonField(a);
-    if (schema != null) {
-      return schema.uniqueItems();
-    }
-    return false;
-  }
-
-  @Override
-  protected Discriminator resolveDiscriminator(
-      JavaType type, ModelConverterContext context) {
-    return super.resolveDiscriminator(type, context);
   }
 }
