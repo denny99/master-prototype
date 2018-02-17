@@ -1,9 +1,9 @@
 package de.uni.frankfurt.beans;
 
 
-import de.uni.frankfurt.adapter.BadRequestExceptionAdapter;
-import de.uni.frankfurt.adapter.ConditionFailedExceptionAdapter;
-import de.uni.frankfurt.adapter.ResourceNotFoundExceptionAdapter;
+import de.uni.frankfurt.exceptions.adapter.BadRequestExceptionAdapter;
+import de.uni.frankfurt.exceptions.adapter.ConditionFailedExceptionAdapter;
+import de.uni.frankfurt.exceptions.adapter.ResourceNotFoundExceptionAdapter;
 import de.uni.frankfurt.json.annotations.JsonObject;
 import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;

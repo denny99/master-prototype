@@ -1,6 +1,7 @@
-package de.uni.frankfurt.exceptions;
+package de.uni.frankfurt.exceptions.handler;
 
 import de.uni.frankfurt.beans.JSONParserBean;
+import de.uni.frankfurt.exceptions.RestException;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;

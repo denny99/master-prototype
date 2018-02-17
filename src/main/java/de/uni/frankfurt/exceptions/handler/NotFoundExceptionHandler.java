@@ -1,4 +1,6 @@
-package de.uni.frankfurt.exceptions;
+package de.uni.frankfurt.exceptions.handler;
+
+import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Context;
@@ -12,12 +14,11 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @ApplicationScoped
-public class ConditionFailedExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ConditionFailedException> {
-
+public class NotFoundExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
   @Context
   private HttpHeaders headers;
 
-  public Response toResponse(ConditionFailedException ex) {
+  public Response toResponse(ResourceNotFoundException ex) {
     return this.buildResponse(ex);
   }
 }

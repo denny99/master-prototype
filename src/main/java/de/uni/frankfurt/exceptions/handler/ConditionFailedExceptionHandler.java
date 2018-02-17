@@ -1,4 +1,6 @@
-package de.uni.frankfurt.exceptions;
+package de.uni.frankfurt.exceptions.handler;
+
+import de.uni.frankfurt.exceptions.ConditionFailedException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Context;
@@ -12,12 +14,12 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @ApplicationScoped
-public class BadRequestExceptionHandler extends RestExceptionHandler implements ExceptionMapper<BadRequestException> {
+public class ConditionFailedExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ConditionFailedException> {
 
   @Context
   private HttpHeaders headers;
 
-  public Response toResponse(BadRequestException ex) {
+  public Response toResponse(ConditionFailedException ex) {
     return this.buildResponse(ex);
   }
 }

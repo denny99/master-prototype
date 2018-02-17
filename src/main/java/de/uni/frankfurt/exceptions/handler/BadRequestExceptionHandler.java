@@ -1,4 +1,6 @@
-package de.uni.frankfurt.exceptions;
+package de.uni.frankfurt.exceptions.handler;
+
+import de.uni.frankfurt.exceptions.BadRequestException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Context;
@@ -12,11 +14,12 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @ApplicationScoped
-public class NotFoundExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
+public class BadRequestExceptionHandler extends RestExceptionHandler implements ExceptionMapper<BadRequestException> {
+
   @Context
   private HttpHeaders headers;
 
-  public Response toResponse(ResourceNotFoundException ex) {
+  public Response toResponse(BadRequestException ex) {
     return this.buildResponse(ex);
   }
 }

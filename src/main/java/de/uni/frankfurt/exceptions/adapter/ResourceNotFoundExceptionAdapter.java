@@ -1,4 +1,4 @@
-package de.uni.frankfurt.adapter;
+package de.uni.frankfurt.exceptions.adapter;
 
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 
