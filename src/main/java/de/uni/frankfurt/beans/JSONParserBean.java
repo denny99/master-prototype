@@ -4,8 +4,8 @@ package de.uni.frankfurt.beans;
 import de.uni.frankfurt.exceptions.adapter.BadRequestExceptionAdapter;
 import de.uni.frankfurt.exceptions.adapter.ConditionFailedExceptionAdapter;
 import de.uni.frankfurt.exceptions.adapter.ResourceNotFoundExceptionAdapter;
+import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
-import de.uni.frankfurt.json.annotations.JsonSchema;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -74,10 +74,10 @@ public class JSONParserBean {
           continue;
         }
 
-        // if field is annotated with @JsonSchema
-        if (field.isAnnotationPresent(JsonSchema.class)) {
-          Annotation annotation = field.getAnnotation(JsonSchema.class);
-          JsonSchema schema = (JsonSchema) annotation;
+        // if field is annotated with @JsonField
+        if (field.isAnnotationPresent(JsonField.class)) {
+          Annotation annotation = field.getAnnotation(JsonField.class);
+          JsonField schema = (JsonField) annotation;
 
           // TODO grab getter and validate something
           Object value = field.get(object);

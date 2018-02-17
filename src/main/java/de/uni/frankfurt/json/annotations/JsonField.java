@@ -10,7 +10,13 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface JsonSchema {
+public @interface JsonField {
+  String[] dependency() default {};
+
+  String description() default "";
+
+  boolean readOnly() default false;
+
   String[] enumerable() default {};
 
   int maxLength() default 0;
@@ -24,4 +30,6 @@ public @interface JsonSchema {
   boolean required() default false;
 
   boolean uniqueItems() default false;
+
+  String title() default "";
 }

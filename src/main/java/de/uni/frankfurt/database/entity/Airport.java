@@ -1,29 +1,34 @@
 package de.uni.frankfurt.database.entity;
 
+import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
-import de.uni.frankfurt.json.annotations.JsonSchema;
 
 @JsonObject
 public class Airport {
-  @JsonSchema(
+  @JsonField(
+      title = "ICAO Code",
+      description = "International ICAO Code of this Airport",
       required = true,
       maxLength = 3,
-      minLength = 3
+      minLength = 3,
+      readOnly = true
   )
   private String code;
-  @JsonSchema(
+  @JsonField(
       required = true,
       maxLength = 32
   )
   private String name;
-  @JsonSchema(
+  @JsonField(
       required = true,
-      enumerable = {"DE", "GB", "IT", "FR", "ES"}
+      enumerable = {"DE", "GB", "IT", "FR", "ES"},
+      dependency = {"flight"}
   )
   private String country;
-  @JsonSchema(
+  @JsonField(
       required = true,
-      maxLength = 32
+      maxLength = 32,
+      dependency = {"country"}
   )
   private String city;
 

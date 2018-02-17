@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
-import de.uni.frankfurt.json.annotations.JsonSchema;
 import io.swagger.v3.core.converter.ModelConverterContext;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.media.Discriminator;
@@ -23,9 +23,47 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
+  protected String resolveDescription(
+      Annotated ann) {
+    JsonField jsonField = getJsonField(ann);
+    if (jsonField != null) {
+      return jsonField.description();
+    }
+    JsonObject jsonObject = getJsonObject(ann);
+    if (jsonObject != null) {
+      return jsonObject.description();
+    }
+    return super.resolveDescription(ann);
+  }
+
+  @Override
+  protected String resolveTitle(
+      Annotated a) {
+    JsonField jsonField = getJsonField(a);
+    if (jsonField != null) {
+      return jsonField.title();
+    }
+    JsonObject jsonObject = getJsonObject(a);
+    if (jsonObject != null) {
+      return jsonObject.title();
+    }
+    return super.resolveTitle(a);
+  }
+
+  @Override
+  protected Boolean resolveReadOnly(
+      Annotated a) {
+    JsonField schema = getJsonField(a);
+    if (schema != null) {
+      return schema.readOnly();
+    }
+    return super.resolveReadOnly(a);
+  }
+
+  @Override
   protected Integer resolveMaxLength(
       Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
+    JsonField schema = getJsonField(a);
     if (schema != null) {
       return schema.maxLength() == 0 ? null : schema.maxLength();
     }
@@ -35,35 +73,11 @@ public class JsonSchemaConverter extends ModelResolver {
   @Override
   protected Integer resolveMinLength(
       Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
+    JsonField schema = getJsonField(a);
     if (schema != null) {
       return schema.minLength() == 0 ? null : schema.minLength();
     }
     return super.resolveMaxLength(a);
-  }
-
-  @Override
-  protected BigDecimal resolveMaximum(
-      Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
-    if (schema != null) {
-      return schema.maximum() == 0 ?
-          null :
-          BigDecimal.valueOf(schema.maximum());
-    }
-    return super.resolveMaximum(a);
-  }
-
-  @Override
-  protected String resolveDescription(
-      Annotated ann) {
-    return super.resolveDescription(ann);
-  }
-
-  @Override
-  protected String resolveTitle(
-      Annotated a) {
-    return super.resolveTitle(a);
   }
 
   @Override
@@ -73,9 +87,15 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
-  protected Boolean resolveReadOnly(
+  protected BigDecimal resolveMaximum(
       Annotated a) {
-    return super.resolveReadOnly(a);
+    JsonField schema = getJsonField(a);
+    if (schema != null) {
+      return schema.maximum() == 0 ?
+          null :
+          BigDecimal.valueOf(schema.maximum());
+    }
+    return super.resolveMaximum(a);
   }
 
   @Override
@@ -93,7 +113,7 @@ public class JsonSchemaConverter extends ModelResolver {
   @Override
   protected String resolvePattern(
       Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
+    JsonField schema = getJsonField(a);
     if (schema != null) {
       return schema.pattern();
     }
@@ -109,7 +129,7 @@ public class JsonSchemaConverter extends ModelResolver {
       // iterate over props
       for (AnnotatedField annotatedField : ((AnnotatedClass) a).fields()) {
         // every annotated json schema prop
-        JsonSchema schema = getJsonSchema(annotatedField);
+        JsonField schema = getJsonField(annotatedField);
         // add to required list when annotated with required
         if (schema != null && schema.required()) {
           result.add(annotatedField.getName());
@@ -135,7 +155,7 @@ public class JsonSchemaConverter extends ModelResolver {
   @Override
   protected List<String> resolveAllowableValues(
       Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
+    JsonField schema = getJsonField(a);
     if (schema != null) {
       return Arrays.asList(schema.enumerable());
     }
@@ -177,12 +197,11 @@ public class JsonSchemaConverter extends ModelResolver {
     return super.resolveMaxProperties(a);
   }
 
-  private Boolean resolveUnique(Annotated a) {
-    JsonSchema schema = getJsonSchema(a);
-    if (schema != null) {
-      return schema.uniqueItems();
+  private JsonField getJsonField(Annotated a) {
+    if (a.hasAnnotation(JsonField.class)) {
+      return a.getAnnotation(JsonField.class);
     }
-    return false;
+    return null;
   }
 
   @Override
@@ -191,11 +210,19 @@ public class JsonSchemaConverter extends ModelResolver {
     return super.resolveWriteOnly(a);
   }
 
-  private JsonSchema getJsonSchema(Annotated a) {
-    if (a.hasAnnotation(JsonSchema.class)) {
-      return a.getAnnotation(JsonSchema.class);
+  private JsonObject getJsonObject(Annotated a) {
+    if (a.hasAnnotation(JsonObject.class)) {
+      return a.getAnnotation(JsonObject.class);
     }
     return null;
+  }
+
+  private Boolean resolveUnique(Annotated a) {
+    JsonField schema = getJsonField(a);
+    if (schema != null) {
+      return schema.uniqueItems();
+    }
+    return false;
   }
 
   @Override
