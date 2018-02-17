@@ -163,6 +163,16 @@ public class JsonSchemaConverter extends ModelResolver {
   }
 
   @Override
+  protected Object resolveExample(
+      Annotated a) {
+    JsonObject jsonObject = getJsonObject(a);
+    if (jsonObject != null) {
+      return jsonObject.example().isEmpty() ? null : jsonObject.example();
+    }
+    return super.resolveExample(a);
+  }
+
+  @Override
   protected Boolean resolveExclusiveMinimum(
       Annotated a) {
     return super.resolveExclusiveMinimum(a);

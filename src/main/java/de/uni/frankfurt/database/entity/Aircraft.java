@@ -4,7 +4,14 @@ import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
 import de.uni.frankfurt.util.ThreadLocalRandom;
 
-@JsonObject
+@JsonObject(
+    example = "{\n" +
+        "\"id\": \"35738048\",\n" +
+        "\"model\": \"Airbus 606\",\n" +
+        "\"name\": \"2342041\",\n" +
+        "\"passengerCount\": 294\n" +
+        "}"
+)
 public class Aircraft {
   @JsonField(
       required = true,

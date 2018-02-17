@@ -13,5 +13,7 @@ import java.lang.annotation.Target;
 public @interface JsonObject {
   String description() default "";
 
+  String example() default "";
+
   String title() default "";
 }
