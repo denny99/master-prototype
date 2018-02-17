@@ -183,6 +183,10 @@ public class JsonSchemaConverter extends ModelResolver {
   @Override
   protected Boolean resolveWriteOnly(
       Annotated a) {
+    JsonField schema = getJsonField(a);
+    if (schema != null) {
+      return schema.writeOnly();
+    }
     return super.resolveWriteOnly(a);
   }
 

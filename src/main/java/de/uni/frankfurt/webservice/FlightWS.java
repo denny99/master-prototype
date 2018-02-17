@@ -6,6 +6,7 @@ import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.BadRequestException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -46,7 +47,7 @@ public class FlightWS {
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getFlightById(
       @PathParam("flightId") String id
-  ) throws ResourceNotFoundException {
+  ) throws ResourceNotFoundException, JsonSchemaException {
     return parser.toJSON(flightService.getFlightById(id));
   }
 
@@ -72,7 +73,7 @@ public class FlightWS {
       @Parameter(description = "Max number of flights to retrieve") @DefaultValue("100") @QueryParam("limit") int limit,
       @Parameter(description = "Number of flights to skip") @DefaultValue("0") @QueryParam("offset") int offset,
       @Parameter(description = "Sort order for date") @DefaultValue("asc") @QueryParam("sortOrder") String sortOder
-  ) throws BadRequestException {
+  ) throws BadRequestException, JsonSchemaException {
     try {
       SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
       Date date = formatter.parse(isoDate);

@@ -32,4 +32,6 @@ public @interface JsonField {
   String title() default "";
 
   boolean uniqueItems() default false;
+
+  boolean writeOnly() default false;
 }

@@ -5,6 +5,7 @@ import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.PassengerService;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
+import de.uni.frankfurt.json.exceptions.JsonSchemaException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -45,7 +46,7 @@ public class PassengerWS {
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getPassengerById(
       @PathParam("passengerId") String id
-  ) throws ResourceNotFoundException {
+  ) throws ResourceNotFoundException, JsonSchemaException {
     return parser.toJSON(passengerService.getPassengerById(id));
   }
 
@@ -63,7 +64,7 @@ public class PassengerWS {
                   schema = @Schema(implementation = Passenger.class))))})
   public String getPassengers(
       @Parameter(description = "Partial Passport Number") @DefaultValue("") @QueryParam("passportNumber") String passportNumber,
-      @Parameter(description = "Partial ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) {
+      @Parameter(description = "Partial ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) throws JsonSchemaException {
     ArrayList<Passenger> passengers = new ArrayList<>();
     // filter requested?
     if (!passportNumber.isEmpty()) {

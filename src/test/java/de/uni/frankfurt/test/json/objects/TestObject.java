@@ -48,6 +48,11 @@ public class TestObject {
   public Integer readOnly;
 
   @JsonField(
+      writeOnly = true
+  )
+  public Float writeOnly;
+
+  @JsonField(
       uniqueItems = true
   )
   public String[] uniqueArray;

@@ -37,33 +37,50 @@ public class JSONParserBean {
 
   public <T> T fromJSON(String s, Type clazz) throws JsonSchemaException {
     T o = this.jsonb.fromJson(s, clazz);
-    this.validateSchema(o);
+    this.validateSchema(o, true);
     return o;
   }
 
   public <T> T fromJSON(String s, Class<T> clazz) throws JsonSchemaException {
     T o = this.jsonb.fromJson(s, clazz);
-    this.validateSchema(o);
+    this.validateSchema(o, true);
     return o;
   }
 
   public <T> T fromJSON(
       InputStream entityStream, Type genericType) throws JsonSchemaException {
     T o = this.jsonb.fromJson(entityStream, genericType);
-    this.validateSchema(o);
+    this.validateSchema(o, true);
     return o;
   }
 
-  public String toJSON(Object o) {
+  public String toJSON(Object o) throws JsonSchemaException {
+    this.validateSchema(o, false);
     return this.jsonb.toJson(o);
   }
 
-  public String toJSON(Object o, Type type) {
+  public String toJSON(
+      Object o, boolean skipValidation) throws JsonSchemaException {
+    if (!skipValidation) {
+      this.validateSchema(o, false);
+    }
+    return this.jsonb.toJson(o);
+  }
+
+  public String toJSON(Object o, Type type) throws JsonSchemaException {
+    this.validateSchema(o, false);
     return this.jsonb.toJson(o, type);
   }
 
+  /**
+   * read json schema annotations and validates data
+   *
+   * @param object the object to validate
+   * @param <T>    objects class
+   * @throws JsonSchemaException throws exception when validation fails
+   */
   private <T> void validateSchema(
-      T object) throws JsonSchemaException {
+      T object, boolean parse) throws JsonSchemaException {
     if (!object.getClass().isAnnotationPresent(JsonObject.class)) {
       return;
     }
@@ -73,7 +90,7 @@ public class JSONParserBean {
         field.setAccessible(true);
         // is an object with own properties?
         if (field.getType().isAnnotationPresent(JsonObject.class)) {
-          this.validateSchema(field.get(object));
+          this.validateSchema(field.get(object), parse);
           continue;
         }
 
@@ -145,7 +162,12 @@ public class JSONParserBean {
           }
 
           // read only
-          if (schema.readOnly()) {
+          if (schema.readOnly() && parse) {
+            field.set(object, null);
+          }
+
+          // write only
+          if (schema.writeOnly() && !parse) {
             field.set(object, null);
           }
 

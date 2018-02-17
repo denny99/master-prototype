@@ -55,7 +55,7 @@ public class BookingWS {
               content = @Content(schema = @Schema(implementation = RestException.class))),
           @ApiResponse(responseCode = "404", description = "Flight not found",
               content = @Content(schema = @Schema(implementation = RestException.class)))})
-  public String getBookings() throws ResourceNotFoundException {
+  public String getBookings() throws ResourceNotFoundException, JsonSchemaException {
     ArrayList<Booking> bookings = this.bookingService.getBookingsByFlight(
         this.getFlight());
     return parser.toJSON(bookings);
@@ -83,7 +83,7 @@ public class BookingWS {
           @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String createBooking(
-      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, BadRequestException {
+      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, BadRequestException, JsonSchemaException {
     Booking b;
     try {
       b = parser.fromJSON(bookingJSON, Booking.class);
@@ -143,7 +143,7 @@ public class BookingWS {
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getBookingById(
       @PathParam("bookingId") String id
-  ) throws ResourceNotFoundException {
+  ) throws ResourceNotFoundException, JsonSchemaException {
     return parser.toJSON(bookingService.getBookingById(id));
   }
 }
