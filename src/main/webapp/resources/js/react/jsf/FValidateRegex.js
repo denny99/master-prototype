@@ -2,8 +2,7 @@ import React from 'react';
 
 export class FValidateRegex extends React.Component {
   render() {
-    return (
-        <React.Fragment/>);
+    return ('');
   }
 
   /**

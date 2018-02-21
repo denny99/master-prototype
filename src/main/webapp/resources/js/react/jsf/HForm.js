@@ -1,11 +1,12 @@
 import React from 'react';
 
+// TODO suppress enter!
 export class HForm extends React.Component {
   render() {
     return (
-        <from id={this.props.id}
-              className={this.props.styleClass ? this.props.styleClass : ''}>
+        <form id={this.props.id}
+              className={this.props.styleClass}>
           {this.props.children}
-        </from>);
+        </form>);
   }
 }

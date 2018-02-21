@@ -1,36 +1,54 @@
 import React from 'react';
+import {HForm} from '../../jsf/HForm';
+import {FValidateRegex} from '../../jsf/FValidateRegex';
+import {FlightOverviewFormData} from '../../entity/FlightOverviewFormData';
+import {HInputText} from '../../jsf/HInputText';
 
 export class FlightOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showStartPage: true,
-      showFlightOverview: false,
+      data: new FlightOverviewFormData(),
     };
 
-    this.showFlightOverview = this.showFlightOverview.bind(this);
+    this.setArrivalFilter = this.setArrivalFilter.bind(this);
   }
 
-  showFlightOverview() {
+  get data() {
+    return this.state.data;
+  }
+
+  /**
+   * combined getter and setter for form data
+   * @param {string} name
+   * @returns {string}
+   */
+  setArrivalFilter(name) {
+    if (name === undefined) {
+      return this.data.arrivalFilter;
+    } else {
+      this.data.arrivalFilter = name;
+    }
     this.setState({
-      showStartPage: false,
-      showFlightOverview: true,
+      data: this.data,
     });
   }
 
   render() {
-    const initialForm = (
-        <HForm id="indexForm">
-          <HCommandButton id="viewFlightsButton"
-                          action={this.showFlightOverview}
-                          value="View Flights"
-                          styleClass="iceCmdBtn btnOption"/>
+    return (
+        <HForm id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
+          <div className="inputFieldGroup">
+            <span
+                className="iceOutTxt headerLabel">Enter Search Criterias</span>
+          </div>
+          <span
+              className="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
+          <HInputText id="flightFilterInput"
+                      styleClass="iceInpTxt kdInputField"
+                      value={this.setArrivalFilter}
+                      validatorMessage="Check your input in the field above">
+            <FValidateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
+          </HInputText>
         </HForm>);
-    if (this.state.showStartPage) {
-      return initialForm;
-    }
-    if (this.state.showFlightOverview) {
-      return <h3>Tada</h3>;
-    }
   }
 }

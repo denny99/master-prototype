@@ -1,6 +1,7 @@
 import React from 'react';
 import {HForm} from '../jsf/HForm';
 import {HCommandButton} from '../jsf/HCommandButton';
+import {FlightOverview} from './pages/FlightOverview';
 
 export class App extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export class App extends React.Component {
       return initialForm;
     }
     if (this.state.showFlightOverview) {
-      return <h3>Tada</h3>;
+      return <FlightOverview/>;
     }
   }
 }

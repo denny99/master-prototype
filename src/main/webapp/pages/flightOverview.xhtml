@@ -14,11 +14,11 @@
                 <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
             </div>
             <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
-            <h:inputText id="flightFilterInput"
-                         styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.arrivalFilter}"
-                         validatorMessage="Check your input in the field above">
-                <f:validateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
-            </h:inputText>
+            <HInputText id="flightFilterInput"
+                        styleClass="iceInpTxt kdInputField" value="#{flightOverviewBean.arrivalFilter}"
+                        validatorMessage="Check your input in the field above">
+                <FValidateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
+            </HInputText>
             <h:selectOneMenu id="sortOrderSelect" styleClass="iceSelOneMnu"
                              value="#{flightOverviewBean.sortOrder}"
                              required="true" requiredMessage="Enter a Date Sort Order"
