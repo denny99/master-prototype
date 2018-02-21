@@ -9,7 +9,7 @@
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h:form id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
+        <HForm id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
             <div class="inputFieldGroup">
                 <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
             </div>
@@ -39,7 +39,7 @@
                              style="margin-top:10px;"
                              action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
                              id="flightSearchButton"/>
-        </h:form>
+        </HForm>
 
         <h:form id="datatableForm">
             <h:panelGroup layout="block" styleClass="blockArea"
