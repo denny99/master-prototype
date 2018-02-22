@@ -20,8 +20,17 @@ export class HInputText extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.focus) {
+      this.input.focus();
+      // set cursor to the end of input
+      this.input.setSelectionRange(this.input.value.length,
+          this.input.value.length);
+    }
+  }
+
   handleChange(event) {
-    this.props.value(event.target.value);
+    this.context.data(this.props.value, event.target.value);
     const message = this.validate();
     // propagate up to form itself
     this.context.updateMessages(this, message);
@@ -30,7 +39,11 @@ export class HInputText extends React.Component {
   render() {
     return (
         <input id={this.state.id}
-               className={this.props.styleClass} value={this.props.value()}
+               ref={(input) => {
+                 this.input = input;
+               }}
+               className={this.props.styleClass}
+               value={this.context.data(this.props.value)}
                onChange={this.handleChange}>
         </input>);
   }
@@ -45,7 +58,7 @@ export class HInputText extends React.Component {
     for (let child of this.state.children) {
       if (child instanceof FValidateRegex) {
         // do regexp validation
-        if (!child.validate(this.props.value())) {
+        if (!child.validate(this.context.data(this.props.value))) {
           hasError = true;
           message = this.props.validatorMessage;
         }
@@ -63,4 +76,5 @@ export class HInputText extends React.Component {
 HInputText.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
+  data: PropTypes.func,
 };

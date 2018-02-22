@@ -9,10 +9,12 @@ export class HForm extends React.Component {
     super(props);
     this.state = {
       children: this.props.children,
+      data: this.props.data,
     };
 
     this.updateMessages = this.updateMessages.bind(this);
     this.getFormId = this.getFormId.bind(this);
+    this.data = this.data.bind(this);
   }
 
   render() {
@@ -23,8 +25,54 @@ export class HForm extends React.Component {
         </form>);
   }
 
+  /**
+   * combined getter and setter for form data
+   * @param {string} propertyName
+   * @param {string} [value]
+   * @return {Object}
+   */
+  data(propertyName, value) {
+    /**
+     *
+     * @param {object} data
+     * @param {string[]} properties
+     */
+    function recursion(data, properties) {
+      let newData;
+      if (!data.hasOwnProperty(properties[properties.length - 1])) {
+        newData = {};
+      }
+      else {
+        newData = data[properties.pop()];
+      }
+      if (value !== undefined && properties.length === 1) {
+        newData[properties.pop()] = value;
+        return null;
+      } else if (properties.length === 0) {
+        return newData;
+      } else {
+        return recursion(newData, properties);
+      }
+    }
+
+    let properties = propertyName.split('.').reverse();
+
+    let result = recursion(this.state.data, properties);
+    // only update state when update occurred!
+    if (result === null) {
+      this.setState({
+        data: this.state.data,
+      });
+    }
+    return result;
+  }
+
   getChildContext() {
-    return {updateMessages: this.updateMessages, getFormId: this.getFormId};
+    return {
+      updateMessages: this.updateMessages,
+      getFormId: this.getFormId,
+      data: this.data,
+    };
   }
 
   /**
@@ -42,19 +90,34 @@ export class HForm extends React.Component {
    * @param {string} message
    */
   updateMessages(inputText, message) {
-    if (inputText.state.hasError) {
+    let change = false;
+    let children = React.Children.map(this.state.children, (child) => {
+
+      // only messages are changed
+      if (child.type === HMessage) {
+        // is the message meant for the input field
+        if (inputText.props.id === child.props.for) {
+          change = child.props.show !== inputText.state.hasError;
+          return React.cloneElement(child, {
+            show: inputText.state.hasError,
+            message: message,
+          });
+        }
+      }
+
+      // clone current input and focus
+      if (child.props.id === inputText.props.id) {
+        return React.cloneElement(child, {
+          focus: true,
+        });
+      }
+
+      return child;
+    });
+    // only re render if changed
+    if (change) {
       this.setState({
-        children: React.Children.map(this.state.children, (child) => {
-          if (child.type === HMessage) {
-            if (inputText.props.id === child.props.for) {
-              return React.cloneElement(child, {
-                show: true,
-                message: message,
-              });
-            }
-          }
-          return child;
-        }),
+        children: children,
       });
     }
   }
@@ -63,4 +126,5 @@ export class HForm extends React.Component {
 HForm.childContextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
+  data: PropTypes.func,
 };

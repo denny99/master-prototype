@@ -8,36 +8,17 @@ import {HMessage} from '../../jsf/HMessage';
 export class FlightOverview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: new FlightOverviewFormData(),
+    this.data = {
+      flightOverviewFormData: new FlightOverviewFormData(),
     };
-
-    this.setArrivalFilter = this.setArrivalFilter.bind(this);
   }
 
-  get data() {
-    return this.state.data;
-  }
 
-  /**
-   * combined getter and setter for form data
-   * @param {string} name
-   * @returns {string}
-   */
-  setArrivalFilter(name) {
-    if (name === undefined) {
-      return this.data.arrivalFilter;
-    } else {
-      this.data.arrivalFilter = name;
-    }
-    this.setState({
-      data: this.data,
-    });
-  }
 
   render() {
     return (
-        <HForm id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
+        <HForm id="searchForm" styleClass="ice-skin-rime contentLevelContainer"
+               data={this.data}>
           <div className="inputFieldGroup">
             <span
                 className="iceOutTxt headerLabel">Enter Search Criterias</span>
@@ -46,7 +27,7 @@ export class FlightOverview extends React.Component {
               className="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
           <HInputText id="flightFilterInput"
                       styleClass="iceInpTxt kdInputField"
-                      value={this.setArrivalFilter}
+                      value="flightOverviewFormData.arrivalFilter"
                       validatorMessage="Check your input in the field above">
             <FValidateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
           </HInputText>
