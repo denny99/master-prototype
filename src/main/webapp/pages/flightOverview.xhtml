@@ -28,17 +28,17 @@
                 <f:selectItems value="#{flightOverviewBean.sortOptions}"/>
             </h:selectOneMenu>
             <div class="clear"/>
-            <Message styleClass="iceMsgError inputFieldLabel"
-                     for="flightFilterInput" id="searchTermErrorMessage"/>
-            <h:message styleClass="iceMsgError inputFieldLabel"
-                       for="sortOrderSelect" id="sortOrderErrorMessage"/>
+            <HMessage styleClass="iceMsgError inputFieldLabel"
+                      for="flightFilterInput" id="searchTermErrorMessage"/>
+            <HMessage styleClass="iceMsgError inputFieldLabel"
+                      for="sortOrderSelect" id="sortOrderErrorMessage"/>
             <span class="iceOutTxt iceOutLbl"
                   style="font-size: 10px; color: black;">You can search for Arrival locations</span>
             <div class="clear"/>
-            <h:commandButton value="Search"
-                             style="margin-top:10px;"
-                             action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
-                             id="flightSearchButton"/>
+            <HCommandButton value="Search"
+                            style="margin-top:10px;"
+                            action="#{flightOverviewBean.searchFlight}" styleClass="iceCmdBtn btnOption"
+                            id="flightSearchButton"/>
         </HForm>
 
         <h:form id="datatableForm">

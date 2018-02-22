@@ -20,6 +20,9 @@ export class HInputText extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+   * auto-focus after build
+   */
   componentDidMount() {
     if (this.props.focus) {
       this.input.focus();
@@ -29,8 +32,12 @@ export class HInputText extends React.Component {
     }
   }
 
+  /**
+   * handle input change
+   * @param {Event} event
+   */
   handleChange(event) {
-    this.context.data(this.props.value, event.target.value);
+    this.context.property(this.props.value, event.target.value);
     const message = this.validate();
     // propagate up to form itself
     this.context.updateMessages(this, message);
@@ -43,7 +50,7 @@ export class HInputText extends React.Component {
                  this.input = input;
                }}
                className={this.props.styleClass}
-               value={this.context.data(this.props.value)}
+               value={this.context.property(this.props.value)}
                onChange={this.handleChange}>
         </input>);
   }
@@ -58,7 +65,7 @@ export class HInputText extends React.Component {
     for (let child of this.state.children) {
       if (child instanceof FValidateRegex) {
         // do regexp validation
-        if (!child.validate(this.context.data(this.props.value))) {
+        if (!child.validate(this.context.property(this.props.value))) {
           hasError = true;
           message = this.props.validatorMessage;
         }
@@ -76,5 +83,6 @@ export class HInputText extends React.Component {
 HInputText.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.func,
+  data: PropTypes.object,
+  property: PropTypes.func,
 };

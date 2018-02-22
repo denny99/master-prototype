@@ -14,12 +14,14 @@ export class HForm extends React.Component {
 
     this.updateMessages = this.updateMessages.bind(this);
     this.getFormId = this.getFormId.bind(this);
-    this.data = this.data.bind(this);
+    this.property = this.property.bind(this);
   }
 
   render() {
+    // overwrite onSubmit to prevent submitting at all
     return (
-        <form id={this.props.id}
+        <form id={this.props.id} onSubmit={() => {
+        }}
               className={this.props.styleClass}>
           {this.state.children}
         </form>);
@@ -31,28 +33,35 @@ export class HForm extends React.Component {
    * @param {string} [value]
    * @return {Object}
    */
-  data(propertyName, value) {
+  property(propertyName, value) {
     /**
-     *
+     * move down in object
      * @param {object} data
      * @param {string[]} properties
      */
     function recursion(data, properties) {
-      let newData;
-      if (!data.hasOwnProperty(properties[properties.length - 1])) {
-        newData = {};
-      }
-      else {
-        newData = data[properties.pop()];
-      }
+      // last property and wanna set data?
       if (value !== undefined && properties.length === 1) {
-        newData[properties.pop()] = value;
+        data[properties.pop()] = value;
         return null;
-      } else if (properties.length === 0) {
-        return newData;
-      } else {
-        return recursion(newData, properties);
       }
+
+      // try to move down in the object
+      let property = properties.pop();
+
+      // final property reached?
+      if (properties.length === 0) {
+        return data[property];
+      }
+
+      // if property is missing create empty object
+      if (!data.hasOwnProperty(property)) {
+        data[property] = {};
+      }
+
+      // move further down
+      return recursion(data[property], properties);
+
     }
 
     let properties = propertyName.split('.').reverse();
@@ -71,7 +80,8 @@ export class HForm extends React.Component {
     return {
       updateMessages: this.updateMessages,
       getFormId: this.getFormId,
-      data: this.data,
+      property: this.property,
+      data: this.state.data,
     };
   }
 
@@ -126,5 +136,6 @@ export class HForm extends React.Component {
 HForm.childContextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.func,
+  data: PropTypes.object,
+  property: PropTypes.func,
 };
