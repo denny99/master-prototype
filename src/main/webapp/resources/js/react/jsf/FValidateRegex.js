@@ -1,10 +1,6 @@
 import React from 'react';
 
 export class FValidateRegex extends React.Component {
-  render() {
-    return ('');
-  }
-
   /**
    *
    * @param {string} content

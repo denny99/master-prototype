@@ -3,6 +3,7 @@ import {HForm} from '../../jsf/HForm';
 import {FValidateRegex} from '../../jsf/FValidateRegex';
 import {FlightOverviewFormData} from '../../entity/FlightOverviewFormData';
 import {HInputText} from '../../jsf/HInputText';
+import {HMessage} from '../../jsf/HMessage';
 
 export class FlightOverview extends React.Component {
   constructor(props) {
@@ -49,6 +50,8 @@ export class FlightOverview extends React.Component {
                       validatorMessage="Check your input in the field above">
             <FValidateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
           </HInputText>
+          <HMessage styleClass="iceMsgError inputFieldLabel"
+                    for="flightFilterInput" id="searchTermErrorMessage"/>
         </HForm>);
   }
 }
