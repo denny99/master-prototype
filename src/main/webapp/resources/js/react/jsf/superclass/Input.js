@@ -1,5 +1,5 @@
 import React from 'react';
-import {FValidateRegex} from '../FValidateRegex';
+import {FValidateRegex} from '../components/FValidateRegex';
 
 export class Input extends React.Component {
   constructor(props, context) {
@@ -15,12 +15,22 @@ export class Input extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
+  get value() {
+    return this.context.property(this.props.value);
+  }
+
+  set value(o) {
+    return this.context.property(this.props.value, o);
+  }
+
+
+
   /**
    * handle input change
    * @param {Event} event
    */
   handleChange(event) {
-    this.context.property(this.props.value, event.target.value);
+    this.value = event.target.value;
     const message = this.validate();
     // propagate up to form itself
     this.context.updateMessages(this, message);
@@ -33,7 +43,7 @@ export class Input extends React.Component {
   validate() {
     let hasError = false;
     let message = 'Error in the input field!';
-    let currentValue = this.context.property(this.props.value);
+    let currentValue = this.value;
 
     // check for validation childs
     for (let child of this.state.children) {

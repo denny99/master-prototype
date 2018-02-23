@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export class HCommandButton extends React.Component {
+  static propTypes = {
+    id: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    styleClass: PropTypes.string,
+    action: PropTypes.func,
+  };
+
   constructor(props, context) {
     super(props);
     this.state = {

@@ -1,6 +1,6 @@
 import React from 'react';
-import {HForm} from '../jsf/HForm';
-import {HCommandButton} from '../jsf/HCommandButton';
+import {HForm} from '../jsf/components/HForm';
+import {HCommandButton} from '../jsf/components/HCommandButton';
 import {FlightOverview} from './pages/FlightOverview';
 
 export class App extends React.Component {

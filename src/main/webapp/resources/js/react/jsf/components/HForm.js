@@ -5,10 +5,27 @@ import {HMessage} from './HMessage';
 
 // TODO suppress enter!
 export class HForm extends React.Component {
+  static propTypes = {
+    id: PropTypes.string,
+    styleClass: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
+
+    let messageProps = {};
+
+    // add state props for every message we can show
+    React.Children.forEach(this.props.children, (child) => {
+      if (child.type === HMessage) {
+        messageProps[child.props.for] = {
+          message: '',
+          show: false,
+        };
+      }
+    });
     this.state = {
-      children: this.props.children,
+      messageProps: messageProps,
       data: this.props.data,
     };
 
@@ -19,11 +36,20 @@ export class HForm extends React.Component {
 
   render() {
     // overwrite onSubmit to prevent submitting at all
+    const children = React.Children.map(this.props.children, (child) => {
+      if (child.type === HMessage) {
+        return React.cloneElement(child, {
+          messageProps: this.state.messageProps,
+        });
+      } else {
+        return child;
+      }
+    });
+
     return (
-        <form id={this.props.id} onSubmit={() => {
-        }}
+        <form id={this.props.id}
               className={this.props.styleClass}>
-          {this.state.children}
+          {children}
         </form>);
   }
 
@@ -51,7 +77,7 @@ export class HForm extends React.Component {
 
       // final property reached?
       if (properties.length === 0) {
-        return data[property];
+        return data[property] || '';
       }
 
       // if property is missing create empty object
@@ -96,38 +122,18 @@ export class HForm extends React.Component {
 
   /**
    *
-   * @param {HInputText} inputText
+   * @param {HInputText | HSelectOneMenu} input
    * @param {string} message
+   * @param {boolean} [skipRender]
    */
-  updateMessages(inputText, message) {
-    let change = false;
-    let children = React.Children.map(this.state.children, (child) => {
-
-      // only messages are changed
-      if (child.type === HMessage) {
-        // is the message meant for the input field
-        if (inputText.props.id === child.props.for) {
-          change = child.props.show !== inputText.state.hasError;
-          return React.cloneElement(child, {
-            show: inputText.state.hasError,
-            message: message,
-          });
-        }
-      }
-
-      // clone current input and focus
-      if (child.props.id === inputText.props.id) {
-        return React.cloneElement(child, {
-          focus: true,
-        });
-      }
-
-      return child;
-    });
-    // only re render if changed
-    if (change) {
+  updateMessages(input, message, skipRender) {
+    this.state.messageProps[input.props.id] = {
+      message: message,
+      show: input.state.hasError,
+    };
+    if (!skipRender) {
       this.setState({
-        children: children,
+        messageProps: this.state.messageProps,
       });
     }
   }

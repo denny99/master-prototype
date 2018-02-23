@@ -1,9 +1,13 @@
 import React from 'react';
-import {HForm} from '../../jsf/HForm';
-import {FValidateRegex} from '../../jsf/FValidateRegex';
-import {HInputText} from '../../jsf/HInputText';
-import {HMessage} from '../../jsf/HMessage';
-import {HCommandButton} from '../../jsf/HCommandButton';
+import {HForm} from '../../jsf/components/HForm';
+import {FValidateRegex} from '../../jsf/components/FValidateRegex';
+import {HInputText} from '../../jsf/components/HInputText';
+import {HMessage} from '../../jsf/components/HMessage';
+import {HCommandButton} from '../../jsf/components/HCommandButton';
+import {HSelectOneMenu} from '../../jsf/components/HSelectOneMenu';
+import {FSelectItem} from '../../jsf/components/FSelectItem';
+import {FSelectItems} from '../../jsf/components/FSelectItems';
+import {SelectItem} from '../../jsf/objects/SelectItem';
 
 export class FlightOverview extends React.Component {
   constructor(props) {
@@ -11,6 +15,9 @@ export class FlightOverview extends React.Component {
     this.state = {
       data: {},
     };
+    this.options = [];
+    this.options.push(new SelectItem('asc', 'Ascending'));
+    this.options.push(new SelectItem('desc', 'Descending'));
   }
 
   /**
@@ -36,10 +43,23 @@ export class FlightOverview extends React.Component {
               className="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
           <HInputText id="flightFilterInput"
                       styleClass="iceInpTxt kdInputField"
-                      value="flightOverviewFormData.arrivalFilter"
+                      value="arrivalFilter"
                       validatorMessage="Check your input in the field above">
             <FValidateRegex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"/>
           </HInputText>
+          <HSelectOneMenu id="sortOrderSelect" styleClass="iceSelOneMnu"
+                          value="sortOrder"
+                          required={true}
+                          requiredMessage="Enter a Date Sort Order"
+                          style={{
+                            bottom: '3px',
+                            position: 'relative',
+                            width: '179px',
+                          }}>
+            <FSelectItem itemLabel="Select One"
+                         noSelectionOption={true}/>
+            <FSelectItems value={this.options}/>
+          </HSelectOneMenu>
           <div className="clear"/>
           <HMessage styleClass="iceMsgError inputFieldLabel"
                     for="flightFilterInput" id="searchTermErrorMessage"/>
