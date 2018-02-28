@@ -28,6 +28,7 @@
         <log4j.version>1.2.12</log4j.version>
         <swagger.version>2.0.0-rc4</swagger.version>
         <jersey.version>2.26</jersey.version>
+        <icefaces.version>3.3.0</icefaces.version>
         <arquillian-jersey.version>1.0.0.Alpha4</arquillian-jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -49,6 +50,33 @@
             <artifactId>javaee-api</artifactId>
             <version>${jee.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- ICEFaces Core -->
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces</artifactId>
+            <version>${icefaces.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.icepush</groupId>
+                    <artifactId>icepush</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- ICEFaces Advanced Components -->
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces-ace</artifactId>
+            <version>${icefaces.version}</version>
+        </dependency>
+
+        <!-- ICEFaces 1.x Compatibility Library -->
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces-compat</artifactId>
+            <version>${icefaces.version}</version>
         </dependency>
 
         <!-- REST Docs -->
