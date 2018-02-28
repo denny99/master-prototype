@@ -3,9 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ace="http://www.icefaces.org/icefaces/components">
+>
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
@@ -41,56 +40,56 @@
                             id="flightSearchButton"/>
         </HForm>
 
-        <h:form id="datatableForm">
-            <h:panelGroup layout="block" styleClass="blockArea"
+        <HForm id="datatableForm">
+            <HPanelGroup layout="block" styleClass="blockArea"
                           style="width:1192px;"
                           rendered="#{flightOverviewBean.searched}"
                           id="searchWrapper">
                 <h2>Flight Overview</h2>
-                <ace:dataTable id="flightsTable" value="#{flightOverviewBean.searchResults}" var="flight" rows="10"
-                               paginator="true">
-                    <ace:column>
-                        <f:facet name="header">
+                <AceDataTable id="flightsTable" value="#{flightOverviewBean.searchResults}" var="flight" rows="10"
+                              paginator="true">
+                    <AceColumn>
+                        <FFacet name="header">
                             <span class="iceOutTxt">Departure</span>
-                        </f:facet>
+                        </FFacet>
                         <span class="iceOutTxt center blockArea departure">#{flight.departure.city}</span>
-                    </ace:column>
-                    <ace:column>
-                        <f:facet name="header">
+                    </AceColumn>
+                    <AceColumn>
+                        <FFacet name="header">
                             <span class="iceOutTxt">Arrival</span>
-                        </f:facet>
+                        </FFacet>
                         <span class="iceOutTxt center blockArea arrival">#{flight.arrival.city}</span>
-                    </ace:column>
-                    <ace:column>
-                        <f:facet name="header">
+                    </AceColumn>
+                    <AceColumn>
+                        <FFacet name="header">
                             <span class="iceOutTxt">Date</span>
-                        </f:facet>
+                        </FFacet>
                         <span class="iceOutTxt center blockArea">#{flight.dateTime}</span>
-                    </ace:column>
-                    <ace:column>
-                        <f:facet name="header">
+                    </AceColumn>
+                    <AceColumn>
+                        <FFacet name="header">
                             <span class="iceOutTxt">Action</span>
-                        </f:facet>
+                        </FFacet>
                         <h:panelGrid columns="2">
-                            <h:commandButton value="View"
-                                             id="viewFlight"
-                                             action="#{flightDetailsBean.viewFlight(flight)}"
-                                             styleClass="iceCmdBtn btnOption"/>
-                            <h:commandButton value="Book"
-                                             id="bookFlight"
-                                             action="#{bookingBean.startBooking(flight)}"
-                                             styleClass="iceCmdBtn btnOption"/>
+                            <HCommandButton value="View"
+                                            id="viewFlight"
+                                            action="#{flightDetailsBean.viewFlight(flight)}"
+                                            styleClass="iceCmdBtn btnOption"/>
+                            <HCommandButton value="Book"
+                                            id="bookFlight"
+                                            action="#{bookingBean.startBooking(flight)}"
+                                            styleClass="iceCmdBtn btnOption"/>
                         </h:panelGrid>
-                    </ace:column>
-                </ace:dataTable>
-            </h:panelGroup>
+                    </AceColumn>
+                </AceDataTable>
+            </HPanelGroup>
 
             <div class="clear"/>
             <hr/>
             <h:commandButton action="/index"
                              value="Back To Home Page"
                              styleClass="iceCmdBtn btnOption"/>
-        </h:form>
+        </HForm>
     </ui:define>
 </ui:composition>
 </html>

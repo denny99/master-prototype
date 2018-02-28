@@ -47,7 +47,7 @@ export class HForm extends React.Component {
     });
 
     return (
-        <form id={this.props.id}
+        <form id={this.props.id} name={this.props.id}
               className={this.props.styleClass}>
           {children}
         </form>);
@@ -60,6 +60,7 @@ export class HForm extends React.Component {
    * @return {Object}
    */
   property(propertyName, value) {
+    // TODO move to util object
     /**
      * move down in object
      * @param {object} data
