@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {VarInjector} from '../../../util/VarInjector';
 
 export class Row extends React.Component {
   static propTypes = {
@@ -23,7 +24,9 @@ export class Row extends React.Component {
     for (let i = 0, j = this.props.children.length; i < j; i++) {
       let column = this.props.children[i];
       // TODO var replacement
-      columns.push(<td key={i}>{React.cloneElement(column)}</td>);
+      let convertedColumn = VarInjector.inject(column, this.props.varName,
+          this.props.var);
+      columns.push(<td key={i}>{convertedColumn}</td>);
     }
 
     return (

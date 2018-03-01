@@ -27,7 +27,7 @@ export class HCommandButton extends React.Component {
   action(e) {
     // jsf used form, but we don't wanna submit them in react
     e.preventDefault();
-    this.props.action(this.context.data);
+    this.props.action();
   }
 
   render() {
@@ -41,7 +41,5 @@ export class HCommandButton extends React.Component {
 }
 
 HCommandButton.contextTypes = {
-  updateForm: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.object,
 };

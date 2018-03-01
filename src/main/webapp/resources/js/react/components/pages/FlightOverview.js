@@ -12,6 +12,8 @@ import {HPanelGroup} from '../../jsf/components/HPanelGroup';
 import {AceDataTable} from '../../jsf/components/AceDataTable';
 import {FFacet} from '../../jsf/components/FFacet';
 import {AceColumn} from '../../jsf/components/AceColumn';
+import {ApiResponse} from '../../entity/ApiResponse';
+import {FlightService} from '../../service/FlightService';
 
 export class FlightOverview extends React.Component {
   constructor(props) {
@@ -19,7 +21,7 @@ export class FlightOverview extends React.Component {
     this.state = {
       data: {},
       searched: false,
-      results: [],
+      results: new ApiResponse(0, 10),
     };
     this.options = [];
     this.options.push(new SelectItem('asc', 'Ascending'));
@@ -30,17 +32,31 @@ export class FlightOverview extends React.Component {
 
   /**
    * handle form submit
-   * @param data
+   * @param [currentPage] default 1
    */
-  submit(data) {
-    // TODO check for form error and re-render messages if required
-    // get form data
+  submit(currentPage) {
+    // check for form error and re-render messages if required
+    if (this.searchForm.hasError()) {
+      return;
+    }
 
-    // do ajax call
-    console.log(data);
-    this.setState({
-      searched: true,
-    });
+    (async () => {
+      // get form data
+      let data = this.searchForm.state.data;
+
+      const limit = this.state.results.limit;
+      const offset = currentPage === undefined ?
+          0 :
+          ((currentPage - 1) * this.state.results.limit);
+
+      let response = await FlightService.getFlights(data.arrivalFilter,
+          limit, offset, data.sortOrder);
+
+      this.setState({
+        searched: true,
+        results: new ApiResponse(offset, limit, response.max, response.data),
+      });
+    })();
   }
 
   render() {
@@ -100,6 +116,7 @@ export class FlightOverview extends React.Component {
               <h2>Flight Overview</h2>
               <AceDataTable id="flightsTable"
                             value={this.state.results}
+                            onLoad={this.submit}
                             var="flight" rows={10}
                             paginator={true}>
                 <AceColumn>
@@ -107,14 +124,14 @@ export class FlightOverview extends React.Component {
                     <span className="iceOutTxt">Departure</span>
                   </FFacet>
                   <span
-                      className="iceOutTxt center blockArea departure"><span>#[flight.departure.city]</span><div>hello world</div></span>
+                      className="iceOutTxt center blockArea">#[flight.departure.city]</span>
                 </AceColumn>
                 <AceColumn>
                   <FFacet name="header">
                     <span className="iceOutTxt">Arrival</span>
                   </FFacet>
                   <span
-                      className="iceOutTxt center blockArea arrival">#[flight.arrival.city]</span>
+                      className="iceOutTxt center blockArea">#[flight.arrival.city]</span>
                 </AceColumn>
                 <AceColumn>
                   <FFacet name="header">

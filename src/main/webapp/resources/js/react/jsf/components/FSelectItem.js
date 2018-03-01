@@ -39,6 +39,5 @@ export class FSelectItem extends React.Component {
 FSelectItem.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.object,
   property: PropTypes.func,
 };

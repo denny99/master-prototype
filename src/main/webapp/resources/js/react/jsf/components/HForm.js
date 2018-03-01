@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {HInputText} from './HInputText';
 import {HMessage} from './HMessage';
+import {ObjectTraverser} from '../../util/ObjectTraverser';
 
 // TODO suppress enter!
 export class HForm extends React.Component {
@@ -13,19 +14,19 @@ export class HForm extends React.Component {
   constructor(props) {
     super(props);
 
-    let messageProps = {};
+    this.messageProps = {};
 
     // add state props for every message we can show
     React.Children.forEach(this.props.children, (child) => {
       if (child.type === HMessage) {
-        messageProps[child.props.for] = {
+        this.messageProps[child.props.for] = {
           message: '',
           show: false,
         };
       }
     });
     this.state = {
-      messageProps: messageProps,
+      messageProps: JSON.parse(JSON.stringify(this.messageProps)),
       data: this.props.data,
     };
 
@@ -61,46 +62,15 @@ export class HForm extends React.Component {
    */
   property(propertyName, value) {
     // TODO move to util object
-    /**
-     * move down in object
-     * @param {object} data
-     * @param {string[]} properties
-     */
-    function recursion(data, properties) {
-      // last property and wanna set data?
-      if (value !== undefined && properties.length === 1) {
-        data[properties.pop()] = value;
-        return null;
-      }
 
-      // try to move down in the object
-      let property = properties.pop();
-
-      // final property reached?
-      if (properties.length === 0) {
-        return data[property] || '';
-      }
-
-      // if property is missing create empty object
-      if (!data.hasOwnProperty(property)) {
-        data[property] = {};
-      }
-
-      // move further down
-      return recursion(data[property], properties);
-
-    }
-
-    let properties = propertyName.split('.').reverse();
-
-    let result = recursion(this.state.data, properties);
+    let result = ObjectTraverser.traverse(this.state.data, propertyName, value);
     // only update state when update occurred!
-    if (result === null) {
+    if (result === null && value !== undefined) {
       this.setState({
         data: this.state.data,
       });
     }
-    return result;
+    return result || '';
   }
 
   getChildContext() {
@@ -108,17 +78,34 @@ export class HForm extends React.Component {
       updateMessages: this.updateMessages,
       getFormId: this.getFormId,
       property: this.property,
-      data: this.state.data,
     };
   }
 
   /**
    * build form id
    * @param {string} id
-   * @returns {string}
+   * @return {string}
    */
   getFormId(id) {
     return `${this.props.id}:${id}`;
+  }
+
+  /**
+   * checks for any error inside of the form
+   * @return {boolean}
+   */
+  hasError() {
+    for (let key in this.messageProps) {
+      if (this.messageProps.hasOwnProperty(key)) {
+        if (this.messageProps[key].show) {
+          this.setState({
+            messageProps: this.messageProps,
+          });
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
@@ -128,13 +115,13 @@ export class HForm extends React.Component {
    * @param {boolean} [skipRender]
    */
   updateMessages(input, message, skipRender) {
-    this.state.messageProps[input.props.id] = {
+    this.messageProps[input.props.id] = {
       message: message,
       show: input.state.hasError,
     };
     if (!skipRender) {
       this.setState({
-        messageProps: this.state.messageProps,
+        messageProps: JSON.parse(JSON.stringify(this.messageProps)),
       });
     }
   }
@@ -143,6 +130,5 @@ export class HForm extends React.Component {
 HForm.childContextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.object,
   property: PropTypes.func,
 };

@@ -33,6 +33,5 @@ export class HPanelGroup extends React.Component {
 }
 
 HPanelGroup.contextTypes = {
-  updateForm: PropTypes.func,
   getFormId: PropTypes.func,
 };

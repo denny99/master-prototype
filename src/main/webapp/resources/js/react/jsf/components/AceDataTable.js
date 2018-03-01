@@ -5,16 +5,16 @@ import {AceColumn} from './AceColumn';
 import {Header} from './datatable/Header';
 import {Row} from './datatable/Row';
 import {Paginator} from './datatable/Paginator';
+import {ApiResponse} from '../../entity/ApiResponse';
 
 export class AceDataTable extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    // TODO value = api route or array?
-    value: PropTypes.string,
+    value: PropTypes.instanceOf(ApiResponse),
+    onLoad: PropTypes.func,
     rows: PropTypes.number,
     var: PropTypes.string,
     paginator: PropTypes.bool,
-    route: PropTypes.string,
   };
 
   static demo = [
@@ -254,20 +254,36 @@ export class AceDataTable extends React.Component {
     super(props);
     this.state = {
       id: context.getFormId(this.props.id),
-      currentPage: 0,
-      // use a default value, has to be set correctly after ajax call
-      maxResults: 10000,
+    };
+
+    this.first = this.first.bind(this);
+    this.prev = this.prev.bind(this);
+    this.next = this.next.bind(this);
+    this.last = this.last.bind(this);
+  }
+
+  getChildContext() {
+    return {
+      getFormId: this.context.getFormId,
+      first: this.first,
+      prev: this.prev,
+      next: this.next,
+      last: this.last,
     };
   }
 
   render() {
-    let paginatorTop = <Paginator top={true}
-                                  pageSize={this.props.rows}
-                                  currentPage={this.state.currentPage}
-                                  maxPages={this.state.maxPages}/>;
-    let paginatorBottom = <Paginator pageSize={this.props.rows} top={false}
-                                     currentPage={this.state.currentPage}
-                                     maxResults={this.state.maxResults}/>;
+    let paginatorTop = this.props.paginator ?
+        <Paginator top={true}
+                   pageSize={this.props.rows}
+                   currentPage={this.props.value.offset / this.props.rows}
+                   maxResults={this.props.value.max}/> :
+        null;
+    let paginatorBottom = this.props.paginator ?
+        <Paginator pageSize={this.props.rows} top={false}
+                   currentPage={this.props.value.offset / this.props.rows}
+                   maxResults={this.props.value.max}/> :
+        null;
     let headers = [];
     let columns = [];
 
@@ -286,7 +302,7 @@ export class AceDataTable extends React.Component {
     let rows = [];
     for (let i = 0, j = AceDataTable.demo.length; i < j; i++) {
       rows.push(<Row key={i} parentId={this.state.id} index={i}
-                     currentPage={this.state.currentPage}
+                     currentPage={this.props.value.offset / this.props.rows}
                      pageSize={this.props.rows} var={AceDataTable.demo[i]}
                      varName={this.props.var}>{columns}</Row>);
     }
@@ -309,9 +325,44 @@ export class AceDataTable extends React.Component {
       {paginatorBottom}
     </div>);
   }
+
+  /**
+   * goto first page
+   */
+  first() {
+    this.props.onLoad(1);
+  }
+
+  /**
+   * goto prev page
+   */
+  prev() {
+    this.props.onLoad(this.props.value.offset / this.props.rows - 1,);
+  }
+
+  /**
+   * goto next page
+   */
+  next() {
+    this.props.onLoad(this.props.value.offset / this.props.rows + 1);
+  }
+
+  /**
+   * goto last page
+   */
+  last() {
+    this.props.onLoad(Math.ceil(this.props.value.max / this.props.rows));
+  }
 }
 
+AceDataTable.childContextTypes = {
+  getFormId: PropTypes.func,
+  first: PropTypes.func,
+  prev: PropTypes.func,
+  next: PropTypes.func,
+  last: PropTypes.func,
+};
+
 AceDataTable.contextTypes = {
-  updateForm: PropTypes.func,
   getFormId: PropTypes.func,
 };

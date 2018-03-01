@@ -27,6 +27,5 @@ export class HMessage extends React.Component {
 }
 
 HMessage.contextTypes = {
-  updateForm: PropTypes.func,
   getFormId: PropTypes.func,
 };

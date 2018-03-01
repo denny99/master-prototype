@@ -19,7 +19,7 @@ export class HSelectOneMenu extends Input {
     // set for value setter...
     this.context = context;
     // if value is unset the first children is the one selected per default
-    if (this.value === null) {
+    if (this.value === null || this.value === '') {
       let selectedChild = React.Children.toArray(props.children)[0];
       if (selectedChild.type === FSelectItem &&
           selectedChild.props.noSelectionOption) {
@@ -32,7 +32,7 @@ export class HSelectOneMenu extends Input {
           this.value = selectedChild.props.value[0].value;
         }
       }
-      context.updateMessages(this, '', true);
+      context.updateMessages(this, this.props.requiredMessage, true);
     }
   }
 
@@ -51,6 +51,5 @@ export class HSelectOneMenu extends Input {
 HSelectOneMenu.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.object,
   property: PropTypes.func,
 };

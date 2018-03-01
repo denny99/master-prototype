@@ -58,6 +58,5 @@ export class HInputText extends Input {
 HInputText.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
-  data: PropTypes.object,
   property: PropTypes.func,
 };
