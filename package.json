@@ -4,6 +4,7 @@
   "description": "Master Thesis Prototype",
   "main": "index.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "prop-types": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

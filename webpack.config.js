@@ -11,6 +11,7 @@ module.exports = {
         'src/main/webapp/resources/js/swaggerDocs.js'),
     index: path.resolve(__dirname,
         'src/main/webapp/resources/js/react/index.js'),
+    polyfill: 'babel-polyfill',
   },
   output: {
     path: path.resolve(__dirname, 'src/main/webapp/resources/dist'),

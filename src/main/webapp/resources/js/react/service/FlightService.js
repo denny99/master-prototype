@@ -9,7 +9,7 @@ export class FlightService {
    * @param {number} limit
    * @param {number} offset
    * @param {'asc' | 'desc'} sortOrder
-   * @returns {Promise<any>}
+   * @return {Promise<object[]>}
    */
   static async getFlights(city, limit, offset, sortOrder) {
     // do ajax call
@@ -23,7 +23,6 @@ export class FlightService {
           sortOrder: sortOrder,
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          debugger;
           reject(errorThrown);
         },
         success: function(data) {

@@ -16,12 +16,14 @@ import {ApiResponse} from '../../entity/ApiResponse';
 import {FlightService} from '../../service/FlightService';
 
 export class FlightOverview extends React.Component {
+  static PAGE_SIZE = 10;
+
   constructor(props) {
     super(props);
     this.state = {
       data: {},
       searched: false,
-      results: new ApiResponse(0, 10),
+      results: new ApiResponse(0, FlightOverview.PAGE_SIZE),
     };
     this.options = [];
     this.options.push(new SelectItem('asc', 'Ascending'));
@@ -52,9 +54,14 @@ export class FlightOverview extends React.Component {
       let response = await FlightService.getFlights(data.arrivalFilter,
           limit, offset, data.sortOrder);
 
+      // TODO? change output object to include max?
       this.setState({
         searched: true,
-        results: new ApiResponse(offset, limit, response.max, response.data),
+        results: new ApiResponse(offset, limit,
+            response.length === limit ?
+                100000 :
+                (currentPage * FlightOverview.PAGE_SIZE ||
+                    FlightOverview.PAGE_SIZE), response),
       });
     })();
   }
@@ -117,7 +124,7 @@ export class FlightOverview extends React.Component {
               <AceDataTable id="flightsTable"
                             value={this.state.results}
                             onLoad={this.submit}
-                            var="flight" rows={10}
+                            var="flight" rows={FlightOverview.PAGE_SIZE}
                             paginator={true}>
                 <AceColumn>
                   <FFacet name="header">

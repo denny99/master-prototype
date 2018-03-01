@@ -23,7 +23,6 @@ export class Row extends React.Component {
     let columns = [];
     for (let i = 0, j = this.props.children.length; i < j; i++) {
       let column = this.props.children[i];
-      // TODO var replacement
       let convertedColumn = VarInjector.inject(column, this.props.varName,
           this.props.var);
       columns.push(<td key={i}>{convertedColumn}</td>);

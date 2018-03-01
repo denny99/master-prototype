@@ -4,7 +4,6 @@ import {HInputText} from './HInputText';
 import {HMessage} from './HMessage';
 import {ObjectTraverser} from '../../util/ObjectTraverser';
 
-// TODO suppress enter!
 export class HForm extends React.Component {
   static propTypes = {
     id: PropTypes.string,
@@ -61,8 +60,6 @@ export class HForm extends React.Component {
    * @return {Object}
    */
   property(propertyName, value) {
-    // TODO move to util object
-
     let result = ObjectTraverser.traverse(this.state.data, propertyName, value);
     // only update state when update occurred!
     if (result === null && value !== undefined) {
