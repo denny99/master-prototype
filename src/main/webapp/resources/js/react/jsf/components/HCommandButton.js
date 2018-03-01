@@ -8,6 +8,7 @@ export class HCommandButton extends React.Component {
     style: PropTypes.object,
     styleClass: PropTypes.string,
     action: PropTypes.func,
+    actionArgument: PropTypes.object,
   };
 
   constructor(props, context) {
@@ -27,7 +28,8 @@ export class HCommandButton extends React.Component {
   action(e) {
     // jsf used form, but we don't wanna submit them in react
     e.preventDefault();
-    this.props.action();
+    // argument might be undefined
+    this.props.action(this.props.actionArgument);
   }
 
   render() {

@@ -24,6 +24,9 @@ export class FlightOverview extends React.Component {
       data: {},
       searched: false,
       results: new ApiResponse(0, FlightOverview.PAGE_SIZE),
+      overviewVisible: true,
+      detailsViewVisible: false,
+      selectedFlight: null,
     };
     this.options = [];
     this.options.push(new SelectItem('asc', 'Ascending'));
@@ -64,6 +67,14 @@ export class FlightOverview extends React.Component {
                     FlightOverview.PAGE_SIZE), response),
       });
     })();
+  }
+
+  viewFlight(flight) {
+    this.setState({
+      overviewVisible: false,
+      detailsViewVisible: true,
+      selectedFlight: flight,
+    });
   }
 
   render() {
@@ -147,21 +158,16 @@ export class FlightOverview extends React.Component {
                   <span
                       className="iceOutTxt center blockArea">#[flight.dateTime]</span>
                 </AceColumn>
-                {/*<AceColumn>*/}
-                {/*<FFacet name="header">*/}
-                {/*<span className="iceOutTxt">Action</span>*/}
-                {/*</FFacet>*/}
-                {/*<h:panelGrid columns="2">*/}
-                {/*<HCommandButton value="View"*/}
-                {/*id="viewFlight"*/}
-                {/*action="#{flightDetailsBean.viewFlight(flight)}"*/}
-                {/*styleClass="iceCmdBtn btnOption"/>*/}
-                {/*<HCommandButton value="Book"*/}
-                {/*id="bookFlight"*/}
-                {/*action="#{bookingBean.startBooking(flight)}"*/}
-                {/*styleClass="iceCmdBtn btnOption"/>*/}
-                {/*</h:panelGrid>*/}
-                {/*</AceColumn>*/}
+                <AceColumn>
+                  <FFacet name="header">
+                    <span className="iceOutTxt">Action</span>
+                  </FFacet>
+                  <HCommandButton value="View"
+                                  id="viewFlight"
+                                  actionArgument="#[flight]"
+                                  action={this.viewFlight}
+                                  styleClass="iceCmdBtn btnOption"/>
+                </AceColumn>
               </AceDataTable>
             </HPanelGroup>
 

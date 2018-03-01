@@ -2,17 +2,17 @@ import React from 'react';
 import {ObjectTraverser} from './ObjectTraverser';
 
 export class VarInjector {
-  static injectRegex = /#\[.*]/g;
+  static injectionRegex = /#\[.*]/g;
 
   /**
    *
    * @param {React.Component} component
-   * @param {string} varName name of variable
-   * @param {object} variable contains the data to be injected
+   * @param {string} varName name of object
+   * @param {object} object contains the data to be injected
    *
    * @return {React.Component}
    */
-  static inject(component, varName, variable) {
+  static inject(component, varName, object) {
     let props = {};
     let children = [];
 
@@ -27,8 +27,12 @@ export class VarInjector {
       }
       let value = component.props[key];
       if (VarInjector.hasInjection(value)) {
-        props[key] = VarInjector.replace(value,
-            varName, variable);
+        if (this.hasObjectInjection(value, varName)) {
+          props[key] = object;
+        } else {
+          props[key] = VarInjector.replace(value,
+              varName, object);
+        }
       } else {
         // we are replacing all props, so save the original value
         props[key] = value;
@@ -40,7 +44,7 @@ export class VarInjector {
         component.props.hasOwnProperty('children') &&
         typeof component.props.children === 'object') {
       for (let child of (component.props.children)) {
-        children.push(VarInjector.inject(child, varName, variable));
+        children.push(VarInjector.inject(child, varName, object));
       }
     } else {
       // child is plain string
@@ -55,7 +59,17 @@ export class VarInjector {
    * @param {string} value
    */
   static hasInjection(value) {
-    return value.match(VarInjector.injectRegex) !== null;
+    return typeof value === 'string' &&
+        value.match(VarInjector.injectionRegex) !== null;
+  }
+
+  /**
+   *
+   * @param {string} value
+   * @param {string} varName
+   */
+  static hasObjectInjection(value, varName) {
+    return value.match(new RegExp(`#\\[${varName}]`, 'g')) !== null;
   }
 
   /**
@@ -63,7 +77,7 @@ export class VarInjector {
    * @param {string} string
    * @param {string} varName
    * @param {object} object
-   * @return {string}
+   * @return {string | object}
    */
   static replace(string, varName, object) {
     const regex = new RegExp(`#\\[${varName}\\..*]`, 'g');
