@@ -57,7 +57,9 @@ public class ValidationWS {
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String validatePassengerCount(
       @PathParam("flightId") String id,
-      ValidatePassengerCountInput input) throws ResourceNotFoundException, JsonSchemaException {
+      String inputJSON) throws ResourceNotFoundException, JsonSchemaException {
+    ValidatePassengerCountInput input = this.parser.fromJSON(inputJSON,
+        ValidatePassengerCountInput.class);
     Flight flight = this.flightService.getFlightById(id);
     String msg = null;
     Boolean error = false;

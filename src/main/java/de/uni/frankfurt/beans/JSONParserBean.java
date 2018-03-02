@@ -36,22 +36,34 @@ public class JSONParserBean {
   }
 
   public <T> T fromJSON(String s, Type clazz) throws JsonSchemaException {
-    T o = this.jsonb.fromJson(s, clazz);
-    this.validateSchema(o, true);
-    return o;
+    try {
+      T o = this.jsonb.fromJson(s, clazz);
+      this.validateSchema(o, true);
+      return o;
+    } catch (NoSuchElementException e) {
+      throw new JsonSchemaException("object", "is empty");
+    }
   }
 
   public <T> T fromJSON(String s, Class<T> clazz) throws JsonSchemaException {
-    T o = this.jsonb.fromJson(s, clazz);
-    this.validateSchema(o, true);
-    return o;
+    try {
+      T o = this.jsonb.fromJson(s, clazz);
+      this.validateSchema(o, true);
+      return o;
+    } catch (NoSuchElementException e) {
+      throw new JsonSchemaException("object", "is empty");
+    }
   }
 
   public <T> T fromJSON(
       InputStream entityStream, Type genericType) throws JsonSchemaException {
-    T o = this.jsonb.fromJson(entityStream, genericType);
-    this.validateSchema(o, true);
-    return o;
+    try {
+      T o = this.jsonb.fromJson(entityStream, genericType);
+      this.validateSchema(o, true);
+      return o;
+    } catch (NoSuchElementException e) {
+      throw new JsonSchemaException("object", "is empty");
+    }
   }
 
   public String toJSON(Object o) throws JsonSchemaException {
