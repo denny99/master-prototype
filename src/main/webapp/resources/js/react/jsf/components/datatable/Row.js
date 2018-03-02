@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {VarInjector} from '../../../util/VarInjector';
+import VarInjector from '../../../util/VarInjector';
 
-export class Row extends React.Component {
+export default class Row extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number,
     pageSize: PropTypes.number,

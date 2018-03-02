@@ -1,7 +1,7 @@
 /**
  * represents an select option
  */
-export class SelectItem {
+export default class SelectItem {
   /**
    *
    * @param {string} value option value

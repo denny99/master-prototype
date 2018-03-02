@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HInputText} from './HInputText';
-import {HMessage} from './HMessage';
-import {ObjectTraverser} from '../../util/ObjectTraverser';
+import HInputText from './HInputText';
+import HMessage from './HMessage';
+import ObjectTraverser from '../../util/ObjectTraverser';
 
-export class HForm extends React.Component {
+export default class HForm extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     styleClass: PropTypes.string,

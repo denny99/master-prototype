@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class FValidateRegex extends React.Component {
+export default class FValidateRegex extends React.Component {
   static propTypes = {
     pattern: PropTypes.string.isRequired,
   };

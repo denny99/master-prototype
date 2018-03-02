@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SelectItem} from '../objects/SelectItem';
-import {FSelectItem} from './FSelectItem';
+import SelectItem from '../elements/SelectItem';
+import FSelectItem from './FSelectItem';
 
-export class FSelectItems extends React.Component {
+export default class FSelectItems extends React.Component {
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.instanceOf(SelectItem)),
   };
@@ -11,7 +11,9 @@ export class FSelectItems extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
     };
   }
 

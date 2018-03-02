@@ -1,7 +1,7 @@
 import React from 'react';
-import {ObjectTraverser} from './ObjectTraverser';
+import ObjectTraverser from './ObjectTraverser';
 
-export class VarInjector {
+export default class VarInjector {
   static injectionRegex = /#\[.*]/g;
 
   /**
@@ -85,7 +85,11 @@ export class VarInjector {
       //group has the pattern #[varName..*], extract only .*
       let property = group.slice(2 + varName.length + 1, group.length - 1);
       let value = ObjectTraverser.traverse(object, property);
-      string = string.replace(group, value);
+      if (typeof value === 'string') {
+        string = string.replace(group, value);
+      } else {
+        string = value;
+      }
     }
     return string;
   }

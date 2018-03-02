@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class Paginator extends React.Component {
+export default class Paginator extends React.Component {
   static propTypes = {
     currentPage: PropTypes.number,
     pageSize: PropTypes.number,

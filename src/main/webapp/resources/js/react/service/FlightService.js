@@ -1,6 +1,7 @@
-import {ApiConstants} from '../constants/ApiConstants';
+import ApiConstants from '../constants/ApiConstants';
+import Flight from '../entity/Flight';
 
-export class FlightService {
+export default class FlightService {
   static URL = ApiConstants.BASE_URL + 'flights/';
 
   /**
@@ -26,7 +27,9 @@ export class FlightService {
           reject(errorThrown);
         },
         success: function(data) {
-          resolve(data);
+          resolve(data.map((obj) => {
+            return new Flight(obj);
+          }));
         },
       });
     });

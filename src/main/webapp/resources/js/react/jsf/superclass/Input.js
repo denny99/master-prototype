@@ -1,13 +1,15 @@
 import React from 'react';
-import {FValidateRegex} from '../components/FValidateRegex';
+import FValidateRegex from '../components/FValidateRegex';
 
-export class Input extends React.Component {
+export default class Input extends React.Component {
   constructor(props, context) {
     super(props);
 
     this.state = {
       hasError: false,
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
       children: [],
     };
 
@@ -22,8 +24,6 @@ export class Input extends React.Component {
   set value(o) {
     return this.context.property(this.props.value, o);
   }
-
-
 
   /**
    * handle input change

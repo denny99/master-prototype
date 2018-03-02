@@ -1,2 +1,2 @@
-export class InvalidChildException implements Error {
+export default class InvalidChildException implements Error {
 }

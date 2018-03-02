@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Input} from '../superclass/Input';
+import Input from '../superclass/Input';
 
-export class HInputText extends Input {
+export default class HInputText extends Input {
   static propTypes = {
     focus: PropTypes.bool,
     id: PropTypes.string,

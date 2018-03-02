@@ -1,7 +1,7 @@
 import React from 'react';
-import {FFacet} from './FFacet';
+import FFacet from './FFacet';
 
-export class AceColumn extends React.Component {
+export default class AceColumn extends React.Component {
   static propTypes = {};
 
   constructor(props, context) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class FSelectItem extends React.Component {
+export default class FSelectItem extends React.Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     itemLabel: PropTypes.string.isRequired,
@@ -11,7 +11,9 @@ export class FSelectItem extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
     };
 
     this.isSelectable = this.isSelectable.bind(this);

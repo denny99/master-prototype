@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Input} from '../superclass/Input';
-import {FSelectItem} from './FSelectItem';
-import {FSelectItems} from './FSelectItems';
+import Input from '../superclass/Input';
+import FSelectItem from './FSelectItem';
+import FSelectItems from './FSelectItems';
 
-export class HSelectOneMenu extends Input {
+export default class HSelectOneMenu extends Input {
   static propTypes = {
     id: PropTypes.string,
     size: PropTypes.number,
@@ -33,12 +33,19 @@ export class HSelectOneMenu extends Input {
         }
       }
       context.updateMessages(this, this.props.requiredMessage, true);
+    } else {
+      this.state.children = React.Children.map((child) => {
+        return React.cloneElement(child, {
+          selectedValue: this.value,
+        });
+      });
     }
   }
 
   render() {
     return (
-        <select className={this.props.styleClass} id={this.state.id}
+        <select defaultValue={this.value} className={this.props.styleClass}
+                id={this.state.id}
                 name={this.state.id} size={this.props.size}
                 style={this.props.style}
                 onChange={this.handleChange}

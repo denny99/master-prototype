@@ -1,9 +1,9 @@
 import React from 'react';
-import {HForm} from '../jsf/components/HForm';
-import {HCommandButton} from '../jsf/components/HCommandButton';
-import {FlightOverview} from './pages/FlightOverview';
+import HForm from '../jsf/components/HForm';
+import HCommandButton from '../jsf/components/HCommandButton';
+import FlightOverview from './pages/FlightOverview';
 
-export class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +12,7 @@ export class App extends React.Component {
     };
 
     this.showFlightOverview = this.showFlightOverview.bind(this);
+    this.hideFlightOverview = this.hideFlightOverview.bind(this);
   }
 
   showFlightOverview() {
@@ -21,19 +22,32 @@ export class App extends React.Component {
     });
   }
 
+  hideFlightOverview() {
+    this.setState({
+      showStartPage: true,
+      showFlightOverview: false,
+    });
+  }
+
   render() {
     const initialForm = (
-        <HForm id="indexForm">
-          <HCommandButton id="viewFlightsButton"
-                          action={this.showFlightOverview}
-                          value="View Flights"
-                          styleClass="iceCmdBtn btnOption"/>
-        </HForm>);
+        <React.Fragment>
+          <h2>Welcome</h2>
+          <hr/>
+          <HForm id="indexForm">
+            <HCommandButton id="viewFlightsButton"
+                            action={this.showFlightOverview}
+                            value="View Flights"
+                            styleClass="iceCmdBtn btnOption"/>
+          </HForm>
+        </React.Fragment>);
     if (this.state.showStartPage) {
       return initialForm;
     }
     if (this.state.showFlightOverview) {
-      return <FlightOverview/>;
+      return (
+          <FlightOverview back={this.hideFlightOverview}/>
+      );
     }
   }
 }

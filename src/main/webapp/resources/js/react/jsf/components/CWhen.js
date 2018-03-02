@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class FFacet extends React.Component {
+export default class CWhen extends React.Component {
   static propTypes = {
-    name: PropTypes.string,
+    test: PropTypes.bool,
   };
 
   render() {

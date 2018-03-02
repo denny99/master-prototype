@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {InvalidChildException} from '../../exceptions/InvalidChildException';
-import {AceColumn} from './AceColumn';
-import {Header} from './datatable/Header';
-import {Row} from './datatable/Row';
-import {Paginator} from './datatable/Paginator';
-import {ApiResponse} from '../../entity/ApiResponse';
+import InvalidChildException from '../../exceptions/InvalidChildException';
+import AceColumn from './AceColumn';
+import Header from './datatable/Header';
+import Row from './datatable/Row';
+import Paginator from './datatable/Paginator';
+import ApiResponse from '../../entity/ApiResponse';
 
-export class AceDataTable extends React.Component {
+export default class AceDataTable extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.instanceOf(ApiResponse),
@@ -20,7 +20,9 @@ export class AceDataTable extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
     };
 
     this.first = this.first.bind(this);

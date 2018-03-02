@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class HCommandButton extends React.Component {
+export default class HCommandButton extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string.isRequired,
     style: PropTypes.object,
     styleClass: PropTypes.string,
     action: PropTypes.func,
-    actionArgument: PropTypes.object,
+    actionArgument: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   };
 
   constructor(props, context) {
     super(props);
     this.state = {
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
     };
 
     this.action = this.action.bind(this);

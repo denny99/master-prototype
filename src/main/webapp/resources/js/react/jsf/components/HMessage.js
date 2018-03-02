@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class HMessage extends React.Component {
+export default class HMessage extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     for: PropTypes.string,
@@ -12,7 +12,9 @@ export class HMessage extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      id: context.getFormId(this.props.id),
+      id: (context.getFormId) ?
+          context.getFormId(this.props.id) :
+          this.props.id,
     };
   }
 

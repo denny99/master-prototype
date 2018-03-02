@@ -1,4 +1,4 @@
-export class ObjectTraverser {
+export default class ObjectTraverser {
   /**
    * search for a property in an object and return value
    * @param {object} object
