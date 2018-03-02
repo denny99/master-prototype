@@ -5,7 +5,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  watch: true,
   entry: {
     swaggerDocs: path.resolve(__dirname,
         'src/main/webapp/resources/js/swaggerDocs.js'),
