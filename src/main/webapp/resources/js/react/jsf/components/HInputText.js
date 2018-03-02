@@ -6,26 +6,57 @@ export default class HInputText extends Input {
   static propTypes = {
     focus: PropTypes.bool,
     id: PropTypes.string,
-    value: PropTypes.string,
-    styleClass: PropTypes.string,
-    validatorMessage: PropTypes.string,
-    requiredMessage: PropTypes.string,
-    required: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
+    styleClass: PropTypes.string,
+    type: PropTypes.string,
+    validator: PropTypes.func,
+    validatorMessage: PropTypes.string,
+    required: PropTypes.bool,
+    requiredMessage: PropTypes.string,
+    converter: PropTypes.func,
+    converterMessage: PropTypes.string,
+    onchange: PropTypes.func,
   };
 
   static defaultProps = {
     focus: false,
+    type: 'text',
   };
 
   constructor(props, context) {
     super(props, context);
+
+    if (this.props.converter) {
+      this.converter = new this.props.converter();
+    }
 
     // convert children
     React.Children.forEach(this.props.children, (child) => {
       let object = new child.type(child.props, child.context);
       this.state.children.push(object);
     });
+  }
+
+  handleChange(event) {
+    return (async () => {
+      await super.handleChange(event);
+
+      // optionally convert string to object
+      if (this.props.hasOwnProperty('converter')) {
+        try {
+          this.value = this.converter.getAsObject(this.value);
+        } catch (e) {
+          this.state.hasError = hasError;
+          // this is async, so we manually update the state
+          this.setState({
+            hasError: hasError,
+          });
+          this.context.updateMessages(this, this.props.converterMessage);
+        }
+      }
+      this.props.onchange();
+    })();
   }
 
   /**
@@ -44,12 +75,13 @@ export default class HInputText extends Input {
     return (
         <input id={this.state.id}
                name={this.state.id}
+               type={this.props.type || 'text'}
                ref={(input) => {
                  this.input = input;
                }}
                style={this.props.style}
                className={this.props.styleClass}
-               value={this.context.property(this.props.value)}
+               value={this.value}
                onChange={this.handleChange}>
         </input>);
   }

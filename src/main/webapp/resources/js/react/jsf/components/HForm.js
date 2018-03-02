@@ -8,6 +8,7 @@ export default class HForm extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     styleClass: PropTypes.string,
+    data: PropTypes.object,
   };
 
   constructor(props) {
@@ -80,11 +81,15 @@ export default class HForm extends React.Component {
 
   /**
    * build form id
-   * @param {string} id
+   * @param {string} [id]
    * @return {string}
    */
   getFormId(id) {
-    return `${this.props.id}:${id}`;
+    if (id) {
+      return `${this.props.id}:${id}`;
+    } else {
+      return this.props.id;
+    }
   }
 
   /**

@@ -17,7 +17,7 @@ body {
     float: left;
     height: 52px;
     width: 170px;
-    background-image: url("#{resource['images:background-7steps.png']}");
+    background-image: url("/resources/images/background-7steps.png");
     background-position: 0px 0px;
     background-repeat: no-repeat;
     margin-left: -82px;
@@ -37,7 +37,7 @@ body {
     width: 188px;
     margin-left: -45px;
     padding-left: 5px;
-    background-image: url("#{resource['images:background-7steps-first.png']}");
+    background-image: url("/resources/images/background-7steps-first.png");
     background-position: 0 0;
 }
 
@@ -53,7 +53,7 @@ body {
     width: 100px;
     margin-left: -82px;
     padding-left: 22px;
-    background-image: url("#{resource['images:background-7steps-last.png']}");
+    background-image: url("/resources/images/background-7steps-last.png");
     background-position: 0 0;
 }
 
@@ -83,7 +83,7 @@ body {
     font-weight: bold;
     color: #FFF;
     padding-left: 4px;
-    background-image: url("#{resource['images:sprite7.png']}");
+    background-image: url("/resources/images/sprite7.png");
     background-position: 0px 1px;
     background-repeat: no-repeat;
 }

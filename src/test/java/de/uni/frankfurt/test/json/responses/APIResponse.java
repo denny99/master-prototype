@@ -1,4 +1,4 @@
-package de.uni.frankfurt.json.wrapper;
+package de.uni.frankfurt.test.json.responses;
 
 import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.exceptions.RestException;

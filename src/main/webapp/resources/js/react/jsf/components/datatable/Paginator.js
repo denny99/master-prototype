@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 export default class Paginator extends React.Component {
   static propTypes = {
-    currentPage: PropTypes.number,
-    pageSize: PropTypes.number,
-    maxResults: PropTypes.number,
-    top: PropTypes.bool,
+    currentPage: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    maxResults: PropTypes.number.isRequired,
+    top: PropTypes.bool.isRequired,
   };
 
   render() {

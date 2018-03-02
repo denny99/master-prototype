@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class FFacet extends React.Component {
   static propTypes = {
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
   };
 
   render() {

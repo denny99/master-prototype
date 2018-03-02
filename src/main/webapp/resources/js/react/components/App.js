@@ -2,6 +2,7 @@ import React from 'react';
 import HForm from '../jsf/components/HForm';
 import HCommandButton from '../jsf/components/HCommandButton';
 import FlightOverview from './pages/FlightOverview';
+import VersionAnnotation from './includes/VersionAnnotation';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -40,6 +41,8 @@ export default class App extends React.Component {
                             value="View Flights"
                             styleClass="iceCmdBtn btnOption"/>
           </HForm>
+          <div className="clear"/>
+          <VersionAnnotation/>
         </React.Fragment>);
     if (this.state.showStartPage) {
       return initialForm;

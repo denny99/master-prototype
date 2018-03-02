@@ -2,7 +2,7 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.wrapper.APIResponse;
+import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePaths;

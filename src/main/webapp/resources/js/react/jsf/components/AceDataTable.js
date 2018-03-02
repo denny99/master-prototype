@@ -11,10 +11,10 @@ export default class AceDataTable extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.instanceOf(ApiResponse),
-    onLoad: PropTypes.func,
-    rows: PropTypes.number,
-    var: PropTypes.string,
-    paginator: PropTypes.bool,
+    onLoad: PropTypes.func.isRequired,
+    rows: PropTypes.number.isRequired,
+    var: PropTypes.string.isRequired,
+    paginator: PropTypes.bool.isRequired,
   };
 
   constructor(props, context) {

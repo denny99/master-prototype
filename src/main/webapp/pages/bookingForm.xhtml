@@ -5,15 +5,14 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ice="http://www.icesoft.com/icefaces/component"
-      xmlns:cc="http://java.sun.com/jsf/composite/cc"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
         <h:outputScript library="js" name="bookingForm.js"/>
-        <h:form id="bookingData" styleClass="ice-skin-rime">
+        <HForm id="bookingData" styleClass="ice-skin-rime">
             <!-- display flight data -->
-            <cc:flightDetails headline="true" standalone="false" flight="#{bookingFormBean.selectedFlight}"/>
+            <CCFlightDetails headline="true" standalone="false" flight="#{bookingFormBean.selectedFlight}"/>
 
             <!-- select number of passengers slider -->
             <h:panelGroup id="basicData" layout="block"
@@ -101,7 +100,7 @@
             <h:commandButton id="continueButton" value="Continue"
                              action="#{bookingBean.createPassengers}"
                              styleClass="iceCmdBtn btnOption"/>
-        </h:form>
+        </HForm>
     </ui:define>
 </ui:composition>
 </html>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class CIf extends React.Component {
   static propTypes = {
-    test: PropTypes.bool,
+    test: PropTypes.bool.isRequired,
   };
 
   render() {

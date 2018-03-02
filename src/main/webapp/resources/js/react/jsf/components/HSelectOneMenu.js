@@ -33,13 +33,13 @@ export default class HSelectOneMenu extends Input {
         }
       }
       context.updateMessages(this, this.props.requiredMessage, true);
-    } else {
-      this.state.children = React.Children.map((child) => {
-        return React.cloneElement(child, {
-          selectedValue: this.value,
-        });
-      });
     }
+  }
+
+  handleChange(event) {
+    return (async () => {
+      return await super.handleChange(event);
+    })();
   }
 
   render() {

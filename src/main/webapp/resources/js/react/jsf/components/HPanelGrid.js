@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class HPanelGrid extends React.Component {
   static propTypes = {
-    columns: PropTypes.number,
+    columns: PropTypes.number.isRequired,
   };
 
   render() {

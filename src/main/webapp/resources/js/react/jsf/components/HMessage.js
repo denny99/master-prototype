@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class HMessage extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    for: PropTypes.string,
+    for: PropTypes.string.isRequired,
     styleClass: PropTypes.string,
     messageProps: PropTypes.object,
   };

@@ -19,6 +19,7 @@ import FlightDetails from './FlightDetails';
 import HPanelGrid from '../../jsf/components/HPanelGrid';
 import HOutputText from '../../jsf/components/HOutputText';
 import DateConverter from '../../converter/DateConverter';
+import BookingForm from './BookingForm';
 
 export default class FlightOverview extends React.Component {
   static propTypes = {
@@ -241,6 +242,9 @@ export default class FlightOverview extends React.Component {
     } else if (this.state.detailsViewVisible) {
       code = <FlightDetails selectedFlight={this.state.selectedFlight}
                             back={this.hideFlightDetails}/>;
+    } else if (this.state.bookingFormVisible) {
+      code = <BookingForm selectedFlight={this.state.selectedFlight}
+                          cancel={this.hideBookingForm}/>;
     }
 
     return code;

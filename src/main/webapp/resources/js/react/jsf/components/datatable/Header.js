@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 export default class Header extends React.Component {
   static propTypes = {
-    index: PropTypes.number,
-    parentId: PropTypes.string,
+    index: PropTypes.number.isRequired,
+    parentId: PropTypes.string.isRequired,
   };
 
   render() {

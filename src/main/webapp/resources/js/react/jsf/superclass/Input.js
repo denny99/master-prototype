@@ -3,7 +3,7 @@ import FValidateRegex from '../components/FValidateRegex';
 
 export default class Input extends React.Component {
   constructor(props, context) {
-    super(props);
+    super(props, context);
 
     this.state = {
       hasError: false,
@@ -18,7 +18,9 @@ export default class Input extends React.Component {
   }
 
   get value() {
-    return this.context.property(this.props.value);
+    return (typeof this.props.value === 'string') ?
+        this.context.property(this.props.value) :
+        this.props.value;
   }
 
   set value(o) {
@@ -28,19 +30,20 @@ export default class Input extends React.Component {
   /**
    * handle input change
    * @param {Event} event
+   * @return {Promise<void>}
    */
-  handleChange(event) {
+  async handleChange(event) {
     this.value = event.target.value;
-    const message = this.validate();
+    const message = await this.validate();
     // propagate up to form itself
     this.context.updateMessages(this, message);
   }
 
   /**
    * checks correctness of input
-   * @return {string}
+   * @return {Promise<string>}
    */
-  validate() {
+  async validate() {
     let hasError = false;
     let message = 'Error in the input field!';
     let currentValue = this.value;
@@ -57,10 +60,18 @@ export default class Input extends React.Component {
     }
 
     // check for validation props
-    if (this.props.required) {
+    if (this.props.required && !hasError) {
       if (currentValue === '' || currentValue === undefined) {
         hasError = true;
         message = this.props.requiredMessage;
+      }
+    }
+
+    if (this.props.validator && !hasError) {
+      let response = await this.props.validator();
+      if (response.error) {
+        hasError = true;
+        message = response.message;
       }
     }
 

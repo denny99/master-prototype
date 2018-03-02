@@ -47,6 +47,7 @@ export default class CCFlightDetails extends React.Component {
                   </COtherwise>
                 </CChoose>
                 <br/>
+                <br/>
                 <span className="iceOutTxt kdInputFieldLabel"
                       style={{width: '200px'}}>Aircraft Model:</span>
                 <HOutputText styleClass="iceOutTxt kdInputFieldLabel"

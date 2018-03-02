@@ -4,12 +4,12 @@ import VarInjector from '../../../util/VarInjector';
 
 export default class Row extends React.Component {
   static propTypes = {
-    currentPage: PropTypes.number,
-    pageSize: PropTypes.number,
-    index: PropTypes.number,
-    parentId: PropTypes.string,
-    var: PropTypes.object,
-    varName: PropTypes.string,
+    currentPage: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    parentId: PropTypes.string.isRequired,
+    var: PropTypes.object.isRequired,
+    varName: PropTypes.string.isRequired,
   };
 
   constructor(props, context) {
