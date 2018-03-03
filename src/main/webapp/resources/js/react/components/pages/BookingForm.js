@@ -14,6 +14,8 @@ import HMessage from '../../jsf/components/HMessage';
 import HCommandButton from '../../jsf/components/HCommandButton';
 import FConvertNumber from '../../jsf/components/FConvertNumber';
 import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
+import HOutputLabel from '../../jsf/components/HOutputLabel';
+import HSelectBooleanCheckbox from '../../jsf/components/HSelectBooleanCheckbox';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -175,14 +177,14 @@ export default class BookingForm extends React.Component {
           <HPanelGroup layout="block"
                        styleClass="contentLevelContainer blockArea">
             <div className="indented inputFieldGroup" style="margin-top: 5px;">
-              <h:selectBooleanCheckbox id="insuranceCB"
-                                       value="#{bookingFormBean.travelInsurance}">
-              </h:selectBooleanCheckbox>
-              <h:outputLabel id="insuranceLabel" for="insuranceCB"
-                             style="position:relative;top:-2px;"
-                             styleClass="InfoFieldLabel minindented">Travel
+              <HSelectBooleanCheckbox id="insuranceCB"
+                                      value="#{bookingFormBean.travelInsurance}">
+              </HSelectBooleanCheckbox>
+              <HOutputLabel id="insuranceLabel" for="insuranceCB"
+                            style={{position: 'relative', top: '-2px'}}
+                            styleClass="InfoFieldLabel minindented">Travel
                 Insurance
-              </h:outputLabel>
+              </HOutputLabel>
               <div className="clear"/>
             </div>
           </HPanelGroup>
