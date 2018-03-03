@@ -30,12 +30,6 @@ export default class HInputText extends Input {
     if (this.props.converter) {
       this.converter = new this.props.converter();
     }
-
-    // convert children
-    React.Children.forEach(this.props.children, (child) => {
-      let object = new child.type(child.props, child.context);
-      this.state.children.push(object);
-    });
   }
 
   handleChange(event) {
@@ -72,7 +66,7 @@ export default class HInputText extends Input {
   }
 
   render() {
-    return (
+    let elem = (
         <input id={this.state.id}
                name={this.state.id}
                type={this.props.type || 'text'}
@@ -84,6 +78,16 @@ export default class HInputText extends Input {
                value={this.value}
                onChange={this.handleChange}>
         </input>);
+
+    let props = {};
+    if (this.ajax) {
+      switch (this.ajax.props.event) {
+        case 'blur':
+          props.onBlur = this.ajax.call;
+      }
+    }
+
+    return React.cloneElement(elem, props);
   }
 }
 

@@ -76,6 +76,8 @@ export default class HForm extends React.Component {
       updateMessages: this.updateMessages,
       getFormId: this.getFormId,
       property: this.property,
+      all: this.context.all,
+      form: this,
     };
   }
 
@@ -133,4 +135,6 @@ HForm.childContextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
   property: PropTypes.func,
+  all: PropTypes.object,
+  form: PropTypes.instanceOf(HForm),
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HForm from '../jsf/components/HForm';
 import HCommandButton from '../jsf/components/HCommandButton';
 import FlightOverview from './pages/FlightOverview';
@@ -53,4 +54,14 @@ export default class App extends React.Component {
       );
     }
   }
+
+  getChildContext() {
+    return {
+      all: this,
+    };
+  }
 }
+
+App.childContextTypes = {
+  all: PropTypes.instanceOf(App),
+};

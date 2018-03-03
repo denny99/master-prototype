@@ -1,5 +1,6 @@
 import React from 'react';
 import FValidateRegex from '../components/FValidateRegex';
+import FAjax from '../components/FAjax';
 
 export default class Input extends React.Component {
   constructor(props, context) {
@@ -12,6 +13,19 @@ export default class Input extends React.Component {
           this.props.id,
       children: [],
     };
+
+    // convert children
+    React.Children.forEach(this.props.children, (child) => {
+      let object;
+      if (child.type === FAjax) {
+        child = React.cloneElement(child, {
+          this: this,
+        });
+      }
+      object = new child.type(child.props, child.context);
+      this.ajax = object;
+      this.state.children.push(object);
+    });
 
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
@@ -37,6 +51,10 @@ export default class Input extends React.Component {
     const message = await this.validate();
     // propagate up to form itself
     this.context.updateMessages(this, message);
+
+    if (this.ajax && this.ajax.props.event === 'change') {
+      this.ajax.call();
+    }
   }
 
   /**

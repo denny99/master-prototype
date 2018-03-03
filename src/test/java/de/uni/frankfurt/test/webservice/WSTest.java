@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO validations test
 abstract class WSTest {
   @ArquillianResource
   protected URL deploymentUrl;

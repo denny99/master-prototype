@@ -14,6 +14,7 @@ import HMessage from '../../jsf/components/HMessage';
 import HCommandButton from '../../jsf/components/HCommandButton';
 import FConvertNumber from '../../jsf/components/FConvertNumber';
 import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
+import FAjax from '../../jsf/components/FAjax';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -69,7 +70,7 @@ export default class BookingForm extends React.Component {
   }
 
   async validatePassengerCount() {
-
+    // TODO call backend
   }
 
   componentDidMount() {
@@ -126,8 +127,8 @@ export default class BookingForm extends React.Component {
                                   validator={this.validatePassengerCount}
                                   converter={IntegerConverter}
                                   converterMessage="Enter only Numbers">
-                        {/*<f:ajax event="blur" execute="@this" render="costMsg"*/}
-                        {/*listener="#{bookingFormBean.costsListener}"/>*/}
+                        <FAjax event="blur" execute="@this" render="costMsg"
+                               listener="#{bookingFormBean.costsListener}"/>
                       </HInputText>
                       <span style={{marginLeft: '4px'}}># Passengers</span>
                     </div>
