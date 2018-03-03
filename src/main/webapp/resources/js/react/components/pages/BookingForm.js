@@ -14,7 +14,6 @@ import HMessage from '../../jsf/components/HMessage';
 import HCommandButton from '../../jsf/components/HCommandButton';
 import FConvertNumber from '../../jsf/components/FConvertNumber';
 import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
-import FAjax from '../../jsf/components/FAjax';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -126,10 +125,7 @@ export default class BookingForm extends React.Component {
                                   onchange={this.updateSlider}
                                   validator={this.validatePassengerCount}
                                   converter={IntegerConverter}
-                                  converterMessage="Enter only Numbers">
-                        <FAjax event="blur" execute="@this" render="costMsg"
-                               listener="#{bookingFormBean.costsListener}"/>
-                      </HInputText>
+                                  converterMessage="Enter only Numbers"/>
                       <span style={{marginLeft: '4px'}}># Passengers</span>
                     </div>
                     <div style={{position: 'relative', bottom: '0px'}}>
@@ -176,20 +172,20 @@ export default class BookingForm extends React.Component {
                     styleClass="iceMsgError inputFieldLabel minindented"
                     for="passengerCountOutput"/>
 
-          {/*<HPanelGroup layout="block"*/}
-          {/*styleClass="contentLevelContainer blockArea">*/}
-          {/*<div className="indented inputFieldGroup" style="margin-top: 5px;">*/}
-          {/*<h:selectBooleanCheckbox id="insuranceCB"*/}
-          {/*value="#{bookingFormBean.travelInsurance}">*/}
-          {/*</h:selectBooleanCheckbox>*/}
-          {/*<h:outputLabel id="insuranceLabel" for="insuranceCB"*/}
-          {/*style="position:relative;top:-2px;"*/}
-          {/*styleClass="InfoFieldLabel minindented">Travel*/}
-          {/*Insurance*/}
-          {/*</h:outputLabel>*/}
-          {/*<div className="clear"/>*/}
-          {/*</div>*/}
-          {/*</HPanelGroup>*/}
+          <HPanelGroup layout="block"
+                       styleClass="contentLevelContainer blockArea">
+            <div className="indented inputFieldGroup" style="margin-top: 5px;">
+              <h:selectBooleanCheckbox id="insuranceCB"
+                                       value="#{bookingFormBean.travelInsurance}">
+              </h:selectBooleanCheckbox>
+              <h:outputLabel id="insuranceLabel" for="insuranceCB"
+                             style="position:relative;top:-2px;"
+                             styleClass="InfoFieldLabel minindented">Travel
+                Insurance
+              </h:outputLabel>
+              <div className="clear"/>
+            </div>
+          </HPanelGroup>
           <HCommandButton value="Cancel"
                           action={this.props.cancel}
                           id="cancelBookingButton"
