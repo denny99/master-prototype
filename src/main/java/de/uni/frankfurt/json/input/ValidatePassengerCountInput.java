@@ -11,6 +11,10 @@ public class ValidatePassengerCountInput {
   )
   private Integer passengerCount;
 
+  public ValidatePassengerCountInput(Integer passengerCount) {
+    this.passengerCount = passengerCount;
+  }
+
   public Integer getPassengerCount() {
     return passengerCount;
   }

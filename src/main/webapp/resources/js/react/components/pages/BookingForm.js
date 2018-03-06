@@ -57,7 +57,7 @@ export default class BookingForm extends React.Component {
     this.hidePassengerForm = this.hidePassengerForm.bind(this);
   }
 
-  showPassengerForm() {
+   showPassengerForm() {
     this.state = {
       bookingFormVisible: false,
       passengerFormVisible: true,
@@ -183,7 +183,7 @@ export default class BookingForm extends React.Component {
               <div className="indented inputFieldGroup"
                    style="margin-top: 5px;">
                 <HSelectBooleanCheckbox id="insuranceCB"
-                                        value="#{bookingFormBean.travelInsurance}">
+                                        value="travelInsurance     ">
                 </HSelectBooleanCheckbox>
                 <HOutputLabel id="insuranceLabel" for="insuranceCB"
                               style={{position: 'relative', top: '-2px'}}

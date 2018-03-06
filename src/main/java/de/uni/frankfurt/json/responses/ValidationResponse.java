@@ -9,7 +9,7 @@ public class ValidationResponse {
     this.messsage = message;
   }
 
-  public Boolean getError() {
+  public Boolean hasError() {
     return error;
   }
 
