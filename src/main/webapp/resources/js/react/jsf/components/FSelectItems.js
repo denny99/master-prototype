@@ -5,7 +5,7 @@ import FSelectItem from './FSelectItem';
 
 export default class FSelectItems extends React.Component {
   static propTypes = {
-    value: PropTypes.arrayOf(PropTypes.instanceOf(SelectItem)),
+    value: PropTypes.arrayOf(PropTypes.instanceOf(SelectItem)).isRequired,
   };
 
   constructor(props, context) {

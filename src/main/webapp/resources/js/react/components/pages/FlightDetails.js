@@ -5,8 +5,8 @@ import Flight from '../../entity/Flight';
 
 export default class FlightDetails extends React.Component {
   static propTypes = {
-    back: PropTypes.func,
-    selectedFlight: PropTypes.instanceOf(Flight),
+    back: PropTypes.func.isRequired,
+    selectedFlight: PropTypes.instanceOf(Flight).isRequired,
   };
 
   render() {

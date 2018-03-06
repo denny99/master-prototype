@@ -14,7 +14,7 @@ import DateConverter from '../../converter/DateConverter';
 
 export default class CCFlightDetails extends React.Component {
   static propTypes = {
-    flight: PropTypes.instanceOf(Flight),
+    flight: PropTypes.instanceOf(Flight).isRequired,
     headline: PropTypes.bool,
     standalone: PropTypes.bool,
     back: PropTypes.func,

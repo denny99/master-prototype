@@ -10,7 +10,7 @@ import ApiResponse from '../../entity/ApiResponse';
 export default class AceDataTable extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    value: PropTypes.instanceOf(ApiResponse),
+    value: PropTypes.instanceOf(ApiResponse).isRequired,
     onLoad: PropTypes.func.isRequired,
     rows: PropTypes.number.isRequired,
     var: PropTypes.string.isRequired,

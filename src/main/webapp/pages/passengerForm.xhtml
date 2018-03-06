@@ -4,12 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+      xmlns:ice="http://www.icesoft.com/icefaces/component"
 >
 
 <ui:composition template="/pages/templates/baseTemplate.xhtml">
     <ui:define name="content">
-        <h:form id="passengerData" styleClass="ice-skin-rime">
+        <HForm id="passengerData" styleClass="ice-skin-rime">
             <div class="inputFieldGroup">
                 <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
             </div>
@@ -17,57 +17,62 @@
                      listener="#{passengerFormBean.validateForm}" type="postValidate"/>
 
             <!-- id number or passport id -->
-            <h:panelGroup id="passportContainer" layout="block"
-                          styleClass="contentLevelContainer blockArea">
+            <HPanelGroup id="passportContainer" layout="block"
+                         styleClass="contentLevelContainer blockArea">
                 <div class="lFloat indented inputFieldGroup">
-                    <c:choose>
+                    <CHhoose>
                         <!-- if other country -->
-                        <c:when test="#{bookingFormBean.selectedFlight.foreignTravel()}">
+                        <CWhen test="#{bookingFormBean.selectedFlight.foreignTravel()}">
                             <!-- passport -->
                             <span class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
-                            <h:inputText id="passportNumberInput" maxlength="6"
+                            // TODO maxlength
+                            <HInputText id="passportNumberInput" maxlength="6"
                                          value="#{passengerFormBean.currentPassenger.passportNumber}" required="true"
                                          requiredMessage="Insert your Passport Number">
-                                <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
-                                        render="@form"/>
-                            </h:inputText>
-                        </c:when>
-                        <c:otherwise>
+                                <FAjax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
+                                       render="@form"/>
+                            </HInputText>
+                        </CWhen>
+                        <COtherwise>
                             <!-- id card -->
                             <span class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
-                            <h:inputText id="idCardNumberInput" maxlength="5"
-                                         value="#{passengerFormBean.currentPassenger.idCardNumber}" required="true"
-                                         requiredMessage="Insert your Id Card Number">
-                                <f:ajax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
-                                        render="@form"/>
-                            </h:inputText>
-                        </c:otherwise>
-                    </c:choose>
-                    <h:graphicImage id="helpIcon" library="images"
+                            <HInputText id="idCardNumberInput" maxlength="5"
+                                        value="#{passengerFormBean.currentPassenger.idCardNumber}" required="true"
+                                        requiredMessage="Insert your Id Card Number">
+                                <FAjax event="blur" listener="#{passengerFormBean.passportIdListener}" execute="@this"
+                                       render="@form"/>
+                            </HInputText>
+                        </COtherwise>
+                    </CHhoose>
+                    // TODO
+                    <HGraphicImage id="helpIcon" library="images"
                                     name="icon_info.gif">
-                        <f:ajax render="@all" event="click" listener="#{passengerFormBean.setPassportHelp}"/>
-                    </h:graphicImage>
+                        // TODO click event
+                        <FAjax render="@all" event="click" listener="#{passengerFormBean.setPassportHelp}"/>
+                    </HGraphicImage>
                 </div>
 
                 <div class="clear"/>
-            </h:panelGroup>
+            </HPanelGroup>
             <!-- ajax for prefilling data when id exists -->
             <!-- validate numbers if existing check existing data for correctness -->
-            <h:panelGroup id="personalDataContainer" layout="block"
-                          styleClass="contentLevelContainer blockArea">
+            <HPanelGroup id="personalDataContainer" layout="block"
+                         styleClass="contentLevelContainer blockArea">
                 <!-- if number exists show force edit button -->
-                <c:if test="#{passengerFormBean.existingUser}">
+                <CIf test="#{passengerFormBean.existingUser}">
                     <div class="indented inputFieldGroup">
-                        <h:commandButton id="forceEditButton" value="Edit Data"
-                                         styleClass="iceCmdBtn btnOption">
-                            <f:ajax render="@form" execute="@this" listener="#{passengerFormBean.forceEditListener}"/>
-                        </h:commandButton>
+                        <HCommandButton id="forceEditButton" value="Edit Data"
+                                        styleClass="iceCmdBtn btnOption">
+                            // TODO include in command button logic
+                            <FAjax render="@form" execute="@this" listener="#{passengerFormBean.forceEditListener}"/>
+                        </HCommandButton>
                     </div>
-                </c:if>
+                </CIf>
                 <!-- Firstname -->
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
-                    <h:inputText id="firstNameInput"
+                    // TODO disabled
+                    <HInputText id="firstNameInput"
                                  disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
                                  value="#{passengerFormBean.currentPassenger.firstName}" required="true"
                                  requiredMessage="Insert your Firstname"/>
@@ -75,74 +80,77 @@
                 <!-- Lastname -->
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
-                    <h:inputText id="lastNameInput"
-                                 disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
-                                 value="#{passengerFormBean.currentPassenger.lastName}" required="true"
-                                 requiredMessage="Insert your Lastname"/>
+                    <HInputText id="lastNameInput"
+                                disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                value="#{passengerFormBean.currentPassenger.lastName}" required="true"
+                                requiredMessage="Insert your Lastname"/>
                 </div>
                 <!-- Birthday with dp + converter -->
                 <div class="lFloat indented inputFieldGroup">
                     <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
-                    <h:inputText id="birthDateInput"
-                                 disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
-                                 value="#{passengerFormBean.currentPassenger.birthDay}" required="true"
-                                 requiredMessage="Insert your Birthdate"
-                                 converter="de.uni.frankfurt.ShortDateConverter"/>
+                    <HInputText id="birthDateInput"
+                                disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                                value="#{passengerFormBean.currentPassenger.birthDay}" required="true"
+                                requiredMessage="Insert your Birthdate"
+                                converter="de.uni.frankfurt.ShortDateConverter"/>
                 </div>
                 <div class="clear"/>
-            </h:panelGroup>
+            </HPanelGroup>
 
             <!-- luggage radio -->
-            <h:panelGroup id="luggageContainer" layout="block"
-                          styleClass="contentLevelContainer blockArea">
+            <HPanelGroup id="luggageContainer" layout="block"
+                         styleClass="contentLevelContainer blockArea">
                 <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
+                // TODO
                 <h:selectOneRadio id="luggageRadio"
                                   styleClass="iceSelOneRb masInfoInputField" required="true"
                                   layout="pageDirection"
                                   requiredMessage="Select the amount of luggage you want to check in"
                                   value="#{passengerFormBean.currentPassenger.luggageCount}">
-                    <f:selectItems id="luggageNumbers"
-                                   value="#{passengerFormBean.luggageItems}"/>
+                    <FSelectItems id="luggageNumbers"
+                                  value="#{passengerFormBean.luggageItems}"/>
                 </h:selectOneRadio>
                 <div class="clear"/>
-                <h:message styleClass="iceMsgError inputFieldLabel"
-                           for="firstNameInput" id="firstNameErrorMessage"/>
-                <h:message styleClass="iceMsgError inputFieldLabel"
-                           for="lastNameInput" id="lastNameErrorMessage"/>
-                <h:message styleClass="iceMsgError inputFieldLabel"
-                           for="birthDateInput" id="birthDateErrorMessage"/>
-                <h:message styleClass="iceMsgError inputFieldLabel"
-                           for="idCardNumberInput" id="idCardErrorMessage"/>
-                <h:message styleClass="iceMsgError inputFieldLabel"
-                           for="passportNumberInput" id="passportErrorMessage"/>
-            </h:panelGroup>
+                <HMessage styleClass="iceMsgError inputFieldLabel"
+                          for="firstNameInput" id="firstNameErrorMessage"/>
+                <HMessage styleClass="iceMsgError inputFieldLabel"
+                          for="lastNameInput" id="lastNameErrorMessage"/>
+                <HMessage styleClass="iceMsgError inputFieldLabel"
+                          for="birthDateInput" id="birthDateErrorMessage"/>
+                <HMessage styleClass="iceMsgError inputFieldLabel"
+                          for="idCardNumberInput" id="idCardErrorMessage"/>
+                <HMessage styleClass="iceMsgError inputFieldLabel"
+                          for="passportNumberInput" id="passportErrorMessage"/>
+            </HPanelGroup>
 
-            <h:commandButton value="Cancel"
+            <HCommandButton value="Cancel"
                              action="#{bookingBean.cancelBooking}"
                              id="cancelBookingButton"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton immediate="true" action="#{passengerFormBean.back}"
+            // TODO immediate?
+            <HCommandButton immediate="true" action="#{passengerFormBean.back}"
                              value="Back"
                              id="backButton"
                              styleClass="iceCmdBtn btnOption"/>
-            <h:commandButton value="Continue"
-                             id="continueButton"
-                             action="#{passengerFormBean.next}"
-                             styleClass="iceCmdBtn btnOption"/>
+            <HCommandButton value="Continue"
+                            id="continueButton"
+                            action="#{passengerFormBean.next}"
+                            styleClass="iceCmdBtn btnOption"/>
 
+            // TODO
             <ice:panelPopup id="passportHelpPopup"
                             visible="#{passengerFormBean.passportHelp}" draggable="false"
                             styleClass="popup frameHolder" autoCentre="true">
-                <f:facet name="body">
+                <FFacet name="body">
                     <div id="iFrameWrapper">
-                        <ice:outputText styleClass="iceOutTxt">
+                        <ICEOutputText styleClass="iceOutTxt">
                             Your passport number should start with P and constist of 5 numbers <br/>
                             Your id card number should consist of 5 numbers
-                        </ice:outputText>
+                        </ICEOutputText>
                     </div>
-                </f:facet>
+                </FFacet>
             </ice:panelPopup>
-        </h:form>
+        </HForm>
     </ui:define>
 </ui:composition>
 </html>
