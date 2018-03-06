@@ -68,6 +68,7 @@ public class BookingWS {
   @Path("")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Operation(
       summary = "Create new Booking",
       tags = {"booking"},

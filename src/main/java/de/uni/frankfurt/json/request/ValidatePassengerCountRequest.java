@@ -1,17 +1,20 @@
-package de.uni.frankfurt.json.input;
+package de.uni.frankfurt.json.request;
 
 import de.uni.frankfurt.json.annotations.JsonField;
 import de.uni.frankfurt.json.annotations.JsonObject;
 
 @JsonObject
-public class ValidatePassengerCountInput {
+public class ValidatePassengerCountRequest {
   @JsonField(
       required = true,
       description = "Number of new passenger for flight"
   )
   private Integer passengerCount;
 
-  public ValidatePassengerCountInput(Integer passengerCount) {
+  public ValidatePassengerCountRequest() {
+  }
+
+  public ValidatePassengerCountRequest(Integer passengerCount) {
     this.passengerCount = passengerCount;
   }
 

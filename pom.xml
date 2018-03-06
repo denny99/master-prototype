@@ -33,39 +33,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${jee.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- ICEFaces Core -->
-        <dependency>
-            <groupId>org.icefaces</groupId>
-            <artifactId>icefaces</artifactId>
-            <version>${icefaces.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.icepush</groupId>
-                    <artifactId>icepush</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- ICEFaces Advanced Components -->
-        <dependency>
-            <groupId>org.icefaces</groupId>
-            <artifactId>icefaces-ace</artifactId>
-            <version>${icefaces.version}</version>
-        </dependency>
-
-        <!-- ICEFaces 1.x Compatibility Library -->
-        <dependency>
-            <groupId>org.icefaces</groupId>
-            <artifactId>icefaces-compat</artifactId>
-            <version>${icefaces.version}</version>
         </dependency>
 
         <!-- REST Docs -->
@@ -95,6 +79,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <version>${arquillian.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- selenium -->
         <dependency>
@@ -122,6 +112,26 @@
             </exclusions>
         </dependency>
 
+        <!-- arquillian uses an older jersey version, force new one! -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <version>1.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-rest-client-impl-jersey</artifactId>
+            <version>${arquillian-jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>log4j</groupId>
@@ -129,4 +139,61 @@
             <version>${log4j.version}</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <!-- ICEFaces Core -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces</artifactId>
+                    <version>${icefaces.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.icepush</groupId>
+                            <artifactId>icepush</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <!-- ICEFaces Advanced Components -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces-ace</artifactId>
+                    <version>${icefaces.version}</version>
+                </dependency>
+
+                <!-- ICEFaces 1.x Compatibility Library -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces-compat</artifactId>
+                    <version>${icefaces.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>aquillian-glassfish-embedded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <!-- embedded does not work with the old icefaces/jsf things -->
+                <dependency>
+                    <groupId>org.glassfish.main.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                    <version>${glassfish.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+                    <version>1.0.2</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

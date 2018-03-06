@@ -7,7 +7,7 @@ import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.input.ValidatePassengerCountInput;
+import de.uni.frankfurt.json.request.ValidatePassengerCountRequest;
 import de.uni.frankfurt.json.responses.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -58,8 +58,8 @@ public class ValidationWS {
   public String validatePassengerCount(
       @PathParam("flightId") String id,
       String inputJSON) throws ResourceNotFoundException, JsonSchemaException {
-    ValidatePassengerCountInput input = this.parser.fromJSON(inputJSON,
-        ValidatePassengerCountInput.class);
+    ValidatePassengerCountRequest input = this.parser.fromJSON(inputJSON,
+        ValidatePassengerCountRequest.class);
     Flight flight = this.flightService.getFlightById(id);
     String msg = null;
     Boolean error = false;
