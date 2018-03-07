@@ -14,12 +14,7 @@ export default class HCommandButton extends JsfElement {
   };
 
   constructor(props, context) {
-    super(props);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
+    super(props, context);
 
     this.action = this.action.bind(this);
   }

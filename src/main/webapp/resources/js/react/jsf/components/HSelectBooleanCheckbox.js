@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HSelectBooleanCheckbox extends React.Component {
+export default class HSelectBooleanCheckbox extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -13,15 +14,6 @@ export default class HSelectBooleanCheckbox extends React.Component {
     focus: false,
     type: 'text',
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
 
   handleChange(event) {
     this.value = event.target.value;

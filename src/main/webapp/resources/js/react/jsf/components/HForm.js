@@ -11,8 +11,8 @@ export default class HForm extends React.Component {
     data: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.messageProps = {};
 

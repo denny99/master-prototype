@@ -7,21 +7,15 @@ export default class HGraphicImage extends JsfElement {
     id: PropTypes.string,
     library: PropTypes.string,
     name: PropTypes.string,
+    onclick: PropTypes.func,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
 
   render() {
     return (
         <img id={this.state.id}
-             src={`/javax.faces.resource/${this.props.name}.jsf?ln=${this.props.library}&amp;v=3_3_0_130416`}/>
+             src={`/javax.faces.resource/${this.props.name}.jsf?ln=${this.props.library}&amp;v=3_3_0_130416`}
+             onClick={this.props.onclick || (() => {
+             })}/>
     );
   }
 }

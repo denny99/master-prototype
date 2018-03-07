@@ -8,15 +8,6 @@ export default class FSelectItems extends React.Component {
     value: PropTypes.arrayOf(PropTypes.instanceOf(SelectItem)).isRequired,
   };
 
-  constructor(props, context) {
-    super(props);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
-
   render() {
     const options = this.props.value.map((item, i) => {
       return <FSelectItem key={i} value={item.value} itemLabel={item.label}/>;

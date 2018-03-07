@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HPanelGroup extends React.Component {
+export default class HPanelGroup extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     layout: PropTypes.string,
@@ -9,15 +10,6 @@ export default class HPanelGroup extends React.Component {
     style: PropTypes.object,
     rendered: PropTypes.bool,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
 
   render() {
     if (this.props.rendered !== false) {

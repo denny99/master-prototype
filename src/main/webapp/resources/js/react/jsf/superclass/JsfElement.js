@@ -1,5 +1,8 @@
 import React from 'react';
 import FAjax from '../components/FAjax';
+import FFacet from '../components/FFacet';
+import FValidateRegex from '../components/FValidateRegex';
+import FConvertNumber from '../components/FConvertNumber';
 
 export default class JsfElement extends React.Component {
   constructor(props, context) {
@@ -19,11 +22,27 @@ export default class JsfElement extends React.Component {
         child = React.cloneElement(child, {
           this: this,
         });
+        object = new child.type(child.props, child.context);
+        this.ajax = object;
+        return;
       }
-      object = new child.type(child.props, child.context);
-      this.ajax = object;
-      this.state.children.push(object);
+      if (child.type === FFacet) {
+        this[child.props.name] = child.props.children;
+        return;
+      }
+      if (child.type === FValidateRegex) {
+        object = new child.type(child.props, child.context);
+        this.state.children.push(object);
+        return;
+      }
+      if (child.type === FConvertNumber) {
+        this.converter = new child.type(child.props, child.context);
+      }
     });
+
+    if (this.props.converter) {
+      this.converter = new this.props.converter();
+    }
 
     this.handleAjax = this.handleAjax.bind(this);
   }

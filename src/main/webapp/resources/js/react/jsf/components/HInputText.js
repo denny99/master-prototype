@@ -26,14 +26,6 @@ export default class HInputText extends Input {
     type: 'text',
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    if (this.props.converter) {
-      this.converter = new this.props.converter();
-    }
-  }
-
   handleChange(event) {
     return (async () => {
       await super.handleChange(event);

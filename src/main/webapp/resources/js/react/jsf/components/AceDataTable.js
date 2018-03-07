@@ -6,8 +6,9 @@ import Header from './datatable/Header';
 import Row from './datatable/Row';
 import Paginator from './datatable/Paginator';
 import ApiResponse from '../../entity/ApiResponse';
+import JsfElement from '../superclass/JsfElement';
 
-export default class AceDataTable extends React.Component {
+export default class AceDataTable extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.instanceOf(ApiResponse).isRequired,
@@ -18,12 +19,7 @@ export default class AceDataTable extends React.Component {
   };
 
   constructor(props, context) {
-    super(props);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
+    super(props, context);
 
     this.first = this.first.bind(this);
     this.prev = this.prev.bind(this);

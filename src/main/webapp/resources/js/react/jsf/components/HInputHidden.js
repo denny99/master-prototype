@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HInputText from './HInputText';
+import JsfElement from '../superclass/JsfElement';
+import Input from '../superclass/Input';
 
-export default class HInputHidden extends React.Component {
+export default class HInputHidden extends Input {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

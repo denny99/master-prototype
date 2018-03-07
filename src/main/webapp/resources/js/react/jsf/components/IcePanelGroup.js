@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class IcePanelGroup extends React.Component {
+export default class IcePanelGroup extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     panelTooltip: PropTypes.string,
@@ -12,11 +13,6 @@ export default class IcePanelGroup extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
 
     this.onMouseOver = this.onMouseOver.bind(this);
   }

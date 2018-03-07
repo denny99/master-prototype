@@ -1,22 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HOutputLabel extends React.Component {
+export default class HOutputLabel extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     for: PropTypes.string,
     style: PropTypes.obj,
     styleClass: PropTypes.string,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
 
   render() {
     let forId = this.context ?

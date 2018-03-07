@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HOutputText extends React.Component {
+export default class HOutputText extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     styleClass: PropTypes.string,
@@ -10,18 +11,6 @@ export default class HOutputText extends React.Component {
     // should implement converter!
     converter: PropTypes.func,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-    if (this.props.converter) {
-      this.converter = new this.props.converter();
-    }
-  }
 
   render() {
     return (<span className={this.props.styleClass} style={this.props.style}

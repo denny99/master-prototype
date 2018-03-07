@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FFacet from './FFacet';
+import JsfElement from '../superclass/JsfElement';
 
-export default class IcePanelTooltip extends React.Component {
+export default class IcePanelTooltip extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     hideOn: PropTypes.string,
@@ -11,18 +12,7 @@ export default class IcePanelTooltip extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-      style: IcePanelTooltip.hiddenStyle,
-    };
-
-    React.Children.forEach(this.props.children, (child) => {
-      if (child.type === FFacet) {
-        this[child.props.name] = child.props.children;
-      }
-    });
+    this.state.style = IcePanelTooltip.hiddenStyle;
 
     this.hideTooltip = this.hideTooltip.bind(this);
   }

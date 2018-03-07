@@ -15,6 +15,8 @@ import HGraphicImage from '../../jsf/components/HGraphicImage';
 import FSelectItems from '../../jsf/components/FSelectItems';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import HSelectOneRadio from '../../jsf/components/HSelectOneRadio';
+import Passenger from '../../entity/Passenger';
+import FEvent from '../../jsf/components/FEvent';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -51,31 +53,86 @@ export default class PassengerForm extends React.Component {
       data: this.props.bookingFormData,
       forceEdit: false,
       existingUser: false,
+      passportHelp: false,
       currentPassengerIndex: 0,
+      passengers: [],
     };
 
-    // TODO create empty passengers
+    // create empty passengers
+    for (let i = 0; i < this.props.bookingFormData.passengerCount; i++) {
+      this.state.passengers.push(new Passenger());
+    }
+    // setup first passenger
+    this.state.data.currentPassenger = this.state.passengers[0];
 
     this.validateForm = this.validateForm.bind(this);
-    this.setPassportHelp = this.setPassportHelp.bind(this);
+    this.togglePassportHelp = this.togglePassportHelp.bind(this);
     this.passportIdListener = this.passportIdListener.bind(this);
     this.next = this.next.bind(this);
     this.back = this.back.bind(this);
     this.toggleForceEdit = this.toggleForceEdit.bind(this);
   }
 
+  get currentPassenger() {
+    return this.passengerForm.state.data.currentPassenger;
+  }
+
+  /**
+   *
+   * @param {Passenger} passenger
+   */
+  set currentPassenger(passenger) {
+    this.passengerForm.state.data.currentPassenger = passenger;
+  }
+
+  hidePassengerForm() {
+    this.setState({
+      passengerFormVisible: true,
+      bookingDetailsVisible: false,
+    });
+  }
+
   next() {
-    this.state = {
-      passengerFormVisible: false,
-      bookingDetailsVisible: true,
-    };
+    if (this.currentPassengerIndex + 1 === this.passengers.length) {
+      return this.setState({
+        passengerFormVisible: false,
+        bookingDetailsVisible: true,
+      });
+    }
+
+    // save current data
+    this.state.data = this.passengerForm.state.data;
+    // save entered passenger data
+    this.state.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
+
+    // increase index
+    this.state.currentPassengerIndex++;
+    this.state.data.currentPassenger = this.state.passengers[this.state.currentPassengerIndex];
+
+    // inform form about change
+    this.passengerForm.setState({
+      data: this.state.data,
+    });
   }
 
   back() {
-    this.state = {
-      passengerFormVisible: true,
-      bookingDetailsVisible: false,
-    };
+    if (this.state.currentPassengerIndex === 0) {
+      return this.props.back();
+    }
+    // save current data
+    this.state.data = this.passengerForm.state.data;
+    // save entered passenger data
+    this.state.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
+
+    // decrease index
+    this.state.currentPassengerIndex--;
+    // set last passenger as current
+    this.state.data.currentPassenger = this.state.passengers[this.state.currentPassengerIndex];
+
+    // inform form about change
+    this.passengerForm.setState({
+      data: this.state.data,
+    });
   }
 
   toggleForceEdit() {
@@ -88,8 +145,10 @@ export default class PassengerForm extends React.Component {
 
   }
 
-  setPassportHelp() {
-
+  togglePassportHelp() {
+    this.setState({
+      passportHelp: !this.state.passportHelp,
+    });
   }
 
   /**
@@ -105,7 +164,7 @@ export default class PassengerForm extends React.Component {
     if (this.state.passengerFormVisible) {
       return (
           <HForm ref={(form) => {
-            this.bookingForm = form;
+            this.passengerForm = form;
           }} id="passengerData" styleClass="ice-skin-rime">
             <div className="inputFieldGroup">
               <span
@@ -113,8 +172,8 @@ export default class PassengerForm extends React.Component {
               1}</span>
             </div>
             // TODO
-            <f:event id="multiFieldValidationEvent"
-                     listener="#{passengerFormBean.validateForm}"
+            <FEvent id="multiFieldValidationEvent"
+                     listener={this.validateForm}
                      type="postValidate"/>
             <HPanelGroup id="passportContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
@@ -147,10 +206,8 @@ export default class PassengerForm extends React.Component {
                   </COtherwise>
                 </CHhoose>
                 <HGraphicImage id="helpIcon" library="images"
-                               name="icon_info.gif">
-                  <FAjax render="@all" event="click"
-                         listener={this.setPassportHelp}/>
-                </HGraphicImage>
+                               name="icon_info.gif"
+                               onclick={this.togglePassportHelp}/>
               </div>
 
               <div className="clear"/>
@@ -238,7 +295,7 @@ export default class PassengerForm extends React.Component {
 
             // TODO
             <ice:panelPopup id="passportHelpPopup"
-                            visible="#{passengerFormBean.passportHelp}"
+                            visible={this.state.passportHelp}
                             draggable="false"
                             styleClass="popup frameHolder" autoCentre="true">
               <FFacet name="body">

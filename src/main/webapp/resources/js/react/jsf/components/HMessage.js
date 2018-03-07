@@ -1,22 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HMessage extends React.Component {
+export default class HMessage extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     for: PropTypes.string.isRequired,
     styleClass: PropTypes.string,
     messageProps: PropTypes.object,
   };
-
-  constructor(props, context) {
-    super(props);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-    };
-  }
 
   render() {
     const props = this.props.messageProps[this.props.for];

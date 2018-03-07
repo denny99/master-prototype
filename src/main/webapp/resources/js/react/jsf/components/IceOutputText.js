@@ -10,22 +10,6 @@ export default class IceOutputText extends React.Component {
     type: PropTypes.string,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-      value: this.props.value,
-    };
-
-    React.Children.forEach(this.props.children, (child => {
-      if (child.type === FConvertNumber) {
-        this.converter = new child.type(child.props, child.context);
-      }
-    }));
-  }
-
   render() {
     if (this.converter) {
       this.state.value = this.converter.convert(this.state.value);
