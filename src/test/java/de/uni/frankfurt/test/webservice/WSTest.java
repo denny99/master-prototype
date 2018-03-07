@@ -23,7 +23,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO validations test
 abstract class WSTest {
   @ArquillianResource
   protected URL deploymentUrl;
@@ -100,7 +99,6 @@ abstract class WSTest {
    */
   protected <T> APIResponse<T> postResourceToAPI(
       String basePath, Object b, Class<T> clazz) {
-    // TODO handle error messages
     return new APIResponse<>(webTarget
         .path(basePath)
         .request(MediaType.APPLICATION_JSON)

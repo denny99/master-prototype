@@ -10,7 +10,7 @@ export default class FlightService {
    * @param {number} limit
    * @param {number} offset
    * @param {'asc' | 'desc'} sortOrder
-   * @return {Promise<object[]>}
+   * @return {Promise<Flight[]>}
    */
   static async getFlights(city, limit, offset, sortOrder) {
     // do ajax call

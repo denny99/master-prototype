@@ -7,6 +7,8 @@ export default class HInputText extends Input {
     focus: PropTypes.bool,
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    maxLength: PropTypes.number,
+    disabled: PropTypes.bool,
     style: PropTypes.object,
     styleClass: PropTypes.string,
     type: PropTypes.string,
@@ -69,6 +71,7 @@ export default class HInputText extends Input {
     let elem = (
         <input id={this.state.id}
                name={this.state.id}
+               disabled={this.props.disabled}
                type={this.props.type || 'text'}
                ref={(input) => {
                  this.input = input;
@@ -79,13 +82,7 @@ export default class HInputText extends Input {
                onChange={this.handleChange}>
         </input>);
 
-    let props = {};
-    if (this.ajax) {
-      switch (this.ajax.props.event) {
-        case 'blur':
-          props.onBlur = this.ajax.call;
-      }
-    }
+    let props = this.handleAjax();
 
     return React.cloneElement(elem, props);
   }

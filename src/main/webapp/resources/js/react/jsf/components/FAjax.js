@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class FAjax extends React.Component {
   static propTypes = {
-    event: PropTypes.string.isRequired,
+    event: PropTypes.string,
     execute: PropTypes.string,
     render: PropTypes.string,
     listener: PropTypes.func.isRequired,
@@ -13,6 +13,7 @@ export default class FAjax extends React.Component {
   static defaultProps = {
     execute: '@this',
     render: '@this',
+    event: 'click',
   };
 
   constructor(props, context) {

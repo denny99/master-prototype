@@ -1,31 +1,12 @@
 import React from 'react';
 import FValidateRegex from '../components/FValidateRegex';
-import FAjax from '../components/FAjax';
+import JsfElement from './JsfElement';
 
-export default class Input extends React.Component {
+export default class Input extends JsfElement {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      hasError: false,
-      id: (context.getFormId) ?
-          context.getFormId(this.props.id) :
-          this.props.id,
-      children: [],
-    };
-
-    // convert children
-    React.Children.forEach(this.props.children, (child) => {
-      let object;
-      if (child.type === FAjax) {
-        child = React.cloneElement(child, {
-          this: this,
-        });
-      }
-      object = new child.type(child.props, child.context);
-      this.ajax = object;
-      this.state.children.push(object);
-    });
+    this.state.hasError = false;
 
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
@@ -53,7 +34,7 @@ export default class Input extends React.Component {
     this.context.updateMessages(this, message);
 
     if (this.ajax && this.ajax.props.event === 'change') {
-      this.ajax.call();
+      await this.ajax.call();
     }
   }
 
@@ -82,6 +63,13 @@ export default class Input extends React.Component {
       if (currentValue === '' || currentValue === undefined) {
         hasError = true;
         message = this.props.requiredMessage;
+      }
+    }
+
+    if (this.props.maxLength && !hasError) {
+      if (currentValue && currentValue.length > this.props.maxLength) {
+        hasError = true;
+        message = `Max ${this.props.maxLength} Characters allowed`;
       }
     }
 

@@ -17,6 +17,7 @@ import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
 import HOutputLabel from '../../jsf/components/HOutputLabel';
 import HSelectBooleanCheckbox from '../../jsf/components/HSelectBooleanCheckbox';
 import PassengerForm from './PassengerForm';
+import ValidationService from '../../service/ValidationService';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -72,7 +73,8 @@ export default class BookingForm extends React.Component {
   }
 
   async validatePassengerCount() {
-    // TODO call backend
+    return ValidationService.validatePassengerCount(this.props.selectedFlight,
+        this.bookingForm.data.passengerCount);
   }
 
   componentDidMount() {

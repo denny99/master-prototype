@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class HCommandButton extends React.Component {
+export default class HCommandButton extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string.isRequired,
+    immediate: PropTypes.bool,
     style: PropTypes.object,
     styleClass: PropTypes.string,
     action: PropTypes.func,
@@ -27,11 +29,17 @@ export default class HCommandButton extends React.Component {
    * gather data from parent form
    * @param {Event} e
    */
-  action(e) {
+  async action(e) {
     // jsf used form, but we don't wanna submit them in react
     e.preventDefault();
+    if (!this.props.immediate) {
+      if (this.ajax && this.ajax.props.event === 'click') {
+        await this.ajax.call();
+      }
+    }
     // argument might be undefined
     this.props.action(this.props.actionArgument);
+
   }
 
   render() {

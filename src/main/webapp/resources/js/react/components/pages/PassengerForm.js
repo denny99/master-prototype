@@ -11,6 +11,10 @@ import CWhen from '../../jsf/components/CWhen';
 import FAjax from '../../jsf/components/FAjax';
 import COtherwise from '../../jsf/components/COtherwise';
 import CIf from '../../jsf/components/CIf';
+import HGraphicImage from '../../jsf/components/HGraphicImage';
+import FSelectItems from '../../jsf/components/FSelectItems';
+import ShortDateConverter from '../../converter/ShortDateConverter';
+import HSelectOneRadio from '../../jsf/components/HSelectOneRadio';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -19,6 +23,7 @@ export default class PassengerForm extends React.Component {
     back: PropTypes.func.isRequired,
     bookingFormData: PropTypes.object.isRequired,
   };
+
   updateSlider = function() {
     let currentValue = this.bookingForm.state.data.passengerCount;
     let maxValue = this.props.selectedFlight.aircraft.passengerCount;
@@ -43,32 +48,57 @@ export default class PassengerForm extends React.Component {
     this.state = {
       passengerFormVisible: true,
       bookingDetailsVisible: false,
-      data: {
-        passengerCount: 1,
-      },
+      data: this.props.bookingFormData,
+      forceEdit: false,
+      existingUser: false,
+      currentPassengerIndex: 0,
     };
 
-    this.validatePassengerCount = this.validatePassengerCount.bind(this);
-    this.showBookingDetails = this.showBookingDetails.bind(this);
-    this.hideBookingDetails = this.hideBookingDetails.bind(this);
+    // TODO create empty passengers
+
+    this.validateForm = this.validateForm.bind(this);
+    this.setPassportHelp = this.setPassportHelp.bind(this);
+    this.passportIdListener = this.passportIdListener.bind(this);
+    this.next = this.next.bind(this);
+    this.back = this.back.bind(this);
+    this.toggleForceEdit = this.toggleForceEdit.bind(this);
   }
 
-  showBookingDetails() {
+  next() {
     this.state = {
       passengerFormVisible: false,
       bookingDetailsVisible: true,
     };
   }
 
-  hideBookingDetails() {
+  back() {
     this.state = {
       passengerFormVisible: true,
       bookingDetailsVisible: false,
     };
   }
 
-  async validatePassengerCount() {
-    // TODO call backend
+  toggleForceEdit() {
+    this.setState({
+      forceEdit: !this.state.forceEdit,
+    });
+  }
+
+  validateForm() {
+
+  }
+
+  setPassportHelp() {
+
+  }
+
+  /**
+   *
+   * @param {React.Component} input
+   * @param {string} render
+   */
+  passportIdListener(input, render) {
+
   }
 
   render() {
@@ -78,7 +108,8 @@ export default class PassengerForm extends React.Component {
             this.bookingForm = form;
           }} id="passengerData" styleClass="ice-skin-rime">
             <div className="inputFieldGroup">
-              <span className="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex +
+              <span
+                  className="iceOutTxt headerLabel">Enter Data for Passenger #{this.state.currentPassengerIndex +
               1}</span>
             </div>
             // TODO
@@ -90,38 +121,35 @@ export default class PassengerForm extends React.Component {
               <div className="lFloat indented inputFieldGroup">
                 <CHhoose>
                   <CWhen
-                      test="#{bookingFormBean.selectedFlight.foreignTravel()}">
+                      test={this.props.selectedFlight.foreignTravel}>
                     <span className="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
-                    // TODO maxlength
-                    <HInputText id="passportNumberInput" maxlength="6"
-                                value="#{passengerFormBean.currentPassenger.passportNumber}"
+                    <HInputText id="passportNumberInput" maxlength={6}
+                                value="currentPassenger.passportNumber"
                                 required="true"
                                 requiredMessage="Insert your Passport Number">
                       <FAjax event="blur"
-                             listener="#{passengerFormBean.passportIdListener}"
+                             listener={this.passportIdListener}
                              execute="@this"
                              render="@form"/>
                     </HInputText>
                   </CWhen>
                   <COtherwise>
                     <span className="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
-                    <HInputText id="idCardNumberInput" maxlength="5"
-                                value="#{passengerFormBean.currentPassenger.idCardNumber}"
+                    <HInputText id="idCardNumberInput" maxlength={5}
+                                value="currentPassenger.idCardNumber"
                                 required="true"
                                 requiredMessage="Insert your Id Card Number">
                       <FAjax event="blur"
-                             listener="#{passengerFormBean.passportIdListener}"
+                             listener={this.passportIdListener}
                              execute="@this"
                              render="@form"/>
                     </HInputText>
                   </COtherwise>
                 </CHhoose>
-                // TODO
                 <HGraphicImage id="helpIcon" library="images"
                                name="icon_info.gif">
-                  // TODO click event
                   <FAjax render="@all" event="click"
-                         listener="#{passengerFormBean.setPassportHelp}"/>
+                         listener={this.setPassportHelp}/>
                 </HGraphicImage>
               </div>
 
@@ -129,23 +157,21 @@ export default class PassengerForm extends React.Component {
             </HPanelGroup>
             <HPanelGroup id="personalDataContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
-              <CIf test="#{passengerFormBean.existingUser}">
+              <CIf test={this.state.existingUser}>
                 <div className="indented inputFieldGroup">
                   <HCommandButton id="forceEditButton" value="Edit Data"
-                                  styleClass="iceCmdBtn btnOption">
-                    // TODO include in command button logic
-                    <FAjax render="@form" execute="@this"
-                           listener="#{passengerFormBean.forceEditListener}"/>
+                                  styleClass="iceCmdBtn btnOption"
+                                  action={this.toggleForceEdit}>
                   </HCommandButton>
                 </div>
               </CIf>
               <div className="lFloat indented inputFieldGroup">
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
-                // TODO disabled
                 <HInputText id="firstNameInput"
-                            disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
-                            value="#{passengerFormBean.currentPassenger.firstName}"
+                            disabled={this.state.existingUser &&
+                            !this.state.forceEdit}
+                            value="currentPassenger.firstName"
                             required="true"
                             requiredMessage="Insert your Firstname"/>
               </div>
@@ -153,8 +179,9 @@ export default class PassengerForm extends React.Component {
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
                 <HInputText id="lastNameInput"
-                            disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
-                            value="#{passengerFormBean.currentPassenger.lastName}"
+                            disabled={this.state.existingUser &&
+                            !this.state.forceEdit}
+                            value="currentPassenger.lastName"
                             required="true"
                             requiredMessage="Insert your Lastname"/>
               </div>
@@ -162,27 +189,27 @@ export default class PassengerForm extends React.Component {
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
                 <HInputText id="birthDateInput"
-                            disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
-                            value="#{passengerFormBean.currentPassenger.birthDay}"
+                            disabled={this.state.existingUser &&
+                            !this.state.forceEdit}
+                            value="currentPassenger.birthDay"
                             required="true"
                             requiredMessage="Insert your Birthdate"
-                            converter="de.uni.frankfurt.ShortDateConverter"/>
+                            converter={ShortDateConverter}/>
               </div>
               <div className="clear"/>
             </HPanelGroup>
             <HPanelGroup id="luggageContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
               <span className="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
-              // TODO
-              <h:selectOneRadio id="luggageRadio"
-                                styleClass="iceSelOneRb masInfoInputField"
-                                required="true"
-                                layout="pageDirection"
-                                requiredMessage="Select the amount of luggage you want to check in"
-                                value="#{passengerFormBean.currentPassenger.luggageCount}">
+              <HSelectOneRadio id="luggageRadio"
+                               styleClass="iceSelOneRb masInfoInputField"
+                               required="true"
+                               layout="pageDirection"
+                               requiredMessage="Select the amount of luggage you want to check in"
+                               value="currentPassenger.luggageCount">
                 <FSelectItems id="luggageNumbers"
                               value="#{passengerFormBean.luggageItems}"/>
-              </h:selectOneRadio>
+              </HSelectOneRadio>
               <div className="clear"/>
               <HMessage styleClass="iceMsgError inputFieldLabel"
                         for="firstNameInput" id="firstNameErrorMessage"/>
@@ -197,17 +224,16 @@ export default class PassengerForm extends React.Component {
             </HPanelGroup>
 
             <HCommandButton value="Cancel"
-                            action="#{bookingBean.cancelBooking}"
+                            action={this.props.cancel}
                             id="cancelBookingButton"
                             styleClass="iceCmdBtn btnOption"/>
-            // TODO immediate?
-            <HCommandButton immediate="true" action="#{passengerFormBean.back}"
+            <HCommandButton immediate="true" action={this.back}
                             value="Back"
                             id="backButton"
                             styleClass="iceCmdBtn btnOption"/>
             <HCommandButton value="Continue"
                             id="continueButton"
-                            action="#{passengerFormBean.next}"
+                            action={this.next}
                             styleClass="iceCmdBtn btnOption"/>
 
             // TODO

@@ -1,22 +1,15 @@
 import React from 'react';
+import Input from './Input';
+import FSelectItem from '../components/FSelectItem';
+import FSelectItems from '../components/FSelectItems';
 import PropTypes from 'prop-types';
-import FSelectItem from './FSelectItem';
-import FSelectItems from './FSelectItems';
-import SelectOne from '../superclass/SelectOne';
+import HSelectOneMenu from '../components/HSelectOneMenu';
+import HSelectOneRadio from '../components/HSelectOneRadio';
 
-export default class HSelectOneMenu extends SelectOne {
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.string,
-    size: PropTypes.number,
-    styleClass: PropTypes.string,
-    style: PropTypes.object,
-    requiredMessage: PropTypes.string,
-    required: PropTypes.bool,
-  };
-
+export default class SelectOne extends Input {
   constructor(props, context) {
     super(props, context);
+
     // set for value setter...
     this.context = context;
     // if value is unset the first children is the one selected per default
@@ -37,27 +30,25 @@ export default class HSelectOneMenu extends SelectOne {
     }
   }
 
-  handleChange(event) {
-    return (async () => {
-      return await super.handleChange(event);
-    })();
-  }
-
-  render() {
-    return (
-        <select defaultValue={this.value} className={this.props.styleClass}
-                id={this.state.id}
-                name={this.state.id} size={this.props.size}
-                style={this.props.style}
-                onChange={this.handleChange}
-        >
-          {this.props.children}
-        </select>);
+  getChildContext() {
+    return {
+      updateMessages: this.context.updateMessages,
+      getFormId: (key) => {
+        return key ? `${this.state.id}:${key}` : this.state.id;
+      },
+      property: this.context.property,
+      currentValue: this.value,
+      parent: this,
+    };
   }
 }
 
-HSelectOneMenu.contextTypes = {
+SelectOne.childContextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
   property: PropTypes.func,
+  currentValue: PropTypes.any,
+  parent: PropTypes.oneOfType([
+    PropTypes.instanceOf(HSelectOneMenu),
+    PropTypes.instanceOf(HSelectOneRadio)]),
 };
