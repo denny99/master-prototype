@@ -12,7 +12,6 @@ import HInputHidden from '../../jsf/components/HInputHidden';
 import FFacet from '../../jsf/components/FFacet';
 import HMessage from '../../jsf/components/HMessage';
 import HCommandButton from '../../jsf/components/HCommandButton';
-import FConvertNumber from '../../jsf/components/FConvertNumber';
 import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
 import HOutputLabel from '../../jsf/components/HOutputLabel';
 import HSelectBooleanCheckbox from '../../jsf/components/HSelectBooleanCheckbox';
@@ -24,6 +23,7 @@ export default class BookingForm extends React.Component {
     selectedFlight: PropTypes.instanceOf(Flight).isRequired,
     cancel: PropTypes.func.isRequired,
   };
+
   updateSlider = function() {
     let currentValue = this.bookingForm.state.data.passengerCount;
     let maxValue = this.props.selectedFlight.aircraft.passengerCount;
@@ -56,25 +56,26 @@ export default class BookingForm extends React.Component {
     this.validatePassengerCount = this.validatePassengerCount.bind(this);
     this.showPassengerForm = this.showPassengerForm.bind(this);
     this.hidePassengerForm = this.hidePassengerForm.bind(this);
+    this.updateSlider = this.updateSlider.bind(this);
   }
 
-   showPassengerForm() {
-    this.state = {
+  showPassengerForm() {
+    this.setState({
       bookingFormVisible: false,
       passengerFormVisible: true,
-    };
+    });
   }
 
   hidePassengerForm() {
-    this.state = {
+    this.setState({
       bookingFormVisible: true,
       passengerFormVisible: false,
-    };
+    });
   }
 
   async validatePassengerCount() {
     return ValidationService.validatePassengerCount(this.props.selectedFlight,
-        this.bookingForm.data.passengerCount);
+        this.bookingForm.state.data.passengerCount);
   }
 
   componentDidMount() {
@@ -152,10 +153,8 @@ export default class BookingForm extends React.Component {
                         </div>
 
                         <IceOutputText id="costs"
-                                       value={`Costs p.P. ${this.props.selectedFlight.costs}`}
                                        styleClass="ssInfoFieldLabel2">
-                          <FConvertNumber pattern="##,###" groupingUsed={true}
-                                          locale="de-DE"/>
+                          Costs p.P. {this.props.selectedFlight.costs}
                         </IceOutputText>
                         <span>€</span>
                       </div>
@@ -185,7 +184,7 @@ export default class BookingForm extends React.Component {
               <div className="indented inputFieldGroup"
                    style={{marginTop: '5px'}}>
                 <HSelectBooleanCheckbox id="insuranceCB"
-                                        value="travelInsurance     ">
+                                        value="travelInsurance">
                 </HSelectBooleanCheckbox>
                 <HOutputLabel id="insuranceLabel" for="insuranceCB"
                               style={{position: 'relative', top: '-2px'}}

@@ -26,6 +26,10 @@ export default class Input extends JsfElement {
     if (this.ajax && this.ajax.props.event === 'change') {
       await this.ajax.call();
     }
+
+    if (this.props.hasOwnProperty('onchange')) {
+      this.props.onchange();
+    }
   }
 
   /**

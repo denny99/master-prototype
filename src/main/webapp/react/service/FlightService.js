@@ -17,6 +17,7 @@ export default class FlightService {
     return new Promise((resolve, reject) => {
       $.get({
         url: FlightService.URL,
+        contentType: 'application/json',
         data: {
           city: city,
           limit: limit,

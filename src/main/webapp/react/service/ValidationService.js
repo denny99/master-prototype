@@ -16,14 +16,16 @@ export default class ValidationService {
     return new Promise((resolve, reject) => {
       $.post({
         url: ValidationService.URL + `${flight.id}/validatePassengerCount`,
-        data: {
+        contentType: 'application/json',
+        data: JSON.stringify({
           passengerCount: passengerCount,
-        },
+        }),
         error: function(jqXHR, textStatus, errorThrown) {
           reject(errorThrown);
         },
         success: function(data) {
-          resolve(new ValidationResponse(data.error, data.message));
+          let json = JSON.parse(data);
+          resolve(new ValidationResponse(json.error, json.message));
         },
       });
     });

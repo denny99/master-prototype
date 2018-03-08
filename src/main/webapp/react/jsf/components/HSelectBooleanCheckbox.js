@@ -15,6 +15,14 @@ export default class HSelectBooleanCheckbox extends Input {
     type: 'text',
   };
 
+  async handleChange(event) {
+    return await super.handleChange({
+      target: {
+        value: event.target.checked,
+      },
+    });
+  }
+
   render() {
     return (<input id={this.state.id} name={this.state.id}
                    type="checkbox" onChange={this.handleChange}

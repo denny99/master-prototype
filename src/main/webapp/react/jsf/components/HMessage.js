@@ -7,11 +7,15 @@ export default class HMessage extends JsfElement {
     id: PropTypes.string,
     for: PropTypes.string.isRequired,
     styleClass: PropTypes.string,
-    messageProps: PropTypes.object,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    context.initMessage(this.props.for);
+  }
+
   render() {
-    const props = this.props.messageProps[this.props.for];
+    const props = this.context.getMessage(this.props.for);
     return (
         <span className={props.show ? this.props.styleClass : ''}
               id={this.state.id}>
@@ -22,4 +26,6 @@ export default class HMessage extends JsfElement {
 
 HMessage.contextTypes = {
   getFormId: PropTypes.func,
+  initMessage: PropTypes.func,
+  getMessage: PropTypes.func,
 };

@@ -2,14 +2,14 @@ package de.uni.frankfurt.json.responses;
 
 public class ValidationResponse {
   private Boolean error;
-  private String messsage;
+  private String message;
 
   public ValidationResponse() {
   }
 
   public ValidationResponse(Boolean error, String message) {
     this.error = error;
-    this.messsage = message;
+    this.message = message;
   }
 
   public Boolean getError() {
@@ -20,11 +20,11 @@ public class ValidationResponse {
     this.error = error;
   }
 
-  public String getMesssage() {
-    return messsage;
+  public String getMessage() {
+    return message;
   }
 
-  public void setMesssage(String messsage) {
-    this.messsage = messsage;
+  public void setMessage(String message) {
+    this.message = message;
   }
 }

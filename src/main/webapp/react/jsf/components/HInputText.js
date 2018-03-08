@@ -43,7 +43,6 @@ export default class HInputText extends Input {
           this.context.updateMessages(this, this.props.converterMessage);
         }
       }
-      this.props.onchange();
     })();
   }
 

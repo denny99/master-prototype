@@ -15,24 +15,23 @@ export default class IcePanelPopup extends JsfElement {
     super(props, context);
 
     this.state = {
-      width: null,
-      height: null,
+      width: undefined,
+      height: undefined,
     };
   }
 
-  componentDidMount() {
-    // only do once?
-    if (this.state.height === null) {
-
+  componentDidUpdate() {
+    // only do once
+    if (this.state.height === undefined || this.state.height === 0) {
+      this.setState({
+        width: this.popup.offsetWidth,
+        height: this.popup.offsetHeight,
+      });
     }
-
-    this.setState({
-      width: this.popup.offsetWidth,
-      height: this.popup.offsetHeight,
-    });
   }
 
   render() {
+    // currently auto centre is always active!
     let style = {
       display: 'block',
       position: 'absolute',
