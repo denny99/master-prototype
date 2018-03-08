@@ -16,7 +16,8 @@ import FSelectItems from '../../jsf/components/FSelectItems';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import HSelectOneRadio from '../../jsf/components/HSelectOneRadio';
 import Passenger from '../../entity/Passenger';
-import FEvent from '../../jsf/components/FEvent';
+import IceOutputText from '../../jsf/components/IceOutputText';
+import IcePanelPopup from '../../jsf/components/IcePanelPopup';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -93,6 +94,8 @@ export default class PassengerForm extends React.Component {
   }
 
   next() {
+    this.validateForm();
+
     if (this.currentPassengerIndex + 1 === this.passengers.length) {
       return this.setState({
         passengerFormVisible: false,
@@ -171,10 +174,6 @@ export default class PassengerForm extends React.Component {
                   className="iceOutTxt headerLabel">Enter Data for Passenger #{this.state.currentPassengerIndex +
               1}</span>
             </div>
-            // TODO
-            <FEvent id="multiFieldValidationEvent"
-                     listener={this.validateForm}
-                     type="postValidate"/>
             <HPanelGroup id="passportContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
               <div className="lFloat indented inputFieldGroup">
@@ -293,21 +292,20 @@ export default class PassengerForm extends React.Component {
                             action={this.next}
                             styleClass="iceCmdBtn btnOption"/>
 
-            // TODO
-            <ice:panelPopup id="passportHelpPopup"
-                            visible={this.state.passportHelp}
-                            draggable="false"
-                            styleClass="popup frameHolder" autoCentre="true">
+            <IcePanelPopup id="passportHelpPopup"
+                           visible={this.state.passportHelp}
+                           draggable={false}
+                           styleClass="popup frameHolder" autoCentre={true}>
               <FFacet name="body">
                 <div id="iFrameWrapper">
-                  <ICEOutputText styleClass="iceOutTxt">
-                    Your passport number should start with P and constist of 5
+                  <IceOutputText styleClass="iceOutTxt">
+                    Your passport number should start with P and consist of 5
                     numbers <br/>
                     Your id card number should consist of 5 numbers
-                  </ICEOutputText>
+                  </IceOutputText>
                 </div>
               </FFacet>
-            </ice:panelPopup>
+            </IcePanelPopup>
           </HForm>
       );
     } else {
