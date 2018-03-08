@@ -22,7 +22,7 @@ export default class JsfElement extends React.Component {
         child = React.cloneElement(child, {
           this: this,
         });
-        object = new child.type(child.props, child.context);
+        object = new child.type(child.props, context);
         this.ajax = object;
         return;
       }
@@ -31,12 +31,12 @@ export default class JsfElement extends React.Component {
         return;
       }
       if (child.type === FValidateRegex) {
-        object = new child.type(child.props, child.context);
+        object = new child.type(child.props, context);
         this.state.children.push(object);
         return;
       }
       if (child.type === FConvertNumber) {
-        this.converter = new child.type(child.props, child.context);
+        this.converter = new child.type(child.props, context);
       }
     });
 
@@ -45,6 +45,16 @@ export default class JsfElement extends React.Component {
     }
 
     this.handleAjax = this.handleAjax.bind(this);
+  }
+
+  get value() {
+    return (typeof this.props.value === 'string') ?
+        this.context.property(this.props.value) :
+        this.props.value;
+  }
+
+  set value(o) {
+    return this.context.property(this.props.value, o);
   }
 
   /**

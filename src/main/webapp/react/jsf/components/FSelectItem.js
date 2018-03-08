@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HSelectOneMenu from './HSelectOneMenu';
-import HSelectOneRadio from './HSelectOneRadio';
 
 export default class FSelectItem extends React.Component {
   static propTypes = {
@@ -25,16 +24,16 @@ export default class FSelectItem extends React.Component {
   }
 
   render() {
+    let radioId = this.context.getFormId(Math.floor(Math.random() * 1000000));
     let radio = (
         <tr>
           <td>
             <input checked={this.context.currentValue === this.props.value}
-                   id={this.context.getFormId(this.props.key)}
-                   name={this.context.getFormId()} type="radio"
+                   id={this.context.getFormId(radioId)}
+                   name={this.context.getFormId(radioId)} type="radio"
                    value={this.props.value}/>
             <label
-                htmlFor={this.context.getFormId(
-                    this.props.key)}>{this.props.itemLabel}</label>
+                htmlFor={radioId}>{this.props.itemLabel}</label>
           </td>
         </tr>
     );
@@ -45,7 +44,7 @@ export default class FSelectItem extends React.Component {
                 (this.props.value ||
                     this.props.itemLabel)}>{this.props.itemLabel}</option>
     );
-    return (this.context.parent instanceof HSelectOneRadio ? radio : option);
+    return (this.context.parent instanceof HSelectOneMenu ? option : radio);
   }
 }
 
@@ -54,7 +53,5 @@ FSelectItem.contextTypes = {
   getFormId: PropTypes.func,
   property: PropTypes.func,
   currentValue: PropTypes.any,
-  parent: PropTypes.oneOfType([
-    PropTypes.instanceOf(HSelectOneMenu),
-    PropTypes.instanceOf(HSelectOneRadio)]),
+  parent: PropTypes.any,
 };

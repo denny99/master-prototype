@@ -11,12 +11,37 @@ export default class IcePanelPopup extends JsfElement {
     autoCentre: PropTypes.bool,
   };
 
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      width: null,
+      height: null,
+    };
+  }
+
+  componentDidMount() {
+    // only do once?
+    if (this.state.height === null) {
+
+    }
+
+    this.setState({
+      width: this.popup.offsetWidth,
+      height: this.popup.offsetHeight,
+    });
+  }
+
   render() {
     let style = {
       display: 'block',
       position: 'absolute',
-      left: '735px', // how to calculate?
-      top: '294px',
+      left: this.state.width ?
+          window.innerWidth / 2 - (this.state.width / 2) :
+          '0',
+      top: this.state.height ?
+          window.innerHeight / 2 - (this.state.height / 2) :
+          '0',
     };
 
     if (!this.props.visible) {
@@ -24,7 +49,8 @@ export default class IcePanelPopup extends JsfElement {
     }
 
     return (
-        <div className={`icePnlPop ${this.props.styleClass}`}
+        <div ref={(div) => this.popup = div}
+             className={`icePnlPop ${this.props.styleClass}`}
              id={this.state.id}
              style={style}>
           <table cellPadding="0" cellSpacing="0">

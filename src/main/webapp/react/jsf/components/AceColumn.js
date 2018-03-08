@@ -1,6 +1,7 @@
 import React from 'react';
 import JsfElement from '../superclass/JsfElement';
 import FFacet from './FFacet';
+import PropTypes from 'prop-types';
 
 export default class AceColumn extends JsfElement {
   static propTypes = {};
@@ -14,3 +15,7 @@ export default class AceColumn extends JsfElement {
     });
   }
 }
+
+AceColumn.contextTypes = {
+  getFormId: PropTypes.func,
+};

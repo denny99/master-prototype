@@ -68,7 +68,7 @@ export default class HForm extends React.Component {
         data: this.state.data,
       });
     }
-    return result || '';
+    return result ? result : '';
   }
 
   getChildContext() {
@@ -114,7 +114,7 @@ export default class HForm extends React.Component {
 
   /**
    *
-   * @param {HInputText | HSelectOneMenu} input
+   * @param {HInputText | HSelectOneMenu | HSelectOneRadio} input
    * @param {string} message
    * @param {boolean} [skipRender]
    */

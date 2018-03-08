@@ -2,9 +2,6 @@ import React from 'react';
 import Input from './Input';
 import FSelectItem from '../components/FSelectItem';
 import FSelectItems from '../components/FSelectItems';
-import PropTypes from 'prop-types';
-import HSelectOneMenu from '../components/HSelectOneMenu';
-import HSelectOneRadio from '../components/HSelectOneRadio';
 
 export default class SelectOne extends Input {
   constructor(props, context) {
@@ -42,13 +39,3 @@ export default class SelectOne extends Input {
     };
   }
 }
-
-SelectOne.childContextTypes = {
-  updateMessages: PropTypes.func,
-  getFormId: PropTypes.func,
-  property: PropTypes.func,
-  currentValue: PropTypes.any,
-  parent: PropTypes.oneOfType([
-    PropTypes.instanceOf(HSelectOneMenu),
-    PropTypes.instanceOf(HSelectOneRadio)]),
-};

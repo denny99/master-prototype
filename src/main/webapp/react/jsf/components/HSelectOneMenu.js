@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FSelectItem from './FSelectItem';
-import FSelectItems from './FSelectItems';
 import SelectOne from '../superclass/SelectOne';
 
 export default class HSelectOneMenu extends SelectOne {
@@ -32,4 +30,11 @@ HSelectOneMenu.contextTypes = {
   updateMessages: PropTypes.func,
   getFormId: PropTypes.func,
   property: PropTypes.func,
+};
+HSelectOneMenu.childContextTypes = {
+  updateMessages: PropTypes.func,
+  getFormId: PropTypes.func,
+  property: PropTypes.func,
+  currentValue: PropTypes.any,
+  parent: PropTypes.instanceOf(HSelectOneMenu),
 };

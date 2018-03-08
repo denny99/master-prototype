@@ -9,7 +9,7 @@ module.exports = {
     swaggerDocs: path.resolve(__dirname,
         'src/main/webapp/resources/js/swaggerDocs.js'),
     index: path.resolve(__dirname,
-        'src/main/webapp/resources/js/react/index.js'),
+        'src/main/webapp/react/index.js'),
     polyfill: 'babel-polyfill',
   },
   output: {

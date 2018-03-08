@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FFacet from './FFacet';
 import JsfElement from '../superclass/JsfElement';
 
 export default class IcePanelTooltip extends JsfElement {

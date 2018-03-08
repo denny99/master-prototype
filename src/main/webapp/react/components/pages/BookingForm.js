@@ -93,7 +93,7 @@ export default class BookingForm extends React.Component {
   }
 
   render() {
-    if (this.state.passengerFormVisible) {
+    if (this.state.bookingFormVisible) {
       return (
           <HForm ref={(form) => {
             this.bookingForm = form;
@@ -183,7 +183,7 @@ export default class BookingForm extends React.Component {
             <HPanelGroup layout="block"
                          styleClass="contentLevelContainer blockArea">
               <div className="indented inputFieldGroup"
-                   style="margin-top: 5px;">
+                   style={{marginTop: '5px'}}>
                 <HSelectBooleanCheckbox id="insuranceCB"
                                         value="travelInsurance     ">
                 </HSelectBooleanCheckbox>

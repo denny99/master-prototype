@@ -6,7 +6,7 @@ export default class HOutputLabel extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     for: PropTypes.string,
-    style: PropTypes.obj,
+    style: PropTypes.object,
     styleClass: PropTypes.string,
   };
 

@@ -58,7 +58,7 @@ export default class AceDataTable extends JsfElement {
     // create all headers and determine all requested columns
     React.Children.forEach(this.props.children, (child, i) => {
       if (child.type === AceColumn) {
-        let column = new child.type(child.props);
+        let column = new child.type(child.props, this.getChildContext());
         headers.push(
             <Header key={i} index={i}
                     parentId={this.state.id}>{column.header}</Header>);

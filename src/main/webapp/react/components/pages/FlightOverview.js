@@ -242,7 +242,7 @@ export default class FlightOverview extends React.Component {
     } else if (this.state.detailsViewVisible) {
       code = <FlightDetails selectedFlight={this.state.selectedFlight}
                             back={this.hideFlightDetails}/>;
-    } else if (this.state.passengerFormVisible) {
+    } else if (this.state.bookingFormVisible) {
       code = <BookingForm selectedFlight={this.state.selectedFlight}
                           cancel={this.hideBookingForm}/>;
     }

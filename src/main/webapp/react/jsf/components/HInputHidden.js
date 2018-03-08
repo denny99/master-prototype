@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HInputText from './HInputText';
-import JsfElement from '../superclass/JsfElement';
 import Input from '../superclass/Input';
 
 export default class HInputHidden extends Input {

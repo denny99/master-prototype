@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JsfElement from '../superclass/JsfElement';
 
-export default class IceOutputText extends React.Component {
+export default class IceOutputText extends JsfElement {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
@@ -10,16 +11,21 @@ export default class IceOutputText extends React.Component {
   };
 
   render() {
+    let value = this.value;
     if (this.converter) {
-      this.state.value = this.converter.convert(this.state.value);
+      value = this.converter.convert(this.value);
     }
+
     return (
         <span className={`iceOutTxt ${this.props.styleClass}`}
-              id={this.state.id}>{this.state.value}{this.props.children}</span>
+              id={this.state.id}>{this.props.hasOwnProperty('value') ?
+            value :
+            this.props.children}</span>
     );
   }
 }
 
 IceOutputText.contextTypes = {
   getFormId: PropTypes.func,
+  property: PropTypes.func,
 };

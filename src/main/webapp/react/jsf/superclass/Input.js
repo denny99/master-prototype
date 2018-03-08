@@ -12,16 +12,6 @@ export default class Input extends JsfElement {
     this.validate = this.validate.bind(this);
   }
 
-  get value() {
-    return (typeof this.props.value === 'string') ?
-        this.context.property(this.props.value) :
-        this.props.value;
-  }
-
-  set value(o) {
-    return this.context.property(this.props.value, o);
-  }
-
   /**
    * handle input change
    * @param {Event} event

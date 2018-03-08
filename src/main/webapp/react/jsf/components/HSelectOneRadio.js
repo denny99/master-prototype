@@ -30,3 +30,11 @@ HSelectOneRadio.contextTypes = {
   getFormId: PropTypes.func,
   property: PropTypes.func,
 };
+
+HSelectOneRadio.childContextTypes = {
+  updateMessages: PropTypes.func,
+  getFormId: PropTypes.func,
+  property: PropTypes.func,
+  currentValue: PropTypes.any,
+  parent: PropTypes.instanceOf(HSelectOneRadio),
+};
