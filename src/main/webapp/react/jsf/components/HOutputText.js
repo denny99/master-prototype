@@ -15,9 +15,7 @@ export default class HOutputText extends JsfElement {
   render() {
     return (<span className={this.props.styleClass} style={this.props.style}
                   id={this.state.id}>
-      {this.converter ?
-          this.converter.getAsString(this.props.value) :
-          this.props.value}
+      {this.value}
     </span>);
   }
 }

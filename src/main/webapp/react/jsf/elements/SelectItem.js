@@ -4,7 +4,7 @@
 export default class SelectItem {
   /**
    *
-   * @param {string} value option value
+   * @param {string | number | object} value option value
    * @param {string} label option text
    */
   constructor(value, label) {

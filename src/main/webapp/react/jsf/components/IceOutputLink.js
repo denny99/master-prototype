@@ -13,7 +13,7 @@ export default class IceOutputLink extends JsfElement {
   render() {
     return (
         <a className={`iceOutLnk ${this.props.styleClass}`}
-           href={this.props.value} id={this.props.id} type={this.props.type}>
+           href={this.value} id={this.props.id} type={this.props.type}>
           {this.props.children}
         </a>
     );

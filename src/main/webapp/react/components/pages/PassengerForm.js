@@ -20,6 +20,7 @@ import IceOutputText from '../../jsf/components/IceOutputText';
 import IcePanelPopup from '../../jsf/components/IcePanelPopup';
 import CChoose from '../../jsf/components/CChoose';
 import SelectItem from '../../jsf/elements/SelectItem';
+import IntegerConverter from '../../converter/IntegerConverter';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -61,6 +62,8 @@ export default class PassengerForm extends React.Component {
 
     this.currentPassengerIndex = 0;
     this.passengers = [];
+
+    // setup radio items
     this.luggageItems = [];
     this.luggageItems.push(new SelectItem(0, 'No luggage'));
     this.luggageItems.push(new SelectItem(1, '1 Bag'));
@@ -219,6 +222,10 @@ export default class PassengerForm extends React.Component {
               </div>
 
               <div className="clear"/>
+              <HMessage styleClass="iceMsgError inputFieldLabel"
+                        for="idCardNumberInput" id="idCardErrorMessage"/>
+              <HMessage styleClass="iceMsgError inputFieldLabel"
+                        for="passportNumberInput" id="passportErrorMessage"/>
             </HPanelGroup>
             <HPanelGroup id="personalDataContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
@@ -259,9 +266,16 @@ export default class PassengerForm extends React.Component {
                             value="currentPassenger.birthDay"
                             required={true}
                             requiredMessage="Insert your Birthdate"
-                            converter={ShortDateConverter}/>
+                            converter={ShortDateConverter}
+                            converterMessage="Enter a date with format dd.MM.yyyy"/>
               </div>
               <div className="clear"/>
+              <HMessage styleClass="iceMsgError inputFieldLabel"
+                        for="firstNameInput" id="firstNameErrorMessage"/>
+              <HMessage styleClass="iceMsgError inputFieldLabel"
+                        for="lastNameInput" id="lastNameErrorMessage"/>
+              <HMessage styleClass="iceMsgError inputFieldLabel"
+                        for="birthDateInput" id="birthDateErrorMessage"/>
             </HPanelGroup>
             <HPanelGroup id="luggageContainer" layout="block"
                          styleClass="contentLevelContainer blockArea">
@@ -271,21 +285,12 @@ export default class PassengerForm extends React.Component {
                                required={true}
                                layout="pageDirection"
                                requiredMessage="Select the amount of luggage you want to check in"
+                               converter={IntegerConverter}
                                value="currentPassenger.luggageCount">
                 <FSelectItems id="luggageNumbers"
                               value={this.luggageItems}/>
               </HSelectOneRadio>
               <div className="clear"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="firstNameInput" id="firstNameErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="lastNameInput" id="lastNameErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="birthDateInput" id="birthDateErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="idCardNumberInput" id="idCardErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="passportNumberInput" id="passportErrorMessage"/>
             </HPanelGroup>
 
             <HCommandButton value="Cancel"

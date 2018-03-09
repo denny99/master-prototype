@@ -29,9 +29,10 @@ export default class FSelectItem extends React.Component {
         <tr>
           <td>
             <input checked={this.context.currentValue === this.props.value}
-                   id={this.context.getFormId(radioId)}
-                   name={this.context.getFormId(radioId)} type="radio"
-                   value={this.props.value}/>
+                   id={radioId}
+                   name={radioId} type="radio"
+                   value={this.props.value}
+                   onChange={this.context.parent.handleChange}/>
             <label
                 htmlFor={radioId}>{this.props.itemLabel}</label>
           </td>

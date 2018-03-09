@@ -11,6 +11,8 @@ export default class HSelectOneRadio extends SelectOne {
     style: PropTypes.object,
     requiredMessage: PropTypes.string,
     required: PropTypes.bool,
+    converter: PropTypes.func,
+    converterMessage: PropTypes.string,
   };
 
   render() {

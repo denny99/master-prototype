@@ -22,7 +22,7 @@ export default class IcePanelPopup extends JsfElement {
 
   componentDidUpdate() {
     // only do once
-    if (this.state.height === undefined || this.state.height === 0) {
+    if (this.state.height === undefined && this.props.visible) {
       this.setState({
         width: this.popup.offsetWidth,
         height: this.popup.offsetHeight,

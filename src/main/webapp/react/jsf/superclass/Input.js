@@ -6,8 +6,6 @@ export default class Input extends JsfElement {
   constructor(props, context) {
     super(props, context);
 
-    this.state.hasError = false;
-
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
   }

@@ -93,6 +93,13 @@ export default class BookingForm extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    // reapply slider if necessary
+    if (this.state.bookingFormVisible) {
+      this.componentDidMount();
+    }
+  }
+
   render() {
     if (this.state.bookingFormVisible) {
       return (

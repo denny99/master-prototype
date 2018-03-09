@@ -35,10 +35,10 @@ export default class HInputText extends Input {
         try {
           this.value = this.converter.getAsObject(this.value);
         } catch (e) {
-          this.state.hasError = hasError;
+          this.state.hasError = true;
           // this is async, so we manually update the state
           this.setState({
-            hasError: hasError,
+            hasError: true,
           });
           this.context.updateMessages(this, this.props.converterMessage);
         }

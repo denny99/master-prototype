@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HInputText from './HInputText';
 import ObjectTraverser from '../../util/ObjectTraverser';
 
 export default class HForm extends React.Component {
@@ -65,7 +64,8 @@ export default class HForm extends React.Component {
         data: this.state.data,
       });
     }
-    return result ? result : '';
+    // in case we did not find a value return empty string
+    return result !== null ? result : '';
   }
 
   getChildContext() {
@@ -113,14 +113,14 @@ export default class HForm extends React.Component {
 
   /**
    *
-   * @param {HInputText | HSelectOneMenu | HSelectOneRadio} input
+   * @param {JsfElement} element
    * @param {string} message
    * @param {boolean} [skipRender]
    */
-  updateMessages(input, message, skipRender) {
-    this.state.messageProps[input.props.id] = {
+  updateMessages(element, message, skipRender) {
+    this.state.messageProps[element.props.id] = {
       message: message,
-      show: input.state.hasError,
+      show: element.state.hasError,
     };
     if (!skipRender) {
       this.setState({

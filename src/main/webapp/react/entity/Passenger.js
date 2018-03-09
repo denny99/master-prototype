@@ -5,6 +5,6 @@ export default class Passenger {
     this.idCardNumber = json ? json.idCardNumber : '';
     this.passportNumber = json ? json.passportNumber : '';
     this.birthDay = json ? json.birthDay : '';
-    this.luggageCount = json ? json.luggageCount : '';
+    this.luggageCount = json ? json.luggageCount : 0;
   }
 }
