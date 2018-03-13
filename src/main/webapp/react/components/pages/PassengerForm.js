@@ -21,6 +21,7 @@ import IcePanelPopup from '../../jsf/components/IcePanelPopup';
 import CChoose from '../../jsf/components/CChoose';
 import SelectItem from '../../jsf/elements/SelectItem';
 import IntegerConverter from '../../converter/IntegerConverter';
+import PassengerService from '../../service/PassengerService';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -30,24 +31,6 @@ export default class PassengerForm extends React.Component {
     bookingFormData: PropTypes.object.isRequired,
   };
 
-  updateSlider = function() {
-    let currentValue = this.bookingForm.state.data.passengerCount;
-    let maxValue = this.props.selectedFlight.aircraft.passengerCount;
-    let minValue = 1;
-    if (minValue <= currentValue && currentValue <= maxValue) {
-      if (this.sliderChange) {
-        this.sliderChange = false;
-      } else {
-        // to avoid a loop only change when changed through direct input
-        this.slider.slider('value', currentValue);
-      }
-      // Validierungsmeldung ausknipsen (falls vorhanden)
-      this.passengerCountOutput.setState({
-        hasError: false,
-      });
-    }
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -55,12 +38,12 @@ export default class PassengerForm extends React.Component {
       passengerFormVisible: true,
       bookingDetailsVisible: false,
       data: this.props.bookingFormData,
+      currentPassengerIndex: 0,
       forceEdit: false,
       existingUser: false,
       passportHelp: false,
     };
 
-    this.currentPassengerIndex = 0;
     this.passengers = [];
 
     // setup radio items
@@ -97,17 +80,12 @@ export default class PassengerForm extends React.Component {
     this.passengerForm.state.data.currentPassenger = passenger;
   }
 
-  hidePassengerForm() {
-    this.setState({
-      passengerFormVisible: true,
-      bookingDetailsVisible: false,
-    });
-  }
-
   next() {
-    this.validateForm();
+    if (this.passengerForm.hasError()) {
+      return;
+    }
 
-    if (this.currentPassengerIndex + 1 === this.passengers.length) {
+    if (this.state.currentPassengerIndex + 1 === this.passengers.length) {
       return this.setState({
         passengerFormVisible: false,
         bookingDetailsVisible: true,
@@ -117,35 +95,41 @@ export default class PassengerForm extends React.Component {
     // save current data
     this.state.data = this.passengerForm.state.data;
     // save entered passenger data
-    this.passengers[this.currentPassengerIndex] = this.currentPassenger;
+    this.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
 
     // increase index
-    this.currentPassengerIndex++;
-    this.state.data.currentPassenger = this.passengers[this.currentPassengerIndex];
+    this.state.currentPassengerIndex++;
+    this.state.data.currentPassenger = this.passengers[this.state.currentPassengerIndex];
 
-    // inform form about change
-    this.passengerForm.setState({
+    // inform about change
+    this.setState({
       data: this.state.data,
+      forceEdit: false,
+      existingUser: false,
+      currentPassengerIndex: this.state.currentPassengerIndex,
     });
   }
 
   back() {
-    if (this.currentPassengerIndex === 0) {
+    if (this.state.currentPassengerIndex === 0) {
       return this.props.back();
     }
     // save current data
     this.state.data = this.passengerForm.state.data;
     // save entered passenger data
-    this.passengers[this.currentPassengerIndex] = this.currentPassenger;
+    this.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
 
     // decrease index
-    this.currentPassengerIndex--;
+    this.state.currentPassengerIndex--;
     // set last passenger as current
-    this.state.data.currentPassenger = this.passengers[this.currentPassengerIndex];
+    this.state.data.currentPassenger = this.passengers[this.state.currentPassengerIndex];
 
-    // inform form about change
-    this.passengerForm.setState({
+    // inform about change
+    this.setState({
       data: this.state.data,
+      forceEdit: false,
+      existingUser: false,
+      currentPassengerIndex: this.state.currentPassengerIndex,
     });
   }
 
@@ -155,8 +139,36 @@ export default class PassengerForm extends React.Component {
     });
   }
 
-  validateForm() {
+  /**
+   * originally performed on BE
+   * but this is no longer required
+   * @param {JsfElement} input
+   */
+  validateForm(input) {
+    let key;
+    if (input.props.id === 'idCardNumberInput') {
+      key = 'idCardNumber';
+    } else {
+      key = 'passportNumber';
+    }
 
+    let found = 0;
+    for (let passenger of this.passengers) {
+      if (passenger[key] && passenger[key]
+          === this.currentPassenger[key]) {
+        found++;
+      }
+    }
+
+    const msg = 'This passenger is already registered';
+    if (found > 1) {
+      input.hasError = true;
+      input.errorMessage = msg;
+      // more than one card with the same number exists
+      this.passengerForm.updateMessages(input);
+      return false;
+    }
+    return true;
   }
 
   togglePassportHelp() {
@@ -167,23 +179,45 @@ export default class PassengerForm extends React.Component {
 
   /**
    *
-   * @param {React.Component} input
+   * @param {JsfElement} input
    * @param {string} render
    */
-  passportIdListener(input, render) {
-
+  async passportIdListener(input, render) {
+    // only get when something was entered
+    if (this.currentPassenger.passportNumber !== '' ||
+        this.currentPassenger.idCardNumber !== '') {
+      // first validate input
+      if (this.validateForm(input)) {
+        let passengers = await PassengerService.getPassengers(
+            input.props.id === 'passportNumberInput' ?
+                this.currentPassenger.passportNumber :
+                '',
+            input.props.id === 'idCardNumberInput' ?
+                this.currentPassenger.idCardNumber :
+                '');
+        if (passengers) {
+          this.currentPassenger = passengers[0];
+          this.setState({
+            data: this.state.data,
+            existingUser: true,
+            forceEdit: false,
+          });
+        }
+      }
+    }
   }
 
   render() {
     if (this.state.passengerFormVisible) {
+      // use passenger index as key, so the form re-mounts after next/back
       return (
-          <HForm ref={(form) => {
+          <HForm key={this.state.currentPassengerIndex} ref={(form) => {
             this.passengerForm = form;
           }} id="passengerData" styleClass="ice-skin-rime"
                  data={this.state.data}>
             <div className="inputFieldGroup">
               <span
-                  className="iceOutTxt headerLabel">Enter Data for Passenger #{this.currentPassengerIndex +
+                  className="iceOutTxt headerLabel">Enter Data for Passenger #{this.state.currentPassengerIndex +
               1}</span>
             </div>
             <HPanelGroup id="passportContainer" layout="block"

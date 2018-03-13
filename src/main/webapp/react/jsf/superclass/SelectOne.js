@@ -14,18 +14,20 @@ export default class SelectOne extends Input {
       let selectedChild = React.Children.toArray(this.props.children)[0];
       if (selectedChild.type === FSelectItem) {
         if (selectedChild.props.noSelectionOption) {
-          this.state.hasError = true;
+          this.hasError = true;
+          this.errorMessage = this.props.requiredMessage;
         }
         this.value = selectedChild.props.value;
       }
       if (selectedChild.type === FSelectItems) {
         if (selectedChild.props.value[0].noSelectionOption) {
-          this.state.hasError = true;
+          this.hasError = true;
+          this.errorMessage = this.props.requiredMessage;
         }
         this.value = selectedChild.props.value[0].value;
       }
 
-      this.context.updateMessages(this, this.props.requiredMessage, true);
+      this.context.updateMessages(this, true);
     }
   }
 

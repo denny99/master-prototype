@@ -16,10 +16,12 @@ export default class HMessage extends JsfElement {
 
   render() {
     const props = this.context.getMessage(this.props.for);
+    let show = props.show && (this.context.activeElement === this.props.for ||
+        this.context.activeElement === 'all');
     return (
-        <span className={props.show ? this.props.styleClass : ''}
+        <span className={show ? this.props.styleClass : ''}
               id={this.state.id}>
-          {props.show ? props.message : <span id={this.state.id}/>}
+          {show ? props.message : <span id={this.state.id}/>}
       </span>);
   }
 }
@@ -28,4 +30,5 @@ HMessage.contextTypes = {
   getFormId: PropTypes.func,
   initMessage: PropTypes.func,
   getMessage: PropTypes.func,
+  activeElement: PropTypes.string,
 };

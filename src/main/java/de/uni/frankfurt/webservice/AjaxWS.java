@@ -7,7 +7,6 @@ import de.uni.frankfurt.database.service.FlightService;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.request.ValidatePassengerCountRequest;
 import de.uni.frankfurt.json.responses.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,16 +16,13 @@ import org.apache.log4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/validations/")
+@Path("/ajax/")
 @RequestScoped
-public class ValidationWS {
-  private static final Logger LOGGER = Logger.getLogger(ValidationWS.class);
+public class AjaxWS {
+  private static final Logger LOGGER = Logger.getLogger(AjaxWS.class);
 
   @Inject
   private BookingService bookingService;
@@ -41,7 +37,7 @@ public class ValidationWS {
    * @ bookingForm:passengerCountOutput
    */
   @Path("/{flightId}/validatePassengerCount")
-  @POST
+  @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Operation(
       summary = "Validate entered Passenger amount for Flight",
@@ -57,14 +53,12 @@ public class ValidationWS {
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String validatePassengerCount(
       @PathParam("flightId") String id,
-      String inputJSON) throws ResourceNotFoundException, JsonSchemaException {
-    ValidatePassengerCountRequest input = this.parser.fromJSON(inputJSON,
-        ValidatePassengerCountRequest.class);
+      @QueryParam("passengerCount") Integer passengerCount) throws ResourceNotFoundException, JsonSchemaException {
     Flight flight = this.flightService.getFlightById(id);
     String msg = null;
     Boolean error = false;
     if (!this.bookingService.canCheckIn(flight,
-        input.getPassengerCount())) {
+        passengerCount)) {
       msg = String.format("Max %s free seats on the aircraft",
           this.bookingService.getFreeSeats(flight));
       error = true;

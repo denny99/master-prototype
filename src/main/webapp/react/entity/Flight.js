@@ -7,7 +7,7 @@ export default class Flight {
     this.departure = new Airport(json.departure);
     this.arrival = new Airport(json.arrival);
     this.id = json.id;
-    this.dateTime = new Date(Date.parse(json.dateTime.replace('[UTC]', '')));
+    this.dateTime = new Date(json.dateTime.replace('[UTC]', ''));
     this.costs = json.costs;
   }
 

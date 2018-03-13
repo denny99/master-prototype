@@ -26,30 +26,11 @@ export default class HInputText extends Input {
     type: 'text',
   };
 
-  handleChange(event) {
-    return (async () => {
-      await super.handleChange(event);
-
-      // optionally convert string to object
-      if (this.props.hasOwnProperty('converter')) {
-        try {
-          this.value = this.converter.getAsObject(this.value);
-        } catch (e) {
-          this.state.hasError = true;
-          // this is async, so we manually update the state
-          this.setState({
-            hasError: true,
-          });
-          this.context.updateMessages(this, this.props.converterMessage);
-        }
-      }
-    })();
-  }
-
   /**
    * auto-focus after build
    */
   componentDidMount() {
+    super.componentDidMount();
     if (this.props.focus) {
       this.input.focus();
       // set cursor to the end of input

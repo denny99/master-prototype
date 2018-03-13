@@ -15,6 +15,7 @@ export default class HForm extends React.Component {
     this.state = {
       messageProps: {},
       data: this.props.data,
+      activeElement: null,
     };
 
     this.updateMessages = this.updateMessages.bind(this);
@@ -77,6 +78,7 @@ export default class HForm extends React.Component {
       form: this,
       initMessage: this.initMessage,
       getMessage: this.getMessage,
+      activeElement: this.state.activeElement,
     };
   }
 
@@ -101,8 +103,10 @@ export default class HForm extends React.Component {
     for (let key in this.state.messageProps) {
       if (this.state.messageProps.hasOwnProperty(key)) {
         if (this.state.messageProps[key].show) {
+          // active element is all, so render whole form
           this.setState({
             messageProps: this.state.messageProps,
+            activeElement: 'all',
           });
           return true;
         }
@@ -114,17 +118,18 @@ export default class HForm extends React.Component {
   /**
    *
    * @param {JsfElement} element
-   * @param {string} message
    * @param {boolean} [skipRender]
    */
-  updateMessages(element, message, skipRender) {
+  updateMessages(element, skipRender) {
     this.state.messageProps[element.props.id] = {
-      message: message,
-      show: element.state.hasError,
+      message: element.errorMessage,
+      show: element.hasError,
     };
     if (!skipRender) {
+      // update messages and mark current used element to prevent rendering of all messages
       this.setState({
         messageProps: this.state.messageProps,
+        activeElement: element.props.id,
       });
     }
   }
@@ -138,4 +143,5 @@ HForm.childContextTypes = {
   property: PropTypes.func,
   all: PropTypes.object,
   form: PropTypes.instanceOf(HForm),
+  activeElement: PropTypes.string,
 };

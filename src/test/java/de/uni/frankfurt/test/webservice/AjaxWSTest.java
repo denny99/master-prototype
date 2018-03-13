@@ -2,7 +2,6 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.request.ValidatePassengerCountRequest;
 import de.uni.frankfurt.json.responses.ValidationResponse;
 import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -13,9 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @RunWith(Arquillian.class)
-public class ValidationWSTest extends WSTest {
+public class AjaxWSTest extends WSTest {
 
   @Test
   @InSequence(1)
@@ -27,21 +27,27 @@ public class ValidationWSTest extends WSTest {
         }.getClass().getGenericSuperclass());
     Flight flight = flightResponse.getResponseObject().get(0);
 
+    HashMap<String, String> query = new HashMap<>();
+
+    query.put("passengerCount",
+        String.valueOf(flight.getAircraft().getPassengerCount() + 10));
+
     // validation not ok
-    APIResponse<ValidationResponse> response = this.postResourceToAPI(
+    APIResponse<ValidationResponse> response = this.getResourcesFromAPI(
         this.getResourceURL() + "/" + flight.getId() +
-            "/validatePassengerCount", new ValidatePassengerCountRequest(
-            flight.getAircraft().getPassengerCount() + 10),
+            "/validatePassengerCount", query,
         ValidationResponse.class);
     Assert.assertTrue("no error", !response.hasError());
     Assert.assertTrue("validation error",
         response.getResponseObject().getError());
 
+    query.put("passengerCount",
+        String.valueOf(flight.getAircraft().getPassengerCount() - 10));
+
     // test ok
-    response = this.postResourceToAPI(
+    response = this.getResourcesFromAPI(
         this.getResourceURL() + "/" + flight.getId() +
-            "/validatePassengerCount", new ValidatePassengerCountRequest(
-            flight.getAircraft().getPassengerCount() - 10),
+            "/validatePassengerCount", query,
         ValidationResponse.class);
     Assert.assertTrue("no error", !response.hasError());
     Assert.assertTrue("no validation error",
@@ -53,6 +59,6 @@ public class ValidationWSTest extends WSTest {
    */
   @Override
   public String getResourceURL() {
-    return "/validations";
+    return "/ajax";
   }
 }

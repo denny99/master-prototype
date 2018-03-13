@@ -4,7 +4,7 @@ export default class Passenger {
     this.lastName = json ? json.lastName : '';
     this.idCardNumber = json ? json.idCardNumber : '';
     this.passportNumber = json ? json.passportNumber : '';
-    this.birthDay = json ? json.birthDay : '';
+    this.birthDay = json ? new Date(json.birthDay.replace('[UTC]', '')) : '';
     this.luggageCount = json ? json.luggageCount : 0;
   }
 }

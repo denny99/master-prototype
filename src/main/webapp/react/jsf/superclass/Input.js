@@ -11,41 +11,108 @@ export default class Input extends JsfElement {
   }
 
   /**
+   * @return {object| number | string}
+   */
+  get value() {
+    // only inputs write back to form element via prop notation
+    let value = (typeof this.props.value === 'string') ?
+        this.context.property(this.props.value) :
+        this.props.value;
+
+    // only convert if requested input not empty
+    value = this.converter && typeof value === 'object' ?
+        this.converter.getAsString(value) :
+        value;
+
+    return value;
+  }
+
+  /**
+   *
+   * @param {object| number | string} o
+   */
+  set value(o) {
+    let value = o;
+    try {
+      value = this.converter && typeof o !== 'object' ?
+          this.converter.getAsObject(o) :
+          o;
+      this.converterError = false;
+    } catch (e) {
+      this.converterError = true;
+      this.hasError = true;
+      this.errorMessage = this.props.converterMessage;
+      this.context.updateMessages(this);
+    } finally {
+      this.context.property(this.props.value, value);
+    }
+  }
+
+  componentDidMount() {
+    // make sure input is marked as error after init and empty input
+    if (this.props.required &&
+        (this.value === undefined || this.value === null || this.value ===
+            '')) {
+      this.hasError = true;
+      this.errorMessage = this.props.requiredMessage;
+      this.context.updateMessages(this, true);
+    }
+  }
+
+  async componentDidUpdate() {
+    // only do further validations if format is correct
+    if (!this.converterError) {
+      let response = await this.validate();
+
+      if (this.hasError !== response.hasError ||
+          this.errorMessage !== response.errorMessage) {
+        this.hasError = response.hasError;
+        this.errorMessage = response.errorMessage;
+        this.context.updateMessages(this);
+      } else {
+        this.hasError = response.hasError;
+        this.errorMessage = response.errorMessage;
+      }
+    }
+  }
+
+  /**
    * handle input change
    * @param {Event} event
    * @return {Promise<void>}
    */
   async handleChange(event) {
     this.value = event.target.value;
-    const message = await this.validate();
-    // propagate up to form itself
-    this.context.updateMessages(this, message);
 
     if (this.ajax && this.ajax.props.event === 'change') {
       await this.ajax.call();
     }
 
+    // add on change event
     if (this.props.hasOwnProperty('onchange')) {
-      this.props.onchange();
+      await this.props.onchange();
     }
+
   }
 
   /**
    * checks correctness of input
-   * @return {Promise<string>}
+   * @return {Promise<{hasError: boolean, errorMessage: string}>}
    */
   async validate() {
     let hasError = false;
     let message = 'Error in the input field!';
     let currentValue = this.value;
 
-    // check for validation childs
-    for (let child of this.state.children) {
-      if (child instanceof FValidateRegex) {
-        // do regexp validation
-        if (!child.validate(currentValue)) {
-          hasError = true;
-          message = this.props.validatorMessage;
+    // check for validation children
+    if (!hasError) {
+      for (let child of this.state.children) {
+        if (child instanceof FValidateRegex) {
+          // do regexp validation
+          if (!child.validate(currentValue)) {
+            hasError = true;
+            message = this.props.validatorMessage;
+          }
         }
       }
     }
@@ -73,11 +140,9 @@ export default class Input extends JsfElement {
       }
     }
 
-    this.state.hasError = hasError;
-    // this is async, so we manually update the state
-    this.setState({
+    return {
       hasError: hasError,
-    });
-    return message;
+      errorMessage: hasError ? message : '',
+    };
   }
 }

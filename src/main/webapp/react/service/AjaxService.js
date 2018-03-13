@@ -2,8 +2,8 @@ import ApiConstants from '../constants/ApiConstants';
 import Flight from '../entity/Flight';
 import ValidationResponse from '../entity/ValidationResponse';
 
-export default class ValidationService {
-  static URL = ApiConstants.BASE_URL + 'validations/';
+export default class AjaxService {
+  static URL = ApiConstants.BASE_URL + 'ajax/';
 
   /**
    *
@@ -14,12 +14,12 @@ export default class ValidationService {
   static async validatePassengerCount(flight, passengerCount) {
     // do ajax call
     return new Promise((resolve, reject) => {
-      $.post({
-        url: ValidationService.URL + `${flight.id}/validatePassengerCount`,
+      $.get({
+        url: AjaxService.URL + `${flight.id}/validatePassengerCount`,
         contentType: 'application/json',
-        data: JSON.stringify({
+        data: {
           passengerCount: passengerCount,
-        }),
+        },
         error: function(jqXHR, textStatus, errorThrown) {
           reject(errorThrown);
         },

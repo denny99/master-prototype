@@ -16,7 +16,7 @@ import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
 import HOutputLabel from '../../jsf/components/HOutputLabel';
 import HSelectBooleanCheckbox from '../../jsf/components/HSelectBooleanCheckbox';
 import PassengerForm from './PassengerForm';
-import ValidationService from '../../service/ValidationService';
+import AjaxService from '../../service/AjaxService';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -36,9 +36,8 @@ export default class BookingForm extends React.Component {
         this.slider.slider('value', currentValue);
       }
       // Validierungsmeldung ausknipsen (falls vorhanden)
-      this.passengerCountOutput.setState({
-        hasError: false,
-      });
+      this.passengerCountOutput.hasError = false;
+      this.bookingForm.updateMessages(this.passengerCountOutput);
     }
   };
 
@@ -60,6 +59,10 @@ export default class BookingForm extends React.Component {
   }
 
   showPassengerForm() {
+    if (this.bookingForm.hasError()) {
+      return;
+    }
+
     this.setState({
       bookingFormVisible: false,
       passengerFormVisible: true,
@@ -74,7 +77,7 @@ export default class BookingForm extends React.Component {
   }
 
   async validatePassengerCount() {
-    return ValidationService.validatePassengerCount(this.props.selectedFlight,
+    return AjaxService.validatePassengerCount(this.props.selectedFlight,
         this.bookingForm.state.data.passengerCount);
   }
 
