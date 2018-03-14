@@ -13,7 +13,8 @@ export default class IceSelectBooleanCheckbox {
 
   render() {
     return (<HSelectBooleanCheckbox
-        styleClass={`iceOutText ${this.props.styleClass}`} id={this.props.id}
+        styleClass={`iceSelBoolChkbx ${this.props.styleClass}`}
+        id={this.props.id}
         value={this.props.value} style={this.props.style}
         validator={this.props.validator}/>);
   }

@@ -18,7 +18,7 @@ export default class HCommandButton {
         <HCommandButton id={this.props.id} value={this.props.value}
                         immediate={this.props.immediate}
                         style={this.props.style}
-                        styleClass={`iceOutText ${this.props.styleClass}`}
+                        styleClass={`iceCmdBtn ${this.props.styleClass}`}
                         action={this.props.action}
                         actionArgument={this.props.actionArgument}/>
     );
