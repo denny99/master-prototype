@@ -20,7 +20,7 @@ export default class Input extends JsfElement {
         this.props.value;
 
     // only convert if requested input not empty
-    value = this.converter && typeof value === 'object' ?
+    value = this.converter && typeof value !== 'string' ?
         this.converter.getAsString(value) :
         value;
 

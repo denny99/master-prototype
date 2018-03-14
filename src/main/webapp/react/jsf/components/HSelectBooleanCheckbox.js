@@ -8,11 +8,7 @@ export default class HSelectBooleanCheckbox extends Input {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     styleClass: PropTypes.string,
-  };
-
-  static defaultProps = {
-    focus: false,
-    type: 'text',
+    validator: PropTypes.string,
   };
 
   async handleChange(event) {
@@ -24,7 +20,8 @@ export default class HSelectBooleanCheckbox extends Input {
   }
 
   render() {
-    return (<input id={this.state.id} name={this.state.id}
+    return (<input className={this.props.styleClass} id={this.state.id}
+                   name={this.state.id}
                    type="checkbox" onChange={this.handleChange}
                    defaultValue={this.value || false}/>);
   }

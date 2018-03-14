@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import JsfElement from '../superclass/JsfElement';
+import HOutputText from './HOutputText';
 
-export default class IceOutputText extends JsfElement {
+export default class IceOutputText {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
     styleClass: PropTypes.string,
     type: PropTypes.string,
+    converter: PropTypes.func,
   };
 
   render() {
-    let value = this.value;
-    if (this.converter) {
-      value = this.converter.convert(this.value);
-    }
-
     return (
-        <span className={`iceOutTxt ${this.props.styleClass}`}
-              id={this.state.id}>{this.props.hasOwnProperty('value') ?
-            value :
-            this.props.children}</span>
+        <HOutputText type={this.props.type} value={this.props.value}
+                     converter={this.props.converter}
+                     styleClass={`iceOutTxt ${this.props.styleClass}`}
+                     id={this.props.id}>{this.props.children}</HOutputText>
     );
   }
 }
