@@ -162,12 +162,11 @@ export default class PassengerForm extends React.Component {
 
     const msg = 'This passenger is already registered';
     if (found > 1) {
-      input.hasError = true;
-      input.errorMessage = msg;
-      // more than one card with the same number exists
-      this.passengerForm.updateMessages(input);
+      // don't re render the input after applying the error
+      input.setExternalError(true, msg);
       return false;
     }
+    input.setExternalError(false, '');
     return true;
   }
 

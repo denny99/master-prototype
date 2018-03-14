@@ -9,6 +9,7 @@ export default class JsfElement extends React.Component {
     super(props, context);
 
     this.hasError = false;
+    this.externalError = false;
     this.errorMessage = '';
     this.state = {
       id: (context.getFormId) ?
@@ -47,6 +48,7 @@ export default class JsfElement extends React.Component {
     }
 
     this.handleAjax = this.handleAjax.bind(this);
+    this.setError = this.setError.bind(this);
   }
 
   /**
@@ -61,6 +63,27 @@ export default class JsfElement extends React.Component {
         value;
 
     return value;
+  }
+
+  /**
+   *
+   * @param {boolean} hasError
+   * @param {string} [message]
+   */
+  setExternalError(hasError, message) {
+    this.externalError = hasError;
+    this.setError(hasError, message);
+  }
+
+  /**
+   *
+   * @param {boolean} hasError
+   * @param {string} [message]
+   */
+  setError(hasError, message) {
+    this.hasError = hasError;
+    this.errorMessage = message ? message : '';
+    this.context.updateMessages(this);
   }
 
   /**

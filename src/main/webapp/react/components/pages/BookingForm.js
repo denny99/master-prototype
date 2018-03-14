@@ -36,8 +36,7 @@ export default class BookingForm extends React.Component {
         this.slider.slider('value', currentValue);
       }
       // Validierungsmeldung ausknipsen (falls vorhanden)
-      this.passengerCountOutput.hasError = false;
-      this.bookingForm.updateMessages(this.passengerCountOutput);
+      this.passengerCountOutput.setError(false);
     }
   };
 

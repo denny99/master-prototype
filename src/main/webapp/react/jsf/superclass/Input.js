@@ -40,9 +40,7 @@ export default class Input extends JsfElement {
       this.converterError = false;
     } catch (e) {
       this.converterError = true;
-      this.hasError = true;
-      this.errorMessage = this.props.converterMessage;
-      this.context.updateMessages(this);
+      this.setError(true, this.props.converterMessage);
     } finally {
       this.context.property(this.props.value, value);
     }
@@ -61,14 +59,12 @@ export default class Input extends JsfElement {
 
   async componentDidUpdate() {
     // only do further validations if format is correct
-    if (!this.converterError) {
+    if (!this.converterError && !this.externalError) {
       let response = await this.validate();
 
       if (this.hasError !== response.hasError ||
           this.errorMessage !== response.errorMessage) {
-        this.hasError = response.hasError;
-        this.errorMessage = response.errorMessage;
-        this.context.updateMessages(this);
+        this.setError(response.hasError, response.errorMessage);
       } else {
         this.hasError = response.hasError;
         this.errorMessage = response.errorMessage;
