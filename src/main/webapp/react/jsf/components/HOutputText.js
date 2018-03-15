@@ -7,18 +7,21 @@ export default class HOutputText extends JsfElement {
     id: PropTypes.string,
     styleClass: PropTypes.string,
     style: PropTypes.object,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    value: PropTypes.oneOfType(
+        [PropTypes.string, PropTypes.object, PropTypes.number]),
     type: PropTypes.string,
     // should implement converter!
     converter: PropTypes.func,
-    rendered: PropTypes.bool(),
+    rendered: PropTypes.bool,
   };
 
   render() {
-    if (this.props.rendered) {
+    if (this.props.rendered !== false) {
       return (<span className={this.props.styleClass} style={this.props.style}
                     id={this.state.id}>
-      {this.props.hasOwnProperty('value') ? this.value : this.props.children}
+      {this.props.hasOwnProperty('value') && this.props.value !== undefined ?
+          this.value :
+          this.props.children}
     </span>);
     }
     return null;

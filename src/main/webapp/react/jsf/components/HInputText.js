@@ -29,8 +29,8 @@ export default class HInputText extends Input {
   /**
    * auto-focus after build
    */
-  componentDidMount() {
-    super.componentDidMount();
+  async componentDidMount() {
+    await super.componentDidMount();
     if (this.props.focus) {
       this.input.focus();
       // set cursor to the end of input

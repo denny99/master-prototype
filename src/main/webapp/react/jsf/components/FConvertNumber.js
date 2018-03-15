@@ -11,7 +11,7 @@ export default class FConvertNumber extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.convert = this.convert.bind(this);
+    this.getAsString = this.getAsString.bind(this);
   }
 
   /**
@@ -19,7 +19,7 @@ export default class FConvertNumber extends React.Component {
    * @param {number} content
    * @return {string}
    */
-  convert(content) {
+  getAsString(content) {
     const pattern = this.props.pattern.split(',');
     return content.toLocaleString(this.props.locale, {
       minimumFractionDigits: pattern[1].length,

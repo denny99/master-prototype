@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HCommandButton from './HCommandButton';
 
-export default class HCommandButton {
+export default class IceCommandButton extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string.isRequired,

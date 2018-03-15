@@ -6,6 +6,8 @@ import FSelectItems from '../components/FSelectItems';
 export default class SelectOne extends Input {
   constructor(props, context) {
     super(props, context);
+
+    this.getCurrentValue = this.getCurrentValue.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +33,10 @@ export default class SelectOne extends Input {
     }
   }
 
+  getCurrentValue() {
+    return this.context.property(this.props.value);
+  }
+
   getChildContext() {
     return {
       updateMessages: this.context.updateMessages,
@@ -38,7 +44,7 @@ export default class SelectOne extends Input {
         return key ? `${this.state.id}:${key}` : this.state.id;
       },
       property: this.context.property,
-      currentValue: this.value,
+      currentValue: this.getCurrentValue,
       parent: this,
     };
   }

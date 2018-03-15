@@ -22,6 +22,7 @@ import CChoose from '../../jsf/components/CChoose';
 import SelectItem from '../../jsf/elements/SelectItem';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerService from '../../service/PassengerService';
+import BookingDetails from './BookingDetails';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -58,6 +59,9 @@ export default class PassengerForm extends React.Component {
       this.passengers.push(new Passenger());
     }
     // setup first passenger
+    // TODO remove debug only
+    this.passengers[0].idCardNumber = '12345';
+    this.passengers[0].passportNumber = 'P12345';
     this.state.data.currentPassenger = this.passengers[0];
 
     this.validateForm = this.validateForm.bind(this);
@@ -85,17 +89,17 @@ export default class PassengerForm extends React.Component {
       return;
     }
 
+    // save current data
+    this.state.data = this.passengerForm.state.data;
+    // save entered passenger data
+    this.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
+
     if (this.state.currentPassengerIndex + 1 === this.passengers.length) {
       return this.setState({
         passengerFormVisible: false,
         bookingDetailsVisible: true,
       });
     }
-
-    // save current data
-    this.state.data = this.passengerForm.state.data;
-    // save entered passenger data
-    this.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
 
     // increase index
     this.state.currentPassengerIndex++;
@@ -111,13 +115,22 @@ export default class PassengerForm extends React.Component {
   }
 
   back() {
-    if (this.state.currentPassengerIndex === 0) {
-      return this.props.back();
+    // did we trigger back function on next page
+    if (this.state.bookingDetailsVisible) {
+      return this.setState({
+        passengerFormVisible: true,
+        bookingDetailsVisible: false,
+      });
     }
+
     // save current data
     this.state.data = this.passengerForm.state.data;
     // save entered passenger data
     this.passengers[this.state.currentPassengerIndex] = this.currentPassenger;
+
+    if (this.state.currentPassengerIndex === 0) {
+      return this.props.back();
+    }
 
     // decrease index
     this.state.currentPassengerIndex--;
@@ -142,7 +155,7 @@ export default class PassengerForm extends React.Component {
   /**
    * originally performed on BE
    * but this is no longer required
-   * @param {JsfElement} input
+   * @param {Input} input
    */
   validateForm(input) {
     let key;
@@ -178,7 +191,7 @@ export default class PassengerForm extends React.Component {
 
   /**
    *
-   * @param {JsfElement} input
+   * @param {Input} input
    * @param {string} render
    */
   async passportIdListener(input, render) {
@@ -356,7 +369,11 @@ export default class PassengerForm extends React.Component {
           </HForm>
       );
     } else {
-      return <div></div>;
+      let data = this.state.data;
+      data.passengers = this.passengers;
+      return <BookingDetails back={this.back} cancel={this.props.cancel}
+                             selectedFlight={this.props.selectedFlight}
+                             data={data}/>;
     }
   }
 }

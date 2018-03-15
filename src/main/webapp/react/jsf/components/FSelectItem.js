@@ -28,7 +28,7 @@ export default class FSelectItem extends React.Component {
     let radio = (
         <tr>
           <td>
-            <input checked={this.context.currentValue === this.props.value}
+            <input checked={this.context.currentValue() === this.props.value}
                    id={radioId}
                    name={radioId} type="radio"
                    value={this.props.value}

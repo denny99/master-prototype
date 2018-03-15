@@ -8,9 +8,6 @@ export default class JsfElement extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.hasError = false;
-    this.externalError = false;
-    this.errorMessage = '';
     this.state = {
       id: (context.getFormId) ?
           context.getFormId(this.props.id) :
@@ -48,7 +45,7 @@ export default class JsfElement extends React.Component {
     }
 
     this.handleAjax = this.handleAjax.bind(this);
-    this.setError = this.setError.bind(this);
+    this.converterError = this.converterError.bind(this);
   }
 
   /**
@@ -65,25 +62,23 @@ export default class JsfElement extends React.Component {
     return value;
   }
 
-  /**
-   *
-   * @param {boolean} hasError
-   * @param {string} [message]
-   */
-  setExternalError(hasError, message) {
-    this.externalError = hasError;
-    this.setError(hasError, message);
-  }
 
   /**
-   *
-   * @param {boolean} hasError
-   * @param {string} [message]
+   * checks if the current input can be converted
+   * @returns {boolean}
    */
-  setError(hasError, message) {
-    this.hasError = hasError;
-    this.errorMessage = message ? message : '';
-    this.context.updateMessages(this);
+  converterError() {
+    if (!this.converter) {
+      return false;
+    }
+    try {
+      typeof this.value !== 'object' ?
+          this.converter.getAsObject(this.value) :
+          this.value;
+      return false;
+    } catch (e) {
+      return true;
+    }
   }
 
   /**

@@ -1,13 +1,21 @@
 import React from 'react';
 import FValidateRegex from '../components/FValidateRegex';
 import JsfElement from './JsfElement';
+import * as _ from 'lodash';
 
 export default class Input extends JsfElement {
   constructor(props, context) {
     super(props, context);
 
+    this.hasError = false;
+    this.externalError = false;
+    this.initialValidation = true;
+    this.errorMessage = '';
+
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
+    this.setError = this.setError.bind(this);
+    this.setExternalError = this.setExternalError.bind(this);
   }
 
   /**
@@ -37,29 +45,28 @@ export default class Input extends JsfElement {
       value = this.converter && typeof o !== 'object' ?
           this.converter.getAsObject(o) :
           o;
-      this.converterError = false;
     } catch (e) {
-      this.converterError = true;
       this.setError(true, this.props.converterMessage);
     } finally {
-      this.context.property(this.props.value, value);
+      // only a property annotation has to write into the context object (e.g.: bla.blub)
+      if (typeof this.props.value === 'string') {
+        this.context.property(this.props.value, value);
+      }
     }
   }
 
-  componentDidMount() {
-    // make sure input is marked as error after init and empty input
-    if (this.props.required &&
-        (this.value === undefined || this.value === null || this.value ===
-            '')) {
-      this.hasError = true;
-      this.errorMessage = this.props.requiredMessage;
-      this.context.updateMessages(this, true);
+  async componentDidMount() {
+    if (_.isEmpty(this.value)) {
+      this.value = '';
     }
+
+    await this.componentDidUpdate();
+    this.initialValidation = false;
   }
 
   async componentDidUpdate() {
     // only do further validations if format is correct
-    if (!this.converterError && !this.externalError) {
+    if (!this.converterError() && !this.externalError) {
       let response = await this.validate();
 
       if (this.hasError !== response.hasError ||
@@ -70,6 +77,27 @@ export default class Input extends JsfElement {
         this.errorMessage = response.errorMessage;
       }
     }
+  }
+
+  /**
+   *
+   * @param {boolean} hasError
+   * @param {string} [message]
+   */
+  setExternalError(hasError, message) {
+    this.externalError = hasError;
+    this.setError(hasError, message);
+  }
+
+  /**
+   *
+   * @param {boolean} hasError
+   * @param {string} [message]
+   */
+  setError(hasError, message) {
+    this.hasError = hasError;
+    this.errorMessage = message ? message : '';
+    this.context.updateMessages(this, this.initialValidation);
   }
 
   /**
@@ -115,7 +143,7 @@ export default class Input extends JsfElement {
 
     // check for validation props
     if (this.props.required && !hasError) {
-      if (currentValue === '' || currentValue === undefined) {
+      if (_.isEmpty(currentValue)) {
         hasError = true;
         message = this.props.requiredMessage;
       }
@@ -129,7 +157,7 @@ export default class Input extends JsfElement {
     }
 
     if (this.props.validator && !hasError) {
-      let response = await this.props.validator();
+      let response = await this.props.validator(this);
       if (response.error) {
         hasError = true;
         message = response.message;

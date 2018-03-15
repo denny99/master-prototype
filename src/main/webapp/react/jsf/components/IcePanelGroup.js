@@ -22,9 +22,12 @@ export default class IcePanelGroup extends JsfElement {
    * @param {SyntheticEvent} event
    */
   onMouseOver(event) {
-    new ToolTipPanelPopup(this.div, this.context.getFormId(
-        this.props.panelTooltip), event.nativeEvent, 'mouseout', '500', 'false',
-        this.context.getFormId(), '', '/xmlhttp/blank', 'hover', false);
+    if (this.props.panelTooltip) {
+      new ToolTipPanelPopup(this.div, this.context.getFormId(
+          this.props.panelTooltip), event.nativeEvent, 'mouseout', '500',
+          'false',
+          this.context.getFormId(), '', '/xmlhttp/blank', 'hover', false);
+    }
   }
 
   render() {

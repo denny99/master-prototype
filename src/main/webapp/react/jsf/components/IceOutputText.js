@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HOutputText from './HOutputText';
 
-export default class IceOutputText {
+export default class IceOutputText extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,

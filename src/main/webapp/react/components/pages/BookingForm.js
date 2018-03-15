@@ -36,7 +36,7 @@ export default class BookingForm extends React.Component {
         this.slider.slider('value', currentValue);
       }
       // Validierungsmeldung ausknipsen (falls vorhanden)
-      this.passengerCountOutput.setError(false);
+      this.passengerCountOutput.setExternalError(false);
     }
   };
 
@@ -75,9 +75,14 @@ export default class BookingForm extends React.Component {
     });
   }
 
+  /**
+   * validates the entered amount of passengers
+   * @return {Promise<ValidationResponse>}
+   */
   async validatePassengerCount() {
+    // input validates itself after init, so ref is not set use 1 as default value
     return AjaxService.validatePassengerCount(this.props.selectedFlight,
-        this.bookingForm.state.data.passengerCount);
+        this.bookingForm ? this.bookingForm.state.data.passengerCount : 1);
   }
 
   componentDidMount() {

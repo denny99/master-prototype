@@ -30,7 +30,10 @@ export default class FlightOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {},
+      data: {
+        // TODO remove debug only
+        sortOrder: 'asc',
+      },
       searched: false,
       results: new ApiResponse(0, FlightOverview.PAGE_SIZE),
       overviewVisible: true,

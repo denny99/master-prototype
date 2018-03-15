@@ -14,10 +14,8 @@ export default class IcePanelPopup extends JsfElement {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      width: undefined,
-      height: undefined,
-    };
+    this.state.width = undefined;
+    this.state.height = undefined;
   }
 
   componentDidUpdate() {

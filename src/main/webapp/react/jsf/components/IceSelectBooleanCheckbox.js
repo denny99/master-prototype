@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HSelectBooleanCheckbox from './HSelectBooleanCheckbox';
 
-export default class IceSelectBooleanCheckbox {
+export default class IceSelectBooleanCheckbox extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     styleClass: PropTypes.string,
-    validator: PropTypes.string,
+    validator: PropTypes.func,
   };
 
   render() {
