@@ -18,6 +18,7 @@ import CWhen from '../../jsf/components/CWhen';
 import COtherwise from '../../jsf/components/COtherwise';
 import UiRepeat from '../../jsf/components/UiRepeat';
 import ShortDateConverter from '../../converter/ShortDateConverter';
+import AceTooltip from '../../jsf/components/AceTooltip';
 
 export default class BookingDetails extends React.Component {
   static propTypes = {
@@ -74,8 +75,8 @@ export default class BookingDetails extends React.Component {
     if (this.state.bookingDetailsVisible) {
       return (
           <React.Fragment>
-            <h2>Booking Overview</h2>
-            <HForm id="bookingDetails" data={this.props.data}
+            <h2 key={0}>Booking Overview</h2>
+            <HForm key={1} id="bookingDetails" data={this.props.data}
                    ref={(form) => this.detailsForm = form}>
               <CCFlightDetails headline={true} standalone={false}
                                flight={this.props.selectedFlight}/>
@@ -163,15 +164,15 @@ export default class BookingDetails extends React.Component {
                   <HMessage styleClass="iceMsgError inputFieldLabel"
                             for="tacCheckbox" id="tacErrorMessage"/>
                 </HPanelGroup>
-                {/*// TODO*/}
-                {/*<ace:tooltip id="tacTooltip" for="tacDiv"*/}
-                {/*speechBubble={false} showEffect="slide"*/}
-                {/*hideEffect="slide"*/}
-                {/*showDelay={200} hideDelay={100} position="bottomLeft"*/}
-                {/*targetPosition="topRight" showEffectLength={200}*/}
-                {/*hideEffectLength={200} styleClass="icePnlTlTip">*/}
-                {/*<span className="iceOutTxt"> Some imaginary TAC text. </span>*/}
-                {/*</ace:tooltip>*/}
+                <AceTooltip id="tacTooltip" for="tacDiv"
+                            speechBubble={false} showEffect="slide"
+                            hideEffect="slide"
+                            showDelay={200} hideDelay={100}
+                            position="bottomLeft"
+                            targetPosition="topRight" showEffectLength={200}
+                            hideEffectLength={200} styleClass="icePnlTlTip">
+                  <span className="iceOutTxt"> Some imaginary TAC text. </span>
+                </AceTooltip>
               </HPanelGroup>
 
               <HCommandButton value="Cancel"

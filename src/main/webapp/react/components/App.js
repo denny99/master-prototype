@@ -36,7 +36,7 @@ export default class App extends React.Component {
         <React.Fragment>
           <h2>Welcome</h2>
           <hr/>
-          <HForm id="indexForm">
+          <HForm id="indexForm" data={{}}>
             <HCommandButton id="viewFlightsButton"
                             action={this.showFlightOverview}
                             value="View Flights"

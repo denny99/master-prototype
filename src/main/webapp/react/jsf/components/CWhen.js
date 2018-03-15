@@ -7,6 +7,10 @@ export default class CWhen extends React.Component {
   };
 
   render() {
-    return this.props.children;
+    return React.Children.map(this.props.children, (child, i) => {
+      return React.cloneElement(child, {
+        key: i,
+      });
+    });
   }
 }

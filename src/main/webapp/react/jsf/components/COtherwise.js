@@ -4,6 +4,10 @@ export default class COtherwise extends React.Component {
   static propTypes = {};
 
   render() {
-    return this.props.children;
+    return React.Children.map(this.props.children, (child, i) => {
+      return React.cloneElement(child, {
+        key: i,
+      });
+    });
   }
 }

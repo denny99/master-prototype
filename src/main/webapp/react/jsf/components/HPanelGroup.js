@@ -13,14 +13,23 @@ export default class HPanelGroup extends JsfElement {
 
   render() {
     if (this.props.rendered !== false) {
-      return (
-          <div className={this.props.styleClass}
-               id={this.state.id}
-               style={this.props.style}>
-            {this.props.children}
-          </div>);
+      if (this.props.layout === 'block') {
+        return (
+            <div className={this.props.styleClass}
+                 id={this.state.id}
+                 style={this.props.style}>
+              {this.props.children}
+            </div>);
+      } else {
+        return (
+            <span className={this.props.styleClass}
+                  id={this.state.id}
+                  style={this.props.style}>
+              {this.props.children}
+            </span>);
+      }
     } else {
-      return <div/>;
+      return null;
     }
   }
 }

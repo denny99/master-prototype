@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VarInjector from '../../util/VarInjector';
 
-export default class Row extends React.Component {
+export default class UiRepeat extends React.Component {
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.object).isRequired,
     var: PropTypes.string.isRequired,
@@ -19,9 +19,12 @@ export default class Row extends React.Component {
     for (let i = 0; i < this.props.value.length; i++) {
       let obj = this.props.value[i];
       let subChildren = [];
-      for (let child of children) {
+      for (let j = 0; j < children.length; j++) {
+        let child = children[j];
         subChildren.push(
-            VarInjector.inject(child, this.props.var, obj),
+            React.cloneElement(VarInjector.inject(child, this.props.var, obj), {
+              key: `${i}${j}`,
+            }),
         );
       }
 

@@ -43,9 +43,12 @@ export default class VarInjector {
     if (component.hasOwnProperty('props') &&
         component.props.hasOwnProperty('children') &&
         typeof component.props.children === 'object') {
-      for (let child of (component.props.children)) {
-        children.push(VarInjector.inject(child, varName, object));
-      }
+      // add key properties otherwise react complains
+      React.Children.forEach(component.props.children, (child, i) => {
+        children.push(
+            VarInjector.inject(React.cloneElement(child, {key: i}), varName,
+                object));
+      });
     } else {
       // child is plain string
       children = props.children;
