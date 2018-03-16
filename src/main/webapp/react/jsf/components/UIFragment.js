@@ -10,7 +10,7 @@ export default class UIFragment extends React.Component {
     if (this.props.rendered !== false) {
       return this.props.children;
     } else {
-      return <div/>;
+      return null;
     }
   }
 }

@@ -40,7 +40,7 @@ export default class IcePanelGroup extends JsfElement {
                onMouseOver={this.onMouseOver}
                style={this.props.style}>{this.props.children}</div>);
     } else {
-      return <div/>;
+      return null;
     }
   }
 }
