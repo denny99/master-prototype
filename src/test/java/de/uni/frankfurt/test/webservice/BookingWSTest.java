@@ -5,6 +5,7 @@ import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.DatabaseMock;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
+import de.uni.frankfurt.json.responses.FlightSearchResponse;
 import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -90,13 +91,12 @@ public class BookingWSTest extends WSTest {
         .get().readEntity(String.class);
 
     // parse json
-    ArrayList<Flight> flights = parser.fromJSON(jsonFlights,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+    FlightSearchResponse flights = parser.fromJSON(jsonFlights,
+        FlightSearchResponse.class);
 
     // select first random flight
 
-    return flights.get(0);
+    return flights.getData().get(0);
   }
 
   /**

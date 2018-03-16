@@ -59,9 +59,6 @@ export default class PassengerForm extends React.Component {
       this.passengers.push(new Passenger());
     }
     // setup first passenger
-    // TODO remove debug only
-    this.passengers[0].idCardNumber = '12345';
-    this.passengers[0].passportNumber = 'P12345';
     this.state.data.currentPassenger = this.passengers[0];
 
     this.validateForm = this.validateForm.bind(this);

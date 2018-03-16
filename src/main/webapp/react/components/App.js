@@ -15,6 +15,10 @@ export default class App extends React.Component {
 
     this.showFlightOverview = this.showFlightOverview.bind(this);
     this.hideFlightOverview = this.hideFlightOverview.bind(this);
+
+    window.addEventListener('unhandledrejection', function(err, promise) {
+      alert(err);
+    });
   }
 
   showFlightOverview() {
@@ -29,6 +33,10 @@ export default class App extends React.Component {
       showStartPage: true,
       showFlightOverview: false,
     });
+  }
+
+  componentDidCatch(error, info) {
+    alert(error + ' ' + info);
   }
 
   render() {

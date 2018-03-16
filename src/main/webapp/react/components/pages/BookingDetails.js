@@ -19,6 +19,7 @@ import COtherwise from '../../jsf/components/COtherwise';
 import UiRepeat from '../../jsf/components/UiRepeat';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import AceTooltip from '../../jsf/components/AceTooltip';
+import BookingService from '../../service/BookingService';
 
 export default class BookingDetails extends React.Component {
   static propTypes = {
@@ -53,8 +54,12 @@ export default class BookingDetails extends React.Component {
     };
   }
 
-  finishBooking() {
+  async finishBooking() {
+    let data = this.detailsForm.state.data;
     // POST to backend
+    await BookingService.createBooking(this.props.selectedFlight,
+        data.travelInsurance, data.tac, data.passengers);
+
     this.setState({
       bookingDetailsVisible: false,
       bookingSuccessVisible: true,

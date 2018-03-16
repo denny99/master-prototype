@@ -1,5 +1,5 @@
 import ApiConstants from '../constants/ApiConstants';
-import Flight from '../entity/Flight';
+import FlightSearchResponse from '../entity/FlightSearchResponse';
 
 export default class FlightService {
   static URL = ApiConstants.BASE_URL + 'flights/';
@@ -10,7 +10,7 @@ export default class FlightService {
    * @param {number} limit
    * @param {number} offset
    * @param {'asc' | 'desc'} sortOrder
-   * @return {Promise<Flight[]>}
+   * @return {Promise<FlightSearchResponse>}
    */
   static async getFlights(city, limit, offset, sortOrder) {
     // do ajax call
@@ -28,9 +28,7 @@ export default class FlightService {
           reject(errorThrown);
         },
         success: function(data) {
-          resolve(data.map((obj) => {
-            return new Flight(obj);
-          }));
+          resolve(new FlightSearchResponse(data));
         },
       });
     });

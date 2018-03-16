@@ -13,13 +13,13 @@ import HPanelGroup from '../../jsf/components/HPanelGroup';
 import AceDataTable from '../../jsf/components/AceDataTable';
 import FFacet from '../../jsf/components/FFacet';
 import AceColumn from '../../jsf/components/AceColumn';
-import ApiResponse from '../../entity/ApiResponse';
 import FlightService from '../../service/FlightService';
 import FlightDetails from './FlightDetails';
 import HPanelGrid from '../../jsf/components/HPanelGrid';
 import HOutputText from '../../jsf/components/HOutputText';
 import DateConverter from '../../converter/DateConverter';
 import BookingForm from './BookingForm';
+import FlightSearchResponse from '../../entity/FlightSearchResponse';
 
 export default class FlightOverview extends React.Component {
   static propTypes = {
@@ -30,12 +30,9 @@ export default class FlightOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {
-        // TODO remove debug only
-        sortOrder: 'asc',
-      },
+      data: {},
       searched: false,
-      results: new ApiResponse(0, FlightOverview.PAGE_SIZE),
+      results: new FlightSearchResponse({}),
       overviewVisible: true,
       detailsViewVisible: false,
       bookingFormVisible: false,
@@ -66,22 +63,17 @@ export default class FlightOverview extends React.Component {
       // get form data
       let data = this.searchForm.state.data;
 
-      const limit = this.state.results.limit;
+      const limit = FlightOverview.PAGE_SIZE;
       const offset = currentPage === undefined ?
           0 :
-          ((currentPage - 1) * this.state.results.limit);
+          ((currentPage - 1) * FlightOverview.PAGE_SIZE);
 
       let response = await FlightService.getFlights(data.arrivalFilter,
           limit, offset, data.sortOrder);
 
-      // TODO? change output object to include max?
       this.setState({
         searched: true,
-        results: new ApiResponse(offset, limit,
-            response.length === limit ?
-                100000 :
-                (currentPage * FlightOverview.PAGE_SIZE ||
-                    FlightOverview.PAGE_SIZE), response),
+        results: response,
       });
     })();
   }

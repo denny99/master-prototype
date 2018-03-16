@@ -43,8 +43,6 @@ public class FlightService implements Serializable {
   }
 
   /**
-   * @param limit     max number of results
-   * @param offset    number of results to skip
    * @param country   Target Country
    * @param city      Target City
    * @param date      min. Date for flight
@@ -52,7 +50,7 @@ public class FlightService implements Serializable {
    * @return found results
    */
   public List<Flight> searchFlight(
-      int limit, int offset, String country, String city, Date date,
+      String country, String city, Date date,
       final String sortOrder) {
     List<Flight> results = new ArrayList<Flight>();
     for (Flight flight : this.databaseMock.getFlights()) {
@@ -61,10 +59,6 @@ public class FlightService implements Serializable {
           flight.getDateTime().after(date)) {
         results.add(flight);
       }
-    }
-    if (results.size() > limit) {
-      results = results.subList(offset,
-          Math.min(offset + limit, results.size()));
     }
 
     Collections.sort(results, (lhs, rhs) -> {

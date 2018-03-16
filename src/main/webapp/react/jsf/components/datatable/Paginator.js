@@ -44,10 +44,15 @@ export default class Paginator extends React.Component {
           <span className="ui-icon ui-icon-seek-end">Last</span>
         </a>;
     let pageLinks = [];
-    for (let i = Math.max(1, this.props.currentPage -
-        (this.props.currentPage === maxPage ? 9 : 5)), j = Math.min(maxPage,
-        this.props.currentPage < 7 ? 10 : (this.props.currentPage + 4)); i <=
-         j; i++) {
+
+    let startPage = Math.max(1, this.props.currentPage -
+        (this.props.currentPage + 5 > maxPage ?
+            9 - (maxPage - this.props.currentPage) : 5));
+    let endPage = Math.min(maxPage,
+        this.props.currentPage < 7 ? 10 : (this.props.currentPage + 4));
+
+    for (let i = startPage, j = endPage; i <=
+    j; i++) {
       if (i === this.props.currentPage) {
         pageLinks.push(<span key={i}
                              className="ui-paginator-page ui-state-default ui-corner-all ui-paginator-current-page ui-state-active">{i}</span>);

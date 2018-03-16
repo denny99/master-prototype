@@ -2,6 +2,7 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
+import de.uni.frankfurt.json.responses.FlightSearchResponse;
 import de.uni.frankfurt.json.responses.ValidationResponse;
 import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -11,7 +12,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RunWith(Arquillian.class)
@@ -21,11 +21,9 @@ public class AjaxWSTest extends WSTest {
   @InSequence(1)
   @RunAsClient
   public void validatePassengerCount() throws JsonSchemaException {
-    APIResponse<ArrayList<Flight>> flightResponse = this.getResourcesFromAPI(
-        "/flights",
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
-    Flight flight = flightResponse.getResponseObject().get(0);
+    APIResponse<FlightSearchResponse> flightResponse = this.getResourcesFromAPI(
+        "/flights", FlightSearchResponse.class);
+    Flight flight = flightResponse.getResponseObject().getData().get(0);
 
     HashMap<String, String> query = new HashMap<>();
 
