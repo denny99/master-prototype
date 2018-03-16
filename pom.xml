@@ -137,7 +137,7 @@
         <profile>
             <id>deploy</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
                 <!-- ICEFaces Core -->
@@ -171,7 +171,7 @@
         <profile>
             <id>aquillian-glassfish-embedded</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <dependencies>
                 <!-- embedded does not work with the old icefaces/jsf things -->
