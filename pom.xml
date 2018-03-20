@@ -28,6 +28,7 @@
         <log4j.version>1.2.12</log4j.version>
         <swagger.version>2.0.0-rc4</swagger.version>
         <jersey.version>2.26</jersey.version>
+        <icefaces.version>3.3.0</icefaces.version>
         <arquillian-jersey.version>1.0.0.Alpha4</arquillian-jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -130,16 +131,50 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
     <profiles>
         <profile>
-            <id>aquillian-glassfish-embedded</id>
+            <id>deploy</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
+                <!-- ICEFaces Core -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces</artifactId>
+                    <version>${icefaces.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.icepush</groupId>
+                            <artifactId>icepush</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <!-- ICEFaces Advanced Components -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces-ace</artifactId>
+                    <version>${icefaces.version}</version>
+                </dependency>
+
+                <!-- ICEFaces 1.x Compatibility Library -->
+                <dependency>
+                    <groupId>org.icefaces</groupId>
+                    <artifactId>icefaces-compat</artifactId>
+                    <version>${icefaces.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>aquillian-glassfish-embedded</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <!-- embedded does not work with the old icefaces/jsf things -->
                 <dependency>
                     <groupId>org.glassfish.main.extras</groupId>
                     <artifactId>glassfish-embedded-all</artifactId>

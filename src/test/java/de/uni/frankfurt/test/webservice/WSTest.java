@@ -2,7 +2,7 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.beans.JSONParserBean;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.wrapper.APIResponse;
+import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePaths;
@@ -36,7 +36,9 @@ abstract class WSTest {
     return ShrinkWrap.create(WebArchive.class)
         .addPackages(true, "de.uni.frankfurt")
         .addAsWebInfResource(EmptyAsset.INSTANCE,
-            ArchivePaths.create("beans.xml"));
+            ArchivePaths.create("beans.xml"))
+        .addAsWebInfResource(EmptyAsset.INSTANCE,
+            ArchivePaths.create("faces-config.xml"));
   }
 
   /**
@@ -97,7 +99,6 @@ abstract class WSTest {
    */
   protected <T> APIResponse<T> postResourceToAPI(
       String basePath, Object b, Class<T> clazz) {
-    // TODO handle error messages
     return new APIResponse<>(webTarget
         .path(basePath)
         .request(MediaType.APPLICATION_JSON)

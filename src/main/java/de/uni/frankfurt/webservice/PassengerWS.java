@@ -63,13 +63,13 @@ public class PassengerWS {
               content = @Content(array = @ArraySchema(
                   schema = @Schema(implementation = Passenger.class))))})
   public String getPassengers(
-      @Parameter(description = "Partial Passport Number") @DefaultValue("") @QueryParam("passportNumber") String passportNumber,
-      @Parameter(description = "Partial ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) throws JsonSchemaException {
+      @Parameter(description = "Passport Number") @DefaultValue("") @QueryParam("passportNumber") String passportNumber,
+      @Parameter(description = "ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) throws JsonSchemaException {
     ArrayList<Passenger> passengers = new ArrayList<>();
     // filter requested?
     if (!passportNumber.isEmpty()) {
       passengers.add(
-          passengerService.getPassengerByIdCardNumber(passportNumber));
+          passengerService.getPassengerByPassportNumber(passportNumber));
     } else if (!idCardNumber.isEmpty()) {
       passengers.add(passengerService.getPassengerByIdCardNumber(idCardNumber));
     } else {

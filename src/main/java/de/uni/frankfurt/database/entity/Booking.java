@@ -13,7 +13,6 @@ public class Booking {
   )
   private boolean insurance;
   @JsonField(
-      required = true,
       maxLength = 16,
       readOnly = true
   )

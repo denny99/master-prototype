@@ -104,9 +104,9 @@ input, select {
 }
 
 .btnTan-dis {
-    background: #888 url("#{resource['images:background-button-forward.png']}") no-repeat left -33px !important;
+    background: #888 url("/resources/images/background-button-forward.png") no-repeat left -33px !important;
     background: linear-gradient(to left bottom, #888, #ccc) no-repeat left top !important;
-    background /*\**/: #888 url("#{resource['images:background-button-forward.png']}") no-repeat left -33px !important \9;
+    background /*\**/: #888 url("/resources/images/background-button-forward.png") no-repeat left -33px !important \9;
     border: 1px solid #888 !important;
     border-radius: 5px;
     color: #e8e8e8 !important;
@@ -137,32 +137,32 @@ input, select {
 }
 
 .btnNext {
-    background-image: url("#{resource['images:background-button-forward.png']}");
+    background-image: url("/resources/images/background-button-forward.png");
     background-image: linear-gradient(to left bottom, #e2d0a3, #ba9d58);
-    background-image /*\**/: url("#{resource['images:background-button-forward.png']}") \9;
+    background-image /*\**/: url("/resources/images/background-button-forward.png") \9;
     background-position /*\**/: right -2px \9;
 }
 
 .btnBack {
-    background-image: url("#{resource['images:background-button-back.gif']}");
+    background-image: url("/resources/images/background-button-back.gif");
     background-image: linear-gradient(to left bottom, #e2d0a3, #ba9d58);
-    background-image /*\**/: url("#{resource['images:background-button-back.gif']}") \9;
+    background-image /*\**/: url("/resources/images/background-button-back.gif") \9;
     background-position /*\**/: left -2px \9;
 }
 
 .btnOption {
-    background-image: url("#{resource['images:background-button-forward.png']}");
+    background-image: url("/resources/images/background-button-forward.png");
     background-position: left top;
     background-image: linear-gradient(to left bottom, #e2d0a3, #ba9d58);
-    background-image /*\**/: url("#{resource['images:background-button-forward.png']}") \9;
+    background-image /*\**/: url("/resources/images/background-button-forward.png") \9;
     background-position /*\**/: left top \9;
 }
 
 .listButton {
-    background-image: url("#{resource['images:background-button-forward.png']}");
+    background-image: url("/resources/images/background-button-forward.png");
     background-position: left top;
     background-image: linear-gradient(to left bottom, #e2d0a3, #ba9d58);
-    background-image /*\**/: url("#{resource['images:background-button-forward.png']}") \9;
+    background-image /*\**/: url("/resources/images/background-button-forward.png") \9;
     background-position /*\**/: left top \9;
     background-repeat: no-repeat;
     border: 1px solid #BA9D59;
@@ -176,9 +176,9 @@ input, select {
 }
 
 .iceCmdBtn-dis, .iceCmdBtn:disabled, .iceCmdBtn[disabled] {
-    background: #888 url("#{resource['images:background-button-forward.png']}") no-repeat left -33px;
+    background: #888 url("/resources/images/background-button-forward.png") no-repeat left -33px;
     background: linear-gradient(to left bottom, #888, #ccc) no-repeat left top;
-    background /*\**/: #888 url("#{resource['images:background-button-forward.png']}") no-repeat left -33px \9;
+    background /*\**/: #888 url("/resources/images/background-button-forward.png") no-repeat left -33px \9;
     border: 1px solid #888;
     font-size: 15px;
     font-weight: bold;
@@ -428,7 +428,7 @@ ul li span {
     float: left;
     width: 20px;
     height: 20px;
-    background: url("#{resource['images:icon_info.gif']}");
+    background: url("/resources/images/icon_info.gif");
 }
 
 .unbekanntDefault {
@@ -661,7 +661,7 @@ div[id="SucheOderLadeForm:loginContent"] {
 
 #scoringAmpel {
     width: 166px;
-    background-image: url("#{resource['images:ampel-background2.png']}");
+    background-image: url("/resources/images/ampel-background2.png");
     background-repeat: no-repeat;
     border: 1px solid #888;
     height: 26px;

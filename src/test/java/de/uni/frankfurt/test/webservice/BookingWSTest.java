@@ -5,7 +5,8 @@ import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.database.service.DatabaseMock;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.wrapper.APIResponse;
+import de.uni.frankfurt.json.responses.FlightSearchResponse;
+import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -19,53 +20,6 @@ import java.util.ArrayList;
 @RunWith(Arquillian.class)
 public class BookingWSTest extends WSTest {
   private static Booking createdBooking;
-
-  /**
-   * construct url with first found flight
-   *
-   * @return url
-   */
-  @Override
-  public String getResourceURL() {
-    try {
-      return this.getResourceURL(this.getRandomFlight());
-    } catch (JsonSchemaException e) {
-      return "";
-    }
-  }
-
-  /**
-   * create url with given flight
-   *
-   * @param flight flight
-   * @return rest uri
-   */
-  public String getResourceURL(Flight flight) {
-    // setup basic url
-    return String.format("/flights/%s/bookings", flight.getId());
-  }
-
-  /**
-   * get flight list and return first
-   *
-   * @return first flight
-   */
-  public Flight getRandomFlight() throws JsonSchemaException {
-    // get all flights
-    String jsonFlights = webTarget
-        .path("/flights")
-        .request(MediaType.APPLICATION_JSON)
-        .get().readEntity(String.class);
-
-    // parse json
-    ArrayList<Flight> flights = parser.fromJSON(jsonFlights,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
-
-    // select first random flight
-
-    return flights.get(0);
-  }
 
   // note injection not possible (we are outside of the server)
   @Test
@@ -124,6 +78,38 @@ public class BookingWSTest extends WSTest {
         response.getError().getStatusCode(), 412);
   }
 
+  /**
+   * get flight list and return first
+   *
+   * @return first flight
+   */
+  public Flight getRandomFlight() throws JsonSchemaException {
+    // get all flights
+    String jsonFlights = webTarget
+        .path("/flights")
+        .request(MediaType.APPLICATION_JSON)
+        .get().readEntity(String.class);
+
+    // parse json
+    FlightSearchResponse flights = parser.fromJSON(jsonFlights,
+        FlightSearchResponse.class);
+
+    // select first random flight
+
+    return flights.getData().get(0);
+  }
+
+  /**
+   * create url with given flight
+   *
+   * @param flight flight
+   * @return rest uri
+   */
+  public String getResourceURL(Flight flight) {
+    // setup basic url
+    return String.format("/flights/%s/bookings", flight.getId());
+  }
+
   @Test
   @InSequence(2)
   @RunAsClient
@@ -140,6 +126,20 @@ public class BookingWSTest extends WSTest {
     Assert.assertTrue("error occurred", response.hasError());
     Assert.assertEquals("correct http code",
         response.getError().getStatusCode(), 404);
+  }
+
+  /**
+   * construct url with first found flight
+   *
+   * @return url
+   */
+  @Override
+  public String getResourceURL() {
+    try {
+      return this.getResourceURL(this.getRandomFlight());
+    } catch (JsonSchemaException e) {
+      return "";
+    }
   }
 
   @Test

@@ -2,7 +2,7 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Passenger;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.wrapper.APIResponse;
+import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -33,6 +33,14 @@ public class PassengerWSTest extends WSTest {
     Assert.assertTrue("error occurred", response.hasError());
     Assert.assertEquals("correct http code",
         response.getError().getStatusCode(), 404);
+  }
+
+  /**
+   * @return url
+   */
+  @Override
+  public String getResourceURL() {
+    return "/passengers";
   }
 
   // note injection not possible (we are outside of the server)
@@ -72,13 +80,5 @@ public class PassengerWSTest extends WSTest {
     Assert.assertTrue("no error", !response.hasError());
     Assert.assertEquals("correct number of passengers",
         response.getResponseObject().size(), 1);
-  }
-
-  /**
-   * @return url
-   */
-  @Override
-  public String getResourceURL() {
-    return "/passengers";
   }
 }

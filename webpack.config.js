@@ -8,6 +8,9 @@ module.exports = {
   entry: {
     swaggerDocs: path.resolve(__dirname,
         'src/main/webapp/resources/js/swaggerDocs.js'),
+    index: path.resolve(__dirname,
+        'src/main/webapp/react/index.js'),
+    polyfill: 'babel-polyfill',
   },
   output: {
     path: path.resolve(__dirname, 'src/main/webapp/resources/dist'),
@@ -25,6 +28,7 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'es2016', 'es2017', 'react'],
+          plugins: ['transform-class-properties'],
         },
       },
       // CSS handling

@@ -2,7 +2,8 @@ package de.uni.frankfurt.test.webservice;
 
 import de.uni.frankfurt.database.entity.Flight;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
-import de.uni.frankfurt.json.wrapper.APIResponse;
+import de.uni.frankfurt.json.responses.FlightSearchResponse;
+import de.uni.frankfurt.test.json.responses.APIResponse;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -12,7 +13,6 @@ import org.junit.runner.RunWith;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -40,6 +40,14 @@ public class FlightWSTest extends WSTest {
         response.getError().getStatusCode(), 404);
   }
 
+  /**
+   * @return url
+   */
+  @Override
+  public String getResourceURL() {
+    return "/flights";
+  }
+
   // note injection not possible (we are outside of the server)
   @Test
   @InSequence(1)
@@ -49,33 +57,32 @@ public class FlightWSTest extends WSTest {
     query.put("limit", "10");
     String basePath = this.getResourceURL();
     // test limit
-    APIResponse<ArrayList<Flight>> response = this.getResourcesFromAPI(basePath,
-        query,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+    APIResponse<FlightSearchResponse> response = this.getResourcesFromAPI(
+        basePath,
+        query, FlightSearchResponse.class);
 
     Assert.assertTrue("no error", !response.hasError());
-    Assert.assertEquals("correct size", response.getResponseObject().size(),
+    Assert.assertEquals("correct size",
+        response.getResponseObject().getData().size(),
         10);
-    flight = response.getResponseObject().get(0);
+    flight = response.getResponseObject().getData().get(0);
 
     // test offset
     query.put("offset", "10");
     response = this.getResourcesFromAPI(basePath, query,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+        FlightSearchResponse.class);
 
     Assert.assertTrue("no error", !response.hasError());
-    Assert.assertEquals("correct size", response.getResponseObject().size(),
+    Assert.assertEquals("correct size",
+        response.getResponseObject().getData().size(),
         10);
     Assert.assertNotEquals("new flight at index 0", flight.getId(),
-        response.getResponseObject().get(0).getId());
+        response.getResponseObject().getData().get(0).getId());
 
     // test invalid date
     query.put("date", "aa.BB.YYYY");
     response = this.getResourcesFromAPI(basePath, query,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+        FlightSearchResponse.class);
 
     Assert.assertTrue("has error", response.hasError());
     Assert.assertEquals("correct error code",
@@ -87,10 +94,9 @@ public class FlightWSTest extends WSTest {
     query.put("date", TEST_DATE);
     // test date
     response = this.getResourcesFromAPI(basePath, query,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+        FlightSearchResponse.class);
     Assert.assertTrue("no error", !response.hasError());
-    for (Flight flight1 : response.getResponseObject()) {
+    for (Flight flight1 : response.getResponseObject().getData()) {
       Assert.assertTrue("correct date filter",
           flight1.getDateTime().after(date));
     }
@@ -98,21 +104,12 @@ public class FlightWSTest extends WSTest {
     // test city
     query.put("city", TEST_CITY);
     response = this.getResourcesFromAPI(basePath, query,
-        new ArrayList<Flight>() {
-        }.getClass().getGenericSuperclass());
+        FlightSearchResponse.class);
     Assert.assertTrue("no error", !response.hasError());
-    for (Flight flight1 : response.getResponseObject()) {
+    for (Flight flight1 : response.getResponseObject().getData()) {
       Assert.assertEquals("correct date filter", flight1.getArrival().getCity(),
           TEST_CITY);
     }
 
-  }
-
-  /**
-   * @return url
-   */
-  @Override
-  public String getResourceURL() {
-    return "/flights";
   }
 }

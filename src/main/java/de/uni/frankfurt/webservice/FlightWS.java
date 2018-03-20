@@ -7,9 +7,9 @@ import de.uni.frankfurt.exceptions.BadRequestException;
 import de.uni.frankfurt.exceptions.ResourceNotFoundException;
 import de.uni.frankfurt.exceptions.RestException;
 import de.uni.frankfurt.json.exceptions.JsonSchemaException;
+import de.uni.frankfurt.json.responses.FlightSearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -61,8 +61,7 @@ public class FlightWS {
           @ApiResponse(
               responseCode = "200",
               description = "Found Flights",
-              content = @Content(array = @ArraySchema(
-                  schema = @Schema(implementation = Flight.class)))),
+              content = @Content(schema = @Schema(implementation = FlightSearchResponse.class))),
           @ApiResponse(responseCode = "400", description = "Date format is incorrect",
               content = @Content(schema = @Schema(implementation = RestException.class)))})
   public String getFlights(
@@ -77,10 +76,18 @@ public class FlightWS {
     try {
       SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
       Date date = formatter.parse(isoDate);
-      List<Flight> flights = this.flightService.searchFlight(limit, offset,
-          country, city,
+      List<Flight> flights = this.flightService.searchFlight(country, city,
           date, sortOder);
-      return parser.toJSON(flights);
+
+      Integer max = flights.size();
+
+      if (flights.size() > limit) {
+        flights = flights.subList(offset,
+            Math.min(offset + limit, flights.size()));
+      }
+
+      return parser.toJSON(
+          new FlightSearchResponse(max, offset, limit, flights));
     } catch (ParseException e) {
       throw new BadRequestException(isoDate, Date.class);
     }

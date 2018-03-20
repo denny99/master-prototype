@@ -711,7 +711,7 @@ button.ui-button::-moz-focus-inner {
     width: 39px;
     height: 22px;
     cursor: default;
-    background: transparent /*{bgColorDefault}*/ url("../resources/images/slider.png") /*{bgImgUrlDefault}*/ center /*{bgDefaultXPos}*/ center /*{bgDefaultYPos}*/ no-repeat /*{bgDefaultRepeat}*/;
+    background: transparent /*{bgColorDefault}*/ url("/resources/images/slider.png") /*{bgImgUrlDefault}*/ center /*{bgDefaultXPos}*/ center /*{bgDefaultYPos}*/ no-repeat /*{bgDefaultRepeat}*/;
     border: none;
 }
 
