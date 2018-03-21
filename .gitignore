@@ -25,3 +25,4 @@ package-lock.json
 target/
 node_modules/
 src/main/webapp/resources/dist/
+/src/main/webapp/index.html
