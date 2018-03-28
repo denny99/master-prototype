@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HPanelGroup from '../../jsf/components/HPanelGroup';
-import UIFragment from '../../jsf/components/UIFragment';
-import CChoose from '../../jsf/components/CChoose';
-import CWhen from '../../jsf/components/CWhen';
-import COtherwise from '../../jsf/components/COtherwise';
-import HOutputText from '../../jsf/components/HOutputText';
-import CIf from '../../jsf/components/CIf';
-import HForm from '../../jsf/components/HForm';
-import HCommandButton from '../../jsf/components/HCommandButton';
+import {
+  CChoose, CIf, COtherwise, CWhen, HCommandButton, HForm, HOutputText,
+  HPanelGroup, UIFragment,
+} from 'react-jsf';
 import Flight from '../../entity/Flight';
 import DateConverter from '../../converter/DateConverter';
 

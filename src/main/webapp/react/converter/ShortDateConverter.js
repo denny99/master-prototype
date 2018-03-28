@@ -1,5 +1,4 @@
-import Converter from '../jsf/superclass/Converter';
-import ConverterException from '../jsf/exceptions/ConverterException';
+import {Converter, ConverterException} from 'react-jsf';
 
 export default class ShortDateConverter extends Converter {
   static format = {

@@ -2,23 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CCFlightDetails from '../cc/CCFlightDetails';
 import Flight from '../../entity/Flight';
-import HPanelGroup from '../../jsf/components/HPanelGroup';
-import HOutputText from '../../jsf/components/HOutputText';
-import FConvertNumber from '../../jsf/components/FConvertNumber';
-import HCommandButton from '../../jsf/components/HCommandButton';
-import HOutputLabel from '../../jsf/components/HOutputLabel';
-import HMessage from '../../jsf/components/HMessage';
-import HForm from '../../jsf/components/HForm';
-import IceSelectBooleanCheckbox from '../../jsf/components/IceSelectBooleanCheckbox';
-import AceDialog from '../../jsf/components/AceDialog';
-import IceCommandButton from '../../jsf/components/IceCommandButton';
+import {
+  AceDialog, AceTooltip, CChoose, COtherwise, CWhen, FConvertNumber,
+  HCommandButton, HForm, HMessage, HOutputLabel, HOutputText, HPanelGroup,
+  IceCommandButton, IceSelectBooleanCheckbox, UiRepeat,
+} from 'react-jsf';
 import BookingSuccess from './BookingSuccess';
-import CChoose from '../../jsf/components/CChoose';
-import CWhen from '../../jsf/components/CWhen';
-import COtherwise from '../../jsf/components/COtherwise';
-import UiRepeat from '../../jsf/components/UiRepeat';
 import ShortDateConverter from '../../converter/ShortDateConverter';
-import AceTooltip from '../../jsf/components/AceTooltip';
 import BookingService from '../../service/BookingService';
 
 export default class BookingDetails extends React.Component {

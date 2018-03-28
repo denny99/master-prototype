@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HForm from '../jsf/components/HForm';
-import HCommandButton from '../jsf/components/HCommandButton';
+import {HCommandButton, HForm} from 'react-jsf';
 import FlightOverview from './pages/FlightOverview';
 import VersionAnnotation from './includes/VersionAnnotation';
 

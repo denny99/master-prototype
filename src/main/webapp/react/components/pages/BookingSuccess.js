@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HForm from '../../jsf/components/HForm';
-import HCommandButton from '../../jsf/components/HCommandButton';
+import {HCommandButton, HForm} from 'react-jsf';
 
 export default class BookingSuccess extends React.Component {
   static propTypes = {

@@ -1,5 +1,5 @@
 import Flight from './Flight';
-import ApiResponse from '../jsf/entity/ApiResponse';
+import {ApiResponse} from 'react-jsf';
 
 export default class FlightSearchResponse extends ApiResponse {
   /**

@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HForm from '../../jsf/components/HForm';
 import CCFlightDetails from '../cc/CCFlightDetails';
 import Flight from '../../entity/Flight';
-import HPanelGroup from '../../jsf/components/HPanelGroup';
-import HInputText from '../../jsf/components/HInputText';
+import {
+  FFacet, HCommandButton, HForm, HInputHidden, HInputText, HMessage,
+  HOutputLabel, HPanelGroup, HSelectBooleanCheckbox, IceOutputText,
+  IcePanelGroup, IcePanelTooltip, ValidationResponse,
+} from 'react-jsf';
 import IntegerConverter from '../../converter/IntegerConverter';
-import IcePanelGroup from '../../jsf/components/IcePanelGroup';
-import IceOutputText from '../../jsf/components/IceOutputText';
-import HInputHidden from '../../jsf/components/HInputHidden';
-import FFacet from '../../jsf/components/FFacet';
-import HMessage from '../../jsf/components/HMessage';
-import HCommandButton from '../../jsf/components/HCommandButton';
-import IcePanelTooltip from '../../jsf/components/IcePanelTooltip';
-import HOutputLabel from '../../jsf/components/HOutputLabel';
-import HSelectBooleanCheckbox from '../../jsf/components/HSelectBooleanCheckbox';
 import PassengerForm from './PassengerForm';
 import AjaxService from '../../service/AjaxService';
 

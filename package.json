@@ -9,6 +9,7 @@
     "prop-types": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-jsf": "^1.1.2",
     "react-lincoln": "^0.4.0"
   },
   "devDependencies": {

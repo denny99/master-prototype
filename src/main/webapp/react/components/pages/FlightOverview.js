@@ -1,22 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HForm from '../../jsf/components/HForm';
-import FValidateRegex from '../../jsf/components/FValidateRegex';
-import HInputText from '../../jsf/components/HInputText';
-import HMessage from '../../jsf/components/HMessage';
-import HCommandButton from '../../jsf/components/HCommandButton';
-import HSelectOneMenu from '../../jsf/components/HSelectOneMenu';
-import FSelectItem from '../../jsf/components/FSelectItem';
-import FSelectItems from '../../jsf/components/FSelectItems';
-import SelectItem from '../../jsf/elements/SelectItem';
-import HPanelGroup from '../../jsf/components/HPanelGroup';
-import AceDataTable from '../../jsf/components/AceDataTable';
-import FFacet from '../../jsf/components/FFacet';
-import AceColumn from '../../jsf/components/AceColumn';
+import {
+  AceColumn, AceDataTable, FFacet, FSelectItem, FSelectItems,
+  FValidateRegex, HCommandButton, HForm, HInputText, HMessage, HOutputText,
+  HPanelGrid, HPanelGroup, HSelectOneMenu, SelectItem,
+} from 'react-jsf';
 import FlightService from '../../service/FlightService';
 import FlightDetails from './FlightDetails';
-import HPanelGrid from '../../jsf/components/HPanelGrid';
-import HOutputText from '../../jsf/components/HOutputText';
 import DateConverter from '../../converter/DateConverter';
 import BookingForm from './BookingForm';
 import FlightSearchResponse from '../../entity/FlightSearchResponse';

@@ -1,25 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HForm from '../../jsf/components/HForm';
 import Flight from '../../entity/Flight';
-import HPanelGroup from '../../jsf/components/HPanelGroup';
-import HInputText from '../../jsf/components/HInputText';
-import FFacet from '../../jsf/components/FFacet';
-import HMessage from '../../jsf/components/HMessage';
-import HCommandButton from '../../jsf/components/HCommandButton';
-import CWhen from '../../jsf/components/CWhen';
-import FAjax from '../../jsf/components/FAjax';
-import COtherwise from '../../jsf/components/COtherwise';
-import CIf from '../../jsf/components/CIf';
-import HGraphicImage from '../../jsf/components/HGraphicImage';
-import FSelectItems from '../../jsf/components/FSelectItems';
+import {
+  CChoose, CIf, COtherwise, CWhen, FAjax, FFacet, FSelectItems,
+  HCommandButton, HForm, HGraphicImage, HInputText, HMessage, HPanelGroup,
+  HSelectOneRadio, IceOutputText, IcePanelPopup, SelectItem,
+} from 'react-jsf';
 import ShortDateConverter from '../../converter/ShortDateConverter';
-import HSelectOneRadio from '../../jsf/components/HSelectOneRadio';
 import Passenger from '../../entity/Passenger';
-import IceOutputText from '../../jsf/components/IceOutputText';
-import IcePanelPopup from '../../jsf/components/IcePanelPopup';
-import CChoose from '../../jsf/components/CChoose';
-import SelectItem from '../../jsf/elements/SelectItem';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerService from '../../service/PassengerService';
 import BookingDetails from './BookingDetails';
