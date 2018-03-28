@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ObjectTraverser from '../../util/ObjectTraverser';
+import ObjectTraverser from '../util/ObjectTraverser';
 
 export default class HForm extends React.Component {
   static propTypes = {

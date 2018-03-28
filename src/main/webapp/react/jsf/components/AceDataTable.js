@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import InvalidChildException from '../../exceptions/InvalidChildException';
+import InvalidChildException from '../exceptions/InvalidChildException';
 import AceColumn from './AceColumn';
 import Header from './datatable/Header';
 import Row from './datatable/Row';

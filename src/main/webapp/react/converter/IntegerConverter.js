@@ -1,5 +1,5 @@
 import Converter from '../jsf/superclass/Converter';
-import ConverterException from '../exceptions/ConverterException';
+import ConverterException from '../jsf/exceptions/ConverterException';
 
 export default class IntegerConverter extends Converter {
   getAsObject(value) {

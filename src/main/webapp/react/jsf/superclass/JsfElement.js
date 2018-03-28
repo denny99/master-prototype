@@ -62,7 +62,6 @@ export default class JsfElement extends React.Component {
     return value;
   }
 
-
   /**
    * checks if the current input can be converted
    * @returns {boolean}

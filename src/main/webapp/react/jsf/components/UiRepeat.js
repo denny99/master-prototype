@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import VarInjector from '../../util/VarInjector';
+import VarInjector from '../util/VarInjector';
 
 export default class UiRepeat extends React.Component {
   static propTypes = {
