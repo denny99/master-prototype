@@ -5,7 +5,7 @@ import AceColumn from './AceColumn';
 import Header from './datatable/Header';
 import Row from './datatable/Row';
 import Paginator from './datatable/Paginator';
-import ApiResponse from '../../entity/ApiResponse';
+import ApiResponse from '../entity/ApiResponse';
 import JsfElement from '../superclass/JsfElement';
 
 export default class AceDataTable extends JsfElement {
