@@ -126,7 +126,13 @@
     "component-selector": [
       true,
       "element",
-      "app",
+      [
+        "app",
+        "h",
+        "f",
+        "ice",
+        "c"
+      ],
       "kebab-case"
     ],
     "no-output-on-prefix": true,
