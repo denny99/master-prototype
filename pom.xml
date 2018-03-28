@@ -52,6 +52,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- JSON Schema Extension -->
+        <dependency>
+            <groupId>de.uni.frankfurt</groupId>
+            <artifactId>json-schema</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- REST Docs -->
         <dependency>
             <groupId>com.google.guava</groupId>
