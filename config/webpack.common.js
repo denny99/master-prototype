@@ -67,6 +67,7 @@ module.exports = {
       template: './src/main/webapp/angular/index.html',
       filename: helpers.root('src', 'main/webapp/index.html'),
       chunks: ['polyfills', 'app'],
+      chunksSortMode: 'manual',
     }),
   ],
 };

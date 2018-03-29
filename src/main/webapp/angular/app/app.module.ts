@@ -9,6 +9,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {FlightOverviewComponent} from './pages/flight-overview/flight-overview.component';
 import {IndexComponent} from './pages/index/index.component';
 import {HttpClientModule} from '@angular/common/http';
+import {PassengerService} from './services/PassengerService';
+import {AjaxService} from './services/AjaxService';
+import BookingService from './services/BookingService';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import {HttpClientModule} from '@angular/common/http';
   ],
   providers: [
     FlightService,
+    PassengerService,
+    AjaxService,
+    BookingService,
   ],
   bootstrap: [AppComponent],
 })

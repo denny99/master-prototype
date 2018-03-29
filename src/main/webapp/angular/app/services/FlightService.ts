@@ -21,14 +21,13 @@ export class FlightService {
    * @return {Promise<ApiSearchResponse<Flight>>}
    */
   async getFlights(
-      city: string, limit: number, offset: number, sortOrder: SortOrder) {
+      city: string, limit: number, offset: number,
+      sortOrder: SortOrder): Promise<ApiSearchResponse<Flight>> {
 
-    const params = new HttpParams();
-
-    params.append('city', city);
-    params.append('limit', limit.toString());
-    params.append('offset', offset.toString());
-    params.append('sortOrder', sortOrder);
+    const params = new HttpParams().append('city', city).
+        append('limit', limit.toString()).
+        append('offset', offset.toString()).
+        append('sortOrder', sortOrder);
 
     return this.http.get<ApiSearchResponse<Flight>>(FlightService.URL, {
       params: params,
