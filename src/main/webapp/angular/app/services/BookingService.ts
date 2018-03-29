@@ -20,7 +20,7 @@ export default class BookingService {
    * @param {Passenger[]} passengers
    * @return {Promise<Booking>}
    */
-  static async createBooking(
+  async createBooking(
       flight: Flight, insurance: boolean, tacAccepted: boolean,
       passengers: Array<Passenger>): Promise<Booking> {
 

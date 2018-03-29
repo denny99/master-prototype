@@ -16,7 +16,7 @@ export class PassengerService {
    * @param {string} idCardNumber
    * @return {Promise<Passenger[]>}
    */
-  static async getPassengers(
+  async getPassengers(
       passportNumber: string, idCardNumber: string): Promise<Array<Passenger>> {
     // do ajax call
     const params = new HttpParams().append('passportNumber', passportNumber).
