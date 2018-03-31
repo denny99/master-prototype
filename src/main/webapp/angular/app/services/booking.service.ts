@@ -6,7 +6,7 @@ import Passenger from '../entity/Passenger';
 import Booking from '../entity/Booking';
 
 @Injectable()
-export default class BookingService {
+export class BookingService {
   static URL = ApiConstants.BASE_URL + 'flights/{flightId}/bookings';
 
   constructor(private http: HttpClient) {

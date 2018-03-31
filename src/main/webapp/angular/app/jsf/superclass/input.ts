@@ -1,11 +1,23 @@
 import {ControlValueAccessor, NgModel} from '@angular/forms';
+import JsfElement from './jsf-element';
+import {HFormService} from '../services/h-form.service';
+import {MessageService} from '../services/message.service';
+import {Input} from '@angular/core';
 
-export default abstract class Input implements ControlValueAccessor {
+export abstract class JsfInput extends JsfElement implements ControlValueAccessor {
+  @Input()
+  validatorMessage: string;
+
   protected abstract model: NgModel;
   private innerValue: any;
 
   private changeListener = [];
   private touchListener = [];
+
+  constructor(
+      hFromService: HFormService, private messageService: MessageService) {
+    super(hFromService);
+  }
 
   get value(): any {
     return this.innerValue;
@@ -16,6 +28,10 @@ export default abstract class Input implements ControlValueAccessor {
       this.innerValue = value;
       this.changeListener.forEach(f => f(this.innerValue));
     }
+  }
+
+  validate() {
+    this.messageService.submitError(this.simpleId, true, this.validatorMessage);
   }
 
   touch() {

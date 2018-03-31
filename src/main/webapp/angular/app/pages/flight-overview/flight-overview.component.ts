@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SortOrder} from '../../enums/SortOrder';
 import ApiSearchResponse from '../../entity/ApiSearchResponse';
 import Flight from '../../entity/Flight';
-import {FlightService} from '../../services/FlightService';
+import {FlightService} from '../../services/flight.service';
 
 @Component({
   selector: 'app-flight-overview',
@@ -11,6 +11,7 @@ import {FlightService} from '../../services/FlightService';
 })
 export class FlightOverviewComponent implements OnInit {
   flights: ApiSearchResponse<Flight>;
+  arrivalFilter: string;
 
   constructor(private flightService: FlightService) {
   }
