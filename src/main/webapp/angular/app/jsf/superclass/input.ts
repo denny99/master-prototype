@@ -2,13 +2,24 @@ import {ControlValueAccessor, NgModel} from '@angular/forms';
 import JsfElement from './jsf-element';
 import {HFormService} from '../services/h-form.service';
 import {MessageService} from '../services/message.service';
-import {Input} from '@angular/core';
+import {ContentChildren, Input, QueryList} from '@angular/core';
+import {FValidateRegexComponent} from '../components/f-validate-regex/f-validate-regex.component';
+import {isEmpty} from 'lodash';
 
 export abstract class JsfInput extends JsfElement implements ControlValueAccessor {
   @Input()
   validatorMessage: string;
 
+  @Input()
+  requiredMessage: string;
+
+  @Input()
+  required: boolean;
+
   protected abstract model: NgModel;
+
+  @ContentChildren(FValidateRegexComponent)
+  private regexValidators: QueryList<FValidateRegexComponent>;
   private innerValue: any;
 
   private changeListener = [];
@@ -31,7 +42,21 @@ export abstract class JsfInput extends JsfElement implements ControlValueAccesso
   }
 
   validate() {
-    this.messageService.submitError(this.simpleId, true, this.validatorMessage);
+    let valid = true;
+    let message = '';
+    this.regexValidators.forEach((validator) => {
+      if (!validator.validate(this.value)) {
+        valid = false;
+        message = this.validatorMessage;
+      }
+    });
+
+    if (isEmpty(this.value) && this.required) {
+      valid = false;
+      message = this.requiredMessage;
+    }
+
+    this.messageService.submitError(this.simpleId, valid, message);
   }
 
   touch() {

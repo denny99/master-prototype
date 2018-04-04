@@ -1,0 +1,11 @@
+<ng-content></ng-content>
+<select [class]="styleClass"
+        [id]="id"
+        [name]="id" [size]="size"
+        [style]="style"
+        [(ngModel)]="value"
+        (blur)="validate()"
+>
+  <ng-container *ngFor="let item of items"
+                [ngTemplateOutlet]="item.option"></ng-container>
+</select>

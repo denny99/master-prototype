@@ -10,7 +10,7 @@ import {HFormService} from '../../services/h-form.service';
 })
 export class HCommandButtonComponent extends JsfElement implements OnInit {
   @Input()
-  action: string;
+  action: string | (() => any);
 
   @Input()
   value: string;
@@ -23,6 +23,10 @@ export class HCommandButtonComponent extends JsfElement implements OnInit {
   }
 
   async onClick() {
-    await this.router.navigateByUrl(this.action);
+    if (typeof this.action === 'string') {
+      await this.router.navigateByUrl(this.action);
+    } else {
+      await this.action();
+    }
   }
 }

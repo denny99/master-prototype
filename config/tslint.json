@@ -120,13 +120,17 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      [
+        "app",
+        "jsf"
+      ],
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
       [
+        "ace",
         "app",
         "h",
         "f",

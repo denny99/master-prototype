@@ -11,7 +11,10 @@ export default abstract class JsfElement implements OnInit {
   @Input('id')
   simpleId: string;
 
-  constructor(private hFormService: HFormService) {
+  @Input()
+  rendered: boolean;
+
+  constructor(protected hFormService: HFormService) {
   }
 
   get id() {

@@ -1,0 +1,5 @@
+<span [class]="styleClass" [style]="style"
+      [id]="id" *ngIf="value">
+      {{value}}
+</span>
+<ng-content *ngIf="!value"></ng-content>

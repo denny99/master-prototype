@@ -51,7 +51,7 @@ export default class FlightOverview extends React.Component {
 
   /**
    * handle form submit
-   * @param [currentPage] default 1
+   * @param {number} [currentPage] default 1
    */
   submit(currentPage) {
     // check for form error and re-render messages if required

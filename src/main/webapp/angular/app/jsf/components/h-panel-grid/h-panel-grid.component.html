@@ -1,0 +1,9 @@
+<table>
+  <tbody>
+  <tr>
+    <td *ngFor="let facet of facets">
+      <ng-container [ngTemplateOutlet]="facet.content"></ng-container>
+    </td>
+  </tr>
+  </tbody>
+</table>

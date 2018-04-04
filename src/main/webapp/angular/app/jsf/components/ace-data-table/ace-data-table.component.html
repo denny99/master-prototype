@@ -1,0 +1,38 @@
+<div class="ui-datatable ui-widget"
+     [id]="id">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <ng-container *ngFor="let header of headers; let i = index">
+          <th class="ui-widget-header">
+            <div class="ui-header-column clickable"
+                 id="{{id}}:{{i}}">
+            <span>
+              <span class="ui-header-text"
+                    id="{{id}}:{{i}}_text">
+                <ng-container
+                    [ngTemplateOutlet]="header.content"></ng-container>
+              </span>
+            </span>
+            </div>
+          </th>
+        </ng-container>
+      </tr>
+      </thead>
+      <tbody class="ui-datatable-data ui-widget-content">
+      <ng-container *ngFor="let item of value.data; let i = index">
+        <tr [class]="even ? 'ui-datatable-even' : 'ui-datatable-odd'"
+            id="{{id + '_row_' + (value.offset + i)}}" tabIndex="0">
+          <ng-container *ngFor="let column of columns">
+            <td>
+              <ng-container [ngTemplateOutlet]="column.body"
+                            [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<ng-template #radio>
+  <tr>
+    <td>
+      <input #radioInput
+             [id]="radioId"
+             [name]="radioId"
+             type="radio"
+             [value]="value"/>
+      <label
+          [for]="radioId">{{itemLabel}}</label>
+    </td>
+  </tr>
+</ng-template>
+<ng-template #option>
+  <option #optionElem
+          [value]="value">
+    {{itemLabel}}
+  </option>
+</ng-template>
