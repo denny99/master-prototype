@@ -12,7 +12,7 @@
   <h-select-one-menu id="sortOrderSelect" styleClass="iceSelOneMnu"
                      [(ngModel)]="sortOrder"
                      [required]="true" requiredMessage="Enter a Date Sort Order"
-                     style="bottom: 3px;position: relative;width: 179px;">
+                     [style]="{bottom: '3px', position: 'relative', width: '179px'}">
     <f-select-item itemLabel="Select One"
                    [noSelectionOption]="true"></f-select-item>
     <f-select-items [value]="sortOptions"></f-select-items>
@@ -26,25 +26,26 @@
         style="font-size: 10px; color: black;">You can search for Arrival locations</span>
   <div class="clear"></div>
   <h-command-button value="Search"
-                    style="margin-top:10px;"
-                    (action)="searchFlight"
+                    [style]="{'margin-top':'10px'}"
+                    [action]="searchFlight"
                     styleClass="iceCmdBtn btnOption"
                     id="flightSearchButton"></h-command-button>
 </h-form>
 
 <h-form id="datatableForm">
   <h-panel-group layout="block" styleClass="blockArea"
-                 style="width:1192px;"
+                 [style]="{width: '1192px'}"
                  [rendered]="searched"
                  id="searchWrapper">
     <h2>Flight Overview</h2>
-    <app-flight-column-1 #col1></app-flight-column-1>
-    <app-flight-column-2 #col2></app-flight-column-2>
-    <app-flight-column-3 #col3></app-flight-column-3>
-    <app-flight-column-4 #col4></app-flight-column-4>
+
     <ace-data-table id="flightsTable" [value]="flights"
                     var="flight" [rows]="10"
-                    [paginator]="true" [columns]="[col1, col2, col3, col4]">
+                    [paginator]="true">
+      <app-flight-column-1></app-flight-column-1>
+      <app-flight-column-2></app-flight-column-2>
+      <app-flight-column-3></app-flight-column-3>
+      <app-flight-column-4></app-flight-column-4>
     </ace-data-table>
   </h-panel-group>
 

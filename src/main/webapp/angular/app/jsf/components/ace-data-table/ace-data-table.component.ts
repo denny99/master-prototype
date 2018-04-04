@@ -1,4 +1,7 @@
-import {AfterViewInit, Component, Input, OnInit,} from '@angular/core';
+import {
+  AfterViewInit, Component, ContentChildren, Input,
+  OnInit,
+} from '@angular/core';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import {FFacetComponent} from '../f-facet/f-facet.component';
 import {AceColumn} from '../../superclass/ace-column';
@@ -21,7 +24,7 @@ export class AceDataTableComponent implements OnInit, AfterViewInit {
   varName: string;
   @Input()
   paginator: boolean;
-  @Input()
+  @ContentChildren(AceColumn)
   columns: Array<AceColumn>;
 
   private headers: Array<FFacetComponent> = [];

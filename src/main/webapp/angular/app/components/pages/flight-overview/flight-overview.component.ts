@@ -15,19 +15,21 @@ export class FlightOverviewComponent implements OnInit {
   private arrivalFilter: string;
   private sortOrder = '';
   private sortOptions: Array<SelectItem> = [];
-  private searched = false;
+  private searched = true;
 
   constructor(private flightService: FlightService) {
     this.sortOptions.push(new SelectItem('asc', 'Ascending'));
     this.sortOptions.push(new SelectItem('desc', 'Descending'));
+
+    this.searchFlight = this.searchFlight.bind(this);
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.flights = await this.flightService.getFlights('', 10, 0,
         SortOrder.asc);
   }
 
-  searchFlight() {
+  searchFlight(): void {
     this.searched = true;
   }
 }

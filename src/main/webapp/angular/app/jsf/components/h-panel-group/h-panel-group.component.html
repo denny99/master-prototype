@@ -1,16 +1,19 @@
 <ng-container *ngIf="rendered">
+  <ng-template #content>
+    <ng-content></ng-content>
+  </ng-template>
   <ng-container *ngIf="layout === 'block'">
     <div [class]="styleClass"
          [id]="id"
-         [style]="style">
-      <ng-content></ng-content>
+         [ngStyle]="style">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
     </div>
   </ng-container>
   <ng-container *ngIf="layout !== 'block'">
     <span [class]="styleClass"
           [id]="id"
-          [style]="style">
-      <ng-content></ng-content>
+          [ngStyle]="style">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
     </span>
   </ng-container>
 </ng-container>

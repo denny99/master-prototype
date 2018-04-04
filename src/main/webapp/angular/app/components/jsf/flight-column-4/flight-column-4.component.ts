@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, forwardRef, OnInit} from '@angular/core';
 import {AceColumn} from '../../../jsf/superclass/ace-column';
 import Flight from '../../../entity/Flight';
 
@@ -6,6 +6,11 @@ import Flight from '../../../entity/Flight';
   selector: 'app-flight-column-4',
   templateUrl: './flight-column-4.component.html',
   styleUrls: ['./flight-column-4.component.css'],
+  providers: [
+    {
+      provide: AceColumn,
+      useExisting: forwardRef(() => FlightColumn4Component),
+    }],
 })
 export class FlightColumn4Component extends AceColumn implements OnInit {
   constructor() {
