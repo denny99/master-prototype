@@ -1,11 +1,11 @@
 import {
-  AfterViewInit, Component, ContentChildren, Input, OnChanges, OnInit,
-  QueryList, ViewChildren,
+  AfterViewInit, Component, ContentChildren, EventEmitter, Input,
+  OnChanges, OnInit, Output, QueryList, ViewChildren,
 } from '@angular/core';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import {FFacetComponent} from '../f-facet/f-facet.component';
-import {AceColumn} from '../../superclass/ace-column';
 import {PaginatorComponent} from '../datatable/paginator/paginator.component';
+import {AceColumnComponent} from '../ace-column/ace-column.component';
 
 @Component({
   selector: 'ace-data-table',
@@ -17,8 +17,8 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   id: string;
   @Input()
   value: ApiSearchResponse<any> = new ApiSearchResponse<any>();
-  @Input()
-  onLoad: (currentPage: number) => void;
+  @Output()
+  onLoad = new EventEmitter<number>();
   @Input()
   rows: number;
   @Input('var')
@@ -26,8 +26,8 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   paginator: boolean;
 
-  @ContentChildren(AceColumn)
-  columns: Array<AceColumn>;
+  @ContentChildren(AceColumnComponent)
+  columns: Array<AceColumnComponent>;
 
   @ViewChildren(PaginatorComponent)
   paginators: QueryList<PaginatorComponent>;
@@ -51,7 +51,7 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.currentPage = Math.floor(this.value.offset / this.rows);
+    this.currentPage = Math.floor(this.value.offset / this.rows) + 1;
     // force update of paginators in case we did not change the current page
     if (this.paginators) {
       this.paginators.forEach((paginator) => {
@@ -60,9 +60,9 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  async setPage(i: number): Promise<void> {
+  setPage(i: number): void {
     this.currentPage = i;
-    await this.onLoad(i);
+    this.onLoad.emit(i);
   }
 
 }

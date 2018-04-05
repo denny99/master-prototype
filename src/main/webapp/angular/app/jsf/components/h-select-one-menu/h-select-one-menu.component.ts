@@ -1,8 +1,8 @@
 import {
-  AfterViewInit, Component, ContentChildren, Input, OnInit, QueryList,
-  ViewChild,
+  AfterViewInit, Component, ContentChildren, forwardRef, Input, OnInit,
+  QueryList, ViewChild,
 } from '@angular/core';
-import {JsfInput} from '../../superclass/input';
+import {JsfInput} from '../../superclass/jsf-input';
 import {MessageService} from '../../services/message.service';
 import {HFormService} from '../../services/h-form.service';
 import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
@@ -18,6 +18,10 @@ import {FSelectItemsComponent} from '../f-select-items/f-select-items.component'
       provide: NG_VALUE_ACCESSOR,
       useExisting: HSelectOneMenuComponent,
       multi: true,
+    },
+    {
+      provide: JsfInput,
+      useExisting: forwardRef(() => HSelectOneMenuComponent),
     },
   ],
 })

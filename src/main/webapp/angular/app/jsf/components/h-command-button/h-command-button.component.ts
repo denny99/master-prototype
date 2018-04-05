@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import JsfElement from '../../superclass/jsf-element';
 import {HFormService} from '../../services/h-form.service';
@@ -9,8 +9,12 @@ import {HFormService} from '../../services/h-form.service';
   styleUrls: ['./h-command-button.component.css'],
 })
 export class HCommandButtonComponent extends JsfElement implements OnInit {
+  @Input('action')
+  route: string;
+  @Output()
+  action = new EventEmitter<void>();
   @Input()
-  action: string | (() => any);
+  immediate = false;
 
   @Input()
   value: string;
@@ -23,10 +27,13 @@ export class HCommandButtonComponent extends JsfElement implements OnInit {
   }
 
   async onClick() {
-    if (typeof this.action === 'string') {
-      await this.router.navigateByUrl(this.action);
-    } else {
-      await this.action();
+    if (this.immediate || this.hFormService.validate()) {
+      // did we bind a route to this button or a custom action
+      if (this.route) {
+        await this.router.navigateByUrl(this.route);
+      } else {
+        this.action.emit();
+      }
     }
   }
 }

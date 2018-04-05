@@ -24,6 +24,7 @@ export class BookingService {
       flight: Flight, insurance: boolean, tacAccepted: boolean,
       passengers: Array<Passenger>): Promise<Booking> {
 
+    // correct object cast is required, flight needs to be an correct object (date), but the booking object is not used in the prototype
     return this.http.post<Booking>(
         BookingService.URL.replace('{flightId}', flight.id), {
           insurance: insurance,

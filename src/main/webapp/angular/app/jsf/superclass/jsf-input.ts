@@ -1,12 +1,12 @@
 import {ControlValueAccessor, NgModel} from '@angular/forms';
-import JsfElement from './jsf-element';
 import {HFormService} from '../services/h-form.service';
 import {MessageService} from '../services/message.service';
 import {ContentChildren, Input, QueryList} from '@angular/core';
 import {FValidateRegexComponent} from '../components/f-validate-regex/f-validate-regex.component';
 import {isEmpty} from 'lodash';
+import {JsfOutput} from './jsf-output';
 
-export abstract class JsfInput extends JsfElement implements ControlValueAccessor {
+export abstract class JsfInput extends JsfOutput implements ControlValueAccessor {
   @Input()
   validatorMessage: string;
 
@@ -20,7 +20,6 @@ export abstract class JsfInput extends JsfElement implements ControlValueAccesso
 
   @ContentChildren(FValidateRegexComponent)
   private regexValidators: QueryList<FValidateRegexComponent>;
-  private innerValue: any;
 
   private changeListener = [];
   private touchListener = [];
@@ -30,10 +29,6 @@ export abstract class JsfInput extends JsfElement implements ControlValueAccesso
     super(hFromService);
   }
 
-  get value(): any {
-    return this.innerValue;
-  }
-
   set value(value: any) {
     if (this.innerValue !== value) {
       this.innerValue = value;
@@ -41,22 +36,23 @@ export abstract class JsfInput extends JsfElement implements ControlValueAccesso
     }
   }
 
-  validate() {
+  validate(): boolean {
     let valid = true;
     let message = '';
     this.regexValidators.forEach((validator) => {
-      if (!validator.validate(this.value)) {
+      if (!validator.validate(this.innerValue)) {
         valid = false;
         message = this.validatorMessage;
       }
     });
 
-    if (isEmpty(this.value) && this.required) {
+    if (isEmpty(this.innerValue) && this.required) {
       valid = false;
       message = this.requiredMessage;
     }
 
     this.messageService.submitError(this.simpleId, !valid, message);
+    return valid;
   }
 
   touch() {

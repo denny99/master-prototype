@@ -1,15 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import JsfElement from '../../superclass/jsf-element';
 import {HFormService} from '../../services/h-form.service';
+import {JsfOutput} from '../../superclass/jsf-output';
 
 @Component({
   selector: 'h-output-text',
   templateUrl: './h-output-text.component.html',
   styleUrls: ['./h-output-text.component.css'],
 })
-export class HOutputTextComponent extends JsfElement implements OnInit {
-  @Input()
-  value: any;
+export class HOutputTextComponent extends JsfOutput implements OnInit {
   @Input()
   type: string;
 

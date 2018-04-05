@@ -17,6 +17,7 @@ import {HSelectOneMenuComponent} from './components/h-select-one-menu/h-select-o
 import {HPanelGridComponent} from './components/h-panel-grid/h-panel-grid.component';
 import {FSelectItemComponent} from './components/f-select-item/f-select-item.component';
 import {FSelectItemsComponent} from './components/f-select-items/f-select-items.component';
+import {AceColumnComponent} from './components/ace-column/ace-column.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {FSelectItemsComponent} from './components/f-select-items/f-select-items.
     HSelectOneMenuComponent,
     HPanelGridComponent,
     FSelectItemComponent,
-    FSelectItemsComponent],
+    FSelectItemsComponent,
+    AceColumnComponent],
   declarations: [
     HFormComponent,
     HCommandButtonComponent,
@@ -54,7 +56,8 @@ import {FSelectItemsComponent} from './components/f-select-items/f-select-items.
     HSelectOneMenuComponent,
     HPanelGridComponent,
     FSelectItemComponent,
-    FSelectItemsComponent],
+    FSelectItemsComponent,
+    AceColumnComponent],
   providers: [
     HFormService,
   ],

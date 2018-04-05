@@ -27,7 +27,7 @@
   <div class="clear"></div>
   <h-command-button value="Search"
                     [style]="{'margin-top':'10px'}"
-                    [action]="searchFlight"
+                    (action)="searchFlight(1)"
                     styleClass="iceCmdBtn btnOption"
                     id="flightSearchButton"></h-command-button>
 </h-form>
@@ -40,12 +40,60 @@
     <h2>Flight Overview</h2>
 
     <ace-data-table id="flightsTable" [value]="flights"
-                    var="flight" [rows]="10" [onLoad]="searchFlight"
+                    var="flight" [rows]="PAGE_SIZE"
+                    (onLoad)="searchFlight($event)"
                     [paginator]="true">
-      <app-flight-column-1></app-flight-column-1>
-      <app-flight-column-2></app-flight-column-2>
-      <app-flight-column-3></app-flight-column-3>
-      <app-flight-column-4></app-flight-column-4>
+      <ace-column>
+        <ng-template let-flight>
+          <span
+              class="iceOutTxt center blockArea">{{flight.departure.city}}</span>
+        </ng-template>
+        <f-facet name="header">
+          <span class="iceOutTxt">Departure</span>
+        </f-facet>
+      </ace-column>
+      <ace-column>
+        <ng-template let-flight>
+          <span
+              class="iceOutTxt center blockArea">{{flight.arrival.city}}</span>
+        </ng-template>
+
+        <f-facet name="header">
+          <span class="iceOutTxt">Arrival</span>
+        </f-facet>
+      </ace-column>
+      <ace-column>
+        <ng-template let-flight>
+          <h-output-text value="{{flight.dateTime}}" [converter]="dateConverter"
+                         styleClass="iceOutTxt center blockArea"></h-output-text>
+        </ng-template>
+
+        <f-facet name="header">
+          <span class="iceOutTxt">Date</span>
+        </f-facet>
+      </ace-column>
+      <ace-column>
+        <ng-template let-flight>
+          <h-panel-grid [columns]="2">
+            <f-facet>
+              <h-command-button value="View"
+                                id="viewFlight"
+                                [action]="viewFlight(flight)"
+                                styleClass="iceCmdBtn btnOption"></h-command-button>
+            </f-facet>
+            <f-facet>
+              <h-command-button value="Book"
+                                id="bookFlight"
+                                [action]="startBooking(flight)"
+                                styleClass="iceCmdBtn btnOption"></h-command-button>
+            </f-facet>
+          </h-panel-grid>
+        </ng-template>
+
+        <f-facet name="header">
+          <span class="iceOutTxt">Action</span>
+        </f-facet>
+      </ace-column>
     </ace-data-table>
   </h-panel-group>
 

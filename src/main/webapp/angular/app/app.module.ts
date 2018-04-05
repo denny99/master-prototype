@@ -13,10 +13,10 @@ import {PassengerService} from './services/passenger.service';
 import {AjaxService} from './services/ajax.service';
 import {BookingService} from './services/booking.service';
 import {VersionAnnotationComponent} from './components/pages/includes/version-annotation/version-annotation.component';
-import {FlightColumn1Component} from './components/jsf/flight-column-1/flight-column-1.component';
-import {FlightColumn2Component} from './components/jsf/flight-column-2/flight-column-2.component';
-import {FlightColumn3Component} from './components/jsf/flight-column-3/flight-column-3.component';
-import {FlightColumn4Component} from './components/jsf/flight-column-4/flight-column-4.component';
+import {registerLocaleData} from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe, 'de-DE');
 
 @NgModule({
   declarations: [
@@ -24,10 +24,6 @@ import {FlightColumn4Component} from './components/jsf/flight-column-4/flight-co
     VersionAnnotationComponent,
     FlightOverviewComponent,
     IndexComponent,
-    FlightColumn1Component,
-    FlightColumn2Component,
-    FlightColumn3Component,
-    FlightColumn4Component,
   ],
   imports: [
     BrowserModule,

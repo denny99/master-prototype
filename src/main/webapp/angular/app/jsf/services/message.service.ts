@@ -21,7 +21,6 @@ export class MessageService {
   subscribe(
       forId: string, next?: (value: ErrorMessage) => void,
       error?: (error: any) => void) {
-    console.log('subscribing to error: ' + forId);
     // check if there is an entry for this id
     if (!this.subjects.hasOwnProperty(forId)) {
       this.subjects[forId] = new Subject<ErrorMessage>();
@@ -38,7 +37,6 @@ export class MessageService {
    * @param {string} [message]
    */
   submitError(id: string, hasError: boolean, message?: string) {
-    console.log('submitting error: ' + id);
     // make sure there is an observable for this input
     if (!this.subjects.hasOwnProperty(id)) {
       this.subjects[id] = new Subject<ErrorMessage>();

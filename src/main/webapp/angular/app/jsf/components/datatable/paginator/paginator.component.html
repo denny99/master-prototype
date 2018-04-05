@@ -1,12 +1,12 @@
 <div
-    [class]="'ui-paginator ' + (top ?'ui-paginator-top' : 'ui-paginator-bottom') + 'ui-widget-header ui-corner-tl ui-corner-tr'"
+    [class]="'ui-paginator ' + (top ?'ui-paginator-top' : 'ui-paginator-bottom') + ' ui-widget-header ui-corner-tl ui-corner-tr'"
     [id]="parentId + '_paginator' + (top ? 'top' : 'bottom')">
   <span *ngIf="currentPage === 1" id="yui-pg0-0-first-span"
         class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled">
     <span class="ui-icon ui-icon-seek-first">First</span>
   </span>
   <a *ngIf="currentPage !== 1" id="yui-pg1-0-first-link"
-     (click)="setPage($event, 0)"
+     (click)="setPage($event, 1)"
      class="ui-paginator-first ui-state-default ui-corner-all">
     <span class="ui-icon ui-icon-seek-first">First</span>
   </a>

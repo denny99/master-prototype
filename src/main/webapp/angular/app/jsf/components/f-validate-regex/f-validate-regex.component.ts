@@ -22,6 +22,10 @@ export class FValidateRegexComponent implements OnInit {
    * @returns {boolean} true when regex ok
    */
   validate(content: string): boolean {
-    return !isEmpty(content) && content.match(this.pattern) !== null;
+    if (!isEmpty(content)) {
+      return content.match(this.pattern) !== null;
+    } else {
+      return true;
+    }
   }
 }

@@ -1,4 +1,9 @@
 export default class ValidationResponse {
-  error: boolean;
-  message: string;
+  /**
+   *
+   * @param {boolean} err
+   * @param {string} message
+   */
+  constructor(public err: boolean, public message: string) {
+  }
 }

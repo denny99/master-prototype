@@ -22,6 +22,7 @@ export class PassengerService {
     const params = new HttpParams().append('passportNumber', passportNumber).
         append('idCardNumber', idCardNumber);
 
+    // correct object cast is not required, the passenger object has no functions or special attr treatment
     return this.http.get<Array<Passenger>>(PassengerService.URL, {
       params: params,
     }).toPromise();

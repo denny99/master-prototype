@@ -5,6 +5,7 @@ import {IndexComponent} from './components/pages/index/index.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent},
+  {path: 'index', component: IndexComponent},
   {path: 'pages/flightOverview', component: FlightOverviewComponent},
 ];
 
