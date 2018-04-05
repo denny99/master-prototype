@@ -40,7 +40,7 @@
     <h2>Flight Overview</h2>
 
     <ace-data-table id="flightsTable" [value]="flights"
-                    var="flight" [rows]="10"
+                    var="flight" [rows]="10" [onLoad]="searchFlight"
                     [paginator]="true">
       <app-flight-column-1></app-flight-column-1>
       <app-flight-column-2></app-flight-column-2>

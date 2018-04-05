@@ -21,6 +21,9 @@ module.exports = webpackMerge(commonConfig, {
       mangle: {
         keep_fnames: true,
       },
+      output: {
+        ascii_only: true,
+      },
     }),
     new ExtractTextPlugin('[name].css'),
     new webpack.DefinePlugin({

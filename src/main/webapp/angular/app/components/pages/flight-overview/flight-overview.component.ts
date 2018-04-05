@@ -24,12 +24,13 @@ export class FlightOverviewComponent implements OnInit {
     this.searchFlight = this.searchFlight.bind(this);
   }
 
-  async ngOnInit(): Promise<void> {
-    this.flights = await this.flightService.getFlights('', 10, 0,
-        SortOrder.asc);
+  ngOnInit(): void {
+
   }
 
-  searchFlight(): void {
+  async searchFlight(): Promise<void> {
     this.searched = true;
+    this.flights = await this.flightService.getFlights('', 10, 0,
+        SortOrder.asc);
   }
 }

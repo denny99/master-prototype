@@ -1,3 +1,51 @@
-<p>
-  paginator works!
-</p>
+<div
+    [class]="'ui-paginator ' + (top ?'ui-paginator-top' : 'ui-paginator-bottom') + 'ui-widget-header ui-corner-tl ui-corner-tr'"
+    [id]="parentId + '_paginator' + (top ? 'top' : 'bottom')">
+  <span *ngIf="currentPage === 1" id="yui-pg0-0-first-span"
+        class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled">
+    <span class="ui-icon ui-icon-seek-first">First</span>
+  </span>
+  <a *ngIf="currentPage !== 1" id="yui-pg1-0-first-link"
+     (click)="setPage($event, 0)"
+     class="ui-paginator-first ui-state-default ui-corner-all">
+    <span class="ui-icon ui-icon-seek-first">First</span>
+  </a>
+
+
+  <span *ngIf="currentPage === 1" id="yui-pg0-0-prev-span"
+        class="ui-paginator-previous ui-state-default ui-corner-all ui-state-disabled">
+    <span class="ui-icon ui-icon-seek-prev">Prev</span>
+  </span>
+  <a *ngIf="currentPage !== 1" id="yui-pg1-0-prev-link"
+     (click)="setPage($event, currentPage - 1)"
+     class="ui-paginator-previous ui-state-default ui-corner-all">
+    <span class="ui-icon ui-icon-seek-prev">Prev</span>
+  </a>
+  <span id="yui-pg0-0-pages" class="ui-paginator-pages">
+    <ng-container *ngFor="let i of pageLinks">
+      <span *ngIf="i === currentPage"
+            class="ui-paginator-page ui-state-default ui-corner-all ui-paginator-current-page ui-state-active">{{i}}</span>
+      <a *ngIf="i !== currentPage" (click)="setPage($event, i)"
+         class="ui-paginator-page ui-state-default ui-corner-all">{{i}}</a>
+    </ng-container>
+  </span>
+  <span *ngIf="currentPage === maxPage" id="yui-pg2-0-next-span"
+        class="ui-paginator-next ui-state-default ui-corner-all ui-state-disabled">
+    <span class="ui-icon ui-icon-seek-next">Next</span>
+  </span>
+  <a *ngIf="currentPage !== maxPage" id="yui-pg0-0-next-link"
+     (click)="setPage($event, currentPage + 1)"
+     class="ui-paginator-next ui-state-default ui-corner-all">
+    <span class="ui-icon ui-icon-seek-next">Next</span>
+  </a>
+
+  <span *ngIf="currentPage === maxPage" id="yui-pg2-0-last-span"
+        class="ui-paginator-last ui-state-default ui-corner-all ui-state-disabled">
+    <span class="ui-icon ui-icon-seek-end">Last</span>
+  </span>
+  <a *ngIf="currentPage !== maxPage" id="yui-pg0-0-last-link"
+     (click)="setPage($event, maxPage)"
+     class="ui-paginator-last ui-state-default ui-corner-all">
+    <span class="ui-icon ui-icon-seek-end">Last</span>
+  </a>
+</div>

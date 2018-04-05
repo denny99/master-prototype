@@ -1,5 +1,10 @@
 <div class="ui-datatable ui-widget"
      [id]="id">
+  <ace-data-table-paginator *ngIf="paginator" [top]="true"
+                            (newPage)="setPage($event)"
+                            [pageSize]="rows" [parentId]="id"
+                            [currentPage]="currentPage"
+                            [maxResults]="value.maxResults"></ace-data-table-paginator>
   <div>
     <table>
       <thead>
@@ -35,4 +40,8 @@
       </tbody>
     </table>
   </div>
+  <ace-data-table-paginator *ngIf="paginator" [top]="false" [parentId]="id"
+                            [pageSize]="rows" (newPage)="setPage($event)"
+                            [currentPage]="currentPage"
+                            [maxResults]="value.maxResults"></ace-data-table-paginator>
 </div>
