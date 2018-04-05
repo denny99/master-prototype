@@ -56,7 +56,7 @@ export abstract class JsfInput extends JsfElement implements ControlValueAccesso
       message = this.requiredMessage;
     }
 
-    this.messageService.submitError(this.simpleId, valid, message);
+    this.messageService.submitError(this.simpleId, !valid, message);
   }
 
   touch() {

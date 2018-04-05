@@ -53,9 +53,11 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(): void {
     this.currentPage = Math.floor(this.value.offset / this.rows);
     // force update of paginators in case we did not change the current page
-    this.paginators.forEach((paginator) => {
-      paginator.ngOnChanges();
-    });
+    if (this.paginators) {
+      this.paginators.forEach((paginator) => {
+        paginator.ngOnChanges();
+      });
+    }
   }
 
   async setPage(i: number): Promise<void> {
