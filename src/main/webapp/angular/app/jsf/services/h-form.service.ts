@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 export class HFormService {
   formId: string;
 
-  validate: () => boolean;
+  validate: () => Promise<boolean>;
 
   constructor() {
   }

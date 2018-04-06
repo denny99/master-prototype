@@ -27,13 +27,18 @@ export class HCommandButtonComponent extends JsfElement implements OnInit {
   }
 
   async onClick() {
-    if (this.immediate || this.hFormService.validate()) {
-      // did we bind a route to this button or a custom action
-      if (this.route) {
-        await this.router.navigateByUrl(this.route);
-      } else {
-        this.action.emit();
+    try {
+      if (this.immediate || await this.hFormService.validate()) {
+        // did we bind a route to this button or a custom action
+        if (this.route) {
+
+          await this.router.navigateByUrl(this.route);
+        } else {
+          this.action.emit();
+        }
       }
+    } catch (e) {
+      console.error(e);
     }
   }
 }

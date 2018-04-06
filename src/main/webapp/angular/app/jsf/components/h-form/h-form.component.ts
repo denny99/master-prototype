@@ -44,13 +44,26 @@ export class HFormComponent implements OnInit {
    *
    * @returns {boolean}
    */
-  validate(): boolean {
+  async validate(): Promise<boolean> {
     let valid = true;
-    this.inputs.forEach((input) => {
-      if (!input.validate()) {
-        valid = false;
+    try {
+      const promises: Array<Promise<boolean>> = [];
+      this.inputs.forEach((input) => {
+        promises.push(input.validate());
+      });
+      const results = await Promise.all(promises);
+
+      // check if any validation has failed
+      for (const result of results) {
+        if (!(result)) {
+          valid = false;
+          break;
+        }
       }
-    });
+    } catch (e) {
+      console.error(e);
+      valid = false;
+    }
     return valid;
   }
 }

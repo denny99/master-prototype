@@ -41,25 +41,37 @@ export class FlightOverviewComponent implements OnInit {
   }
 
   async searchFlight(page: number): Promise<void> {
-    this.searched = true;
-    this.flights = await this.flightService.getFlights(this.arrivalFilter,
-        this.PAGE_SIZE,
-        (page - 1) * this.PAGE_SIZE, this.sortOrder);
+    try {
+      this.searched = true;
+      this.flights = await this.flightService.getFlights(this.arrivalFilter,
+          this.PAGE_SIZE,
+          (page - 1) * this.PAGE_SIZE, this.sortOrder);
 
-    // save session date for page routing
-    this.sessionService.flights = this.flights;
-    this.sessionService.searched = true;
-    this.sessionService.arrivalFilter = this.arrivalFilter;
-    this.sessionService.sortOrder = this.sortOrder;
+      // save session date for page routing
+      this.sessionService.flights = this.flights;
+      this.sessionService.searched = true;
+      this.sessionService.arrivalFilter = this.arrivalFilter;
+      this.sessionService.sortOrder = this.sortOrder;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async viewFlight(flight: Flight) {
-    this.sessionService.selectedFlight = flight;
-    await this.router.navigateByUrl('/pages/flightDetails');
+    try {
+      this.sessionService.selectedFlight = flight;
+      await this.router.navigateByUrl('/pages/flightDetails');
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async startBooking(flight: Flight) {
-    this.sessionService.selectedFlight = flight;
-    await this.router.navigateByUrl('/pages/bookingForm');
+    try {
+      this.sessionService.selectedFlight = flight;
+      await this.router.navigateByUrl('/pages/bookingForm');
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

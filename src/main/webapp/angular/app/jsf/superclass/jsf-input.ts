@@ -44,7 +44,7 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     }
   }
 
-  validate(): boolean {
+  async validate(): Promise<boolean> {
     let valid = true;
     let message = '';
     this.regexValidators.forEach((validator) => {

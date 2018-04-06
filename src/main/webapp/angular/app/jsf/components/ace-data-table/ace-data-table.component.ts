@@ -41,7 +41,7 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
   }
 
-  async ngAfterViewInit() {
+  ngAfterViewInit() {
     // call this stuff here as the columns use VieChildren
     this.columns.forEach((column) => {
       if (column.header) {
