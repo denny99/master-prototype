@@ -4,6 +4,8 @@ import Flight from '../../../entity/Flight';
 import {FlightService} from '../../../services/flight.service';
 import {SelectItem} from '../../../jsf/objects/select-item';
 import {LongDatePipe} from '../../converter/LongDatePipe';
+import {Router} from '@angular/router';
+import {SessionDataService} from '../../../services/session-data.service';
 
 @Component({
   selector: 'app-flight-overview',
@@ -13,17 +15,25 @@ import {LongDatePipe} from '../../converter/LongDatePipe';
 export class FlightOverviewComponent implements OnInit {
   private PAGE_SIZE = 10;
   private flights: ApiSearchResponse<Flight> = new ApiSearchResponse<Flight>();
-  private arrivalFilter = '';
-  private sortOrder = '';
+  private arrivalFilter: string;
+  private sortOrder: string;
   private sortOptions: Array<SelectItem> = [];
-  private searched = false;
+  private searched: boolean;
   private dateConverter = new LongDatePipe('de-DE');
 
-  constructor(private flightService: FlightService) {
+  constructor(
+      private flightService: FlightService, private router: Router,
+      private sessionService: SessionDataService) {
     this.sortOptions.push(new SelectItem('asc', 'Ascending'));
     this.sortOptions.push(new SelectItem('desc', 'Descending'));
 
     this.searchFlight = this.searchFlight.bind(this);
+
+    // restore data;
+    this.flights = this.sessionService.flights;
+    this.searched = this.sessionService.searched;
+    this.arrivalFilter = this.sessionService.arrivalFilter;
+    this.sortOrder = this.sessionService.sortOrder;
   }
 
   ngOnInit(): void {
@@ -35,13 +45,21 @@ export class FlightOverviewComponent implements OnInit {
     this.flights = await this.flightService.getFlights(this.arrivalFilter,
         this.PAGE_SIZE,
         (page - 1) * this.PAGE_SIZE, this.sortOrder);
+
+    // save session date for page routing
+    this.sessionService.flights = this.flights;
+    this.sessionService.searched = true;
+    this.sessionService.arrivalFilter = this.arrivalFilter;
+    this.sessionService.sortOrder = this.sortOrder;
   }
 
-  viewFlight(flight: Flight) {
-
+  async viewFlight(flight: Flight) {
+    this.sessionService.selectedFlight = flight;
+    await this.router.navigateByUrl('/pages/flightDetails');
   }
 
-  startBooking(flight: Flight) {
-
+  async startBooking(flight: Flight) {
+    this.sessionService.selectedFlight = flight;
+    await this.router.navigateByUrl('/pages/bookingForm');
   }
 }

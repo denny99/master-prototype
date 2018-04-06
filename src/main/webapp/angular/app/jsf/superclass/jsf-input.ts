@@ -29,6 +29,14 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     super(hFromService);
   }
 
+  // same as in JsfOutput but for some reason angular won't use the getter
+  get value(): any {
+    if (this.converter) {
+      return this.converter.transform(this.innerValue);
+    }
+    return this.innerValue;
+  }
+
   set value(value: any) {
     if (this.innerValue !== value) {
       this.innerValue = value;

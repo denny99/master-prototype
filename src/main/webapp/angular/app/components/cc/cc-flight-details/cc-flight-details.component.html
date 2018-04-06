@@ -1,0 +1,54 @@
+<h-panel-group layout="block"
+               styleClass="contentLevelContainer blockArea"
+               id="flightDetailsContainer">
+  <ui-fragment [rendered]="headline">
+    <div class="inputFieldGroup">
+      <span class="iceOutTxt headerLabel">Flight Details</span>
+    </div>
+  </ui-fragment>
+  <h-panel-group layout="block">
+    <div class="clear" style="height: 6px;"></div>
+    <div class="inputFieldGroup minindented">
+                    <span class="iceOutTxt kdInputFieldLabel"
+                          style="width: 200px;">Flight Type</span>
+      <c-choose>
+        <!-- if other country -->
+        <c-when [test]="flight.foreignTravel()">
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">International Flight</span>
+        </c-when>
+        <c-otherwise>
+                            <span class="iceOutTxt kdInputFieldLabel"
+                                  style="width: 200px;">National Flight</span>
+        </c-otherwise>
+      </c-choose>
+      <br/>
+      <span class="iceOutTxt kdInputFieldLabel"
+            style="width: 200px;">Aircraft Model:</span>
+      <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                     [value]="flight.aircraft.model"></h-output-text>
+      <span class="iceOutTxt kdInputFieldLabel"
+            style="width: 200px;">Departure Airport:</span>
+      <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                     [value]="flight.departure.code + ' ' + flight.departure.city"></h-output-text>
+      <span class="iceOutTxt kdInputFieldLabel"
+            style="width: 200px;">Arrival Airport:</span>
+      <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                     [value]="flight.arrival.code + ' ' + flight.arrival.city"></h-output-text>
+      <span class="iceOutTxt kdInputFieldLabel"
+            style="width: 200px;">Departure Time:</span>
+      <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                     [value]="flight.dateTime"
+                     [converter]="dateConverter"></h-output-text>
+    </div>
+  </h-panel-group>
+</h-panel-group>
+
+<c-if [test]="standalone">
+  <h-form id="pageNav">
+    <h-command-button value="Back"
+                      id="backButton"
+                      action="/pages/flightOverview"
+                      styleClass="iceCmdBtn btnOption"></h-command-button>
+  </h-form>
+</c-if>

@@ -1,2 +1,3 @@
-<input type="text" [(ngModel)]="value" (blur)="validate()" [ngStyle]="style"
+<input type="text" [ngModel]="value" (ngModelChange)="value = $event"
+       (blur)="validate()" [ngStyle]="style"
        [class]="styleClass" [id]="id"/>

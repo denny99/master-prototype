@@ -15,6 +15,13 @@ import {BookingService} from './services/booking.service';
 import {VersionAnnotationComponent} from './components/pages/includes/version-annotation/version-annotation.component';
 import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import {FlightDetailsComponent} from './components/pages/flight-details/flight-details.component';
+import {BookingFormComponent} from './components/pages/booking-form/booking-form.component';
+import {PassengerFormComponent} from './components/pages/passenger-form/passenger-form.component';
+import {BookingDetailsComponent} from './components/pages/booking-details/booking-details.component';
+import {BookingSuccessComponent} from './components/pages/booking-success/booking-success.component';
+import {CCFlightDetailsComponent} from './components/cc/cc-flight-details/cc-flight-details.component';
+import {SessionDataService} from './services/session-data.service';
 
 registerLocaleData(localeDe, 'de-DE');
 
@@ -24,6 +31,12 @@ registerLocaleData(localeDe, 'de-DE');
     VersionAnnotationComponent,
     FlightOverviewComponent,
     IndexComponent,
+    FlightDetailsComponent,
+    BookingFormComponent,
+    PassengerFormComponent,
+    BookingDetailsComponent,
+    BookingSuccessComponent,
+    CCFlightDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +50,7 @@ registerLocaleData(localeDe, 'de-DE');
     PassengerService,
     AjaxService,
     BookingService,
+    SessionDataService,
   ],
   bootstrap: [AppComponent],
 })

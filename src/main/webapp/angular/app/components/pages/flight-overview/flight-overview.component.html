@@ -78,13 +78,13 @@
             <f-facet>
               <h-command-button value="View"
                                 id="viewFlight"
-                                [action]="viewFlight(flight)"
+                                (action)="viewFlight(flight)"
                                 styleClass="iceCmdBtn btnOption"></h-command-button>
             </f-facet>
             <f-facet>
               <h-command-button value="Book"
                                 id="bookFlight"
-                                [action]="startBooking(flight)"
+                                (action)="startBooking(flight)"
                                 styleClass="iceCmdBtn btnOption"></h-command-button>
             </f-facet>
           </h-panel-grid>

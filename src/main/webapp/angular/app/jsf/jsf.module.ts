@@ -18,6 +18,11 @@ import {HPanelGridComponent} from './components/h-panel-grid/h-panel-grid.compon
 import {FSelectItemComponent} from './components/f-select-item/f-select-item.component';
 import {FSelectItemsComponent} from './components/f-select-items/f-select-items.component';
 import {AceColumnComponent} from './components/ace-column/ace-column.component';
+import {CIfComponent} from './components/c-if/c-if.component';
+import {CChooseComponent} from './components/c-choose/c-choose.component';
+import {CWhenComponent} from './components/c-when/c-when.component';
+import {COtherwiseComponent} from './components/c-otherwise/c-otherwise.component';
+import {UiFragmentComponent} from './components/ui-fragment/ui-fragment.component';
 
 @NgModule({
   imports: [
@@ -40,7 +45,12 @@ import {AceColumnComponent} from './components/ace-column/ace-column.component';
     HPanelGridComponent,
     FSelectItemComponent,
     FSelectItemsComponent,
-    AceColumnComponent],
+    AceColumnComponent,
+    CIfComponent,
+    CChooseComponent,
+    CWhenComponent,
+    COtherwiseComponent,
+    UiFragmentComponent],
   declarations: [
     HFormComponent,
     HCommandButtonComponent,
@@ -57,7 +67,12 @@ import {AceColumnComponent} from './components/ace-column/ace-column.component';
     HPanelGridComponent,
     FSelectItemComponent,
     FSelectItemsComponent,
-    AceColumnComponent],
+    AceColumnComponent,
+    CIfComponent,
+    CChooseComponent,
+    CWhenComponent,
+    COtherwiseComponent,
+    UiFragmentComponent],
   providers: [
     HFormService,
   ],

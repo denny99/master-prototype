@@ -12,7 +12,7 @@ export default abstract class JsfElement implements OnInit {
   simpleId: string;
 
   @Input()
-  rendered: boolean;
+  rendered = true;
 
   constructor(protected hFormService: HFormService) {
   }
