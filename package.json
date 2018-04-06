@@ -25,6 +25,7 @@
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/angular": "^1.6.43",
+    "@types/jquery": "^3.3.1",
     "@types/lodash": "^4.14.106",
     "@types/node": "^9.4.7",
     "angular2-template-loader": "^0.6.2",

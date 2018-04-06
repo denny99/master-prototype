@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {LongDatePipe} from '../../../converter/LongDatePipe';
 import Flight from '../../../entity/Flight';
-import {LongDatePipe} from '../../converter/LongDatePipe';
 
 @Component({
   selector: 'cc-flight-details',

@@ -2,8 +2,8 @@ import {
   Component, ElementRef, Input, OnInit, TemplateRef,
   ViewChild,
 } from '@angular/core';
-import JsfElement from '../../superclass/jsf-element';
 import {HFormService} from '../../services/h-form.service';
+import JsfElement from '../../superclass/jsf-element';
 
 @Component({
   selector: 'f-select-item',
@@ -24,7 +24,7 @@ export class FSelectItemComponent extends JsfElement implements OnInit {
   @ViewChild('radioInput') radioInput: ElementRef;
   @ViewChild('optionElem') optionElem: ElementRef;
 
-  private radioId = `${this.hFormService.formId}:${this.simpleId}`;
+  private radioId = this.hFormService.getFormId(this.simpleId);
 
   constructor(hFormService: HFormService) {
     super(hFormService);

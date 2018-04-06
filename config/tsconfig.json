@@ -11,6 +11,8 @@
     "rootDir": "../src/main/webapp/angular",
     "target": "es5",
     "typeRoots": [
+      // todo change to node_modules upon package split
+      "../src/main/webapp/angular/app/jsf/@types",
       "../node_modules/@types"
     ],
     "lib": [

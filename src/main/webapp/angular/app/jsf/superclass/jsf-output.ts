@@ -1,10 +1,11 @@
-import {Input, OnInit, PipeTransform} from '@angular/core';
+import {Input, OnInit} from '@angular/core';
 import {HFormService} from '../services/h-form.service';
+import {Converter} from './converter';
 import JsfElement from './jsf-element';
 
 export abstract class JsfOutput extends JsfElement implements OnInit {
   @Input()
-  converter: PipeTransform;
+  converter: Converter;
 
   @Input('value')
   protected innerValue: any;
@@ -14,7 +15,7 @@ export abstract class JsfOutput extends JsfElement implements OnInit {
   }
 
   get value(): any {
-    if (this.converter) {
+    if (this.converter && this.innerValue) {
       return this.converter.transform(this.innerValue);
     }
     return this.innerValue;

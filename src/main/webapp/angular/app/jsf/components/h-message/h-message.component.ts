@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import JsfElement from '../../superclass/jsf-element';
+import {Subscription} from 'rxjs/Subscription';
+import {ErrorMessage} from '../../objects/error-message';
 import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
-import {ErrorMessage} from '../../objects/error-message';
-import {Subscription} from 'rxjs/Subscription';
+import JsfElement from '../../superclass/jsf-element';
 
 @Component({
   selector: 'h-message',
@@ -30,7 +30,10 @@ export class HMessageComponent extends JsfElement implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // in case we did not init at all
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

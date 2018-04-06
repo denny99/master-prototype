@@ -4,7 +4,8 @@
         [name]="id" [size]="size"
         [ngStyle]="style"
         [(ngModel)]="value"
-        (blur)="validate()"
+        (blur)="onBlur()"
+        (change)="onChange()"
 >
   <ng-container *ngFor="let item of items"
                 [ngTemplateOutlet]="item.option"></ng-container>

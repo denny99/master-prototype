@@ -28,7 +28,7 @@
       <tbody class="ui-datatable-data ui-widget-content">
       <ng-container *ngFor="let item of value.data; let i = index">
         <tr [class]="even ? 'ui-datatable-even' : 'ui-datatable-odd'"
-            id="{{id + '_row_' + (value.offset + i)}}" tabIndex="0">
+            id="{{id}}_row_{{value.offset + i}}" tabIndex="0">
           <ng-container *ngFor="let column of columns">
             <td>
               <ng-container [ngTemplateOutlet]="column.body"

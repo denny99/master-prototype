@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {LongDatePipe} from '../../../converter/LongDatePipe';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import Flight from '../../../entity/Flight';
-import {FlightService} from '../../../services/flight.service';
 import {SelectItem} from '../../../jsf/objects/select-item';
-import {LongDatePipe} from '../../converter/LongDatePipe';
-import {Router} from '@angular/router';
+import {FlightService} from '../../../services/flight.service';
 import {SessionDataService} from '../../../services/session-data.service';
 
 @Component({

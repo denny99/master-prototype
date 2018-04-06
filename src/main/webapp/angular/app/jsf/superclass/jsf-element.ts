@@ -6,7 +6,7 @@ export default abstract class JsfElement implements OnInit {
   styleClass: string;
 
   @Input()
-  style: string;
+  style: object;
 
   @Input('id')
   simpleId: string;
@@ -17,11 +17,8 @@ export default abstract class JsfElement implements OnInit {
   constructor(protected hFormService: HFormService) {
   }
 
-  get id() {
-    if (this.hFormService.formId) {
-      return `${this.hFormService.formId}:${this.simpleId}`;
-    }
-    return this.simpleId;
+  get id(): string {
+    return this.hFormService.getFormId(this.simpleId);
   }
 
   ngOnInit() {
