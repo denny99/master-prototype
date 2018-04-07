@@ -7,7 +7,7 @@ export class SessionDataService {
   public selectedFlight: Flight;
   public searched = false;
   public arrivalFilter = '';
-  public sortOrder = '';
+  public sortOrder = 'asc';
   public flights = new FlightSearchResponse({});
 
   constructor() {

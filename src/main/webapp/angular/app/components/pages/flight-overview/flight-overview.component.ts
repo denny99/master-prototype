@@ -17,6 +17,7 @@ export class FlightOverviewComponent {
   private PAGE_SIZE = 10;
   private flights: ApiSearchResponse<Flight> = new ApiSearchResponse<Flight>();
   private arrivalFilter: string;
+  // TODO remove
   private sortOrder: string;
   private sortOptions: Array<SelectItem> = [];
   private searched: boolean;

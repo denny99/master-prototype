@@ -2,5 +2,5 @@
        (blur)="onBlur()"
        (change)="onChange()"
        [ngStyle]="style"
-       [attr.disabled]="disabled"
+       [attr.disabled]="disabled ? '' : null"
        [class]="styleClass" [id]="id"/>

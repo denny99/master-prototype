@@ -12,8 +12,7 @@ export default class Passenger {
     this.idCardNumber = json ? json.idCardNumber : '';
     this.passportNumber = json ? json.passportNumber : '';
     this.birthDay = json ?
-        new Date(json.birthDay.replace('[UTC]', '')) :
-        new Date();
+        new Date(json.birthDay.replace('[UTC]', '')) : null;
     this.luggageCount = json ? json.luggageCount : 0;
   }
 }

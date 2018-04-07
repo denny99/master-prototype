@@ -33,7 +33,7 @@ export class FAjaxComponent extends JsfCore {
   /**
    * trigger ajax call
    */
-  call() {
+  call(caller: JsfCore) {
     let execElem: JsfCore;
     let renderElem: JsfCore;
     switch (this.execute) {
@@ -45,8 +45,7 @@ export class FAjaxComponent extends JsfCore {
         break;
       case '@this':
       default:
-        debugger;
-        execElem = FAjaxComponent.call.caller();
+        execElem = caller;
         break;
     }
 
@@ -60,7 +59,7 @@ export class FAjaxComponent extends JsfCore {
         break;
       case '@this':
       default:
-        renderElem = FAjaxComponent.call.caller();
+        renderElem = caller;
         break;
     }
 

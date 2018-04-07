@@ -14,13 +14,13 @@ import {PassengerService} from '../../../services/passenger.service';
   styleUrls: ['./passenger-form.component.css'],
 })
 export class PassengerFormComponent {
-  private currentPassengerIndex: 0;
+  shortDateConverter = new ShortDatePipe('de-DE');
+  private currentPassengerIndex = 0;
   private forceEdit = false;
   private existingUser = false;
   private passportHelp = false;
   private passengers: Array<Passenger> = [];
   private luggageItems: Array<SelectItem> = [];
-  shortDateConverter = new ShortDatePipe('de-DE');
   private selectedFlight: Flight;
 
   constructor(

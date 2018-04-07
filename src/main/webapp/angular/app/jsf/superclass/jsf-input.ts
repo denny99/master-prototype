@@ -102,7 +102,7 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
         }
 
         if (valid) {
-          ajax.call();
+          ajax.call(this);
         }
       }
     }

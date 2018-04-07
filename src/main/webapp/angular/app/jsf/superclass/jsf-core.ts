@@ -4,7 +4,7 @@ import {IJsfLifecycle} from '../interfaces/jsf-lifecycle';
 
 export abstract class JsfCore implements OnInit, IJsfLifecycle {
   @Input('id')
-  simpleId: string;
+  simpleId = '';
 
   @ContentChildren(FEventComponent)
   events: QueryList<FEventComponent> = new QueryList<FEventComponent>();

@@ -1,7 +1,7 @@
 <h-body>
   <h-form id="passengerData" styleClass="ice-skin-rime">
     <div class="inputFieldGroup">
-      <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
+      <span class="iceOutTxt headerLabel">Enter Data for Passenger #{{currentPassengerIndex + 1}}</span>
     </div>
     <f-event id="multiFieldValidationEvent"
              (listener)="validateForm($event)" type="postValidate"></f-event>
@@ -41,12 +41,11 @@
             </h-input-text>
           </c-otherwise>
         </c-choose>
-        <!-- TODO graphic image -->
-        <h:graphicImage id="helpIcon" library="images"
-                        name="icon_info.gif">
+        <h-graphic-image id="helpIcon" library="images"
+                         name="icon_info.gif">
           <f-ajax render="@all" event="click"
                   (listener)="togglePassportHelp($event)"></f-ajax>
-        </h:graphicImage>
+        </h-graphic-image>
       </div>
 
       <div class="clear"></div>
@@ -93,7 +92,7 @@
                       requiredMessage="Insert your Birthdate"
                       [converter]="shortDateConverter"></h-input-text>
       </div>
-      <div class="clear"/>
+      <div class="clear"></div>
     </h-panel-group>
 
     <!-- luggage radio -->
@@ -101,15 +100,15 @@
                    styleClass="contentLevelContainer blockArea">
       <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
       <!-- todo radio buttons -->
-      <h:selectOneRadio id="luggageRadio"
-                        styleClass="iceSelOneRb masInfoInputField"
-                        required="true"
-                        layout="pageDirection"
-                        requiredMessage="Select the amount of luggage you want to check in"
-                        value="#{passengerFormBean.currentPassenger.luggageCount}">
-        <f-select-items id="luggageNumbers"
-                        [value]="luggageItems"></f-select-items>
-      </h:selectOneRadio>
+      <!--<h:selectOneRadio id="luggageRadio"-->
+      <!--styleClass="iceSelOneRb masInfoInputField"-->
+      <!--required="true"-->
+      <!--layout="pageDirection"-->
+      <!--requiredMessage="Select the amount of luggage you want to check in"-->
+      <!--value="#{passengerFormBean.currentPassenger.luggageCount}">-->
+      <!--<f-select-items id="luggageNumbers"-->
+      <!--[value]="luggageItems"></f-select-items>-->
+      <!--</h:selectOneRadio>-->
       <div class="clear"></div>
       <h-message styleClass="iceMsgError inputFieldLabel"
                  for="firstNameInput" id="firstNameErrorMessage"></h-message>
@@ -125,6 +124,7 @@
     </h-panel-group>
 
     <h-command-button value="Cancel"
+                      [immediate]="true"
                       (action)="cancelBooking()"
                       id="cancelBookingButton"
                       styleClass="iceCmdBtn btnOption"></h-command-button>
@@ -137,11 +137,10 @@
                       (action)="next()"
                       styleClass="iceCmdBtn btnOption"></h-command-button>
 
-    <!-- todo panel popup -->
-    <ice:panelPopup id="passportHelpPopup"
-                    visible="#{passengerFormBean.passportHelp}"
-                    draggable="false"
-                    styleClass="popup frameHolder" autoCentre="true">
+    <ice-panel-popup id="passportHelpPopup"
+                     [visible]="passportHelp"
+                     [draggable]="false"
+                     styleClass="popup frameHolder" [autoCentre]="true">
       <f-facet name="body">
         <div id="iFrameWrapper">
           <ice-output-text styleClass="iceOutTxt">
@@ -151,6 +150,6 @@
           </ice-output-text>
         </div>
       </f-facet>
-    </ice:panelPopup>
+    </ice-panel-popup>
   </h-form>
 </h-body>

@@ -19,6 +19,7 @@ import {FValidateRegexComponent} from './components/f-validate-regex/f-validate-
 import {HBodyComponent} from './components/h-body/h-body.component';
 import {HCommandButtonComponent} from './components/h-command-button/h-command-button.component';
 import {HFormComponent} from './components/h-form/h-form.component';
+import {HGraphicImageComponent} from './components/h-graphic-image/h-graphic-image.component';
 import {HInputHiddenComponent} from './components/h-input-hidden/h-input-hidden.component';
 import {HInputTextComponent} from './components/h-input-text/h-input-text.component';
 import {HMessageComponent} from './components/h-message/h-message.component';
@@ -31,6 +32,7 @@ import {HSelectOneMenuComponent} from './components/h-select-one-menu/h-select-o
 import {IceOutputLinkComponent} from './components/ice-output-link/ice-output-link.component';
 import {IceOutputTextComponent} from './components/ice-output-text/ice-output-text.component';
 import {IcePanelGroupComponent} from './components/ice-panel-group/ice-panel-group.component';
+import {IcePanelPopupComponent} from './components/ice-panel-popup/ice-panel-popup.component';
 import {UiFragmentComponent} from './components/ui-fragment/ui-fragment.component';
 import {HFormService} from './services/h-form.service';
 
@@ -70,7 +72,9 @@ import {HFormService} from './services/h-form.service';
     HSelectBooleanCheckboxComponent,
     AceTooltipComponent,
     HBodyComponent,
-    FEventComponent],
+    FEventComponent,
+    HGraphicImageComponent,
+    IcePanelPopupComponent],
   declarations: [
     HFormComponent,
     HCommandButtonComponent,
@@ -102,7 +106,9 @@ import {HFormService} from './services/h-form.service';
     HSelectBooleanCheckboxComponent,
     AceTooltipComponent,
     HBodyComponent,
-    FEventComponent],
+    FEventComponent,
+    HGraphicImageComponent,
+    IcePanelPopupComponent],
   providers: [
     HFormService,
   ],

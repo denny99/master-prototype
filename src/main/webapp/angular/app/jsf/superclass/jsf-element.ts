@@ -5,10 +5,10 @@ import {JsfCore} from './jsf-core';
 
 export default abstract class JsfElement extends JsfCore {
   @Input()
-  styleClass: string;
+  styleClass = '';
 
   @Input()
-  style: object;
+  style: CSSStyleDeclaration;
 
   @Input()
   rendered = true;
@@ -33,7 +33,7 @@ export default abstract class JsfElement extends JsfCore {
   callAjax(event: string): void {
     for (const ajax of this.ajax.toArray()) {
       if (ajax.event === event) {
-        ajax.call();
+        ajax.call(this);
       }
     }
   }
