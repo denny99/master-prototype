@@ -1,5 +1,5 @@
 import {
-  Component, EventEmitter, Input, OnChanges, OnInit,
+  Component, EventEmitter, Input, OnChanges,
   Output,
 } from '@angular/core';
 
@@ -8,7 +8,7 @@ import {
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.css'],
 })
-export class PaginatorComponent implements OnInit, OnChanges {
+export class PaginatorComponent implements OnChanges {
   @Input()
   currentPage: number;
   @Input()
@@ -26,9 +26,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
   private pageLinks: Array<number>;
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 
   ngOnChanges(): void {

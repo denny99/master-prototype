@@ -1,12 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Converter} from '../../superclass/converter';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'f-convert-number',
   templateUrl: './f-convert-number.component.html',
   styleUrls: ['./f-convert-number.component.css'],
 })
-export class FConvertNumberComponent implements OnInit, Converter {
+export class FConvertNumberComponent extends JsfCore implements Converter {
   @Input()
   pattern: string;
   @Input()
@@ -15,9 +16,7 @@ export class FConvertNumberComponent implements OnInit, Converter {
   locale = 'de-DE';
 
   constructor() {
-  }
-
-  ngOnInit() {
+    super();
   }
 
   transformToObject(value: string): any {

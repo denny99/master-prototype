@@ -1,9 +1,9 @@
-import {Input, OnInit} from '@angular/core';
+import {Input} from '@angular/core';
 import {HFormService} from '../services/h-form.service';
 import {Converter} from './converter';
 import JsfElement from './jsf-element';
 
-export abstract class JsfOutput extends JsfElement implements OnInit {
+export abstract class JsfOutput extends JsfElement {
   @Input()
   converter: Converter;
 
@@ -19,8 +19,5 @@ export abstract class JsfOutput extends JsfElement implements OnInit {
       return this.converter.transform(this.innerValue);
     }
     return this.innerValue;
-  }
-
-  ngOnInit() {
   }
 }

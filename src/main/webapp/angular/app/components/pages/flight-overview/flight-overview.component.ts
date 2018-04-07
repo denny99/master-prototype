@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {LongDatePipe} from '../../../converter/LongDatePipe';
+import {LongDatePipe} from '../../../converter/long-date-pipe';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import Flight from '../../../entity/Flight';
 import {SelectItem} from '../../../jsf/objects/select-item';
@@ -13,7 +13,7 @@ import {SessionDataService} from '../../../services/session-data.service';
   templateUrl: './flight-overview.component.html',
   styleUrls: ['./flight-overview.component.css'],
 })
-export class FlightOverviewComponent implements OnInit {
+export class FlightOverviewComponent {
   private PAGE_SIZE = 10;
   private flights: ApiSearchResponse<Flight> = new ApiSearchResponse<Flight>();
   private arrivalFilter: string;
@@ -36,10 +36,6 @@ export class FlightOverviewComponent implements OnInit {
     this.searched = this.sessionService.searched;
     this.arrivalFilter = this.sessionService.arrivalFilter;
     this.sortOrder = this.sessionService.sortOrder;
-  }
-
-  ngOnInit(): void {
-
   }
 
   async searchFlight(page: number): Promise<void> {

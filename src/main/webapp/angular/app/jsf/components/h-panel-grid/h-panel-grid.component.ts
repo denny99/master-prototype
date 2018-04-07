@@ -1,7 +1,4 @@
-import {
-  Component, ContentChildren, Input, OnInit,
-  QueryList,
-} from '@angular/core';
+import {Component, ContentChildren, Input, QueryList,} from '@angular/core';
 import {FFacetComponent} from '../f-facet/f-facet.component';
 
 @Component({
@@ -9,7 +6,7 @@ import {FFacetComponent} from '../f-facet/f-facet.component';
   templateUrl: './h-panel-grid.component.html',
   styleUrls: ['./h-panel-grid.component.css'],
 })
-export class HPanelGridComponent implements OnInit {
+export class HPanelGridComponent {
   // has no real usage for now
   @Input()
   columns: number;
@@ -19,8 +16,4 @@ export class HPanelGridComponent implements OnInit {
 
   constructor() {
   }
-
-  ngOnInit() {
-  }
-
 }

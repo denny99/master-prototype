@@ -1,5 +1,6 @@
-import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, Input, QueryList, ViewChildren} from '@angular/core';
 import {SelectItem} from '../../objects/select-item';
+import {JsfCore} from '../../superclass/jsf-core';
 import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
 
 @Component({
@@ -7,7 +8,7 @@ import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
   templateUrl: './f-select-items.component.html',
   styleUrls: ['./f-select-items.component.css'],
 })
-export class FSelectItemsComponent implements OnInit {
+export class FSelectItemsComponent extends JsfCore {
   @Input()
   value: Array<SelectItem>;
 
@@ -15,9 +16,7 @@ export class FSelectItemsComponent implements OnInit {
   items: QueryList<FSelectItemComponent>;
 
   constructor() {
-  }
-
-  ngOnInit() {
+    super();
   }
 
 }

@@ -11,10 +11,12 @@ import {CWhenComponent} from './components/c-when/c-when.component';
 import {PaginatorComponent} from './components/datatable/paginator/paginator.component';
 import {FAjaxComponent} from './components/f-ajax/f-ajax.component';
 import {FConvertNumberComponent} from './components/f-convert-number/f-convert-number.component';
+import {FEventComponent} from './components/f-event/f-event.component';
 import {FFacetComponent} from './components/f-facet/f-facet.component';
 import {FSelectItemComponent} from './components/f-select-item/f-select-item.component';
 import {FSelectItemsComponent} from './components/f-select-items/f-select-items.component';
 import {FValidateRegexComponent} from './components/f-validate-regex/f-validate-regex.component';
+import {HBodyComponent} from './components/h-body/h-body.component';
 import {HCommandButtonComponent} from './components/h-command-button/h-command-button.component';
 import {HFormComponent} from './components/h-form/h-form.component';
 import {HInputHiddenComponent} from './components/h-input-hidden/h-input-hidden.component';
@@ -30,7 +32,6 @@ import {IceOutputLinkComponent} from './components/ice-output-link/ice-output-li
 import {IceOutputTextComponent} from './components/ice-output-text/ice-output-text.component';
 import {IcePanelGroupComponent} from './components/ice-panel-group/ice-panel-group.component';
 import {UiFragmentComponent} from './components/ui-fragment/ui-fragment.component';
-import {ConversationService} from './services/conversation.service';
 import {HFormService} from './services/h-form.service';
 
 @NgModule({
@@ -67,7 +68,9 @@ import {HFormService} from './services/h-form.service';
     HInputHiddenComponent,
     HOutputLabelComponent,
     HSelectBooleanCheckboxComponent,
-    AceTooltipComponent],
+    AceTooltipComponent,
+    HBodyComponent,
+    FEventComponent],
   declarations: [
     HFormComponent,
     HCommandButtonComponent,
@@ -97,10 +100,11 @@ import {HFormService} from './services/h-form.service';
     HInputHiddenComponent,
     HOutputLabelComponent,
     HSelectBooleanCheckboxComponent,
-    AceTooltipComponent],
+    AceTooltipComponent,
+    HBodyComponent,
+    FEventComponent],
   providers: [
     HFormService,
-    ConversationService,
   ],
 })
 export class JsfModule {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 
@@ -7,15 +7,11 @@ import JsfElement from '../../superclass/jsf-element';
   templateUrl: './h-panel-group.component.html',
   styleUrls: ['./h-panel-group.component.css'],
 })
-export class HPanelGroupComponent extends JsfElement implements OnInit {
+export class HPanelGroupComponent extends JsfElement {
   @Input()
   layout: string;
 
   constructor(hFormService: HFormService) {
     super(hFormService);
   }
-
-  ngOnInit() {
-  }
-
 }

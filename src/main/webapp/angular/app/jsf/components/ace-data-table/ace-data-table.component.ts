@@ -1,8 +1,9 @@
 import {
   AfterViewInit, Component, ContentChildren, EventEmitter, Input,
-  OnChanges, OnInit, Output, QueryList, ViewChildren,
+  OnChanges, Output, QueryList, ViewChildren,
 } from '@angular/core';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
+import {JsfCore} from '../../superclass/jsf-core';
 import {AceColumnComponent} from '../ace-column/ace-column.component';
 import {PaginatorComponent} from '../datatable/paginator/paginator.component';
 import {FFacetComponent} from '../f-facet/f-facet.component';
@@ -12,9 +13,7 @@ import {FFacetComponent} from '../f-facet/f-facet.component';
   templateUrl: './ace-data-table.component.html',
   styleUrls: ['./ace-data-table.component.css'],
 })
-export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input()
-  id: string;
+export class AceDataTableComponent extends JsfCore implements AfterViewInit, OnChanges {
   @Input()
   value: ApiSearchResponse<any> = new ApiSearchResponse<any>();
   @Output()
@@ -36,9 +35,7 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   private headers: Array<FFacetComponent> = [];
 
   constructor() {
-  }
-
-  ngOnInit(): void {
+    super();
   }
 
   ngAfterViewInit() {

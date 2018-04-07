@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 
@@ -7,7 +7,7 @@ import JsfElement from '../../superclass/jsf-element';
   templateUrl: './ice-output-link.component.html',
   styleUrls: ['./ice-output-link.component.css'],
 })
-export class IceOutputLinkComponent extends JsfElement implements OnInit {
+export class IceOutputLinkComponent extends JsfElement {
   @Input()
   type: string;
 
@@ -17,8 +17,4 @@ export class IceOutputLinkComponent extends JsfElement implements OnInit {
   constructor(hFormService: HFormService) {
     super(hFormService);
   }
-
-  ngOnInit() {
-  }
-
 }

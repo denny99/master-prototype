@@ -1,14 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {IAjaxEventParameter} from '../../interfaces/ajax-event-parameter';
 import {HFormService} from '../../services/h-form.service';
-import JsfElement from '../../superclass/jsf-element';
-import {HFormComponent} from '../h-form/h-form.component';
+import {JsfService} from '../../services/jsf.service';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'f-ajax',
   templateUrl: './f-ajax.component.html',
   styleUrls: ['./f-ajax.component.css'],
 })
-export class FAjaxComponent implements OnInit {
+export class FAjaxComponent extends JsfCore {
   @Input()
   event: string;
   @Input()
@@ -20,35 +21,53 @@ export class FAjaxComponent implements OnInit {
   immediate = false;
 
   @Output()
-  listener = new EventEmitter<JsfElement | HFormComponent>();
+  listener = new EventEmitter<IAjaxEventParameter>();
 
   this: object;
 
-  constructor(private hFormService: HFormService) {
-  }
-
-  ngOnInit() {
+  constructor(
+      private hFormService: HFormService, private jsfService: JsfService) {
+    super();
   }
 
   /**
    * trigger ajax call
    */
   call() {
-    let elem: JsfElement | HFormComponent;
-    switch (this.event) {
-        // @all is no longer useful, the ajax function itself is contained in the page component itself which is basically @all
+    let execElem: JsfCore;
+    let renderElem: JsfCore;
+    switch (this.execute) {
       case '@all':
+        execElem = this.jsfService.all;
+        break;
       case '@form':
-        elem = this.hFormService.form;
+        execElem = this.hFormService.form;
         break;
       case '@this':
       default:
         debugger;
-        elem = FAjaxComponent.call.caller();
+        execElem = FAjaxComponent.call.caller();
         break;
     }
 
-    this.listener.emit(elem);
+    switch (this.render) {
+        // @all is no longer useful, the ajax function itself is contained in the page component itself which is basically @all
+      case '@all':
+        renderElem = this.jsfService.all;
+        break;
+      case '@form':
+        renderElem = this.hFormService.form;
+        break;
+      case '@this':
+      default:
+        renderElem = FAjaxComponent.call.caller();
+        break;
+    }
+
+    this.listener.emit({
+      render: renderElem,
+      exec: execElem,
+    });
   }
 
 }

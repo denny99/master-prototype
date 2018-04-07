@@ -1,7 +1,8 @@
-import {Component, forwardRef, OnInit, ViewChild} from '@angular/core';
+import {Component, forwardRef, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
 import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
+import JsfElement from '../../superclass/jsf-element';
 import {JsfInput} from '../../superclass/jsf-input';
 
 @Component({
@@ -14,16 +15,16 @@ import {JsfInput} from '../../superclass/jsf-input';
       provide: JsfInput,
       useExisting: forwardRef(() => HInputTextComponent),
     },
+    {
+      provide: JsfElement,
+      useExisting: forwardRef(() => HInputTextComponent),
+    },
   ],
 })
-export class HInputTextComponent extends JsfInput implements OnInit {
+export class HInputTextComponent extends JsfInput {
   @ViewChild(NgModel) model: NgModel;
 
   constructor(hFormService: HFormService, messageService: MessageService) {
     super(hFormService, messageService);
   }
-
-  ngOnInit() {
-  }
-
 }

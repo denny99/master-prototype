@@ -1,7 +1,4 @@
-import {
-  Component, ContentChildren, Input, OnInit,
-  QueryList,
-} from '@angular/core';
+import {Component, ContentChildren, Input, QueryList,} from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 import {FFacetComponent} from '../f-facet/f-facet.component';
@@ -11,7 +8,7 @@ import {FFacetComponent} from '../f-facet/f-facet.component';
   templateUrl: './ice-panel-group.component.html',
   styleUrls: ['./ice-panel-group.component.css'],
 })
-export class IcePanelGroupComponent extends JsfElement implements OnInit {
+export class IcePanelGroupComponent extends JsfElement {
   @Input()
   panelTooltip: string;
 
@@ -30,8 +27,5 @@ export class IcePanelGroupComponent extends JsfElement implements OnInit {
     }
     return null;
 
-  }
-
-  ngOnInit() {
   }
 }

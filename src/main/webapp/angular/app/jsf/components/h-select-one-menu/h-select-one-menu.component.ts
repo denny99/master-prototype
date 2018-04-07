@@ -1,10 +1,11 @@
 import {
-  AfterViewInit, Component, ContentChildren, forwardRef, Input, OnInit,
-  QueryList, ViewChild,
+  AfterViewInit, Component, ContentChildren, forwardRef, Input, QueryList,
+  ViewChild,
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
 import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
+import JsfElement from '../../superclass/jsf-element';
 import {JsfInput} from '../../superclass/jsf-input';
 import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
 import {FSelectItemsComponent} from '../f-select-items/f-select-items.component';
@@ -23,9 +24,13 @@ import {FSelectItemsComponent} from '../f-select-items/f-select-items.component'
       provide: JsfInput,
       useExisting: forwardRef(() => HSelectOneMenuComponent),
     },
+    {
+      provide: JsfElement,
+      useExisting: forwardRef(() => HSelectOneMenuComponent),
+    },
   ],
 })
-export class HSelectOneMenuComponent extends JsfInput implements OnInit, AfterViewInit {
+export class HSelectOneMenuComponent extends JsfInput implements AfterViewInit {
   @Input()
   size: number;
 
@@ -40,9 +45,6 @@ export class HSelectOneMenuComponent extends JsfInput implements OnInit, AfterVi
 
   constructor(messageService: MessageService, formService: HFormService) {
     super(formService, messageService);
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit() {

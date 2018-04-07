@@ -1,19 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {isEmpty} from 'lodash';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'f-validate-regex',
   templateUrl: './f-validate-regex.component.html',
   styleUrls: ['./f-validate-regex.component.css'],
 })
-export class FValidateRegexComponent implements OnInit {
+export class FValidateRegexComponent extends JsfCore {
   @Input()
   pattern: string;
 
   constructor() {
-  }
-
-  ngOnInit() {
+    super();
   }
 
   /**

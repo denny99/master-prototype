@@ -1,105 +1,109 @@
-<h-form id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
-  <div class="inputFieldGroup">
-    <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
-  </div>
-  <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
-  <h-input-text id="flightFilterInput"
-                styleClass="iceInpTxt kdInputField"
-                [(ngModel)]="arrivalFilter"
-                validatorMessage="Check your input in the field above">
-    <f-validate-regex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"></f-validate-regex>
-  </h-input-text>
-  <h-select-one-menu id="sortOrderSelect" styleClass="iceSelOneMnu"
-                     [(ngModel)]="sortOrder"
-                     [required]="true" requiredMessage="Enter a Date Sort Order"
-                     [style]="{bottom: '3px', position: 'relative', width: '179px'}">
-    <f-select-item itemLabel="Select One"
-                   [noSelectionOption]="true"></f-select-item>
-    <f-select-items [value]="sortOptions"></f-select-items>
-  </h-select-one-menu>
-  <div class="clear"></div>
-  <h-message styleClass="iceMsgError inputFieldLabel"
-             for="flightFilterInput" id="searchTermErrorMessage"></h-message>
-  <h-message styleClass="iceMsgError inputFieldLabel"
-             for="sortOrderSelect" id="sortOrderErrorMessage"></h-message>
-  <span class="iceOutTxt iceOutLbl"
-        style="font-size: 10px; color: black;">You can search for Arrival locations</span>
-  <div class="clear"></div>
-  <h-command-button value="Search"
-                    [style]="{'margin-top':'10px'}"
-                    (action)="searchFlight(1)"
-                    styleClass="iceCmdBtn btnOption"
-                    id="flightSearchButton"></h-command-button>
-</h-form>
+<h-body>
+  <h-form id="searchForm" styleClass="ice-skin-rime contentLevelContainer">
+    <div class="inputFieldGroup">
+      <span class="iceOutTxt headerLabel">Enter Search Criterias</span>
+    </div>
+    <span class="iceOutTxt kdInputFieldLabel minindented">Filter: </span>
+    <h-input-text id="flightFilterInput"
+                  styleClass="iceInpTxt kdInputField"
+                  [(ngModel)]="arrivalFilter"
+                  validatorMessage="Check your input in the field above">
+      <f-validate-regex pattern="^[A-Za-zß-üÄ-Ü\.\-\s]*$"></f-validate-regex>
+    </h-input-text>
+    <h-select-one-menu id="sortOrderSelect" styleClass="iceSelOneMnu"
+                       [(ngModel)]="sortOrder"
+                       [required]="true"
+                       requiredMessage="Enter a Date Sort Order"
+                       [style]="{bottom: '3px', position: 'relative', width: '179px'}">
+      <f-select-item itemLabel="Select One"
+                     [noSelectionOption]="true"></f-select-item>
+      <f-select-items [value]="sortOptions"></f-select-items>
+    </h-select-one-menu>
+    <div class="clear"></div>
+    <h-message styleClass="iceMsgError inputFieldLabel"
+               for="flightFilterInput" id="searchTermErrorMessage"></h-message>
+    <h-message styleClass="iceMsgError inputFieldLabel"
+               for="sortOrderSelect" id="sortOrderErrorMessage"></h-message>
+    <span class="iceOutTxt iceOutLbl"
+          style="font-size: 10px; color: black;">You can search for Arrival locations</span>
+    <div class="clear"></div>
+    <h-command-button value="Search"
+                      [style]="{'margin-top':'10px'}"
+                      (action)="searchFlight(1)"
+                      styleClass="iceCmdBtn btnOption"
+                      id="flightSearchButton"></h-command-button>
+  </h-form>
 
-<h-form id="datatableForm">
-  <h-panel-group layout="block" styleClass="blockArea"
-                 [style]="{width: '1192px'}"
-                 [rendered]="searched"
-                 id="searchWrapper">
-    <h2>Flight Overview</h2>
+  <h-form id="datatableForm">
+    <h-panel-group layout="block" styleClass="blockArea"
+                   [style]="{width: '1192px'}"
+                   [rendered]="searched"
+                   id="searchWrapper">
+      <h2>Flight Overview</h2>
 
-    <ace-data-table id="flightsTable" [value]="flights"
-                    var="flight" [rows]="PAGE_SIZE"
-                    (onLoad)="searchFlight($event)"
-                    [paginator]="true">
-      <ace-column>
-        <ng-template let-flight>
+      <ace-data-table id="flightsTable" [value]="flights"
+                      var="flight" [rows]="PAGE_SIZE"
+                      (onLoad)="searchFlight($event)"
+                      [paginator]="true">
+        <ace-column>
+          <ng-template let-flight>
           <span
               class="iceOutTxt center blockArea">{{flight.departure.city}}</span>
-        </ng-template>
-        <f-facet name="header">
-          <span class="iceOutTxt">Departure</span>
-        </f-facet>
-      </ace-column>
-      <ace-column>
-        <ng-template let-flight>
+          </ng-template>
+          <f-facet name="header">
+            <span class="iceOutTxt">Departure</span>
+          </f-facet>
+        </ace-column>
+        <ace-column>
+          <ng-template let-flight>
           <span
               class="iceOutTxt center blockArea">{{flight.arrival.city}}</span>
-        </ng-template>
+          </ng-template>
 
-        <f-facet name="header">
-          <span class="iceOutTxt">Arrival</span>
-        </f-facet>
-      </ace-column>
-      <ace-column>
-        <ng-template let-flight>
-          <h-output-text value="{{flight.dateTime}}" [converter]="dateConverter"
-                         styleClass="iceOutTxt center blockArea"></h-output-text>
-        </ng-template>
+          <f-facet name="header">
+            <span class="iceOutTxt">Arrival</span>
+          </f-facet>
+        </ace-column>
+        <ace-column>
+          <ng-template let-flight>
+            <h-output-text value="{{flight.dateTime}}"
+                           [converter]="dateConverter"
+                           styleClass="iceOutTxt center blockArea"></h-output-text>
+          </ng-template>
 
-        <f-facet name="header">
-          <span class="iceOutTxt">Date</span>
-        </f-facet>
-      </ace-column>
-      <ace-column>
-        <ng-template let-flight>
-          <h-panel-grid [columns]="2">
-            <f-facet>
-              <h-command-button value="View"
-                                id="viewFlight"
-                                (action)="viewFlight(flight)"
-                                styleClass="iceCmdBtn btnOption"></h-command-button>
-            </f-facet>
-            <f-facet>
-              <h-command-button value="Book"
-                                id="bookFlight"
-                                (action)="startBooking(flight)"
-                                styleClass="iceCmdBtn btnOption"></h-command-button>
-            </f-facet>
-          </h-panel-grid>
-        </ng-template>
+          <f-facet name="header">
+            <span class="iceOutTxt">Date</span>
+          </f-facet>
+        </ace-column>
+        <ace-column>
+          <ng-template let-flight>
+            <h-panel-grid [columns]="2">
+              <f-facet>
+                <h-command-button value="View"
+                                  id="viewFlight"
+                                  (action)="viewFlight(flight)"
+                                  styleClass="iceCmdBtn btnOption"></h-command-button>
+              </f-facet>
+              <f-facet>
+                <h-command-button value="Book"
+                                  id="bookFlight"
+                                  (action)="startBooking(flight)"
+                                  styleClass="iceCmdBtn btnOption"></h-command-button>
+              </f-facet>
+            </h-panel-grid>
+          </ng-template>
 
-        <f-facet name="header">
-          <span class="iceOutTxt">Action</span>
-        </f-facet>
-      </ace-column>
-    </ace-data-table>
-  </h-panel-group>
+          <f-facet name="header">
+            <span class="iceOutTxt">Action</span>
+          </f-facet>
+        </ace-column>
+      </ace-data-table>
+    </h-panel-group>
 
-  <div class="clear"></div>
-  <hr/>
-  <h-command-button action="/index"
-                    value="Back To Home Page"
-                    styleClass="iceCmdBtn btnOption"></h-command-button>
-</h-form>
+    <div class="clear"></div>
+    <hr/>
+    <h-command-button action="/index"
+                      value="Back To Home Page"
+                      styleClass="iceCmdBtn btnOption"></h-command-button>
+  </h-form>
+</h-body>

@@ -3,14 +3,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
-import JsfElement from '../../superclass/jsf-element';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'f-select-item',
   templateUrl: './f-select-item.component.html',
   styleUrls: ['./f-select-item.component.css'],
 })
-export class FSelectItemComponent extends JsfElement implements OnInit {
+export class FSelectItemComponent extends JsfCore implements OnInit {
   @Input()
   value: any;
   @Input()
@@ -24,10 +24,10 @@ export class FSelectItemComponent extends JsfElement implements OnInit {
   @ViewChild('radioInput') radioInput: ElementRef;
   @ViewChild('optionElem') optionElem: ElementRef;
 
-  private radioId = this.hFormService.getFormId(this.simpleId);
+  private radioId = this.hFormService.getFormId(this.id);
 
-  constructor(hFormService: HFormService) {
-    super(hFormService);
+  constructor(private hFormService: HFormService) {
+    super();
   }
 
   ngOnInit() {

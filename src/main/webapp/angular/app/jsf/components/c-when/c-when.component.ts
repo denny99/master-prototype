@@ -1,11 +1,12 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'c-when',
   templateUrl: './c-when.component.html',
   styleUrls: ['./c-when.component.css'],
 })
-export class CWhenComponent implements OnInit {
+export class CWhenComponent extends JsfCore {
   @Input()
   test: boolean;
 
@@ -13,9 +14,6 @@ export class CWhenComponent implements OnInit {
   content: TemplateRef<any>;
 
   constructor() {
+    super();
   }
-
-  ngOnInit() {
-  }
-
 }

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LongDatePipe} from '../../../converter/LongDatePipe';
+import {Component, Input} from '@angular/core';
+import {LongDatePipe} from '../../../converter/long-date-pipe';
 import Flight from '../../../entity/Flight';
 
 @Component({
@@ -7,7 +7,7 @@ import Flight from '../../../entity/Flight';
   templateUrl: './cc-flight-details.component.html',
   styleUrls: ['./cc-flight-details.component.css'],
 })
-export class CCFlightDetailsComponent implements OnInit {
+export class CCFlightDetailsComponent {
   @Input()
   flight: Flight;
 
@@ -21,8 +21,4 @@ export class CCFlightDetailsComponent implements OnInit {
 
   constructor() {
   }
-
-  ngOnInit() {
-  }
-
 }

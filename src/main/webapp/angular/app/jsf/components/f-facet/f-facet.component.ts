@@ -1,11 +1,12 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import {Component, Input, TemplateRef, ViewChild,} from '@angular/core';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'f-facet',
   templateUrl: './f-facet.component.html',
   styleUrls: ['./f-facet.component.css'],
 })
-export class FFacetComponent implements OnInit {
+export class FFacetComponent extends JsfCore {
   @Input()
   name: string;
 
@@ -13,9 +14,7 @@ export class FFacetComponent implements OnInit {
   content: TemplateRef<any>;
 
   constructor() {
-  }
-
-  ngOnInit() {
+    super();
   }
 
 }

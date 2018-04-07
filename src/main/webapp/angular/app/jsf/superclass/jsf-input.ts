@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NgModel} from '@angular/forms';
 import {isEmpty} from 'lodash';
-import {FAjaxComponent} from '../components/f-ajax/f-ajax.component';
 import {FValidateRegexComponent} from '../components/f-validate-regex/f-validate-regex.component';
 import ValidationResponse from '../objects/validation-response';
 import {HFormService} from '../services/h-form.service';
@@ -25,6 +24,12 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
   required: boolean;
 
   @Input()
+  disabled: boolean;
+
+  @Input()
+  maxLength: number;
+
+  @Input()
   validator: (elem: JsfInput) => Promise<ValidationResponse>;
 
   @Output()
@@ -34,9 +39,6 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
 
   @ContentChildren(FValidateRegexComponent)
   private regexValidators: QueryList<FValidateRegexComponent>;
-
-  @ContentChildren(FAjaxComponent)
-  private ajax: QueryList<FAjaxComponent>;
 
   private changeListener = [];
   private touchListener = [];
@@ -74,6 +76,15 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     }
   }
 
+  async jsfOnRender(): Promise<void> {
+    try {
+      await super.jsfOnRender();
+      await this.validate();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   /**
    *
    * add more events if required
@@ -81,13 +92,16 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
    *
    */
   async callAjax(event: string): Promise<void> {
-    const valid = await this.validate();
-
     for (const ajax of this.ajax.toArray()) {
       if (ajax.event === event) {
         // if input is invalid and ajax is not set to immediate exec
         // prevent call
-        if (valid || ajax.immediate) {
+        let valid = true;
+        if (!ajax.immediate) {
+          valid = await this.validate();
+        }
+
+        if (valid) {
           ajax.call();
         }
       }
@@ -149,10 +163,22 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
       }
     }
 
+    if (valid && this.maxLength && typeof this.innerValue === 'string' &&
+        this.innerValue.length > this.maxLength) {
+      valid = false;
+      message = `Input is too long. Maximum ${this.maxLength} characters allowed`;
+    }
+
     this.messageService.submitError(this.simpleId, !valid, message);
+
+    this.triggerEvent('postValidate');
+
     return valid;
   }
 
+  /**
+   * ng specific input functions
+   */
   touch() {
     this.touchListener.forEach(f => f());
   }

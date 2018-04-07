@@ -4,8 +4,6 @@ export class ErrorMessage {
 
   setError(hasError: boolean, message?: string) {
     this.hasError = hasError;
-    if (message) {
-      this.message = message;
-    }
+    this.message = message || 'Error in the input field!';
   }
 }

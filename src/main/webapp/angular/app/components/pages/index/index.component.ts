@@ -1,16 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'index',
+  selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent {
 
   constructor() {
   }
-
-  ngOnInit() {
-  }
-
 }

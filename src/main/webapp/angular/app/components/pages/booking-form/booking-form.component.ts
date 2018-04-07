@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {IntegerPipe} from '../../../converter/IntegerPipe';
+import {IntegerPipe} from '../../../converter/integer-pipe';
 import Flight from '../../../entity/Flight';
 import {HInputTextComponent} from '../../../jsf/components/h-input-text/h-input-text.component';
 import ValidationResponse from '../../../jsf/objects/validation-response';
@@ -15,7 +15,7 @@ declare let $: any;
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.css'],
 })
-export class BookingFormComponent implements OnInit, AfterViewInit {
+export class BookingFormComponent implements AfterViewInit {
   private passengerCount = 1;
   private maxPassengers = 10;
   private travelInsurance = false;
@@ -52,9 +52,6 @@ export class BookingFormComponent implements OnInit, AfterViewInit {
 
     // this function is used inside of the input field
     this.validatePassengerCount = this.validatePassengerCount.bind(this);
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit() {

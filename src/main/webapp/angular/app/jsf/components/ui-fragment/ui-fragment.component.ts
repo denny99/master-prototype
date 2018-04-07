@@ -1,18 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
   selector: 'ui-fragment',
   templateUrl: './ui-fragment.component.html',
   styleUrls: ['./ui-fragment.component.css'],
 })
-export class UiFragmentComponent implements OnInit {
+export class UiFragmentComponent extends JsfCore {
   @Input()
   rendered: boolean;
 
   constructor() {
-  }
-
-  ngOnInit() {
+    super();
   }
 
 }

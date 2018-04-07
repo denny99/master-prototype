@@ -2,8 +2,11 @@ import {
   Component, ContentChildren, Input, OnInit,
   QueryList,
 } from '@angular/core';
+import {IJsfLifecycle} from '../../interfaces/jsf-lifecycle';
 import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
+import {JsfCore} from '../../superclass/jsf-core';
+import JsfElement from '../../superclass/jsf-element';
 import {JsfInput} from '../../superclass/jsf-input';
 import {HMessageComponent} from '../h-message/h-message.component';
 
@@ -15,10 +18,7 @@ import {HMessageComponent} from '../h-message/h-message.component';
     HFormService,
     MessageService],
 })
-export class HFormComponent implements OnInit {
-  @Input()
-  id: string;
-
+export class HFormComponent extends JsfCore implements OnInit, IJsfLifecycle {
   @Input()
   styleClass: string;
 
@@ -31,7 +31,12 @@ export class HFormComponent implements OnInit {
   @ContentChildren(JsfInput, {descendants: true})
   inputs: QueryList<JsfInput>;
 
+  @ContentChildren(JsfElement, {descendants: true})
+  elements: QueryList<JsfElement>;
+
   constructor(private hFormService: HFormService) {
+    super();
+
     this.validate = this.validate.bind(this);
   }
 
@@ -42,9 +47,23 @@ export class HFormComponent implements OnInit {
 
   /**
    *
-   * @returns {boolean}
+   * @param {boolean} skipChildren true = calls jsfOnRender on all children
+   * @returns {Promise<void>}
    */
-  async validate(): Promise<boolean> {
+  async jsfOnRender(skipChildren?: boolean) {
+    try {
+      if (!skipChildren) {
+        for (const element of this.elements.toArray()) {
+          await element.jsfOnRender();
+        }
+      }
+      await this.validate(true);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async validateInputs(): Promise<boolean> {
     let valid = true;
     try {
       const promises: Array<Promise<boolean>> = [];
@@ -64,6 +83,24 @@ export class HFormComponent implements OnInit {
       console.error(e);
       valid = false;
     }
+    return valid;
+  }
+
+  /**
+   * @param {boolean} [skipInputs]
+   * @returns {boolean}
+   */
+  async validate(skipInputs?: boolean): Promise<boolean> {
+    let valid = true;
+
+    // grab events and validate
+
+    if (!skipInputs) {
+      valid = await this.validateInputs();
+    }
+
+    this.triggerEvent('postValidate');
+
     return valid;
   }
 }

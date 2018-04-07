@@ -1,7 +1,8 @@
 import {
-  Component, ContentChild, ContentChildren, OnInit, QueryList,
+  Component, ContentChild, ContentChildren, QueryList,
   TemplateRef,
 } from '@angular/core';
+import {JsfCore} from '../../superclass/jsf-core';
 import {FFacetComponent} from '../f-facet/f-facet.component';
 
 @Component({
@@ -9,7 +10,7 @@ import {FFacetComponent} from '../f-facet/f-facet.component';
   templateUrl: './ace-column.component.html',
   styleUrls: ['./ace-column.component.css'],
 })
-export class AceColumnComponent implements OnInit {
+export class AceColumnComponent extends JsfCore {
   @ContentChildren(FFacetComponent)
   facets: QueryList<FFacetComponent>;
 
@@ -17,6 +18,7 @@ export class AceColumnComponent implements OnInit {
   body: TemplateRef<any>;
 
   constructor() {
+    super();
   }
 
   get header(): FFacetComponent {
@@ -26,8 +28,5 @@ export class AceColumnComponent implements OnInit {
       }
     }
     return null;
-  }
-
-  ngOnInit() {
   }
 }

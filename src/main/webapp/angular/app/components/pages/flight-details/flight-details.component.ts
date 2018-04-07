@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SessionDataService} from '../../../services/session-data.service';
 
 @Component({
@@ -6,11 +6,7 @@ import {SessionDataService} from '../../../services/session-data.service';
   templateUrl: './flight-details.component.html',
   styleUrls: ['./flight-details.component.css'],
 })
-export class FlightDetailsComponent implements OnInit {
+export class FlightDetailsComponent {
   constructor(private sessionService: SessionDataService) {
   }
-
-  ngOnInit() {
-  }
-
 }

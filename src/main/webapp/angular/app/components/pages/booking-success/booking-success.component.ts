@@ -1,16 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'booking-success',
   templateUrl: './booking-success.component.html',
   styleUrls: ['./booking-success.component.css'],
 })
-export class BookingSuccessComponent implements OnInit {
+export class BookingSuccessComponent {
 
   constructor() {
   }
-
-  ngOnInit() {
-  }
-
 }

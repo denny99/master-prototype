@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import {ShortDatePipe} from '../../../converter/short-date-pipe';
+import Flight from '../../../entity/Flight';
 import Passenger from '../../../entity/Passenger';
+import {IAjaxEventParameter} from '../../../jsf/interfaces/ajax-event-parameter';
 import {SelectItem} from '../../../jsf/objects/select-item';
 import {ConversationService} from '../../../jsf/services/conversation.service';
 import {PassengerService} from '../../../services/passenger.service';
@@ -10,13 +13,15 @@ import {PassengerService} from '../../../services/passenger.service';
   templateUrl: './passenger-form.component.html',
   styleUrls: ['./passenger-form.component.css'],
 })
-export class PassengerFormComponent implements OnInit {
+export class PassengerFormComponent {
   private currentPassengerIndex: 0;
   private forceEdit = false;
   private existingUser = false;
   private passportHelp = false;
   private passengers: Array<Passenger> = [];
   private luggageItems: Array<SelectItem> = [];
+  shortDateConverter = new ShortDatePipe('de-DE');
+  private selectedFlight: Flight;
 
   constructor(
       private passengerService: PassengerService,
@@ -33,17 +38,22 @@ export class PassengerFormComponent implements OnInit {
       router.navigateByUrl('pages/flightOverview').then().catch((e) => {
         console.error(e);
       });
-    } else if (!this.conversationService.conversation.hasProperty(
-            'passengers')) {
-      // create empty passengers
-      for (let i = 0; i <
-      this.conversationService.conversation.getProperty(
-          'passengerCount'); i++) {
-        this.passengers.push(new Passenger());
-      }
     } else {
-      this.passengers = this.conversationService.conversation.getProperty(
-          'passengers');
+      this.selectedFlight = this.conversationService.conversation.getProperty(
+          'selectedFlight');
+
+      if (!this.conversationService.conversation.hasProperty(
+              'passengers')) {
+        // create empty passengers
+        for (let i = 0; i <
+        this.conversationService.conversation.getProperty(
+            'passengerCount'); i++) {
+          this.passengers.push(new Passenger());
+        }
+      } else {
+        this.passengers = this.conversationService.conversation.getProperty(
+            'passengers');
+      }
     }
   }
 
@@ -53,9 +63,6 @@ export class PassengerFormComponent implements OnInit {
 
   set currentPassenger(passenger: Passenger) {
     this.passengers[this.currentPassengerIndex] = passenger;
-  }
-
-  ngOnInit() {
   }
 
   async next() {
@@ -101,26 +108,24 @@ export class PassengerFormComponent implements OnInit {
 
   /**
    *
-   * @param {Input} input
-   * @param {string} render
+   * @param {IAjaxEventParameter} input
    */
-  async passportIdListener(input, render) {
-    // only get when something was entered
-    if (this.currentPassenger.passportNumber !== '' ||
-        this.currentPassenger.idCardNumber !== '') {
-      const passengers = await this.passengerService.getPassengers(
-          input.props.id === 'passportNumberInput' ?
-              this.currentPassenger.passportNumber :
-              '',
-          input.props.id === 'idCardNumberInput' ?
-              this.currentPassenger.idCardNumber :
-              '');
-      if (passengers) {
-        this.currentPassenger = passengers[0];
-        this.forceEdit = false;
-        this.existingUser = true;
-      }
+  async passportIdListener(input: IAjaxEventParameter) {
+    const passengers = await this.passengerService.getPassengers(
+        input.exec.simpleId === 'passportNumberInput' ?
+            this.currentPassenger.passportNumber :
+            '',
+        input.exec.simpleId === 'idCardNumberInput' ?
+            this.currentPassenger.idCardNumber :
+            '');
+    if (passengers) {
+      this.currentPassenger = passengers[0];
+      this.forceEdit = false;
+      this.existingUser = true;
     }
   }
 
+  validateForm() {
+
+  }
 }

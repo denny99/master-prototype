@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
@@ -8,7 +8,7 @@ import JsfElement from '../../superclass/jsf-element';
   templateUrl: './h-command-button.component.html',
   styleUrls: ['./h-command-button.component.css'],
 })
-export class HCommandButtonComponent extends JsfElement implements OnInit {
+export class HCommandButtonComponent extends JsfElement {
   @Input('action')
   route: string;
   @Output()
@@ -21,9 +21,6 @@ export class HCommandButtonComponent extends JsfElement implements OnInit {
 
   constructor(hFormService: HFormService, private router: Router) {
     super(hFormService);
-  }
-
-  ngOnInit() {
   }
 
   async onClick() {
