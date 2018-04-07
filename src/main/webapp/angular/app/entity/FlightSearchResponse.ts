@@ -1,5 +1,5 @@
-import Flight from './Flight';
 import ApiSearchResponse from './ApiSearchResponse';
+import Flight from './Flight';
 
 export default class FlightSearchResponse extends ApiSearchResponse<Flight> {
   /**

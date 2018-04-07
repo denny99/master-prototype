@@ -1,9 +1,9 @@
-import ApiConstants from '../constants/ApiConstants';
-import Flight from '../entity/Flight';
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import Passenger from '../entity/Passenger';
+import {Injectable} from '@angular/core';
+import ApiConstants from '../constants/ApiConstants';
 import Booking from '../entity/Booking';
+import Flight from '../entity/Flight';
+import Passenger from '../entity/Passenger';
 
 @Injectable()
 export class BookingService {

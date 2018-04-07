@@ -1,7 +1,7 @@
 <h-form id="bookingData" styleClass="ice-skin-rime">
   <!-- display flight data -->
   <cc-flight-details [headline]="true" [standalone]="false"
-                     [flight]="sessionService.selectedFlight"></cc-flight-details>
+                     [flight]="selectedFlight"></cc-flight-details>
 
   <!-- select number of passengers slider -->
   <h-panel-group id="basicData" layout="block"
@@ -29,7 +29,8 @@
           <div class="clear"></div>
           <div id="sliderDiv" class="inputFieldGroup center">
             <div class="inputFieldGroup center" style="*margin-top:-15px;">
-              <h-input-text [(ngModel)]="passengerCount"
+              <h-input-text #passengerCountOutput
+                            [(ngModel)]="passengerCount"
                             id="passengerCountOutput"
                             [style]="{'color': '#003B78 !important', 'text-align': 'center'}"
                             (onchange)="updateSlider($event);"
@@ -53,9 +54,9 @@
                 </div>
               </div>
               <ice-output-text id="costs"
-                               value="Costs p.P. {{sessionService.selectedFlight.costs}}"
+                               value="Costs p.P. {{selectedFlight.costs}}"
                                styleClass="iceOutTxt ssInfoFieldLabel2">
-                <!--Does not work here value is a string not -->
+                <!--Does not work here value is a string not, would work as pipe in the {{}} -->
                 <!--<f-convert-number pattern="##,###" [groupingUsed]="true"-->
                 <!--locale="de-DE"></f-convert-number>-->
               </ice-output-text>
@@ -90,7 +91,7 @@
     </div>
   </h-panel-group>
   <h-command-button value="Cancel"
-                    action="pages/flightOverview"
+                    (action)="cancelBooking()"
                     id="cancelBookingButton"
                     styleClass="iceCmdBtn btnOption"></h-command-button>
   <h-command-button id="continueButton" value="Continue"

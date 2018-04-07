@@ -22,14 +22,13 @@ export class IcePanelGroupComponent extends JsfElement implements OnInit {
     super(hFormService);
   }
 
-  get tooltip(): FFacetComponent | object {
-    let resultFacet: FFacetComponent | object = {};
-    this.facets.forEach((facet) => {
+  get tooltip(): FFacetComponent {
+    for (const facet of this.facets.toArray()) {
       if (facet.name === 'tooltip') {
-        resultFacet = facet;
+        return facet;
       }
-    });
-    return resultFacet;
+    }
+    return null;
 
   }
 

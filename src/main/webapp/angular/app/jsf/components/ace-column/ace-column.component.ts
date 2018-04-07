@@ -20,13 +20,12 @@ export class AceColumnComponent implements OnInit {
   }
 
   get header(): FFacetComponent {
-    let result: FFacetComponent = null;
-    this.facets.forEach((facet) => {
+    for (const facet of this.facets.toArray()) {
       if (facet.name === 'header') {
-        result = facet;
+        return facet;
       }
-    });
-    return result;
+    }
+    return null;
   }
 
   ngOnInit() {

@@ -16,6 +16,8 @@ export class FAjaxComponent implements OnInit {
   // just for compatibility purposes, angular renders what is has to render anyway
   @Input()
   render: string;
+  @Input()
+  immediate = false;
 
   @Output()
   listener = new EventEmitter<JsfElement | HFormComponent>();

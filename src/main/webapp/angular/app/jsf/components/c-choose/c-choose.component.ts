@@ -2,8 +2,8 @@ import {
   AfterViewInit, Component, ContentChild, ContentChildren, OnInit,
   QueryList,
 } from '@angular/core';
-import {CWhenComponent} from '../c-when/c-when.component';
 import {COtherwiseComponent} from '../c-otherwise/c-otherwise.component';
+import {CWhenComponent} from '../c-when/c-when.component';
 
 @Component({
   selector: 'c-choose',
@@ -27,12 +27,12 @@ export class CChooseComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     let otherwise = true;
-    this.cwhens.forEach((cwhen) => {
+    for (const cwhen of this.cwhens.toArray()) {
       if (cwhen.test) {
         this.activeElements.push(cwhen);
         otherwise = false;
       }
-    });
+    }
 
     if (otherwise) {
       this.activeElements.push(this.cotherwise);

@@ -30,6 +30,7 @@ import {IceOutputLinkComponent} from './components/ice-output-link/ice-output-li
 import {IceOutputTextComponent} from './components/ice-output-text/ice-output-text.component';
 import {IcePanelGroupComponent} from './components/ice-panel-group/ice-panel-group.component';
 import {UiFragmentComponent} from './components/ui-fragment/ui-fragment.component';
+import {ConversationService} from './services/conversation.service';
 import {HFormService} from './services/h-form.service';
 
 @NgModule({
@@ -99,6 +100,7 @@ import {HFormService} from './services/h-form.service';
     AceTooltipComponent],
   providers: [
     HFormService,
+    ConversationService,
   ],
 })
 export class JsfModule {

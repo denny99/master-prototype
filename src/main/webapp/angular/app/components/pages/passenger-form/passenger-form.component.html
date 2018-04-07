@@ -1,3 +1,148 @@
-<p>
-  passenger-form works!
-</p>
+<h:form id="passengerData" styleClass="ice-skin-rime">
+  <div class="inputFieldGroup">
+    <span class="iceOutTxt headerLabel">Enter Data for Passenger ##{passengerFormBean.currentPassengerIndex + 1}</span>
+  </div>
+  <f:event id="multiFieldValidationEvent"
+           listener="#{passengerFormBean.validateForm}" type="postValidate"/>
+
+  <!-- id number or passport id -->
+  <h:panelGroup id="passportContainer" layout="block"
+                styleClass="contentLevelContainer blockArea">
+    <div class="lFloat indented inputFieldGroup">
+      <c:choose>
+        <!-- if other country -->
+        <c:when test="#{bookingFormBean.selectedFlight.foreignTravel()}">
+          <!-- passport -->
+          <span
+              class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
+          <h:inputText id="passportNumberInput" maxlength="6"
+                       value="#{passengerFormBean.currentPassenger.passportNumber}"
+                       required="true"
+                       requiredMessage="Insert your Passport Number">
+            <f:ajax event="blur"
+                    listener="#{passengerFormBean.passportIdListener}"
+                    execute="@this"
+                    render="@form"/>
+          </h:inputText>
+        </c:when>
+        <c:otherwise>
+          <!-- id card -->
+          <span
+              class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
+          <h:inputText id="idCardNumberInput" maxlength="5"
+                       value="#{passengerFormBean.currentPassenger.idCardNumber}"
+                       required="true"
+                       requiredMessage="Insert your Id Card Number">
+            <f:ajax event="blur"
+                    listener="#{passengerFormBean.passportIdListener}"
+                    execute="@this"
+                    render="@form"/>
+          </h:inputText>
+        </c:otherwise>
+      </c:choose>
+      <h:graphicImage id="helpIcon" library="images"
+                      name="icon_info.gif">
+        <f:ajax render="@all" event="click"
+                listener="#{passengerFormBean.setPassportHelp}"/>
+      </h:graphicImage>
+    </div>
+
+    <div class="clear"/>
+  </h:panelGroup>
+  <!-- ajax for prefilling data when id exists -->
+  <!-- validate numbers if existing check existing data for correctness -->
+  <h:panelGroup id="personalDataContainer" layout="block"
+                styleClass="contentLevelContainer blockArea">
+    <!-- if number exists show force edit button -->
+    <c:if test="#{passengerFormBean.existingUser}">
+      <div class="indented inputFieldGroup">
+        <h:commandButton id="forceEditButton" value="Edit Data"
+                         styleClass="iceCmdBtn btnOption">
+          <f:ajax render="@form" execute="@this"
+                  listener="#{passengerFormBean.forceEditListener}"/>
+        </h:commandButton>
+      </div>
+    </c:if>
+    <!-- Firstname -->
+    <div class="lFloat indented inputFieldGroup">
+      <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
+      <h:inputText id="firstNameInput"
+                   disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                   value="#{passengerFormBean.currentPassenger.firstName}"
+                   required="true"
+                   requiredMessage="Insert your Firstname"/>
+    </div>
+    <!-- Lastname -->
+    <div class="lFloat indented inputFieldGroup">
+      <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
+      <h:inputText id="lastNameInput"
+                   disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                   value="#{passengerFormBean.currentPassenger.lastName}"
+                   required="true"
+                   requiredMessage="Insert your Lastname"/>
+    </div>
+    <!-- Birthday with dp + converter -->
+    <div class="lFloat indented inputFieldGroup">
+      <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
+      <h:inputText id="birthDateInput"
+                   disabled="#{passengerFormBean.existingUser and !passengerFormBean.forceEdit}"
+                   value="#{passengerFormBean.currentPassenger.birthDay}"
+                   required="true"
+                   requiredMessage="Insert your Birthdate"
+                   converter="de.uni.frankfurt.ShortDateConverter"/>
+    </div>
+    <div class="clear"/>
+  </h:panelGroup>
+
+  <!-- luggage radio -->
+  <h:panelGroup id="luggageContainer" layout="block"
+                styleClass="contentLevelContainer blockArea">
+    <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
+    <h:selectOneRadio id="luggageRadio"
+                      styleClass="iceSelOneRb masInfoInputField" required="true"
+                      layout="pageDirection"
+                      requiredMessage="Select the amount of luggage you want to check in"
+                      value="#{passengerFormBean.currentPassenger.luggageCount}">
+      <f:selectItems id="luggageNumbers"
+                     value="#{passengerFormBean.luggageItems}"/>
+    </h:selectOneRadio>
+    <div class="clear"/>
+    <h:message styleClass="iceMsgError inputFieldLabel"
+               for="firstNameInput" id="firstNameErrorMessage"/>
+    <h:message styleClass="iceMsgError inputFieldLabel"
+               for="lastNameInput" id="lastNameErrorMessage"/>
+    <h:message styleClass="iceMsgError inputFieldLabel"
+               for="birthDateInput" id="birthDateErrorMessage"/>
+    <h:message styleClass="iceMsgError inputFieldLabel"
+               for="idCardNumberInput" id="idCardErrorMessage"/>
+    <h:message styleClass="iceMsgError inputFieldLabel"
+               for="passportNumberInput" id="passportErrorMessage"/>
+  </h:panelGroup>
+
+  <h:commandButton value="Cancel"
+                   action="#{bookingBean.cancelBooking}"
+                   id="cancelBookingButton"
+                   styleClass="iceCmdBtn btnOption"/>
+  <h:commandButton immediate="true" action="#{passengerFormBean.back}"
+                   value="Back"
+                   id="backButton"
+                   styleClass="iceCmdBtn btnOption"/>
+  <h:commandButton value="Continue"
+                   id="continueButton"
+                   action="#{passengerFormBean.next}"
+                   styleClass="iceCmdBtn btnOption"/>
+
+  <ice:panelPopup id="passportHelpPopup"
+                  visible="#{passengerFormBean.passportHelp}" draggable="false"
+                  styleClass="popup frameHolder" autoCentre="true">
+    <f:facet name="body">
+      <div id="iFrameWrapper">
+        <ice:outputText styleClass="iceOutTxt">
+          Your passport number should start with P and constist of 5 numbers
+          <br/>
+          Your id card number should consist of 5 numbers
+        </ice:outputText>
+      </div>
+    </f:facet>
+  </ice:panelPopup>
+</h:form>

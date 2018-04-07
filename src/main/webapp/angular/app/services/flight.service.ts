@@ -1,6 +1,6 @@
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import ApiConstants from '../constants/ApiConstants';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import ApiSearchResponse from '../entity/ApiSearchResponse';
 import Flight from '../entity/Flight';
 import FlightSearchResponse from '../entity/FlightSearchResponse';

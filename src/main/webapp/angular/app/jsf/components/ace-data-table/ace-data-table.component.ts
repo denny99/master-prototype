@@ -3,9 +3,9 @@ import {
   OnChanges, OnInit, Output, QueryList, ViewChildren,
 } from '@angular/core';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
-import {FFacetComponent} from '../f-facet/f-facet.component';
-import {PaginatorComponent} from '../datatable/paginator/paginator.component';
 import {AceColumnComponent} from '../ace-column/ace-column.component';
+import {PaginatorComponent} from '../datatable/paginator/paginator.component';
+import {FFacetComponent} from '../f-facet/f-facet.component';
 
 @Component({
   selector: 'ace-data-table',
@@ -27,7 +27,7 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
   paginator: boolean;
 
   @ContentChildren(AceColumnComponent)
-  columns: Array<AceColumnComponent>;
+  columns: QueryList<AceColumnComponent>;
 
   @ViewChildren(PaginatorComponent)
   paginators: QueryList<PaginatorComponent>;
@@ -43,20 +43,20 @@ export class AceDataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     // call this stuff here as the columns use VieChildren
-    this.columns.forEach((column) => {
+    for (const column of this.columns.toArray()) {
       if (column.header) {
         this.headers.push(column.header);
       }
-    });
+    }
   }
 
   ngOnChanges(): void {
     this.currentPage = Math.floor(this.value.offset / this.rows) + 1;
     // force update of paginators in case we did not change the current page
     if (this.paginators) {
-      this.paginators.forEach((paginator) => {
+      for (const paginator of this.paginators.toArray()) {
         paginator.ngOnChanges();
-      });
+      }
     }
   }
 

@@ -2,11 +2,11 @@ import {
   AfterViewInit, Component, ContentChildren, forwardRef, Input, OnInit,
   QueryList, ViewChild,
 } from '@angular/core';
-import {JsfInput} from '../../superclass/jsf-input';
-import {MessageService} from '../../services/message.service';
-import {HFormService} from '../../services/h-form.service';
-import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
 import {NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
+import {HFormService} from '../../services/h-form.service';
+import {MessageService} from '../../services/message.service';
+import {JsfInput} from '../../superclass/jsf-input';
+import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
 import {FSelectItemsComponent} from '../f-select-items/f-select-items.component';
 
 @Component({
@@ -46,15 +46,15 @@ export class HSelectOneMenuComponent extends JsfInput implements OnInit, AfterVi
   }
 
   ngAfterViewInit() {
-    this.selectItem.forEach((item) => {
+    for (const item of this.selectItem.toArray()) {
       this.items.push(item);
-    });
+    }
 
-    this.selectItems.forEach((items) => {
-      items.items.forEach((item => {
+    for (const items of this.selectItems.toArray()) {
+      for (const item of items.items.toArray()) {
         this.items.push(item);
-      }));
-    });
+      }
+    }
   }
 
 }

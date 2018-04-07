@@ -1,8 +1,8 @@
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import ApiConstants from '../constants/ApiConstants';
 import Flight from '../entity/Flight';
-import ValidationResponse from '../entity/ValidationResponse';
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import ValidationResponse from '../jsf/objects/validation-response';
 
 @Injectable()
 export class AjaxService {

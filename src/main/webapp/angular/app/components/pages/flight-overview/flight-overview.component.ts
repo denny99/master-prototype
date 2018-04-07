@@ -4,6 +4,7 @@ import {LongDatePipe} from '../../../converter/LongDatePipe';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import Flight from '../../../entity/Flight';
 import {SelectItem} from '../../../jsf/objects/select-item';
+import {ConversationService} from '../../../jsf/services/conversation.service';
 import {FlightService} from '../../../services/flight.service';
 import {SessionDataService} from '../../../services/session-data.service';
 
@@ -23,7 +24,8 @@ export class FlightOverviewComponent implements OnInit {
 
   constructor(
       private flightService: FlightService, private router: Router,
-      private sessionService: SessionDataService) {
+      private sessionService: SessionDataService,
+      private conversationService: ConversationService) {
     this.sortOptions.push(new SelectItem('asc', 'Ascending'));
     this.sortOptions.push(new SelectItem('desc', 'Descending'));
 
@@ -68,7 +70,9 @@ export class FlightOverviewComponent implements OnInit {
 
   async startBooking(flight: Flight) {
     try {
-      this.sessionService.selectedFlight = flight;
+      this.conversationService.beginConversation();
+      this.conversationService.conversation.setProperty('selectedFlight',
+          flight);
       await this.router.navigateByUrl('/pages/bookingForm');
     } catch (e) {
       console.error(e);

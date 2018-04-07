@@ -48,9 +48,9 @@ export class HFormComponent implements OnInit {
     let valid = true;
     try {
       const promises: Array<Promise<boolean>> = [];
-      this.inputs.forEach((input) => {
+      for (const input of this.inputs.toArray()) {
         promises.push(input.validate());
-      });
+      }
       const results = await Promise.all(promises);
 
       // check if any validation has failed

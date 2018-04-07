@@ -17,6 +17,7 @@ import {FlightOverviewComponent} from './components/pages/flight-overview/flight
 import {IndexComponent} from './components/pages/index/index.component';
 import {PassengerFormComponent} from './components/pages/passenger-form/passenger-form.component';
 import {JsfModule} from './jsf/jsf.module';
+import {ConversationService} from './jsf/services/conversation.service';
 import {AjaxService} from './services/ajax.service';
 import {BookingService} from './services/booking.service';
 import {FlightService} from './services/flight.service';
@@ -51,6 +52,7 @@ registerLocaleData(localeDe, 'de-DE');
     AjaxService,
     BookingService,
     SessionDataService,
+    ConversationService,
   ],
   bootstrap: [AppComponent],
 })

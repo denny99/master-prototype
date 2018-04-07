@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NgModel} from '@angular/forms';
 import {isEmpty} from 'lodash';
-import ValidationResponse from '../../entity/ValidationResponse';
 import {FAjaxComponent} from '../components/f-ajax/f-ajax.component';
 import {FValidateRegexComponent} from '../components/f-validate-regex/f-validate-regex.component';
+import ValidationResponse from '../objects/validation-response';
 import {HFormService} from '../services/h-form.service';
 import {MessageService} from '../services/message.service';
 import {JsfOutput} from './jsf-output';
@@ -80,18 +80,24 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
    * don't forget to use them in the actual .html File
    *
    */
-  callAjax(event: string): void {
-    this.ajax.forEach((ajax) => {
+  async callAjax(event: string): Promise<void> {
+    const valid = await this.validate();
+
+    for (const ajax of this.ajax.toArray()) {
       if (ajax.event === event) {
-        ajax.call();
+        // if input is invalid and ajax is not set to immediate exec
+        // prevent call
+        if (valid || ajax.immediate) {
+          ajax.call();
+        }
       }
-    });
+    }
   }
 
   async onBlur() {
     try {
       await this.validate();
-      this.callAjax('blur');
+      await this.callAjax('blur');
     } catch (e) {
       console.error(e);
     }
@@ -99,9 +105,17 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
 
   async onChange() {
     this.onchange.emit(this.innerValue);
-    this.callAjax('change');
+    try {
+      await this.callAjax('change');
+    } catch (e) {
+      console.error(e);
+    }
   }
 
+  /**
+   *
+   * @returns {Promise<boolean>} true when input ok
+   */
   async validate(): Promise<boolean> {
     let valid = true;
     let message = '';
@@ -113,12 +127,12 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     }
 
     // check for regex validators
-    this.regexValidators.forEach((validator) => {
+    for (const validator of this.regexValidators.toArray()) {
       if (!validator.validate(this.innerValue)) {
         valid = false;
         message = this.validatorMessage;
       }
-    });
+    }
 
     // check for required
     if (isEmpty(this.innerValue) && this.required && valid) {
@@ -129,8 +143,8 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     // check for additional custom validators
     if (valid && this.validator) {
       const result = await this.validator(this);
-      if (result.err) {
-        valid = result.err;
+      if (result.error) {
+        valid = false;
         message = result.message;
       }
     }
