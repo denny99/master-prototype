@@ -2,7 +2,6 @@ import {
   AfterViewInit, Component, ElementRef, Input, OnChanges,
   ViewChild,
 } from '@angular/core';
-import {merge} from 'lodash';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 
@@ -51,7 +50,9 @@ export class AceDialogComponent extends JsfElement implements AfterViewInit, OnC
   constructor(hFormService: HFormService, elementRef: ElementRef) {
     super(hFormService, elementRef);
 
-    this.style = AceDialogComponent.visibleStyle;
+    this.style = this.style = this.visible ?
+        AceDialogComponent.visibleStyle :
+        AceDialogComponent.invisibleStyle;
   }
 
   hide(event: Event): void {
@@ -61,22 +62,30 @@ export class AceDialogComponent extends JsfElement implements AfterViewInit, OnC
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    this.width = this.dialog.nativeElement.offsetWidth;
-    this.height = this.dialog.nativeElement.offsetHeight;
+
   }
 
   ngOnChanges() {
     const self = this;
+
+    // same trick as in ice popup
+
     setTimeout(() => {
-      const style = {
-        left: `${window.innerWidth / 2 -
-        (self.width / 2)}px`,
-        top: `${window.innerHeight / 2 -
-        (self.height / 2)}px`,
-      };
-      self.style = merge(style, self.visible ?
+      // set it to visible
+      self.style = self.visible ?
           AceDialogComponent.visibleStyle :
-          AceDialogComponent.invisibleStyle);
-    }, 0);
+          AceDialogComponent.invisibleStyle;
+
+      setTimeout(() => {
+        // wait for render to finish and calc position
+        self.width = self.dialog.nativeElement.offsetWidth;
+        self.height = self.dialog.nativeElement.offsetHeight;
+
+        self.style.left = `${window.innerWidth / 2 -
+        (self.width / 2)}px`;
+        self.style.top = `${window.innerHeight / 2 -
+        (self.height / 2)}px`;
+      });
+    });
   }
 }

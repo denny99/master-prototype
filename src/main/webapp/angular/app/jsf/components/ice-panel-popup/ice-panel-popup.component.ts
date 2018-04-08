@@ -44,13 +44,12 @@ export class IcePanelPopupComponent extends JsfElement implements OnInit, AfterV
   ngOnInit() {
     this.style = {
       position: 'absolute',
+      display: 'none',
     };
   }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    this.width = this.popup.nativeElement.offsetWidth;
-    this.height = this.popup.nativeElement.offsetHeight;
   }
 
   ngOnChanges() {
@@ -59,13 +58,19 @@ export class IcePanelPopupComponent extends JsfElement implements OnInit, AfterV
     // we have to use timeout here, as an update in view init is not allowed
     // and we have to manipulate the position after we know the dimensions of the div
     setTimeout(() => {
+      // first show the element so the browser calc its height and width
       self.style.display = self.visible ? 'block' : 'none';
-      self.style.left = `${self.width ?
-          window.innerWidth / 2 - (self.width / 2) :
-          0}px`;
-      self.style.top = `${self.height ?
-          window.innerHeight / 2 - (self.height / 2) :
-          0}px`;
+      setTimeout(() => {
+        // now the element is visible and we can set its position
+        self.width = self.popup.nativeElement.offsetWidth;
+        self.height = self.popup.nativeElement.offsetHeight;
+        self.style.left = `${self.width ?
+            window.innerWidth / 2 - (self.width / 2) :
+            0}px`;
+        self.style.top = `${self.height ?
+            window.innerHeight / 2 - (self.height / 2) :
+            0}px`;
+      });
     }, 0);
   }
 }
