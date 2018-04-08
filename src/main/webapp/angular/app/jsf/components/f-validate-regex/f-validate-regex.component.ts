@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {isEmpty} from 'lodash';
 import {JsfCore} from '../../superclass/jsf-core';
 
@@ -11,8 +11,8 @@ export class FValidateRegexComponent extends JsfCore {
   @Input()
   pattern: string;
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
   /**

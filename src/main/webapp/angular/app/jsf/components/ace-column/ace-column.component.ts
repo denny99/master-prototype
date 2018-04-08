@@ -1,5 +1,5 @@
 import {
-  Component, ContentChild, ContentChildren, QueryList,
+  Component, ContentChild, ContentChildren, ElementRef, QueryList,
   TemplateRef,
 } from '@angular/core';
 import {JsfCore} from '../../superclass/jsf-core';
@@ -17,8 +17,8 @@ export class AceColumnComponent extends JsfCore {
   @ContentChild(TemplateRef)
   body: TemplateRef<any>;
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
   get header(): FFacetComponent {

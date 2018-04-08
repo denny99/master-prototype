@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, Input,
+  Output,
+} from '@angular/core';
 import {IAjaxEventParameter} from '../../interfaces/ajax-event-parameter';
 import {HFormService} from '../../services/h-form.service';
 import {JsfService} from '../../services/jsf.service';
@@ -11,7 +14,7 @@ import {JsfCore} from '../../superclass/jsf-core';
 })
 export class FAjaxComponent extends JsfCore {
   @Input()
-  event: string;
+  event = 'click';
   @Input()
   execute: string;
   // just for compatibility purposes, angular renders what is has to render anyway
@@ -26,8 +29,9 @@ export class FAjaxComponent extends JsfCore {
   this: object;
 
   constructor(
-      private hFormService: HFormService, private jsfService: JsfService) {
-    super();
+      private hFormService: HFormService, private jsfService: JsfService,
+      elementRef: ElementRef) {
+    super(elementRef);
   }
 
   /**

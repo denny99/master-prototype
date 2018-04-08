@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ContentChildren, forwardRef, Input, QueryList,
+  Component, ElementRef, forwardRef, Input,
   ViewChild,
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
@@ -7,8 +7,7 @@ import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
 import JsfElement from '../../superclass/jsf-element';
 import {JsfInput} from '../../superclass/jsf-input';
-import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
-import {FSelectItemsComponent} from '../f-select-items/f-select-items.component';
+import {JsfSelectOne} from '../../superclass/jsf-select-one';
 
 @Component({
   selector: 'h-select-one-menu',
@@ -30,33 +29,16 @@ import {FSelectItemsComponent} from '../f-select-items/f-select-items.component'
     },
   ],
 })
-export class HSelectOneMenuComponent extends JsfInput implements AfterViewInit {
+export class HSelectOneMenuComponent extends JsfSelectOne {
   @Input()
   size: number;
 
   @ViewChild(NgModel) model: NgModel;
 
-  @ContentChildren(FSelectItemComponent)
-  private selectItem: QueryList<FSelectItemComponent> = new QueryList<FSelectItemComponent>();
-  @ContentChildren(FSelectItemsComponent)
-  private selectItems: QueryList<FSelectItemsComponent> = new QueryList<FSelectItemsComponent>();
-
-  private items: Array<FSelectItemComponent> = [];
-
-  constructor(messageService: MessageService, formService: HFormService) {
-    super(formService, messageService);
-  }
-
-  ngAfterViewInit() {
-    for (const item of this.selectItem.toArray()) {
-      this.items.push(item);
-    }
-
-    for (const items of this.selectItems.toArray()) {
-      for (const item of items.items.toArray()) {
-        this.items.push(item);
-      }
-    }
+  constructor(
+      messageService: MessageService, formService: HFormService,
+      elementRef: ElementRef) {
+    super(formService, messageService, elementRef);
   }
 
 }

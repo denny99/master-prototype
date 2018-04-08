@@ -1,11 +1,16 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import {IntegerPipe} from '../../../converter/integer-pipe';
 import {ShortDatePipe} from '../../../converter/short-date-pipe';
 import Flight from '../../../entity/Flight';
 import Passenger from '../../../entity/Passenger';
+import {HFormComponent} from '../../../jsf/components/h-form/h-form.component';
 import {IAjaxEventParameter} from '../../../jsf/interfaces/ajax-event-parameter';
 import {SelectItem} from '../../../jsf/objects/select-item';
+import ValidationResponse from '../../../jsf/objects/validation-response';
 import {ConversationService} from '../../../jsf/services/conversation.service';
+import {JsfCore} from '../../../jsf/superclass/jsf-core';
+import {JsfInput} from '../../../jsf/superclass/jsf-input';
 import {PassengerService} from '../../../services/passenger.service';
 
 @Component({
@@ -14,14 +19,13 @@ import {PassengerService} from '../../../services/passenger.service';
   styleUrls: ['./passenger-form.component.css'],
 })
 export class PassengerFormComponent {
-  shortDateConverter = new ShortDatePipe('de-DE');
-  private currentPassengerIndex = 0;
   private forceEdit = false;
   private existingUser = false;
   private passportHelp = false;
-  private passengers: Array<Passenger> = [];
   private luggageItems: Array<SelectItem> = [];
-  private selectedFlight: Flight;
+  private shortDateConverter = new ShortDatePipe('de-DE');
+  private integerConverter = new IntegerPipe();
+  private toRender: JsfCore;
 
   constructor(
       private passengerService: PassengerService,
@@ -39,22 +43,45 @@ export class PassengerFormComponent {
         console.error(e);
       });
     } else {
-      this.selectedFlight = this.conversationService.conversation.getProperty(
-          'selectedFlight');
-
+      // already passengers in conversation?
       if (!this.conversationService.conversation.hasProperty(
               'passengers')) {
+        this.passengers = [];
         // create empty passengers
         for (let i = 0; i <
         this.conversationService.conversation.getProperty(
             'passengerCount'); i++) {
           this.passengers.push(new Passenger());
         }
-      } else {
-        this.passengers = this.conversationService.conversation.getProperty(
-            'passengers');
       }
     }
+
+    this.validateForm = this.validateForm.bind(this);
+  }
+
+  get passengers(): Array<Passenger> {
+    return this.conversationService.conversation.getProperty(
+        'passengers');
+  }
+
+  set passengers(val: Array<Passenger>) {
+    this.conversationService.conversation.setProperty(
+        'passengers', val);
+  }
+
+  get currentPassengerIndex(): number {
+    return this.conversationService.conversation.getProperty(
+        'currentPassengerIndex') || 0;
+  }
+
+  set currentPassengerIndex(val: number) {
+    this.conversationService.conversation.setProperty(
+        'currentPassengerIndex', val);
+  }
+
+  get selectedFlight(): Flight {
+    return this.conversationService.conversation.getProperty(
+        'selectedFlight');
   }
 
   get currentPassenger(): Passenger {
@@ -98,6 +125,16 @@ export class PassengerFormComponent {
     this.existingUser = false;
   }
 
+  async cancelBooking() {
+    try {
+      // save date in conversation
+      this.conversationService.endConversation();
+      await this.router.navigateByUrl('pages/flightOverview');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   toggleForceEdit() {
     this.forceEdit = !this.forceEdit;
   }
@@ -111,21 +148,55 @@ export class PassengerFormComponent {
    * @param {IAjaxEventParameter} input
    */
   async passportIdListener(input: IAjaxEventParameter) {
-    const passengers = await this.passengerService.getPassengers(
-        input.exec.simpleId === 'passportNumberInput' ?
-            this.currentPassenger.passportNumber :
-            '',
-        input.exec.simpleId === 'idCardNumberInput' ?
-            this.currentPassenger.idCardNumber :
-            '');
-    if (passengers) {
-      this.currentPassenger = passengers[0];
-      this.forceEdit = false;
-      this.existingUser = true;
+    try {
+      const passengers = await this.passengerService.getPassengers(
+          input.exec.simpleId === 'passportNumberInput' ?
+              this.currentPassenger.passportNumber :
+              '',
+          input.exec.simpleId === 'idCardNumberInput' ?
+              this.currentPassenger.idCardNumber :
+              '');
+      if (passengers && passengers.length !== 0) {
+        this.currentPassenger = passengers[0];
+        this.forceEdit = false;
+        this.existingUser = true;
+
+        // do the timeout trick again, when setting the new passenger the inputs
+        // are not directly updated and there is no hook for the current component
+        // that registers this change
+        setTimeout(
+            async () => {
+              await input.render.jsfOnRender();
+            }, 0);
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 
-  validateForm() {
+  async validateForm(form: HFormComponent): Promise<ValidationResponse> {
+    let affectedInput: JsfInput;
 
+    for (const input of form.inputs.toArray()) {
+      if (input.simpleId === 'passportNumberInput' &&
+          this.selectedFlight.foreignTravel()) {
+        affectedInput = input;
+        break;
+      } else if (input.simpleId === 'idCardNumberInput') {
+        affectedInput = input;
+        break;
+      }
+    }
+
+    let found = 0;
+    for (const passenger of this.passengers) {
+      if (passenger.idCardNumber === this.currentPassenger.idCardNumber ||
+          passenger.passportNumber === this.currentPassenger.passportNumber) {
+        found++;
+      }
+    }
+
+    return new ValidationResponse(found > 1,
+        'This passenger is already registered', affectedInput.simpleId);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {Converter} from '../../superclass/converter';
 import {JsfCore} from '../../superclass/jsf-core';
 
@@ -15,8 +15,8 @@ export class FConvertNumberComponent extends JsfCore implements Converter {
   @Input()
   locale = 'de-DE';
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
   transformToObject(value: string): any {

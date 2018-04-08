@@ -3,8 +3,10 @@
     <td>
       <input #radioInput
              [id]="radioId"
-             [name]="radioId"
+             [name]="id"
              type="radio"
+             [attr.checked]="value === currentValue() ? '' : null"
+             (change)="radioCallback($event)"
              [value]="value"/>
       <label
           [for]="radioId">{{itemLabel}}</label>

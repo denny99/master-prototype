@@ -1,5 +1,5 @@
 import {
-  Component, ContentChildren, Input, OnInit,
+  Component, ContentChildren, ElementRef, Input, OnInit,
   QueryList,
 } from '@angular/core';
 import {IJsfLifecycle} from '../../interfaces/jsf-lifecycle';
@@ -8,7 +8,6 @@ import {MessageService} from '../../services/message.service';
 import {JsfCore} from '../../superclass/jsf-core';
 import JsfElement from '../../superclass/jsf-element';
 import {JsfInput} from '../../superclass/jsf-input';
-import {HMessageComponent} from '../h-message/h-message.component';
 
 @Component({
   selector: 'h-form',
@@ -25,17 +24,16 @@ export class HFormComponent extends JsfCore implements OnInit, IJsfLifecycle {
   @Input()
   style: string;
 
-  @ContentChildren(HMessageComponent, {descendants: true})
-  messages: QueryList<HMessageComponent>;
-
   @ContentChildren(JsfInput, {descendants: true})
   inputs: QueryList<JsfInput>;
 
   @ContentChildren(JsfElement, {descendants: true})
   elements: QueryList<JsfElement>;
 
-  constructor(private hFormService: HFormService) {
-    super();
+  constructor(
+      private hFormService: HFormService,
+      private messageService: MessageService, elementRef: ElementRef) {
+    super(elementRef);
 
     this.validate = this.validate.bind(this);
   }
@@ -68,7 +66,9 @@ export class HFormComponent extends JsfCore implements OnInit, IJsfLifecycle {
     try {
       const promises: Array<Promise<boolean>> = [];
       for (const input of this.inputs.toArray()) {
-        promises.push(input.validate());
+        if (input.hasView) {
+          promises.push(input.validate());
+        }
       }
       const results = await Promise.all(promises);
 
@@ -99,7 +99,12 @@ export class HFormComponent extends JsfCore implements OnInit, IJsfLifecycle {
       valid = await this.validateInputs();
     }
 
-    this.triggerEvent('postValidate');
+    if (valid) {
+      const result = await this.triggerEvent('postValidate');
+      valid = !result.error;
+      this.messageService.submitError(result.elementId, result.error,
+          result.message);
+    }
 
     return valid;
   }

@@ -1,4 +1,7 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, Input,
+  OnInit,
+} from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 
@@ -35,8 +38,8 @@ export class AceTooltipComponent extends JsfElement implements OnInit, AfterView
   private hideEffectOptions: { origin: string[] };
   private tooltip: ice.ace.Tooltip;
 
-  constructor(hFormService: HFormService) {
-    super(hFormService);
+  constructor(hFormService: HFormService, elementRef: ElementRef) {
+    super(hFormService, elementRef);
   }
 
   ngOnInit() {
@@ -62,6 +65,7 @@ export class AceTooltipComponent extends JsfElement implements OnInit, AfterView
   }
 
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     const self = this;
     this.tooltip = new ice.ace.Tooltip(this.id, {
       speechBubble: this.speechBubble,

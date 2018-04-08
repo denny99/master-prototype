@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import ValidationResponse from '../../objects/validation-response';
 import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
@@ -11,8 +12,8 @@ export class FEventComponent {
   id: string;
   @Input()
   type: string;
-  @Output()
-  listener = new EventEmitter<JsfCore>();
+  @Input()
+  listener: (elem: JsfCore) => Promise<ValidationResponse>;
 
   constructor() {
   }

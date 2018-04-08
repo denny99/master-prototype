@@ -1,4 +1,4 @@
-import {Component, forwardRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, forwardRef, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
 import {HFormService} from '../../services/h-form.service';
 import {MessageService} from '../../services/message.service';
@@ -28,7 +28,9 @@ import {JsfInput} from '../../superclass/jsf-input';
 export class HSelectBooleanCheckboxComponent extends JsfInput {
   @ViewChild(NgModel) model: NgModel;
 
-  constructor(hFormService: HFormService, messageService: MessageService) {
-    super(hFormService, messageService);
+  constructor(
+      hFormService: HFormService, messageService: MessageService,
+      elementRef: ElementRef) {
+    super(hFormService, messageService, elementRef);
   }
 }

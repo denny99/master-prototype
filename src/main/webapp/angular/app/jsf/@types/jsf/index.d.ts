@@ -7,7 +7,7 @@ declare namespace ice {
     interface IAceTooltipOptions {
       speechBubble: boolean;
       // noinspection JSAnnotator
-      content: JQuery<HTMLElement>;
+      content: JQLite | JQuery<any>;
       show: IAceTooltipEffectOptions;
       position: IAceTooltipPosition;
       hide: IAceTooltipEffectOptions;

@@ -15,12 +15,7 @@ import {SessionDataService} from '../../../services/session-data.service';
 })
 export class FlightOverviewComponent {
   private PAGE_SIZE = 10;
-  private flights: ApiSearchResponse<Flight> = new ApiSearchResponse<Flight>();
-  private arrivalFilter: string;
-  // TODO remove
-  private sortOrder: string;
   private sortOptions: Array<SelectItem> = [];
-  private searched: boolean;
   private dateConverter = new LongDatePipe('de-DE');
 
   constructor(
@@ -31,26 +26,46 @@ export class FlightOverviewComponent {
     this.sortOptions.push(new SelectItem('desc', 'Descending'));
 
     this.searchFlight = this.searchFlight.bind(this);
+  }
 
-    // restore data;
-    this.flights = this.sessionService.flights;
-    this.searched = this.sessionService.searched;
-    this.arrivalFilter = this.sessionService.arrivalFilter;
-    this.sortOrder = this.sessionService.sortOrder;
+  get flights(): ApiSearchResponse<Flight> {
+    return this.sessionService.flights;
+  }
+
+  set flights(flights: ApiSearchResponse<Flight>) {
+    this.sessionService.flights = flights;
+  }
+
+  get sortOrder(): string {
+    return this.sessionService.sortOrder;
+  }
+
+  set sortOrder(val: string) {
+    this.sessionService.sortOrder = val;
+  }
+
+  get arrivalFilter(): string {
+    return this.sessionService.arrivalFilter;
+  }
+
+  set arrivalFilter(val: string) {
+    this.sessionService.arrivalFilter = val;
+  }
+
+  get searched(): boolean {
+    return this.sessionService.searched;
+  }
+
+  set searched(val: boolean) {
+    this.sessionService.searched = val;
   }
 
   async searchFlight(page: number): Promise<void> {
     try {
-      this.searched = true;
       this.flights = await this.flightService.getFlights(this.arrivalFilter,
           this.PAGE_SIZE,
           (page - 1) * this.PAGE_SIZE, this.sortOrder);
-
-      // save session date for page routing
-      this.sessionService.flights = this.flights;
-      this.sessionService.searched = true;
-      this.sessionService.arrivalFilter = this.arrivalFilter;
-      this.sessionService.sortOrder = this.sortOrder;
+      this.searched = true;
     } catch (e) {
       console.error(e);
     }

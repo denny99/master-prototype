@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {HFormService} from '../../services/h-form.service';
 import JsfElement from '../../superclass/jsf-element';
 
@@ -11,7 +11,7 @@ export class HPanelGroupComponent extends JsfElement {
   @Input()
   layout: string;
 
-  constructor(hFormService: HFormService) {
-    super(hFormService);
+  constructor(hFormService: HFormService, elementRef: ElementRef) {
+    super(hFormService, elementRef);
   }
 }

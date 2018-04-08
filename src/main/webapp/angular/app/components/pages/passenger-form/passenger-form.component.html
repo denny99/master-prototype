@@ -4,7 +4,7 @@
       <span class="iceOutTxt headerLabel">Enter Data for Passenger #{{currentPassengerIndex + 1}}</span>
     </div>
     <f-event id="multiFieldValidationEvent"
-             (listener)="validateForm($event)" type="postValidate"></f-event>
+             [listener]="validateForm" type="postValidate"></f-event>
 
     <!-- id number or passport id -->
     <h-panel-group id="passportContainer" layout="block"
@@ -99,16 +99,16 @@
     <h-panel-group id="luggageContainer" layout="block"
                    styleClass="contentLevelContainer blockArea">
       <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
-      <!-- todo radio buttons -->
-      <!--<h:selectOneRadio id="luggageRadio"-->
-      <!--styleClass="iceSelOneRb masInfoInputField"-->
-      <!--required="true"-->
-      <!--layout="pageDirection"-->
-      <!--requiredMessage="Select the amount of luggage you want to check in"-->
-      <!--value="#{passengerFormBean.currentPassenger.luggageCount}">-->
-      <!--<f-select-items id="luggageNumbers"-->
-      <!--[value]="luggageItems"></f-select-items>-->
-      <!--</h:selectOneRadio>-->
+      <h-select-one-radio id="luggageRadio"
+                          styleClass="iceSelOneRb masInfoInputField"
+                          [required]="true"
+                          layout="pageDirection"
+                          requiredMessage="Select the amount of luggage you want to check in"
+                          [(ngModel)]="currentPassenger.luggageCount"
+                          [converter]="integerConverter">
+        <f-select-items id="luggageNumbers"
+                        [value]="luggageItems"></f-select-items>
+      </h-select-one-radio>
       <div class="clear"></div>
       <h-message styleClass="iceMsgError inputFieldLabel"
                  for="firstNameInput" id="firstNameErrorMessage"></h-message>

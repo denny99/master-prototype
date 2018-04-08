@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {AceColumnComponent} from './components/ace-column/ace-column.component';
 import {AceDataTableComponent} from './components/ace-data-table/ace-data-table.component';
+import {AceDialogComponent} from './components/ace-dialog/ace-dialog.component';
 import {AceTooltipComponent} from './components/ace-tooltip/ace-tooltip.component';
 import {CChooseComponent} from './components/c-choose/c-choose.component';
 import {CIfComponent} from './components/c-if/c-if.component';
@@ -29,11 +30,15 @@ import {HPanelGridComponent} from './components/h-panel-grid/h-panel-grid.compon
 import {HPanelGroupComponent} from './components/h-panel-group/h-panel-group.component';
 import {HSelectBooleanCheckboxComponent} from './components/h-select-boolean-checkbox/h-select-boolean-checkbox.component';
 import {HSelectOneMenuComponent} from './components/h-select-one-menu/h-select-one-menu.component';
+import {HSelectOneRadioComponent} from './components/h-select-one-radio/h-select-one-radio.component';
+import {IceCommandButtonComponent} from './components/ice-command-button/ice-command-button.component';
 import {IceOutputLinkComponent} from './components/ice-output-link/ice-output-link.component';
 import {IceOutputTextComponent} from './components/ice-output-text/ice-output-text.component';
 import {IcePanelGroupComponent} from './components/ice-panel-group/ice-panel-group.component';
 import {IcePanelPopupComponent} from './components/ice-panel-popup/ice-panel-popup.component';
+import {IceSelectBooleanCheckboxComponent} from './components/ice-select-boolean-checkbox/ice-select-boolean-checkbox.component';
 import {UiFragmentComponent} from './components/ui-fragment/ui-fragment.component';
+import {UiRepeatComponent} from './components/ui-repeat/ui-repeat.component';
 import {HFormService} from './services/h-form.service';
 
 @NgModule({
@@ -74,7 +79,12 @@ import {HFormService} from './services/h-form.service';
     HBodyComponent,
     FEventComponent,
     HGraphicImageComponent,
-    IcePanelPopupComponent],
+    IcePanelPopupComponent,
+    HSelectOneRadioComponent,
+    UiRepeatComponent,
+    IceSelectBooleanCheckboxComponent,
+    IceCommandButtonComponent,
+    AceDialogComponent],
   declarations: [
     HFormComponent,
     HCommandButtonComponent,
@@ -108,7 +118,12 @@ import {HFormService} from './services/h-form.service';
     HBodyComponent,
     FEventComponent,
     HGraphicImageComponent,
-    IcePanelPopupComponent],
+    IcePanelPopupComponent,
+    HSelectOneRadioComponent,
+    UiRepeatComponent,
+    IceSelectBooleanCheckboxComponent,
+    IceCommandButtonComponent,
+    AceDialogComponent],
   providers: [
     HFormService,
   ],

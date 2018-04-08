@@ -1,3 +1,138 @@
-<p>
-  booking-details works!
-</p>
+<h-body>
+  <h2>Booking Overview</h2>
+  <h-form id="bookingDetails">
+    <!-- show all entered data -->
+    <cc-flight-details [headline]="true" [standalone]="false"
+                       [flight]="selectedFlight"></cc-flight-details>
+
+    <h-panel-group layout="block"
+                   styleClass="contentLevelContainer blockArea">
+      <div class="inputFieldGroup">
+        <span class="iceOutTxt headerLabel">Basic Data</span>
+      </div>
+      <h-panel-group layout="block">
+        <div class="clear" style="height: 6px;"></div>
+        <div class="inputFieldGroup minindented">
+                        <span class="iceOutTxt kdInputFieldLabel"
+                              style="width: 200px;">Passenger Count:</span>
+          <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                         [value]="passengerCount"></h-output-text>
+          <span class="iceOutTxt kdInputFieldLabel"
+                style="width: 200px;">Flight Costs:</span>
+          <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                         [value]="flightCosts">
+            <f-convert-number pattern="##,###" [groupingUsed]="true"
+                              locale="de-DE"></f-convert-number>
+          </h-output-text>
+          <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                         [rendered]="travelInsurance"
+                         value="Travel Insurance"
+          ></h-output-text>
+        </div>
+      </h-panel-group>
+    </h-panel-group>
+    <h-panel-group layout="block"
+                   styleClass="contentLevelContainer blockArea">
+      <div class="inputFieldGroup">
+        <span class="iceOutTxt headerLabel">Passenger Data</span>
+      </div>
+      <ui-repeat [value]="passengers" var="passenger">
+        <ng-template let-passenger>
+          <h-panel-group layout="block">
+            <div class="clear" style="height: 6px;"></div>
+            <div class="inputFieldGroup minindented">
+              <c-choose>
+                <!-- if other country -->
+                <c-when [test]="selectedFlight.foreignTravel()">
+                  <!-- passport -->
+                  <span class="iceOutTxt kdInputFieldLabel"
+                        style="width: 200px;">Passenger Passport:</span>
+                  <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                                 [value]="passenger.passportNumber"></h-output-text>
+                </c-when>
+                <c-otherwise>
+                  <!-- id card -->
+                  <span class="iceOutTxt kdInputFieldLabel"
+                        style="width: 200px;">Passenger Id Card:</span>
+                  <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                                 [value]="passenger.idCardNumber"></h-output-text>
+                </c-otherwise>
+              </c-choose>
+              <span class="iceOutTxt kdInputFieldLabel"
+                    style="width: 200px;">Passenger Firstname:</span>
+              <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                             [value]="passenger.firstName"></h-output-text>
+              <span class="iceOutTxt kdInputFieldLabel"
+                    style="width: 200px;">Passenger Lastname:</span>
+              <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                             [value]="passenger.lastName"></h-output-text>
+              <span class="iceOutTxt kdInputFieldLabel"
+                    style="width: 200px;">Passenger Birthdate:</span>
+              <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                             [value]="passenger.birthDay"
+                             [converter]="shortDateConverter"></h-output-text>
+              <span class="iceOutTxt kdInputFieldLabel"
+                    style="width: 200px;">Passenger # Luggage:</span>
+              <h-output-text styleClass="iceOutTxt kdInputFieldLabel"
+                             [value]="passenger.luggageCount"></h-output-text>
+            </div>
+          </h-panel-group>
+        </ng-template>
+      </ui-repeat>
+    </h-panel-group>
+
+    <h-panel-group layout="block"
+                   styleClass="contentLevelContainer blockArea">
+      <h-panel-group id="tacDiv">
+        <ice-select-boolean-checkbox id="tacCheckbox" [(ngModel)]="tac"
+                                     [validator]="validateTac"></ice-select-boolean-checkbox>
+        <h-output-label id="tacCheckboxLabel" for="tacCheckbox">Accept TAC
+        </h-output-label>
+
+        <h-message styleClass="iceMsgError inputFieldLabel"
+                   for="tacCheckbox" id="tacErrorMessage"></h-message>
+      </h-panel-group>
+      <ace-tooltip id="tacTooltip" for="tacDiv"
+                   [speechBubble]="false" showEffect="slide" hideEffect="slide"
+                   [showDelay]="200" [hideDelay]="100" position="bottomLeft"
+                   targetPosition="topRight" [showEffectLength]="200"
+                   [hideEffectLength]="200" styleClass="icePnlTlTip">
+        <span class="iceOutTxt"> Some imaginary TAC text. </span>
+      </ace-tooltip>
+    </h-panel-group>
+
+    <h-command-button value="Cancel"
+                      (action)="cancelBooking()"
+                      [immediate]="true"
+                      id="cancelBookingButton"
+                      styleClass="iceCmdBtn btnOption"></h-command-button>
+    <h-command-button value="Back"
+                      [immediate]="true"
+                      (action)="back()"
+                      styleClass="iceCmdBtn btnOption"></h-command-button>
+    <h-command-button value="Finish"
+                      id="finishButton"
+                      (action)="confirmBooking()"
+                      styleClass="iceCmdBtn btnOption"></h-command-button>
+
+    <ace-dialog id="infoPopup" header="Information"
+                [visible]="showInfo" [closable]="false" [modal]="true"
+                [draggable]="false" [resizable]="false" showEffect="fade"
+                hideEffect="fade" styleClass="popup" [showHeader]="true">
+      <div class="contentLevelContainer">
+        <h-panel-group layout="block" styleClass="inputFieldGroup">
+          <div class="inputFieldGroup center">
+            <span class="iceOutTxt inputFieldLabel">When clicking OK, you're booking the flight binding</span>
+          </div>
+          <div class="inputFieldGroup center">
+            <ice-command-button value="OK" id="as_info_ok"
+                                (action)="finishBooking()"
+                                [immediate]="true"
+                                [partialSubmit]="true"
+                                styleClass="btnOption"></ice-command-button>
+          </div>
+        </h-panel-group>
+      </div>
+    </ace-dialog>
+  </h-form>
+</h-body>

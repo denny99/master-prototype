@@ -1,9 +1,9 @@
 import {
-  ContentChildren, EventEmitter, Input, Output,
+  ContentChildren, ElementRef, EventEmitter, Input, Output,
   QueryList,
 } from '@angular/core';
 import {ControlValueAccessor, NgModel} from '@angular/forms';
-import {isEmpty} from 'lodash';
+import {isNull, isUndefined} from 'lodash';
 import {FValidateRegexComponent} from '../components/f-validate-regex/f-validate-regex.component';
 import ValidationResponse from '../objects/validation-response';
 import {HFormService} from '../services/h-form.service';
@@ -45,8 +45,9 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
   private converterError = false;
 
   constructor(
-      hFromService: HFormService, private messageService: MessageService) {
-    super(hFromService);
+      hFromService: HFormService, private messageService: MessageService,
+      elementRef: ElementRef) {
+    super(hFromService, elementRef);
   }
 
   // same as in JsfOutput but for some reason angular won't use the getter
@@ -149,7 +150,9 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
     }
 
     // check for required
-    if (isEmpty(this.innerValue) && this.required && valid) {
+    if ((isNull(this.innerValue) || isUndefined(this.innerValue) ||
+            this.innerValue === '') &&
+        this.required && valid) {
       valid = false;
       message = this.requiredMessage;
     }
@@ -169,9 +172,13 @@ export abstract class JsfInput extends JsfOutput implements ControlValueAccessor
       message = `Input is too long. Maximum ${this.maxLength} characters allowed`;
     }
 
-    this.messageService.submitError(this.simpleId, !valid, message);
+    if (valid) {
+      const result = await this.triggerEvent('postValidate');
+      valid = !result.error;
+      message = result.message;
+    }
 
-    this.triggerEvent('postValidate');
+    this.messageService.submitError(this.simpleId, !valid, message);
 
     return valid;
   }

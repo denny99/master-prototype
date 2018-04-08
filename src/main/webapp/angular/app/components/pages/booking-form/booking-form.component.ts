@@ -16,10 +16,6 @@ declare let $: any;
   styleUrls: ['./booking-form.component.css'],
 })
 export class BookingFormComponent implements AfterViewInit {
-  private passengerCount = 1;
-  private maxPassengers = 10;
-  private travelInsurance = false;
-  private selectedFlight: Flight;
   private integerConverter = new IntegerPipe();
   // it is not possible to annotate this properly with the jqueryui types
   private slider: any;
@@ -36,22 +32,39 @@ export class BookingFormComponent implements AfterViewInit {
       router.navigateByUrl('pages/flightOverview').then().catch((e) => {
         console.error(e);
       });
-    } else {
-      this.selectedFlight = this.conversationService.conversation.getProperty(
-          'selectedFlight');
-      this.maxPassengers = this.selectedFlight.aircraft.passengerCount;
-
-      // we already have data in conversation, restore data
-      if (this.conversationService.conversation.hasProperty('passengerCount')) {
-        this.passengerCount = this.conversationService.conversation.getProperty(
-            'passengerCount');
-        this.travelInsurance = this.conversationService.conversation.getProperty(
-            'travelInsurance');
-      }
     }
 
     // this function is used inside of the input field
     this.validatePassengerCount = this.validatePassengerCount.bind(this);
+  }
+
+  get passengerCount(): number {
+    return this.conversationService.conversation.getProperty(
+        'passengerCount') || 1;
+  }
+
+  set passengerCount(val: number) {
+    this.conversationService.conversation.setProperty(
+        'passengerCount', val);
+  }
+
+  get maxPassengers(): number {
+    return this.selectedFlight.aircraft.passengerCount;
+  }
+
+  get travelInsurance(): boolean {
+    return this.conversationService.conversation.getProperty(
+        'travelInsurance') || false;
+  }
+
+  set travelInsurance(val: boolean) {
+    this.conversationService.conversation.setProperty(
+        'travelInsurance', val);
+  }
+
+  get selectedFlight(): Flight {
+    return this.conversationService.conversation.getProperty(
+        'selectedFlight');
   }
 
   ngAfterViewInit() {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
@@ -10,8 +10,8 @@ export class UiFragmentComponent extends JsfCore {
   @Input()
   rendered: boolean;
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
 }

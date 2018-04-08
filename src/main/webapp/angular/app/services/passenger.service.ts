@@ -23,8 +23,17 @@ export class PassengerService {
         append('idCardNumber', idCardNumber);
 
     // correct object cast is not required, the passenger object has no functions or special attr treatment
-    return this.http.get<Array<Passenger>>(PassengerService.URL, {
-      params: params,
-    }).toPromise();
+    const response = await this.http.get<Array<Passenger>>(PassengerService.URL,
+        {
+          params: params,
+        }).toPromise();
+
+    const result: Array<Passenger> = [];
+    for (const p of response) {
+      if (p !== null) {
+        result.push(new Passenger(p));
+      }
+    }
+    return result;
   }
 }

@@ -1,4 +1,7 @@
-import {Component, ContentChildren, OnInit, QueryList} from '@angular/core';
+import {
+  Component, ContentChildren, ElementRef, OnInit,
+  QueryList,
+} from '@angular/core';
 import {IJsfLifecycle} from '../../interfaces/jsf-lifecycle';
 import {JsfService} from '../../services/jsf.service';
 import {JsfCore} from '../../superclass/jsf-core';
@@ -20,8 +23,8 @@ export class HBodyComponent extends JsfCore implements OnInit, IJsfLifecycle {
   @ContentChildren(HFormComponent, {descendants: true})
   forms: QueryList<HFormComponent>;
 
-  constructor(private jsfService: JsfService) {
-    super();
+  constructor(private jsfService: JsfService, elementRef: ElementRef) {
+    super(elementRef);
   }
 
   ngOnInit() {

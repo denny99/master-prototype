@@ -1,4 +1,4 @@
-import {ContentChildren, Input, QueryList} from '@angular/core';
+import {ContentChildren, ElementRef, Input, QueryList} from '@angular/core';
 import {FAjaxComponent} from '../components/f-ajax/f-ajax.component';
 import {HFormService} from '../services/h-form.service';
 import {JsfCore} from './jsf-core';
@@ -8,7 +8,7 @@ export default abstract class JsfElement extends JsfCore {
   styleClass = '';
 
   @Input()
-  style: CSSStyleDeclaration;
+  style: any;
 
   @Input()
   rendered = true;
@@ -16,8 +16,8 @@ export default abstract class JsfElement extends JsfCore {
   @ContentChildren(FAjaxComponent)
   protected ajax: QueryList<FAjaxComponent>;
 
-  constructor(protected hFormService: HFormService) {
-    super();
+  constructor(protected hFormService: HFormService, elementRef: ElementRef) {
+    super(elementRef);
   }
 
   get id(): string {

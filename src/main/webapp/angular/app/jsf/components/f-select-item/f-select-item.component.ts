@@ -2,6 +2,7 @@ import {
   Component, ElementRef, Input, OnInit, TemplateRef,
   ViewChild,
 } from '@angular/core';
+import {random} from 'lodash';
 import {HFormService} from '../../services/h-form.service';
 import {JsfCore} from '../../superclass/jsf-core';
 
@@ -17,6 +18,8 @@ export class FSelectItemComponent extends JsfCore implements OnInit {
   itemLabel: string;
   @Input()
   noSelectionOption: boolean;
+  currentValue: () => any;
+  radioCallback: (event: Event) => void;
 
   @ViewChild('radio') radio: TemplateRef<any>;
   @ViewChild('option') option: TemplateRef<any>;
@@ -24,10 +27,10 @@ export class FSelectItemComponent extends JsfCore implements OnInit {
   @ViewChild('radioInput') radioInput: ElementRef;
   @ViewChild('optionElem') optionElem: ElementRef;
 
-  private radioId = this.hFormService.getFormId(this.id);
+  private radioId = this.hFormService.getFormId(this.id) + random(0, 10000);
 
-  constructor(private hFormService: HFormService) {
-    super();
+  constructor(private hFormService: HFormService, elementRef: ElementRef) {
+    super(elementRef);
   }
 
   ngOnInit() {

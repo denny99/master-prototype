@@ -20,15 +20,16 @@ export class IcePanelPopupComponent extends JsfElement implements OnInit, AfterV
   autoCentre: boolean;
 
   @ViewChild('popup')
-  private popup: ElementRef;
+  popup: ElementRef;
+
   private height: number;
   private width: number;
 
   @ContentChildren(FFacetComponent)
   private facets: QueryList<FFacetComponent>;
 
-  constructor(hFormService: HFormService) {
-    super(hFormService);
+  constructor(hFormService: HFormService, elementRef: ElementRef) {
+    super(hFormService, elementRef);
   }
 
   get body(): FFacetComponent {
@@ -41,12 +42,13 @@ export class IcePanelPopupComponent extends JsfElement implements OnInit, AfterV
   }
 
   ngOnInit() {
-    this.style = <CSSStyleDeclaration>{
+    this.style = {
       position: 'absolute',
     };
   }
 
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     this.width = this.popup.nativeElement.offsetWidth;
     this.height = this.popup.nativeElement.offsetHeight;
   }

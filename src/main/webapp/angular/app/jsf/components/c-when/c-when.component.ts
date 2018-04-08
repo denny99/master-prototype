@@ -1,4 +1,7 @@
-import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
+import {
+  Component, ElementRef, Input, TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import {JsfCore} from '../../superclass/jsf-core';
 
 @Component({
@@ -13,7 +16,7 @@ export class CWhenComponent extends JsfCore {
   @ViewChild(TemplateRef)
   content: TemplateRef<any>;
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 }

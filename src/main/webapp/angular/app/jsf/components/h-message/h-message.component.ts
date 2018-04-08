@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {ErrorMessage} from '../../objects/error-message';
 import {HFormService} from '../../services/h-form.service';
@@ -18,8 +18,9 @@ export class HMessageComponent extends JsfElement implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
-      hFormService: HFormService, private messageService: MessageService) {
-    super(hFormService);
+      hFormService: HFormService, private messageService: MessageService,
+      elementRef: ElementRef) {
+    super(hFormService, elementRef);
   }
 
   ngOnInit() {

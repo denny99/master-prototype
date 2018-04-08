@@ -1,4 +1,7 @@
-import {Component, Input, QueryList, ViewChildren} from '@angular/core';
+import {
+  Component, ElementRef, Input, QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {SelectItem} from '../../objects/select-item';
 import {JsfCore} from '../../superclass/jsf-core';
 import {FSelectItemComponent} from '../f-select-item/f-select-item.component';
@@ -15,8 +18,8 @@ export class FSelectItemsComponent extends JsfCore {
   @ViewChildren(FSelectItemComponent)
   items: QueryList<FSelectItemComponent>;
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
 }

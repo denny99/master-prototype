@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ContentChild, ContentChildren,
+  AfterContentInit, Component, ContentChild, ContentChildren, ElementRef,
   QueryList,
 } from '@angular/core';
 import {JsfCore} from '../../superclass/jsf-core';
@@ -11,7 +11,7 @@ import {CWhenComponent} from '../c-when/c-when.component';
   templateUrl: './c-choose.component.html',
   styleUrls: ['./c-choose.component.css'],
 })
-export class CChooseComponent extends JsfCore implements AfterViewInit {
+export class CChooseComponent extends JsfCore implements AfterContentInit {
   @ContentChildren(CWhenComponent)
   cwhens: QueryList<CWhenComponent>;
 
@@ -20,11 +20,11 @@ export class CChooseComponent extends JsfCore implements AfterViewInit {
 
   private activeElements: Array<CWhenComponent | COtherwiseComponent> = [];
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     let otherwise = true;
     for (const cwhen of this.cwhens.toArray()) {
       if (cwhen.test) {

@@ -1,6 +1,6 @@
 import {
-  AfterViewInit, Component, ContentChildren, EventEmitter, Input,
-  OnChanges, Output, QueryList, ViewChildren,
+  AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter,
+  Input, OnChanges, Output, QueryList, ViewChildren,
 } from '@angular/core';
 import ApiSearchResponse from '../../../entity/ApiSearchResponse';
 import {JsfCore} from '../../superclass/jsf-core';
@@ -13,7 +13,7 @@ import {FFacetComponent} from '../f-facet/f-facet.component';
   templateUrl: './ace-data-table.component.html',
   styleUrls: ['./ace-data-table.component.css'],
 })
-export class AceDataTableComponent extends JsfCore implements AfterViewInit, OnChanges {
+export class AceDataTableComponent extends JsfCore implements AfterContentInit, OnChanges {
   @Input()
   value: ApiSearchResponse<any> = new ApiSearchResponse<any>();
   @Output()
@@ -34,11 +34,11 @@ export class AceDataTableComponent extends JsfCore implements AfterViewInit, OnC
   private currentPage: number;
   private headers: Array<FFacetComponent> = [];
 
-  constructor() {
-    super();
+  constructor(elementRef: ElementRef) {
+    super(elementRef);
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     // call this stuff here as the columns use VieChildren
     for (const column of this.columns.toArray()) {
       if (column.header) {
