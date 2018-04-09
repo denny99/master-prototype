@@ -15,10 +15,10 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @ApplicationScoped
 public class NotFoundExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
-  @Context
-  private HttpHeaders headers;
+    @Context
+    private HttpHeaders headers;
 
-  public Response toResponse(ResourceNotFoundException ex) {
-    return this.buildResponse(ex);
-  }
+    public Response toResponse(ResourceNotFoundException ex) {
+        return this.buildResponse(ex);
+    }
 }

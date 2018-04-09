@@ -16,97 +16,97 @@ import java.util.ArrayList;
 @Named
 @ApplicationScoped
 public class PassengerService implements Serializable {
-  private static final Logger LOG = Logger.getLogger(PassengerService.class);
+    private static final Logger LOG = Logger.getLogger(PassengerService.class);
 
-  @Inject
-  private DatabaseMock databaseMock;
+    @Inject
+    private DatabaseMock databaseMock;
 
-  public ArrayList<Passenger> getPassengers() {
-    return databaseMock.getPassengers();
-  }
-
-  /**
-   * @param passengers passengers to create
-   * @return created objects
-   */
-  public ArrayList<Passenger> createPassengers(
-      Passenger[] passengers) {
-    // force random id
-    ArrayList<Passenger> result = new ArrayList<Passenger>();
-    for (Passenger p : passengers) {
-      result.add(this.createPassenger(p));
+    public ArrayList<Passenger> getPassengers() {
+        return databaseMock.getPassengers();
     }
-    return result;
-  }
 
-  /**
-   * @param p passenger to create
-   * @return created object
-   */
-  public Passenger createPassenger(Passenger p) {
-    // force random id
-    Passenger p1 = new Passenger(p.getFirstName(), p.getLastName(),
-        p.getIdCardNumber(), p.getPassportNumber(), p.getBirthDay(),
-        p.getLuggageCount());
-    this.databaseMock.addPassenger(p1);
-    return p1;
-  }
-
-  /**
-   * @param id id of passenger
-   * @return found passenger
-   * @throws ResourceNotFoundException id does not exist
-   */
-  public Passenger getPassengerById(
-      String id) throws ResourceNotFoundException {
-    for (Passenger passenger : this.databaseMock.getPassengers()) {
-      if (passenger.getId().equals(id)) {
-        return passenger;
-      }
+    /**
+     * @param passengers passengers to create
+     * @return created objects
+     */
+    public ArrayList<Passenger> createPassengers(
+            Passenger[] passengers) {
+        // force random id
+        ArrayList<Passenger> result = new ArrayList<Passenger>();
+        for (Passenger p : passengers) {
+            result.add(this.createPassenger(p));
+        }
+        return result;
     }
-    throw new ResourceNotFoundException(id, Passenger.class);
-  }
 
-  /**
-   * @param idCardNumber idcard number of passenger
-   * @return found passenger of null
-   */
-  public Passenger getPassengerByIdCardNumber(String idCardNumber) {
-    for (Passenger passenger : this.databaseMock.getPassengers()) {
-      if (passenger.getIdCardNumber().equals(idCardNumber)) {
-        return passenger;
-      }
+    /**
+     * @param p passenger to create
+     * @return created object
+     */
+    public Passenger createPassenger(Passenger p) {
+        // force random id
+        Passenger p1 = new Passenger(p.getFirstName(), p.getLastName(),
+                p.getIdCardNumber(), p.getPassportNumber(), p.getBirthDay(),
+                p.getLuggageCount());
+        this.databaseMock.addPassenger(p1);
+        return p1;
     }
-    return null;
-  }
 
-  /**
-   * @param passportNumber passport number of passenger
-   * @return found passenger or null
-   */
-  public Passenger getPassengerByPassportNumber(String passportNumber) {
-    for (Passenger passenger : this.databaseMock.getPassengers()) {
-      if (passenger.getPassportNumber().equals(passportNumber)) {
-        return passenger;
-      }
+    /**
+     * @param id id of passenger
+     * @return found passenger
+     * @throws ResourceNotFoundException id does not exist
+     */
+    public Passenger getPassengerById(
+            String id) throws ResourceNotFoundException {
+        for (Passenger passenger : this.databaseMock.getPassengers()) {
+            if (passenger.getId().equals(id)) {
+                return passenger;
+            }
+        }
+        throw new ResourceNotFoundException(id, Passenger.class);
     }
-    return null;
-  }
 
-  /**
-   * @param id id card number
-   * @return returns a list of all passenger containing the given number (autocomplete)
-   */
-  public ArrayList<Passenger> getPassengersByIdCardNumber(
-      String id) {
-    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
-    for (Passenger passenger : this.databaseMock.getPassengers()) {
-      if (passenger.getIdCardNumber()
-          .toLowerCase()
-          .contains(id.toLowerCase())) {
-        passengers.add(passenger);
-      }
+    /**
+     * @param idCardNumber idcard number of passenger
+     * @return found passenger of null
+     */
+    public Passenger getPassengerByIdCardNumber(String idCardNumber) {
+        for (Passenger passenger : this.databaseMock.getPassengers()) {
+            if (passenger.getIdCardNumber().equals(idCardNumber)) {
+                return passenger;
+            }
+        }
+        return null;
     }
-    return passengers;
-  }
+
+    /**
+     * @param passportNumber passport number of passenger
+     * @return found passenger or null
+     */
+    public Passenger getPassengerByPassportNumber(String passportNumber) {
+        for (Passenger passenger : this.databaseMock.getPassengers()) {
+            if (passenger.getPassportNumber().equals(passportNumber)) {
+                return passenger;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param id id card number
+     * @return returns a list of all passenger containing the given number (autocomplete)
+     */
+    public ArrayList<Passenger> getPassengersByIdCardNumber(
+            String id) {
+        ArrayList<Passenger> passengers = new ArrayList<Passenger>();
+        for (Passenger passenger : this.databaseMock.getPassengers()) {
+            if (passenger.getIdCardNumber()
+                    .toLowerCase()
+                    .contains(id.toLowerCase())) {
+                passengers.add(passenger);
+            }
+        }
+        return passengers;
+    }
 }

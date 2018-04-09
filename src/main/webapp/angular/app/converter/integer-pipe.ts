@@ -1,22 +1,21 @@
 import {isInteger} from 'lodash';
-import {ConverterException} from '../jsf/exceptions/converter.exception';
-import {Converter} from '../jsf/superclass/converter';
+import {Converter, ConverterException} from 'angular-jsf-components';
 
 export class IntegerPipe implements Converter {
-  transformToObject(value: string): number {
-    const int = parseInt(value, 10);
-    if (!isInteger(int)) {
-      throw new ConverterException();
+    transformToObject(value: string): number {
+        const int = parseInt(value, 10);
+        if (!isInteger(int)) {
+            throw new ConverterException();
+        }
+        return int;
     }
-    return int;
-  }
 
-  /**
-   *
-   * @param  {Object} value
-   * @returns {string}
-   */
-  transform(value: number) {
-    return value.toString();
-  }
+    /**
+     *
+     * @param  {Object} value
+     * @returns {string}
+     */
+    transform(value: number) {
+        return value.toString();
+    }
 }

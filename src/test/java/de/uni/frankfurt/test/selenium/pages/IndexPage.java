@@ -5,14 +5,14 @@ import de.uni.frankfurt.test.selenium.helper.SetupSeleniumDriver;
 import org.openqa.selenium.WebDriver;
 
 public class IndexPage extends Page {
-  public IndexPage(
-      WebDriver driver,
-      ActionsOnPage action) {
-    super(driver, action);
-  }
+    public IndexPage(
+            WebDriver driver,
+            ActionsOnPage action) {
+        super(driver, action);
+    }
 
-  @Override
-  public void getPage() {
-    this.action.openPage(SetupSeleniumDriver.getBaseUrl(), "/");
-  }
+    @Override
+    public void getPage() {
+        this.action.openPage(SetupSeleniumDriver.getBaseUrl(), "/");
+    }
 }

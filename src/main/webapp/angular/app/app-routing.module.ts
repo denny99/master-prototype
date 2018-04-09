@@ -9,21 +9,21 @@ import {IndexComponent} from './components/pages/index/index.component';
 import {PassengerFormComponent} from './components/pages/passenger-form/passenger-form.component';
 
 const routes: Routes = [
-  {path: '', component: IndexComponent},
-  {path: 'index', component: IndexComponent},
-  {path: 'pages/flightOverview', component: FlightOverviewComponent},
-  {path: 'pages/flightDetails', component: FlightDetailsComponent},
-  {path: 'pages/bookingForm', component: BookingFormComponent},
-  {path: 'pages/passengerForm', component: PassengerFormComponent},
-  {path: 'pages/bookingDetails', component: BookingDetailsComponent},
-  {path: 'pages/bookingSuccess', component: BookingSuccessComponent},
+    {path: '', component: IndexComponent},
+    {path: 'index', component: IndexComponent},
+    {path: 'pages/flightOverview', component: FlightOverviewComponent},
+    {path: 'pages/flightDetails', component: FlightDetailsComponent},
+    {path: 'pages/bookingForm', component: BookingFormComponent},
+    {path: 'pages/passengerForm', component: PassengerFormComponent},
+    {path: 'pages/bookingDetails', component: BookingDetailsComponent},
+    {path: 'pages/bookingSuccess', component: BookingSuccessComponent},
 ];
 
 @NgModule({
-  exports: [
-    RouterModule,
-  ],
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+    exports: [
+        RouterModule,
+    ],
+    imports: [RouterModule.forRoot(routes, {useHash: true})],
 })
 export class AppRoutingModule {
 }

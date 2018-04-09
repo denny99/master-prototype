@@ -19,140 +19,140 @@ import java.util.ArrayList;
 
 @RunWith(Arquillian.class)
 public class BookingWSTest extends WSTest {
-  private static Booking createdBooking;
+    private static Booking createdBooking;
 
-  // note injection not possible (we are outside of the server)
-  @Test
-  @InSequence(1)
-  @RunAsClient
-  public void createBooking() throws JsonSchemaException {
-    Flight flight = this.getRandomFlight();
-    String basePath = this.getResourceURL(flight);
+    // note injection not possible (we are outside of the server)
+    @Test
+    @InSequence(1)
+    @RunAsClient
+    public void createBooking() throws JsonSchemaException {
+        Flight flight = this.getRandomFlight();
+        String basePath = this.getResourceURL(flight);
 
-    ArrayList<Passenger> passengers = new ArrayList<>();
-    passengers.add(DatabaseMock.p1);
-    passengers.add(DatabaseMock.p2);
+        ArrayList<Passenger> passengers = new ArrayList<>();
+        passengers.add(DatabaseMock.p1);
+        passengers.add(DatabaseMock.p2);
 
-    // create Booking with the 2 static passengers
-    Booking b = new Booking(flight, false, passengers);
+        // create Booking with the 2 static passengers
+        Booking b = new Booking(flight, false, passengers);
 
-    // test tac not accepted
-    APIResponse<Booking> response = this.postResourceToAPI(basePath, b,
-        Booking.class);
-    Assert.assertTrue("error occurred", response.hasError());
-    Assert.assertEquals("correct http code",
-        response.getError().getStatusCode(), 412);
-    Assert.assertEquals("correct error message",
-        response.getError().getErrorMessage(), "TAC not accepted");
+        // test tac not accepted
+        APIResponse<Booking> response = this.postResourceToAPI(basePath, b,
+                Booking.class);
+        Assert.assertTrue("error occurred", response.hasError());
+        Assert.assertEquals("correct http code",
+                response.getError().getStatusCode(), 412);
+        Assert.assertEquals("correct error message",
+                response.getError().getErrorMessage(), "TAC not accepted");
 
-    // correct post
-    b.setTacAccepted(true);
-    // get booking
-    response = this.postResourceToAPI(basePath, b, Booking.class);
-    Assert.assertTrue("id created",
-        !response.getResponseObject().getId().isEmpty());
-    createdBooking = response.getResponseObject();
+        // correct post
+        b.setTacAccepted(true);
+        // get booking
+        response = this.postResourceToAPI(basePath, b, Booking.class);
+        Assert.assertTrue("id created",
+                !response.getResponseObject().getId().isEmpty());
+        createdBooking = response.getResponseObject();
 
-    // test duplicated passenger
-    passengers.add(DatabaseMock.p1);
+        // test duplicated passenger
+        passengers.add(DatabaseMock.p1);
 
-    // test too many passengers
-    response = this.postResourceToAPI(basePath, b, Booking.class);
-    Assert.assertTrue("error occurred", response.hasError());
-    Assert.assertEquals("correct http code",
-        response.getError().getStatusCode(), 412);
-    Assert.assertEquals("correct error message",
-        response.getError().getErrorMessage(),
-        String.format("Duplicated passenger with number %s",
-            flight.foreignTravel() ?
-                DatabaseMock.p1.getPassportNumber() :
-                DatabaseMock.p1.getIdCardNumber()));
+        // test too many passengers
+        response = this.postResourceToAPI(basePath, b, Booking.class);
+        Assert.assertTrue("error occurred", response.hasError());
+        Assert.assertEquals("correct http code",
+                response.getError().getStatusCode(), 412);
+        Assert.assertEquals("correct error message",
+                response.getError().getErrorMessage(),
+                String.format("Duplicated passenger with number %s",
+                        flight.foreignTravel() ?
+                                DatabaseMock.p1.getPassportNumber() :
+                                DatabaseMock.p1.getIdCardNumber()));
 
-    for (int i = 0; i < 1000; i++) {
-      passengers.add(DatabaseMock.p1);
+        for (int i = 0; i < 1000; i++) {
+            passengers.add(DatabaseMock.p1);
+        }
+
+        response = this.postResourceToAPI(basePath, b, Booking.class);
+        Assert.assertTrue("error occurred", response.hasError());
+        Assert.assertEquals("correct http code",
+                response.getError().getStatusCode(), 412);
     }
 
-    response = this.postResourceToAPI(basePath, b, Booking.class);
-    Assert.assertTrue("error occurred", response.hasError());
-    Assert.assertEquals("correct http code",
-        response.getError().getStatusCode(), 412);
-  }
+    /**
+     * get flight list and return first
+     *
+     * @return first flight
+     */
+    public Flight getRandomFlight() throws JsonSchemaException {
+        // get all flights
+        String jsonFlights = webTarget
+                .path("/flights")
+                .request(MediaType.APPLICATION_JSON)
+                .get().readEntity(String.class);
 
-  /**
-   * get flight list and return first
-   *
-   * @return first flight
-   */
-  public Flight getRandomFlight() throws JsonSchemaException {
-    // get all flights
-    String jsonFlights = webTarget
-        .path("/flights")
-        .request(MediaType.APPLICATION_JSON)
-        .get().readEntity(String.class);
+        // parse json
+        FlightSearchResponse flights = parser.fromJSON(jsonFlights,
+                FlightSearchResponse.class);
 
-    // parse json
-    FlightSearchResponse flights = parser.fromJSON(jsonFlights,
-        FlightSearchResponse.class);
+        // select first random flight
 
-    // select first random flight
-
-    return flights.getData().get(0);
-  }
-
-  /**
-   * create url with given flight
-   *
-   * @param flight flight
-   * @return rest uri
-   */
-  public String getResourceURL(Flight flight) {
-    // setup basic url
-    return String.format("/flights/%s/bookings", flight.getId());
-  }
-
-  @Test
-  @InSequence(2)
-  @RunAsClient
-  public void getBookingById() {
-    String basePath = this.getResourceURL();
-    // test get booking by id
-    APIResponse<Booking> response = this.getResourceFromAPI(
-        basePath + "/" + createdBooking.getId(),
-        Booking.class);
-    Assert.assertTrue("no error", !response.hasError());
-    // test get booking by id with error
-    response = this.getResourceFromAPI(basePath + "/NOTANID",
-        Booking.class);
-    Assert.assertTrue("error occurred", response.hasError());
-    Assert.assertEquals("correct http code",
-        response.getError().getStatusCode(), 404);
-  }
-
-  /**
-   * construct url with first found flight
-   *
-   * @return url
-   */
-  @Override
-  public String getResourceURL() {
-    try {
-      return this.getResourceURL(this.getRandomFlight());
-    } catch (JsonSchemaException e) {
-      return "";
+        return flights.getData().get(0);
     }
-  }
 
-  @Test
-  @InSequence(3)
-  @RunAsClient
-  public void getBookings() throws JsonSchemaException {
-    String basePath = this.getResourceURL(createdBooking.getFlight());
-    // test get booking by id
-    APIResponse<ArrayList<Booking>> response = this.getResourcesFromAPI(
-        basePath, new ArrayList<Booking>() {
-        }.getClass().getGenericSuperclass());
-    Assert.assertTrue("no error", !response.hasError());
-    Assert.assertEquals("correct amount of bookings",
-        response.getResponseObject().size(), 1);
-  }
+    /**
+     * create url with given flight
+     *
+     * @param flight flight
+     * @return rest uri
+     */
+    public String getResourceURL(Flight flight) {
+        // setup basic url
+        return String.format("/flights/%s/bookings", flight.getId());
+    }
+
+    @Test
+    @InSequence(2)
+    @RunAsClient
+    public void getBookingById() {
+        String basePath = this.getResourceURL();
+        // test get booking by id
+        APIResponse<Booking> response = this.getResourceFromAPI(
+                basePath + "/" + createdBooking.getId(),
+                Booking.class);
+        Assert.assertTrue("no error", !response.hasError());
+        // test get booking by id with error
+        response = this.getResourceFromAPI(basePath + "/NOTANID",
+                Booking.class);
+        Assert.assertTrue("error occurred", response.hasError());
+        Assert.assertEquals("correct http code",
+                response.getError().getStatusCode(), 404);
+    }
+
+    /**
+     * construct url with first found flight
+     *
+     * @return url
+     */
+    @Override
+    public String getResourceURL() {
+        try {
+            return this.getResourceURL(this.getRandomFlight());
+        } catch (JsonSchemaException e) {
+            return "";
+        }
+    }
+
+    @Test
+    @InSequence(3)
+    @RunAsClient
+    public void getBookings() throws JsonSchemaException {
+        String basePath = this.getResourceURL(createdBooking.getFlight());
+        // test get booking by id
+        APIResponse<ArrayList<Booking>> response = this.getResourcesFromAPI(
+                basePath, new ArrayList<Booking>() {
+                }.getClass().getGenericSuperclass());
+        Assert.assertTrue("no error", !response.hasError());
+        Assert.assertEquals("correct amount of bookings",
+                response.getResponseObject().size(), 1);
+    }
 }

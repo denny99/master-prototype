@@ -9,10 +9,10 @@ import javax.ws.rs.core.Application;
 
 @ApplicationPath("api")
 public class WSApplication extends Application {
-  public WSApplication() {
-    ModelConverters.getInstance().addConverter(new JsonSchemaConverter(
-        Json.mapper()));
-  }
+    public WSApplication() {
+        ModelConverters.getInstance().addConverter(new JsonSchemaConverter(
+                Json.mapper()));
+    }
 
 
 }

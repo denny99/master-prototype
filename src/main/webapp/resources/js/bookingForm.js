@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  // jsf generates ids formId:givenId
-  let currentValueInput = $('#bookingData\\:passengerCountOutput');
-  let maxValueInput = $('#bookingData\\:maxSliderTickHidden');
+    // jsf generates ids formId:givenId
+    let currentValueInput = $('#bookingData\\:passengerCountOutput');
+    let maxValueInput = $('#bookingData\\:maxSliderTickHidden');
 });

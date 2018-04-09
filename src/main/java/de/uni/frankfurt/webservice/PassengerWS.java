@@ -23,58 +23,58 @@ import java.util.ArrayList;
 @Path("/passengers")
 @RequestScoped
 public class PassengerWS {
-  private static final Logger LOGGER = Logger.getLogger(PassengerWS.class);
+    private static final Logger LOGGER = Logger.getLogger(PassengerWS.class);
 
-  @Inject
-  private PassengerService passengerService;
+    @Inject
+    private PassengerService passengerService;
 
-  @Inject
-  private JSONParserBean parser;
+    @Inject
+    private JSONParserBean parser;
 
-  @Path("{passengerId}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation(
-      summary = "Get Passenger By Id",
-      tags = {"passenger"},
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "Found Passenger",
-              content = @Content(schema = @Schema(implementation = Passenger.class))),
-          @ApiResponse(responseCode = "404", description = "Passenger not found",
-              content = @Content(schema = @Schema(implementation = RestException.class)))})
-  public String getPassengerById(
-      @PathParam("passengerId") String id
-  ) throws ResourceNotFoundException, JsonSchemaException {
-    return parser.toJSON(passengerService.getPassengerById(id));
-  }
-
-  @Path("")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation(
-      summary = "Search Passengers",
-      tags = {"passenger"},
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "Found Passengers",
-              content = @Content(array = @ArraySchema(
-                  schema = @Schema(implementation = Passenger.class))))})
-  public String getPassengers(
-      @Parameter(description = "Passport Number") @DefaultValue("") @QueryParam("passportNumber") String passportNumber,
-      @Parameter(description = "ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) throws JsonSchemaException {
-    ArrayList<Passenger> passengers = new ArrayList<>();
-    // filter requested?
-    if (!passportNumber.isEmpty()) {
-      passengers.add(
-          passengerService.getPassengerByPassportNumber(passportNumber));
-    } else if (!idCardNumber.isEmpty()) {
-      passengers.add(passengerService.getPassengerByIdCardNumber(idCardNumber));
-    } else {
-      passengers = passengerService.getPassengers();
+    @Path("{passengerId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Get Passenger By Id",
+            tags = {"passenger"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found Passenger",
+                            content = @Content(schema = @Schema(implementation = Passenger.class))),
+                    @ApiResponse(responseCode = "404", description = "Passenger not found",
+                            content = @Content(schema = @Schema(implementation = RestException.class)))})
+    public String getPassengerById(
+            @PathParam("passengerId") String id
+    ) throws ResourceNotFoundException, JsonSchemaException {
+        return parser.toJSON(passengerService.getPassengerById(id));
     }
-    return parser.toJSON(passengers);
-  }
+
+    @Path("")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Search Passengers",
+            tags = {"passenger"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found Passengers",
+                            content = @Content(array = @ArraySchema(
+                                    schema = @Schema(implementation = Passenger.class))))})
+    public String getPassengers(
+            @Parameter(description = "Passport Number") @DefaultValue("") @QueryParam("passportNumber") String passportNumber,
+            @Parameter(description = "ID Card Number") @DefaultValue("") @QueryParam("idCardNumber") String idCardNumber) throws JsonSchemaException {
+        ArrayList<Passenger> passengers = new ArrayList<>();
+        // filter requested?
+        if (!passportNumber.isEmpty()) {
+            passengers.add(
+                    passengerService.getPassengerByPassportNumber(passportNumber));
+        } else if (!idCardNumber.isEmpty()) {
+            passengers.add(passengerService.getPassengerByIdCardNumber(idCardNumber));
+        } else {
+            passengers = passengerService.getPassengers();
+        }
+        return parser.toJSON(passengers);
+    }
 }

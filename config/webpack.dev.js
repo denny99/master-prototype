@@ -7,14 +7,14 @@ let helpers = require('./helper');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'cheap-module-eval-source-map',
-  output: {
-    path: helpers.root('src/main/webapp/resources/dist'),
-    publicPath: '/resources/dist/',
-    filename: '[name].js',
-  },
+    devtool: 'cheap-module-eval-source-map',
+    output: {
+        path: helpers.root('src/main/webapp/resources/dist'),
+        publicPath: '/resources/dist/',
+        filename: '[name].js',
+    },
 
-  plugins: [
-    new ExtractTextPlugin('[name].css'),
-  ],
+    plugins: [
+        new ExtractTextPlugin('[name].css'),
+    ],
 });

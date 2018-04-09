@@ -1,155 +1,155 @@
 <h-body>
-  <h-form id="passengerData" styleClass="ice-skin-rime">
-    <div class="inputFieldGroup">
-      <span class="iceOutTxt headerLabel">Enter Data for Passenger #{{currentPassengerIndex + 1}}</span>
-    </div>
-    <f-event id="multiFieldValidationEvent"
-             [listener]="validateForm" type="postValidate"></f-event>
-
-    <!-- id number or passport id -->
-    <h-panel-group id="passportContainer" layout="block"
-                   styleClass="contentLevelContainer blockArea">
-      <div class="lFloat indented inputFieldGroup">
-        <c-choose>
-          <!-- if other country -->
-          <c-when [test]="selectedFlight.foreignTravel()">
-            <!-- passport -->
-            <span
-                class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
-            <h-input-text id="passportNumberInput" maxlength="6"
-                          [(ngModel)]="currentPassenger.passportNumber"
-                          [required]="true"
-                          requiredMessage="Insert your Passport Number">
-              <f-ajax event="blur"
-                      (listener)="passportIdListener($event)"
-                      execute="@this"
-                      render="@form"></f-ajax>
-            </h-input-text>
-          </c-when>
-          <c-otherwise>
-            <!-- id card -->
-            <span
-                class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
-            <h-input-text id="idCardNumberInput" [maxLength]="5"
-                          [(ngModel)]="currentPassenger.idCardNumber"
-                          required="true"
-                          requiredMessage="Insert your Id Card Number">
-              <f-ajax event="blur"
-                      (listener)="passportIdListener($event)"
-                      execute="@this"
-                      render="@form"></f-ajax>
-            </h-input-text>
-          </c-otherwise>
-        </c-choose>
-        <h-graphic-image id="helpIcon" library="images"
-                         name="icon_info.gif">
-          <f-ajax render="@all" event="click"
-                  (listener)="togglePassportHelp($event)"></f-ajax>
-        </h-graphic-image>
-      </div>
-
-      <div class="clear"></div>
-    </h-panel-group>
-    <!-- ajax for prefilling data when id exists -->
-    <!-- validate numbers if existing check existing data for correctness -->
-    <h-panel-group id="personalDataContainer" layout="block"
-                   styleClass="contentLevelContainer blockArea">
-      <!-- if number exists show force edit button -->
-      <c-if [test]="existingUser">
-        <div class="indented inputFieldGroup">
-          <h-command-button id="forceEditButton" value="Edit Data"
-                            styleClass="iceCmdBtn btnOption">
-            <f-ajax render="@form" execute="@this"
-                    (listener)="toggleForceEdit($event)"></f-ajax>
-          </h-command-button>
+    <h-form id="passengerData" styleClass="ice-skin-rime">
+        <div class="inputFieldGroup">
+            <span class="iceOutTxt headerLabel">Enter Data for Passenger #{{currentPassengerIndex + 1}}</span>
         </div>
-      </c-if>
-      <!-- Firstname -->
-      <div class="lFloat indented inputFieldGroup">
-        <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
-        <h-input-text id="firstNameInput"
-                      [disabled]="existingUser && !forceEdit"
-                      [(ngModel)]="currentPassenger.firstName"
-                      [required]="true"
-                      requiredMessage="Insert your Firstname"></h-input-text>
-      </div>
-      <!-- Lastname -->
-      <div class="lFloat indented inputFieldGroup">
-        <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
-        <h-input-text id="lastNameInput"
-                      [disabled]="existingUser && !forceEdit"
-                      [(ngModel)]="currentPassenger.lastName"
-                      [required]="true"
-                      requiredMessage="Insert your Lastname"></h-input-text>
-      </div>
-      <!-- Birthday with dp + converter -->
-      <div class="lFloat indented inputFieldGroup">
-        <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
-        <h-input-text id="birthDateInput"
-                      [disabled]="existingUser && !forceEdit"
-                      [(ngModel)]="currentPassenger.birthDay"
-                      [required]="true"
-                      requiredMessage="Insert your Birthdate"
-                      [converter]="shortDateConverter"></h-input-text>
-      </div>
-      <div class="clear"></div>
-    </h-panel-group>
+        <f-event id="multiFieldValidationEvent"
+                 [listener]="validateForm" type="postValidate"></f-event>
 
-    <!-- luggage radio -->
-    <h-panel-group id="luggageContainer" layout="block"
-                   styleClass="contentLevelContainer blockArea">
-      <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
-      <h-select-one-radio id="luggageRadio"
-                          styleClass="iceSelOneRb masInfoInputField"
-                          [required]="true"
-                          layout="pageDirection"
-                          requiredMessage="Select the amount of luggage you want to check in"
-                          [(ngModel)]="currentPassenger.luggageCount"
-                          [converter]="integerConverter">
-        <f-select-items id="luggageNumbers"
-                        [value]="luggageItems"></f-select-items>
-      </h-select-one-radio>
-      <div class="clear"></div>
-      <h-message styleClass="iceMsgError inputFieldLabel"
-                 for="firstNameInput" id="firstNameErrorMessage"></h-message>
-      <h-message styleClass="iceMsgError inputFieldLabel"
-                 for="lastNameInput" id="lastNameErrorMessage"></h-message>
-      <h-message styleClass="iceMsgError inputFieldLabel"
-                 for="birthDateInput" id="birthDateErrorMessage"></h-message>
-      <h-message styleClass="iceMsgError inputFieldLabel"
-                 for="idCardNumberInput" id="idCardErrorMessage"></h-message>
-      <h-message styleClass="iceMsgError inputFieldLabel"
-                 for="passportNumberInput"
-                 id="passportErrorMessage"></h-message>
-    </h-panel-group>
+        <!-- id number or passport id -->
+        <h-panel-group id="passportContainer" layout="block"
+                       styleClass="contentLevelContainer blockArea">
+            <div class="lFloat indented inputFieldGroup">
+                <c-choose>
+                    <!-- if other country -->
+                    <c-when [test]="selectedFlight.foreignTravel()">
+                        <!-- passport -->
+                        <span
+                                class="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
+                        <h-input-text id="passportNumberInput" maxlength="6"
+                                      [(ngModel)]="currentPassenger.passportNumber"
+                                      [required]="true"
+                                      requiredMessage="Insert your Passport Number">
+                            <f-ajax event="blur"
+                                    (listener)="passportIdListener($event)"
+                                    execute="@this"
+                                    render="@form"></f-ajax>
+                        </h-input-text>
+                    </c-when>
+                    <c-otherwise>
+                        <!-- id card -->
+                        <span
+                                class="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
+                        <h-input-text id="idCardNumberInput" [maxLength]="5"
+                                      [(ngModel)]="currentPassenger.idCardNumber"
+                                      required="true"
+                                      requiredMessage="Insert your Id Card Number">
+                            <f-ajax event="blur"
+                                    (listener)="passportIdListener($event)"
+                                    execute="@this"
+                                    render="@form"></f-ajax>
+                        </h-input-text>
+                    </c-otherwise>
+                </c-choose>
+                <h-graphic-image id="helpIcon" library="images"
+                                 name="icon_info.gif">
+                    <f-ajax render="@all" event="click"
+                            (listener)="togglePassportHelp($event)"></f-ajax>
+                </h-graphic-image>
+            </div>
 
-    <h-command-button value="Cancel"
-                      [immediate]="true"
-                      (action)="cancelBooking()"
-                      id="cancelBookingButton"
-                      styleClass="iceCmdBtn btnOption"></h-command-button>
-    <h-command-button [immediate]="true" (action)="back()"
-                      value="Back"
-                      id="backButton"
-                      styleClass="iceCmdBtn btnOption"></h-command-button>
-    <h-command-button value="Continue"
-                      id="continueButton"
-                      (action)="next()"
-                      styleClass="iceCmdBtn btnOption"></h-command-button>
+            <div class="clear"></div>
+        </h-panel-group>
+        <!-- ajax for prefilling data when id exists -->
+        <!-- validate numbers if existing check existing data for correctness -->
+        <h-panel-group id="personalDataContainer" layout="block"
+                       styleClass="contentLevelContainer blockArea">
+            <!-- if number exists show force edit button -->
+            <c-if [test]="existingUser">
+                <div class="indented inputFieldGroup">
+                    <h-command-button id="forceEditButton" value="Edit Data"
+                                      styleClass="iceCmdBtn btnOption">
+                        <f-ajax render="@form" execute="@this"
+                                (listener)="toggleForceEdit($event)"></f-ajax>
+                    </h-command-button>
+                </div>
+            </c-if>
+            <!-- Firstname -->
+            <div class="lFloat indented inputFieldGroup">
+                <span class="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
+                <h-input-text id="firstNameInput"
+                              [disabled]="existingUser && !forceEdit"
+                              [(ngModel)]="currentPassenger.firstName"
+                              [required]="true"
+                              requiredMessage="Insert your Firstname"></h-input-text>
+            </div>
+            <!-- Lastname -->
+            <div class="lFloat indented inputFieldGroup">
+                <span class="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
+                <h-input-text id="lastNameInput"
+                              [disabled]="existingUser && !forceEdit"
+                              [(ngModel)]="currentPassenger.lastName"
+                              [required]="true"
+                              requiredMessage="Insert your Lastname"></h-input-text>
+            </div>
+            <!-- Birthday with dp + converter -->
+            <div class="lFloat indented inputFieldGroup">
+                <span class="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
+                <h-input-text id="birthDateInput"
+                              [disabled]="existingUser && !forceEdit"
+                              [(ngModel)]="currentPassenger.birthDay"
+                              [required]="true"
+                              requiredMessage="Insert your Birthdate"
+                              [converter]="shortDateConverter"></h-input-text>
+            </div>
+            <div class="clear"></div>
+        </h-panel-group>
 
-    <ice-panel-popup id="passportHelpPopup"
-                     [visible]="passportHelp"
-                     [draggable]="false"
-                     styleClass="popup frameHolder" [autoCentre]="true">
-      <f-facet name="body">
-        <div id="iFrameWrapper">
-          <ice-output-text styleClass="iceOutTxt">
-            Your passport number should start with P and constist of 5 numbers
-            <br/>
-            Your id card number should consist of 5 numbers
-          </ice-output-text>
-        </div>
-      </f-facet>
-    </ice-panel-popup>
-  </h-form>
+        <!-- luggage radio -->
+        <h-panel-group id="luggageContainer" layout="block"
+                       styleClass="contentLevelContainer blockArea">
+            <span class="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
+            <h-select-one-radio id="luggageRadio"
+                                styleClass="iceSelOneRb masInfoInputField"
+                                [required]="true"
+                                layout="pageDirection"
+                                requiredMessage="Select the amount of luggage you want to check in"
+                                [(ngModel)]="currentPassenger.luggageCount"
+                                [converter]="integerConverter">
+                <f-select-items id="luggageNumbers"
+                                [value]="luggageItems"></f-select-items>
+            </h-select-one-radio>
+            <div class="clear"></div>
+            <h-message styleClass="iceMsgError inputFieldLabel"
+                       for="firstNameInput" id="firstNameErrorMessage"></h-message>
+            <h-message styleClass="iceMsgError inputFieldLabel"
+                       for="lastNameInput" id="lastNameErrorMessage"></h-message>
+            <h-message styleClass="iceMsgError inputFieldLabel"
+                       for="birthDateInput" id="birthDateErrorMessage"></h-message>
+            <h-message styleClass="iceMsgError inputFieldLabel"
+                       for="idCardNumberInput" id="idCardErrorMessage"></h-message>
+            <h-message styleClass="iceMsgError inputFieldLabel"
+                       for="passportNumberInput"
+                       id="passportErrorMessage"></h-message>
+        </h-panel-group>
+
+        <h-command-button value="Cancel"
+                          [immediate]="true"
+                          (action)="cancelBooking()"
+                          id="cancelBookingButton"
+                          styleClass="iceCmdBtn btnOption"></h-command-button>
+        <h-command-button [immediate]="true" (action)="back()"
+                          value="Back"
+                          id="backButton"
+                          styleClass="iceCmdBtn btnOption"></h-command-button>
+        <h-command-button value="Continue"
+                          id="continueButton"
+                          (action)="next()"
+                          styleClass="iceCmdBtn btnOption"></h-command-button>
+
+        <ice-panel-popup id="passportHelpPopup"
+                         [visible]="passportHelp"
+                         [draggable]="false"
+                         styleClass="popup frameHolder" [autoCentre]="true">
+            <f-facet name="body">
+                <div id="iFrameWrapper">
+                    <ice-output-text styleClass="iceOutTxt">
+                        Your passport number should start with P and constist of 5 numbers
+                        <br/>
+                        Your id card number should consist of 5 numbers
+                    </ice-output-text>
+                </div>
+            </f-facet>
+        </ice-panel-popup>
+    </h-form>
 </h-body>

@@ -12,22 +12,22 @@ package de.uni.frankfurt.test.selenium.exceptions;
  * @since 12.07.2013
  */
 public class ElementNotEnabledException extends RuntimeException {
-  private static final long serialVersionUID = -6828860462767203892L;
+    private static final long serialVersionUID = -6828860462767203892L;
 
-  public ElementNotEnabledException() {
-    super();
-  }
+    public ElementNotEnabledException() {
+        super();
+    }
 
-  public ElementNotEnabledException(
-      final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    public ElementNotEnabledException(
+            final String message, final Throwable cause) {
+        super(message, cause);
+    }
 
-  public ElementNotEnabledException(final String message) {
-    super(message);
-  }
+    public ElementNotEnabledException(final String message) {
+        super(message);
+    }
 
-  public ElementNotEnabledException(final Throwable cause) {
-    super(cause);
-  }
+    public ElementNotEnabledException(final Throwable cause) {
+        super(cause);
+    }
 }

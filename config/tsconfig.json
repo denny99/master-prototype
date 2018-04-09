@@ -8,11 +8,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "es2015",
-    "rootDir": "../src/main/webapp/angular",
+    "rootDir": "../",
     "target": "es5",
     "typeRoots": [
-      // todo change to node_modules upon package split
-      "../src/main/webapp/angular/app/jsf/@types",
+      "../node_modules/angular-jsf-components/@types",
       "../node_modules/@types"
     ],
     "lib": [

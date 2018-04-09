@@ -16,8 +16,7 @@ import {FlightDetailsComponent} from './components/pages/flight-details/flight-d
 import {FlightOverviewComponent} from './components/pages/flight-overview/flight-overview.component';
 import {IndexComponent} from './components/pages/index/index.component';
 import {PassengerFormComponent} from './components/pages/passenger-form/passenger-form.component';
-import {JsfModule} from './jsf/jsf.module';
-import {ConversationService} from './jsf/services/conversation.service';
+import {ConversationService, JsfModule} from 'angular-jsf-components';
 import {AjaxService} from './services/ajax.service';
 import {BookingService} from './services/booking.service';
 import {FlightService} from './services/flight.service';
@@ -27,34 +26,34 @@ import {SessionDataService} from './services/session-data.service';
 registerLocaleData(localeDe, 'de-DE');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    VersionAnnotationComponent,
-    FlightOverviewComponent,
-    IndexComponent,
-    FlightDetailsComponent,
-    BookingFormComponent,
-    PassengerFormComponent,
-    BookingDetailsComponent,
-    BookingSuccessComponent,
-    CCFlightDetailsComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    JsfModule,
-    AppRoutingModule,
-  ],
-  providers: [
-    FlightService,
-    PassengerService,
-    AjaxService,
-    BookingService,
-    SessionDataService,
-    ConversationService,
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        VersionAnnotationComponent,
+        FlightOverviewComponent,
+        IndexComponent,
+        FlightDetailsComponent,
+        BookingFormComponent,
+        PassengerFormComponent,
+        BookingDetailsComponent,
+        BookingSuccessComponent,
+        CCFlightDetailsComponent,
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        FormsModule,
+        JsfModule,
+        AppRoutingModule,
+    ],
+    providers: [
+        FlightService,
+        PassengerService,
+        AjaxService,
+        BookingService,
+        SessionDataService,
+        ConversationService,
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

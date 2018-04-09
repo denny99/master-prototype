@@ -16,10 +16,10 @@ import javax.ws.rs.ext.Provider;
 @ApplicationScoped
 public class ConditionFailedExceptionHandler extends RestExceptionHandler implements ExceptionMapper<ConditionFailedException> {
 
-  @Context
-  private HttpHeaders headers;
+    @Context
+    private HttpHeaders headers;
 
-  public Response toResponse(ConditionFailedException ex) {
-    return this.buildResponse(ex);
-  }
+    public Response toResponse(ConditionFailedException ex) {
+        return this.buildResponse(ex);
+    }
 }

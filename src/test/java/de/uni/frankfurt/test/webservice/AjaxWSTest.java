@@ -17,46 +17,46 @@ import java.util.HashMap;
 @RunWith(Arquillian.class)
 public class AjaxWSTest extends WSTest {
 
-  @Test
-  @InSequence(1)
-  @RunAsClient
-  public void validatePassengerCount() throws JsonSchemaException {
-    APIResponse<FlightSearchResponse> flightResponse = this.getResourcesFromAPI(
-        "/flights", FlightSearchResponse.class);
-    Flight flight = flightResponse.getResponseObject().getData().get(0);
+    @Test
+    @InSequence(1)
+    @RunAsClient
+    public void validatePassengerCount() throws JsonSchemaException {
+        APIResponse<FlightSearchResponse> flightResponse = this.getResourcesFromAPI(
+                "/flights", FlightSearchResponse.class);
+        Flight flight = flightResponse.getResponseObject().getData().get(0);
 
-    HashMap<String, String> query = new HashMap<>();
+        HashMap<String, String> query = new HashMap<>();
 
-    query.put("passengerCount",
-        String.valueOf(flight.getAircraft().getPassengerCount() + 10));
+        query.put("passengerCount",
+                String.valueOf(flight.getAircraft().getPassengerCount() + 10));
 
-    // validation not ok
-    APIResponse<ValidationResponse> response = this.getResourcesFromAPI(
-        this.getResourceURL() + "/" + flight.getId() +
-            "/validatePassengerCount", query,
-        ValidationResponse.class);
-    Assert.assertTrue("no error", !response.hasError());
-    Assert.assertTrue("validation error",
-        response.getResponseObject().getError());
+        // validation not ok
+        APIResponse<ValidationResponse> response = this.getResourcesFromAPI(
+                this.getResourceURL() + "/" + flight.getId() +
+                        "/validatePassengerCount", query,
+                ValidationResponse.class);
+        Assert.assertTrue("no error", !response.hasError());
+        Assert.assertTrue("validation error",
+                response.getResponseObject().getError());
 
-    query.put("passengerCount",
-        String.valueOf(flight.getAircraft().getPassengerCount() - 10));
+        query.put("passengerCount",
+                String.valueOf(flight.getAircraft().getPassengerCount() - 10));
 
-    // test ok
-    response = this.getResourcesFromAPI(
-        this.getResourceURL() + "/" + flight.getId() +
-            "/validatePassengerCount", query,
-        ValidationResponse.class);
-    Assert.assertTrue("no error", !response.hasError());
-    Assert.assertTrue("no validation error",
-        !response.getResponseObject().getError());
-  }
+        // test ok
+        response = this.getResourcesFromAPI(
+                this.getResourceURL() + "/" + flight.getId() +
+                        "/validatePassengerCount", query,
+                ValidationResponse.class);
+        Assert.assertTrue("no error", !response.hasError());
+        Assert.assertTrue("no validation error",
+                !response.getResponseObject().getError());
+    }
 
-  /**
-   * @return url
-   */
-  @Override
-  public String getResourceURL() {
-    return "/ajax";
-  }
+    /**
+     * @return url
+     */
+    @Override
+    public String getResourceURL() {
+        return "/ajax";
+    }
 }

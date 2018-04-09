@@ -1,21 +1,21 @@
 package de.uni.frankfurt.exceptions;
 
 public interface RestException {
-  // pseudo attributes just for swagger otherwise
-  // every throwable attribute is added to the docs
-  int statusCode = 400;
-  String errorMessage = "";
-  String type = "";
+    // pseudo attributes just for swagger otherwise
+    // every throwable attribute is added to the docs
+    int statusCode = 400;
+    String errorMessage = "";
+    String type = "";
 
-  int getStatusCode();
+    int getStatusCode();
 
-  void setStatusCode(int statusCode);
+    void setStatusCode(int statusCode);
 
-  String getErrorMessage();
+    String getErrorMessage();
 
-  void setErrorMessage(String message);
+    void setErrorMessage(String message);
 
-  String getType();
+    String getType();
 
-  void setType(String type);
+    void setType(String type);
 }

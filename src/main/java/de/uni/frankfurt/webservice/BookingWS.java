@@ -28,123 +28,123 @@ import java.util.HashMap;
 @Path("/flights/{flightId}/bookings")
 @RequestScoped
 public class BookingWS {
-  private static final Logger LOGGER = Logger.getLogger(BookingWS.class);
+    private static final Logger LOGGER = Logger.getLogger(BookingWS.class);
 
-  @Inject
-  private BookingService bookingService;
-  @Inject
-  private FlightService flightService;
-  @Inject
-  private JSONParserBean parser;
+    @Inject
+    private BookingService bookingService;
+    @Inject
+    private FlightService flightService;
+    @Inject
+    private JSONParserBean parser;
 
-  @PathParam("flightId")
-  private String flightId;
+    @PathParam("flightId")
+    private String flightId;
 
-  @Path("")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation(
-      summary = "Get Booking By Id",
-      tags = {"booking"},
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "Found Booking",
-              content = @Content(schema = @Schema(implementation = Booking.class))),
-          @ApiResponse(responseCode = "404", description = "Booking not found",
-              content = @Content(schema = @Schema(implementation = RestException.class))),
-          @ApiResponse(responseCode = "404", description = "Flight not found",
-              content = @Content(schema = @Schema(implementation = RestException.class)))})
-  public String getBookings() throws ResourceNotFoundException, JsonSchemaException {
-    ArrayList<Booking> bookings = this.bookingService.getBookingsByFlight(
-        this.getFlight());
-    return parser.toJSON(bookings);
-  }
-
-  private Flight getFlight() throws ResourceNotFoundException {
-    return this.flightService.getFlightById(this.flightId);
-  }
-
-  @Path("")
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation(
-      summary = "Create new Booking",
-      tags = {"booking"},
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "Created Booking",
-              content = @Content(schema = @Schema(implementation = Booking.class))),
-          @ApiResponse(responseCode = "400", description = "Submitted data is invalid",
-              content = @Content(schema = @Schema(implementation = RestException.class))),
-          @ApiResponse(responseCode = "404", description = "Flight not found",
-              content = @Content(schema = @Schema(implementation = RestException.class))),
-          @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
-              content = @Content(schema = @Schema(implementation = RestException.class)))})
-  public String createBooking(
-      String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, BadRequestException, JsonSchemaException {
-    Booking b;
-    try {
-      b = parser.fromJSON(bookingJSON, Booking.class);
-    } catch (JsonSchemaException e) {
-      throw new BadRequestException(e.getField() + ":" + e.getReason(),
-          Booking.class);
+    @Path("")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Get Booking By Id",
+            tags = {"booking"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found Booking",
+                            content = @Content(schema = @Schema(implementation = Booking.class))),
+                    @ApiResponse(responseCode = "404", description = "Booking not found",
+                            content = @Content(schema = @Schema(implementation = RestException.class))),
+                    @ApiResponse(responseCode = "404", description = "Flight not found",
+                            content = @Content(schema = @Schema(implementation = RestException.class)))})
+    public String getBookings() throws ResourceNotFoundException, JsonSchemaException {
+        ArrayList<Booking> bookings = this.bookingService.getBookingsByFlight(
+                this.getFlight());
+        return parser.toJSON(bookings);
     }
 
-    // new: BE validation for TAC
-    if (!b.isTacAccepted()) {
-      throw new ConditionFailedException("TAC not accepted");
+    private Flight getFlight() throws ResourceNotFoundException {
+        return this.flightService.getFlightById(this.flightId);
     }
 
-    // validate max valid number of passengers
-    if (!this.bookingService.canCheckIn(this.getFlight(),
-        b.getPassengers().size())) {
-      throw new ConditionFailedException(
-          String.format("Max %s free seats on the aircraft",
-              this.bookingService.getFreeSeats(this.getFlight())),
-          Flight.class);
+    @Path("")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Create new Booking",
+            tags = {"booking"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Created Booking",
+                            content = @Content(schema = @Schema(implementation = Booking.class))),
+                    @ApiResponse(responseCode = "400", description = "Submitted data is invalid",
+                            content = @Content(schema = @Schema(implementation = RestException.class))),
+                    @ApiResponse(responseCode = "404", description = "Flight not found",
+                            content = @Content(schema = @Schema(implementation = RestException.class))),
+                    @ApiResponse(responseCode = "412", description = "Input data violates conditions. See error message for detailed reason",
+                            content = @Content(schema = @Schema(implementation = RestException.class)))})
+    public String createBooking(
+            String bookingJSON) throws ResourceNotFoundException, ConditionFailedException, BadRequestException, JsonSchemaException {
+        Booking b;
+        try {
+            b = parser.fromJSON(bookingJSON, Booking.class);
+        } catch (JsonSchemaException e) {
+            throw new BadRequestException(e.getField() + ":" + e.getReason(),
+                    Booking.class);
+        }
+
+        // new: BE validation for TAC
+        if (!b.isTacAccepted()) {
+            throw new ConditionFailedException("TAC not accepted");
+        }
+
+        // validate max valid number of passengers
+        if (!this.bookingService.canCheckIn(this.getFlight(),
+                b.getPassengers().size())) {
+            throw new ConditionFailedException(
+                    String.format("Max %s free seats on the aircraft",
+                            this.bookingService.getFreeSeats(this.getFlight())),
+                    Flight.class);
+        }
+
+        // validate that passport and idcards are unique
+        HashMap<String, String> numbers = new HashMap<>();
+
+        for (Passenger p : b.getPassengers()) {
+            String requiredNumber = this.getFlight().foreignTravel() ?
+                    p.getPassportNumber() :
+                    p.getIdCardNumber();
+            if (numbers.containsKey(requiredNumber)) {
+                throw new ConditionFailedException(
+                        String.format("Duplicated passenger with number %s",
+                                requiredNumber), Passenger.class);
+            } else {
+                numbers.put(requiredNumber, "");
+            }
+        }
+
+        b = this.bookingService.createBooking(this.getFlight(), b.isInsurance(),
+                b.getPassengers().toArray(new Passenger[b.getPassengers().size()]));
+        return parser.toJSON(b);
     }
 
-    // validate that passport and idcards are unique
-    HashMap<String, String> numbers = new HashMap<>();
-
-    for (Passenger p : b.getPassengers()) {
-      String requiredNumber = this.getFlight().foreignTravel() ?
-          p.getPassportNumber() :
-          p.getIdCardNumber();
-      if (numbers.containsKey(requiredNumber)) {
-        throw new ConditionFailedException(
-            String.format("Duplicated passenger with number %s",
-                requiredNumber), Passenger.class);
-      } else {
-        numbers.put(requiredNumber, "");
-      }
+    @Path("{bookingId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Get Bookings by flight",
+            tags = {"booking"},
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found Bookings",
+                            content = @Content(array = @ArraySchema(
+                                    schema = @Schema(implementation = Booking.class)))),
+                    @ApiResponse(responseCode = "404", description = "Flight not found",
+                            content = @Content(schema = @Schema(implementation = RestException.class)))})
+    public String getBookingById(
+            @PathParam("bookingId") String id
+    ) throws ResourceNotFoundException, JsonSchemaException {
+        return parser.toJSON(bookingService.getBookingById(id));
     }
-
-    b = this.bookingService.createBooking(this.getFlight(), b.isInsurance(),
-        b.getPassengers().toArray(new Passenger[b.getPassengers().size()]));
-    return parser.toJSON(b);
-  }
-
-  @Path("{bookingId}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Operation(
-      summary = "Get Bookings by flight",
-      tags = {"booking"},
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "Found Bookings",
-              content = @Content(array = @ArraySchema(
-                  schema = @Schema(implementation = Booking.class)))),
-          @ApiResponse(responseCode = "404", description = "Flight not found",
-              content = @Content(schema = @Schema(implementation = RestException.class)))})
-  public String getBookingById(
-      @PathParam("bookingId") String id
-  ) throws ResourceNotFoundException, JsonSchemaException {
-    return parser.toJSON(bookingService.getBookingById(id));
-  }
 }

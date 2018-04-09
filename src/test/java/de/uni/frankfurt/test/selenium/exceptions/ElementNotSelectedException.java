@@ -13,22 +13,22 @@ package de.uni.frankfurt.test.selenium.exceptions;
  * @since 12.07.2013
  */
 public class ElementNotSelectedException extends RuntimeException {
-  private static final long serialVersionUID = -6828860462767203892L;
+    private static final long serialVersionUID = -6828860462767203892L;
 
-  public ElementNotSelectedException() {
-    super();
-  }
+    public ElementNotSelectedException() {
+        super();
+    }
 
-  public ElementNotSelectedException(
-      final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    public ElementNotSelectedException(
+            final String message, final Throwable cause) {
+        super(message, cause);
+    }
 
-  public ElementNotSelectedException(final String message) {
-    super(message);
-  }
+    public ElementNotSelectedException(final String message) {
+        super(message);
+    }
 
-  public ElementNotSelectedException(final Throwable cause) {
-    super(cause);
-  }
+    public ElementNotSelectedException(final Throwable cause) {
+        super(cause);
+    }
 }

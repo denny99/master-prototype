@@ -16,10 +16,10 @@ import javax.ws.rs.ext.Provider;
 @ApplicationScoped
 public class BadRequestExceptionHandler extends RestExceptionHandler implements ExceptionMapper<BadRequestException> {
 
-  @Context
-  private HttpHeaders headers;
+    @Context
+    private HttpHeaders headers;
 
-  public Response toResponse(BadRequestException ex) {
-    return this.buildResponse(ex);
-  }
+    public Response toResponse(BadRequestException ex) {
+        return this.buildResponse(ex);
+    }
 }

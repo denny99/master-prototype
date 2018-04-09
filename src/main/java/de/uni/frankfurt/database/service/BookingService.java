@@ -18,87 +18,87 @@ import java.util.ArrayList;
 @Named
 @ApplicationScoped
 public class BookingService implements Serializable {
-  private static final Logger LOG = Logger.getLogger(BookingService.class);
+    private static final Logger LOG = Logger.getLogger(BookingService.class);
 
-  @Inject
-  private DatabaseMock databaseMock;
-  @Inject
-  private FlightService flightService;
-  @Inject
-  private PassengerService passengerService;
+    @Inject
+    private DatabaseMock databaseMock;
+    @Inject
+    private FlightService flightService;
+    @Inject
+    private PassengerService passengerService;
 
-  public ArrayList<Booking> getBookings() {
-    return databaseMock.getBookings();
-  }
-
-  /**
-   * @param flight         associated flight
-   * @param passengerCount amount of new passenger
-   * @return true = enough space on aircraft
-   */
-  public boolean canCheckIn(
-      Flight flight,
-      Integer passengerCount) {
-    return this.getFreeSeats(flight) >= passengerCount;
-  }
-
-  /**
-   * @param flight associated flight
-   * @return number of free seats in aircraft
-   */
-  public Integer getFreeSeats(Flight flight) {
-    Integer bookedSeats = 0;
-    Integer maxPassengers = flight.getAircraft().getPassengerCount();
-    ArrayList<Booking> bookings = this.getBookingsByFlight(flight);
-    for (Booking booking : bookings) {
-      bookedSeats += booking.getPassengers().size();
+    public ArrayList<Booking> getBookings() {
+        return databaseMock.getBookings();
     }
-    return maxPassengers - bookedSeats;
-  }
 
-  /**
-   * @param flight associated flight
-   * @return all bookings for this flight
-   */
-  public ArrayList<Booking> getBookingsByFlight(
-      Flight flight) {
-    ArrayList<Booking> result = new ArrayList<Booking>();
-    for (Booking booking : this.databaseMock.getBookings()) {
-      if (booking.getFlight().getId().equals(flight.getId())) {
-        result.add(booking);
-      }
+    /**
+     * @param flight         associated flight
+     * @param passengerCount amount of new passenger
+     * @return true = enough space on aircraft
+     */
+    public boolean canCheckIn(
+            Flight flight,
+            Integer passengerCount) {
+        return this.getFreeSeats(flight) >= passengerCount;
     }
-    return result;
-  }
 
-  /**
-   * @param flight     flight the booking belongs to
-   * @param passengers passenger that wanna check in
-   * @return created booking with correct data
-   * @throws ResourceNotFoundException flight not found
-   */
-  public Booking createBooking(
-      Flight flight, boolean insurance,
-      Passenger[] passengers) throws ResourceNotFoundException {
-    Flight f = this.flightService.getFlightById(flight.getId());
-    Booking b = new Booking(f, insurance,
-        this.passengerService.createPassengers(passengers));
-    b.setTacAccepted(true);
-    this.databaseMock.addBooking(b);
-    return b;
-  }
-
-  /**
-   * @param id id of booking
-   * @return found booking
-   * @throws ResourceNotFoundException id does not exist
-   */
-  public Booking getBookingById(String id) throws ResourceNotFoundException {
-    for (Booking booking : this.databaseMock.getBookings()) {
-      if (booking.getId().equals(id)) {
-        return booking;
-      }
+    /**
+     * @param flight associated flight
+     * @return number of free seats in aircraft
+     */
+    public Integer getFreeSeats(Flight flight) {
+        Integer bookedSeats = 0;
+        Integer maxPassengers = flight.getAircraft().getPassengerCount();
+        ArrayList<Booking> bookings = this.getBookingsByFlight(flight);
+        for (Booking booking : bookings) {
+            bookedSeats += booking.getPassengers().size();
+        }
+        return maxPassengers - bookedSeats;
     }
-    throw new ResourceNotFoundException(id, Booking.class);
-  }
+
+    /**
+     * @param flight associated flight
+     * @return all bookings for this flight
+     */
+    public ArrayList<Booking> getBookingsByFlight(
+            Flight flight) {
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        for (Booking booking : this.databaseMock.getBookings()) {
+            if (booking.getFlight().getId().equals(flight.getId())) {
+                result.add(booking);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param flight     flight the booking belongs to
+     * @param passengers passenger that wanna check in
+     * @return created booking with correct data
+     * @throws ResourceNotFoundException flight not found
+     */
+    public Booking createBooking(
+            Flight flight, boolean insurance,
+            Passenger[] passengers) throws ResourceNotFoundException {
+        Flight f = this.flightService.getFlightById(flight.getId());
+        Booking b = new Booking(f, insurance,
+                this.passengerService.createPassengers(passengers));
+        b.setTacAccepted(true);
+        this.databaseMock.addBooking(b);
+        return b;
+    }
+
+    /**
+     * @param id id of booking
+     * @return found booking
+     * @throws ResourceNotFoundException id does not exist
+     */
+    public Booking getBookingById(String id) throws ResourceNotFoundException {
+        for (Booking booking : this.databaseMock.getBookings()) {
+            if (booking.getId().equals(id)) {
+                return booking;
+            }
+        }
+        throw new ResourceNotFoundException(id, Booking.class);
+    }
 }
