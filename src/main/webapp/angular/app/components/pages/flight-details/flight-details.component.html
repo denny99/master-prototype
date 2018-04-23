@@ -1,4 +1,8 @@
 <h-body>
-    <cc-flight-details id="viewFlight" [headline]="true" [standalone]="true"
-                       [flight]="sessionService.selectedFlight"></cc-flight-details>
+    <app-base-template>
+        <ui-define name="content">
+            <cc-flight-details id="viewFlight" [headline]="true" [standalone]="true"
+                               [flight]="sessionService.selectedFlight"></cc-flight-details>
+        </ui-define>
+    </app-base-template>
 </h-body>

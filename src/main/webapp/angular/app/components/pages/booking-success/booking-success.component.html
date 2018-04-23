@@ -1,8 +1,12 @@
 <h-body>
-    <h2 id="bookingCompleteMessage">Booking Successful!</h2>
-    <h-form id="successInfo">
-        <h-command-button id="completeButton" action="/pages/flightOverview"
-                          value="Back to Flights"
-                          styleClass="iceCmdBtn btnOption"></h-command-button>
-    </h-form>
+    <app-base-template>
+        <ui-define name="content">
+            <h2 id="bookingCompleteMessage">Booking Successful!</h2>
+            <h-form id="successInfo">
+                <h-command-button id="completeButton" action="/pages/flightOverview"
+                                  value="Back to Flights"
+                                  styleClass="iceCmdBtn btnOption"></h-command-button>
+            </h-form>
+        </ui-define>
+    </app-base-template>
 </h-body>

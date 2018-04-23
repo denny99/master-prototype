@@ -22,6 +22,7 @@ import {BookingService} from './services/booking.service';
 import {FlightService} from './services/flight.service';
 import {PassengerService} from './services/passenger.service';
 import {SessionDataService} from './services/session-data.service';
+import {BaseTemplateComponent} from './components/template/base-template/base-template.component';
 
 registerLocaleData(localeDe, 'de-DE');
 
@@ -37,6 +38,7 @@ registerLocaleData(localeDe, 'de-DE');
         BookingDetailsComponent,
         BookingSuccessComponent,
         CCFlightDetailsComponent,
+        BaseTemplateComponent,
     ],
     imports: [
         BrowserModule,
