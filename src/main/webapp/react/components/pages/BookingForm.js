@@ -5,11 +5,12 @@ import Flight from '../../entity/Flight';
 import {
   FFacet, HCommandButton, HForm, HInputHidden, HInputText, HMessage,
   HOutputLabel, HPanelGroup, HSelectBooleanCheckbox, IceOutputText,
-  IcePanelGroup, IcePanelTooltip, ValidationResponse,
+  IcePanelGroup, IcePanelTooltip, UiDefine, ValidationResponse,
 } from 'react-jsf';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerForm from './PassengerForm';
 import AjaxService from '../../service/AjaxService';
+import BaseTemplate from '../template/BaseTemplate';
 
 export default class BookingForm extends React.Component {
   static propTypes = {
@@ -103,112 +104,122 @@ export default class BookingForm extends React.Component {
   render() {
     if (this.state.bookingFormVisible) {
       return (
-          <HForm ref={(form) => {
-            this.bookingForm = form;
-          }} id="bookingData" data={this.state.data} styleClass="ice-skin-rime">
-            <CCFlightDetails headline={true} standalone={false}
-                             flight={this.props.selectedFlight}/>
-            <HPanelGroup id="basicData" layout="block"
-                         styleClass="contentLevelContainer blockArea">
-              <div className="inputFieldGroup">
-                <span className="iceOutTxt headerLabel">Basic Data</span>
-              </div>
-              <HPanelGroup layout="block" id="sliderGroup"
-                           styleClass="indented topMargin">
-                <div className="inputFieldGroup center"
-                     style={{width: '450px'}}>
-                  <span className="iceOutTxt iceOutLbl ssLabel">Select desired amount of passengers</span>
-                </div>
-                <div id="passengerContainer" className="blockArea">
-                  <div className="inputFieldGroup"
-                       id="passengerAmountContainer">
-                    <IcePanelGroup id="passengerTooltipBubble"
-                                   panelTooltip="passengerTooltip"
-                                   style={{position: 'relative', top: '-15px'}}
-                                   styleClass="infoBubble"/>
-                    <div className="clear"/>
-                    <div id="sliderDiv" className="inputFieldGroup center">
-                      <div className="inputFieldGroup center"
-                           style={{marginTop: '-15px'}}>
-                        <HInputText ref={(input) => {
-                          this.passengerCountOutput = input;
-                        }} value="passengerCount"
-                                    id="passengerCountOutput"
-                                    style={{
-                                      color: '#003B78 !important',
-                                      textAlign: 'center',
-                                    }}
-                                    onchange={this.updateSlider}
-                                    validator={this.validatePassengerCount}
-                                    converter={IntegerConverter}
-                                    converterMessage="Enter only Numbers"/>
-                        <span style={{marginLeft: '4px'}}># Passengers</span>
-                      </div>
-                      <div style={{position: 'relative', bottom: '0px'}}>
-                        <div id="slider_div">
-                          <div id="passengerCountSlider"
-                               style={{
-                                 position: 'relative',
-                                 top: '6px',
-                                 width: '133px',
-                               }}>
-                            <img id="sliderImage"
-                                 src="/resources/images/bar150.gif" width="150"
-                                 height="12"
-                                 alt="" className="sliderImg"/>
-                          </div>
-                        </div>
-
-                        <IceOutputText id="costs"
-                                       styleClass="ssInfoFieldLabel2">
-                          Costs p.P. {this.props.selectedFlight.costs}
-                        </IceOutputText>
-                        <span>€</span>
-                      </div>
-
-                      <HInputHidden id="maxSliderTickHidden"
-                                    value={this.props.selectedFlight.aircraft.passengerCount}/>
-                    </div>
+          <BaseTemplate>
+            <UiDefine name='content'>
+              <HForm ref={(form) => {
+                this.bookingForm = form;
+              }} id="bookingData" data={this.state.data}
+                     styleClass="ice-skin-rime">
+                <CCFlightDetails headline={true} standalone={false}
+                                 flight={this.props.selectedFlight}/>
+                <HPanelGroup id="basicData" layout="block"
+                             styleClass="contentLevelContainer blockArea">
+                  <div className="inputFieldGroup">
+                    <span className="iceOutTxt headerLabel">Basic Data</span>
                   </div>
-                </div>
-
-                <IcePanelTooltip id="passengerTooltip" hideOn="mouseout">
-                  <FFacet name="body">
-                    <div>
-                      <span className="iceOutTxt">Use the slider or the input to set the amount of passengers</span>
+                  <HPanelGroup layout="block" id="sliderGroup"
+                               styleClass="indented topMargin">
+                    <div className="inputFieldGroup center"
+                         style={{width: '450px'}}>
+                      <span className="iceOutTxt iceOutLbl ssLabel">Select desired amount of passengers</span>
                     </div>
-                  </FFacet>
-                </IcePanelTooltip>
-              </HPanelGroup>
-            </HPanelGroup>
-            <HMessage id="costMsg"
-                      style={{width: '404px', textAlign: 'center'}}
-                      styleClass="iceMsgError inputFieldLabel minindented"
-                      for="passengerCountOutput"/>
+                    <div id="passengerContainer" className="blockArea">
+                      <div className="inputFieldGroup"
+                           id="passengerAmountContainer">
+                        <IcePanelGroup id="passengerTooltipBubble"
+                                       panelTooltip="passengerTooltip"
+                                       style={{
+                                         position: 'relative',
+                                         top: '-15px',
+                                       }}
+                                       styleClass="infoBubble"/>
+                        <div className="clear"/>
+                        <div id="sliderDiv" className="inputFieldGroup center">
+                          <div className="inputFieldGroup center"
+                               style={{marginTop: '-15px'}}>
+                            <HInputText ref={(input) => {
+                              this.passengerCountOutput = input;
+                            }} value="passengerCount"
+                                        id="passengerCountOutput"
+                                        style={{
+                                          color: '#003B78 !important',
+                                          textAlign: 'center',
+                                        }}
+                                        onchange={this.updateSlider}
+                                        validator={this.validatePassengerCount}
+                                        converter={IntegerConverter}
+                                        converterMessage="Enter only Numbers"/>
+                            <span
+                                style={{marginLeft: '4px'}}># Passengers</span>
+                          </div>
+                          <div style={{position: 'relative', bottom: '0px'}}>
+                            <div id="slider_div">
+                              <div id="passengerCountSlider"
+                                   style={{
+                                     position: 'relative',
+                                     top: '6px',
+                                     width: '133px',
+                                   }}>
+                                <img id="sliderImage"
+                                     src="/resources/images/bar150.gif"
+                                     width="150"
+                                     height="12"
+                                     alt="" className="sliderImg"/>
+                              </div>
+                            </div>
 
-            <HPanelGroup layout="block"
-                         styleClass="contentLevelContainer blockArea">
-              <div className="indented inputFieldGroup"
-                   style={{marginTop: '5px'}}>
-                <HSelectBooleanCheckbox id="insuranceCB"
-                                        value="travelInsurance">
-                </HSelectBooleanCheckbox>
-                <HOutputLabel id="insuranceLabel" for="insuranceCB"
-                              style={{position: 'relative', top: '-2px'}}
-                              styleClass="InfoFieldLabel minindented">Travel
-                  Insurance
-                </HOutputLabel>
-                <div className="clear"/>
-              </div>
-            </HPanelGroup>
-            <HCommandButton value="Cancel"
-                            action={this.props.cancel}
-                            id="cancelBookingButton"
-                            styleClass="iceCmdBtn btnOption"/>
-            <HCommandButton id="continueButton" value="Continue"
-                            action={this.showPassengerForm}
-                            styleClass="iceCmdBtn btnOption"/>
-          </HForm>
+                            <IceOutputText id="costs"
+                                           styleClass="ssInfoFieldLabel2">
+                              Costs p.P. {this.props.selectedFlight.costs}
+                            </IceOutputText>
+                            <span>€</span>
+                          </div>
+
+                          <HInputHidden id="maxSliderTickHidden"
+                                        value={this.props.selectedFlight.aircraft.passengerCount}/>
+                        </div>
+                      </div>
+                    </div>
+
+                    <IcePanelTooltip id="passengerTooltip" hideOn="mouseout">
+                      <FFacet name="body">
+                        <div>
+                          <span className="iceOutTxt">Use the slider or the input to set the amount of passengers</span>
+                        </div>
+                      </FFacet>
+                    </IcePanelTooltip>
+                  </HPanelGroup>
+                </HPanelGroup>
+                <HMessage id="costMsg"
+                          style={{width: '404px', textAlign: 'center'}}
+                          styleClass="iceMsgError inputFieldLabel minindented"
+                          for="passengerCountOutput"/>
+
+                <HPanelGroup layout="block"
+                             styleClass="contentLevelContainer blockArea">
+                  <div className="indented inputFieldGroup"
+                       style={{marginTop: '5px'}}>
+                    <HSelectBooleanCheckbox id="insuranceCB"
+                                            value="travelInsurance">
+                    </HSelectBooleanCheckbox>
+                    <HOutputLabel id="insuranceLabel" for="insuranceCB"
+                                  style={{position: 'relative', top: '-2px'}}
+                                  styleClass="InfoFieldLabel minindented">Travel
+                      Insurance
+                    </HOutputLabel>
+                    <div className="clear"/>
+                  </div>
+                </HPanelGroup>
+                <HCommandButton value="Cancel"
+                                action={this.props.cancel}
+                                id="cancelBookingButton"
+                                styleClass="iceCmdBtn btnOption"/>
+                <HCommandButton id="continueButton" value="Continue"
+                                action={this.showPassengerForm}
+                                styleClass="iceCmdBtn btnOption"/>
+              </HForm>
+            </UiDefine>
+          </BaseTemplate>
       );
     } else {
       return <PassengerForm selectedFlight={this.props.selectedFlight}

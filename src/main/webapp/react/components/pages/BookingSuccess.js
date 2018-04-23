@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HCommandButton, HForm} from 'react-jsf';
+import {HCommandButton, HForm, UiDefine} from 'react-jsf';
+import BaseTemplate from '../template/BaseTemplate';
 
 export default class BookingSuccess extends React.Component {
   static propTypes = {
@@ -13,14 +14,16 @@ export default class BookingSuccess extends React.Component {
 
   render() {
     return (
-        <React.Fragment>
-          <h2 key={0} id="bookingCompleteMessage">Booking Successful!</h2>
-          <HForm key={1} id="successInfo">
-            <HCommandButton id="completeButton" action={this.props.finish}
-                            value="Back to Flights"
-                            styleClass="iceCmdBtn btnOption"/>
-          </HForm>
-        </React.Fragment>
+        <BaseTemplate>
+          <UiDefine name='content'>
+            <h2 key={0} id="bookingCompleteMessage">Booking Successful!</h2>
+            <HForm key={1} id="successInfo">
+              <HCommandButton id="completeButton" action={this.props.finish}
+                              value="Back to Flights"
+                              styleClass="iceCmdBtn btnOption"/>
+            </HForm>
+          </UiDefine>
+        </BaseTemplate>
     );
   }
 }

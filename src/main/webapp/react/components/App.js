@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HCommandButton, HForm} from 'react-jsf';
+import {HCommandButton, HForm, UiDefine} from 'react-jsf';
 import FlightOverview from './pages/FlightOverview';
 import VersionAnnotation from './includes/VersionAnnotation';
+import BaseTemplate from './template/BaseTemplate';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -40,18 +41,20 @@ export default class App extends React.Component {
 
   render() {
     const initialForm = (
-        <React.Fragment>
-          <h2>Welcome</h2>
-          <hr/>
-          <HForm id="indexForm" data={{}}>
-            <HCommandButton id="viewFlightsButton"
-                            action={this.showFlightOverview}
-                            value="View Flights"
-                            styleClass="iceCmdBtn btnOption"/>
-          </HForm>
-          <div className="clear"/>
-          <VersionAnnotation/>
-        </React.Fragment>);
+        <BaseTemplate>
+          <UiDefine name='content'>
+            <h2>Welcome</h2>
+            <hr/>
+            <HForm id="indexForm" data={{}}>
+              <HCommandButton id="viewFlightsButton"
+                              action={this.showFlightOverview}
+                              value="View Flights"
+                              styleClass="iceCmdBtn btnOption"/>
+            </HForm>
+            <div className="clear"/>
+            <VersionAnnotation/>
+          </UiDefine>
+        </BaseTemplate>);
     if (this.state.showStartPage) {
       return initialForm;
     }

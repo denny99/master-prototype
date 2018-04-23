@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CCFlightDetails from '../cc/CCFlightDetails';
 import Flight from '../../entity/Flight';
+import BaseTemplate from '../template/BaseTemplate';
+import {UiDefine} from 'react-jsf';
 
 export default class FlightDetails extends React.Component {
   static propTypes = {
@@ -11,9 +13,13 @@ export default class FlightDetails extends React.Component {
 
   render() {
     return (
-        <CCFlightDetails id="viewFlight" headline={true} standalone={true}
-                         flight={this.props.selectedFlight}
-                         back={this.props.back}/>
+        <BaseTemplate>
+          <UiDefine name='content'>
+            <CCFlightDetails id="viewFlight" headline={true} standalone={true}
+                             flight={this.props.selectedFlight}
+                             back={this.props.back}/>
+          </UiDefine>
+        </BaseTemplate>
     );
   }
 }

@@ -4,13 +4,14 @@ import Flight from '../../entity/Flight';
 import {
   CChoose, CIf, COtherwise, CWhen, FAjax, FFacet, FSelectItems,
   HCommandButton, HForm, HGraphicImage, HInputText, HMessage, HPanelGroup,
-  HSelectOneRadio, IceOutputText, IcePanelPopup, SelectItem,
+  HSelectOneRadio, IceOutputText, IcePanelPopup, SelectItem, UiDefine,
 } from 'react-jsf';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import Passenger from '../../entity/Passenger';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerService from '../../service/PassengerService';
 import BookingDetails from './BookingDetails';
+import BaseTemplate from '../template/BaseTemplate';
 
 export default class PassengerForm extends React.Component {
   static propTypes = {
@@ -208,150 +209,158 @@ export default class PassengerForm extends React.Component {
     if (this.state.passengerFormVisible) {
       // use passenger index as key, so the form re-mounts after next/back
       return (
-          <HForm key={this.state.currentPassengerIndex} ref={(form) => {
-            this.passengerForm = form;
-          }} id="passengerData" styleClass="ice-skin-rime"
-                 data={this.state.data}>
-            <div className="inputFieldGroup">
+          <BaseTemplate>
+            <UiDefine name='content'>
+              <HForm key={this.state.currentPassengerIndex} ref={(form) => {
+                this.passengerForm = form;
+              }} id="passengerData" styleClass="ice-skin-rime"
+                     data={this.state.data}>
+                <div className="inputFieldGroup">
               <span
                   className="iceOutTxt headerLabel">Enter Data for Passenger #{this.state.currentPassengerIndex +
               1}</span>
-            </div>
-            <HPanelGroup id="passportContainer" layout="block"
-                         styleClass="contentLevelContainer blockArea">
-              <div className="lFloat indented inputFieldGroup">
-                <CChoose>
-                  <CWhen
-                      test={this.props.selectedFlight.foreignTravel()}>
-                    <span className="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
-                    <HInputText id="passportNumberInput" maxlength={6}
-                                value="currentPassenger.passportNumber"
-                                required={true}
-                                requiredMessage="Insert your Passport Number">
-                      <FAjax event="blur"
-                             listener={this.passportIdListener}
-                             execute="@this"
-                             render="@form"/>
-                    </HInputText>
-                  </CWhen>
-                  <COtherwise>
-                    <span className="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
-                    <HInputText id="idCardNumberInput" maxlength={5}
-                                value="currentPassenger.idCardNumber"
-                                required={true}
-                                requiredMessage="Insert your Id Card Number">
-                      <FAjax event="blur"
-                             listener={this.passportIdListener}
-                             execute="@this"
-                             render="@form"/>
-                    </HInputText>
-                  </COtherwise>
-                </CChoose>
-                <HGraphicImage id="helpIcon" library="images"
-                               name="icon_info.gif"
-                               onclick={this.togglePassportHelp}/>
-              </div>
-
-              <div className="clear"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="idCardNumberInput" id="idCardErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="passportNumberInput" id="passportErrorMessage"/>
-            </HPanelGroup>
-            <HPanelGroup id="personalDataContainer" layout="block"
-                         styleClass="contentLevelContainer blockArea">
-              <CIf test={this.state.existingUser}>
-                <div className="indented inputFieldGroup">
-                  <HCommandButton id="forceEditButton" value="Edit Data"
-                                  styleClass="iceCmdBtn btnOption"
-                                  action={this.toggleForceEdit}>
-                  </HCommandButton>
                 </div>
-              </CIf>
-              <div className="lFloat indented inputFieldGroup">
+                <HPanelGroup id="passportContainer" layout="block"
+                             styleClass="contentLevelContainer blockArea">
+                  <div className="lFloat indented inputFieldGroup">
+                    <CChoose>
+                      <CWhen
+                          test={this.props.selectedFlight.foreignTravel()}>
+                        <span
+                            className="iceOutTxt masInfoFieldLabel minindented">Passport Number:</span>
+                        <HInputText id="passportNumberInput" maxlength={6}
+                                    value="currentPassenger.passportNumber"
+                                    required={true}
+                                    requiredMessage="Insert your Passport Number">
+                          <FAjax event="blur"
+                                 listener={this.passportIdListener}
+                                 execute="@this"
+                                 render="@form"/>
+                        </HInputText>
+                      </CWhen>
+                      <COtherwise>
+                        <span
+                            className="iceOutTxt masInfoFieldLabel minindented">Id Card Number:</span>
+                        <HInputText id="idCardNumberInput" maxlength={5}
+                                    value="currentPassenger.idCardNumber"
+                                    required={true}
+                                    requiredMessage="Insert your Id Card Number">
+                          <FAjax event="blur"
+                                 listener={this.passportIdListener}
+                                 execute="@this"
+                                 render="@form"/>
+                        </HInputText>
+                      </COtherwise>
+                    </CChoose>
+                    <HGraphicImage id="helpIcon" library="images"
+                                   name="icon_info.gif"
+                                   onclick={this.togglePassportHelp}/>
+                  </div>
+
+                  <div className="clear"/>
+                  <HMessage styleClass="iceMsgError inputFieldLabel"
+                            for="idCardNumberInput" id="idCardErrorMessage"/>
+                  <HMessage styleClass="iceMsgError inputFieldLabel"
+                            for="passportNumberInput"
+                            id="passportErrorMessage"/>
+                </HPanelGroup>
+                <HPanelGroup id="personalDataContainer" layout="block"
+                             styleClass="contentLevelContainer blockArea">
+                  <CIf test={this.state.existingUser}>
+                    <div className="indented inputFieldGroup">
+                      <HCommandButton id="forceEditButton" value="Edit Data"
+                                      styleClass="iceCmdBtn btnOption"
+                                      action={this.toggleForceEdit}>
+                      </HCommandButton>
+                    </div>
+                  </CIf>
+                  <div className="lFloat indented inputFieldGroup">
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Firstname:</span>
-                <HInputText id="firstNameInput"
-                            disabled={this.state.existingUser &&
-                            !this.state.forceEdit}
-                            value="currentPassenger.firstName"
-                            required={true}
-                            requiredMessage="Insert your Firstname"/>
-              </div>
-              <div className="lFloat indented inputFieldGroup">
+                    <HInputText id="firstNameInput"
+                                disabled={this.state.existingUser &&
+                                !this.state.forceEdit}
+                                value="currentPassenger.firstName"
+                                required={true}
+                                requiredMessage="Insert your Firstname"/>
+                  </div>
+                  <div className="lFloat indented inputFieldGroup">
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Lastname:</span>
-                <HInputText id="lastNameInput"
-                            disabled={this.state.existingUser &&
-                            !this.state.forceEdit}
-                            value="currentPassenger.lastName"
-                            required={true}
-                            requiredMessage="Insert your Lastname"/>
-              </div>
-              <div className="lFloat indented inputFieldGroup">
+                    <HInputText id="lastNameInput"
+                                disabled={this.state.existingUser &&
+                                !this.state.forceEdit}
+                                value="currentPassenger.lastName"
+                                required={true}
+                                requiredMessage="Insert your Lastname"/>
+                  </div>
+                  <div className="lFloat indented inputFieldGroup">
                 <span
                     className="iceOutTxt masInfoFieldLabel minindented">Birthdate:</span>
-                <HInputText id="birthDateInput"
-                            disabled={this.state.existingUser &&
-                            !this.state.forceEdit}
-                            value="currentPassenger.birthDay"
-                            required={true}
-                            requiredMessage="Insert your Birthdate"
-                            converter={ShortDateConverter}
-                            converterMessage="Enter a date with format dd.MM.yyyy"/>
-              </div>
-              <div className="clear"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="firstNameInput" id="firstNameErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="lastNameInput" id="lastNameErrorMessage"/>
-              <HMessage styleClass="iceMsgError inputFieldLabel"
-                        for="birthDateInput" id="birthDateErrorMessage"/>
-            </HPanelGroup>
-            <HPanelGroup id="luggageContainer" layout="block"
-                         styleClass="contentLevelContainer blockArea">
-              <span className="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
-              <HSelectOneRadio id="luggageRadio"
-                               styleClass="iceSelOneRb masInfoInputField"
-                               required={true}
-                               layout="pageDirection"
-                               requiredMessage="Select the amount of luggage you want to check in"
-                               converter={IntegerConverter}
-                               value="currentPassenger.luggageCount">
-                <FSelectItems id="luggageNumbers"
-                              value={this.luggageItems}/>
-              </HSelectOneRadio>
-              <div className="clear"/>
-            </HPanelGroup>
+                    <HInputText id="birthDateInput"
+                                disabled={this.state.existingUser &&
+                                !this.state.forceEdit}
+                                value="currentPassenger.birthDay"
+                                required={true}
+                                requiredMessage="Insert your Birthdate"
+                                converter={ShortDateConverter}
+                                converterMessage="Enter a date with format dd.MM.yyyy"/>
+                  </div>
+                  <div className="clear"/>
+                  <HMessage styleClass="iceMsgError inputFieldLabel"
+                            for="firstNameInput" id="firstNameErrorMessage"/>
+                  <HMessage styleClass="iceMsgError inputFieldLabel"
+                            for="lastNameInput" id="lastNameErrorMessage"/>
+                  <HMessage styleClass="iceMsgError inputFieldLabel"
+                            for="birthDateInput" id="birthDateErrorMessage"/>
+                </HPanelGroup>
+                <HPanelGroup id="luggageContainer" layout="block"
+                             styleClass="contentLevelContainer blockArea">
+                  <span className="iceOutTxt masInfoFieldLabel minindented">Select the desired amount of luggage</span>
+                  <HSelectOneRadio id="luggageRadio"
+                                   styleClass="iceSelOneRb masInfoInputField"
+                                   required={true}
+                                   layout="pageDirection"
+                                   requiredMessage="Select the amount of luggage you want to check in"
+                                   converter={IntegerConverter}
+                                   value="currentPassenger.luggageCount">
+                    <FSelectItems id="luggageNumbers"
+                                  value={this.luggageItems}/>
+                  </HSelectOneRadio>
+                  <div className="clear"/>
+                </HPanelGroup>
 
-            <HCommandButton value="Cancel"
-                            action={this.props.cancel}
-                            id="cancelBookingButton"
-                            styleClass="iceCmdBtn btnOption"/>
-            <HCommandButton immediate={true} action={this.back}
-                            value="Back"
-                            id="backButton"
-                            styleClass="iceCmdBtn btnOption"/>
-            <HCommandButton value="Continue"
-                            id="continueButton"
-                            action={this.next}
-                            styleClass="iceCmdBtn btnOption"/>
+                <HCommandButton value="Cancel"
+                                action={this.props.cancel}
+                                id="cancelBookingButton"
+                                styleClass="iceCmdBtn btnOption"/>
+                <HCommandButton immediate={true} action={this.back}
+                                value="Back"
+                                id="backButton"
+                                styleClass="iceCmdBtn btnOption"/>
+                <HCommandButton value="Continue"
+                                id="continueButton"
+                                action={this.next}
+                                styleClass="iceCmdBtn btnOption"/>
 
-            <IcePanelPopup id="passportHelpPopup"
-                           visible={this.state.passportHelp}
-                           draggable={false}
-                           styleClass="popup frameHolder" autoCentre={true}>
-              <FFacet name="body">
-                <div id="iFrameWrapper">
-                  <IceOutputText styleClass="iceOutTxt">
-                    Your passport number should start with P and consist of 5
-                    numbers <br/>
-                    Your id card number should consist of 5 numbers
-                  </IceOutputText>
-                </div>
-              </FFacet>
-            </IcePanelPopup>
-          </HForm>
+                <IcePanelPopup id="passportHelpPopup"
+                               visible={this.state.passportHelp}
+                               draggable={false}
+                               styleClass="popup frameHolder" autoCentre={true}>
+                  <FFacet name="body">
+                    <div id="iFrameWrapper">
+                      <IceOutputText styleClass="iceOutTxt">
+                        Your passport number should start with P and consist of
+                        5
+                        numbers <br/>
+                        Your id card number should consist of 5 numbers
+                      </IceOutputText>
+                    </div>
+                  </FFacet>
+                </IcePanelPopup>
+              </HForm>
+            </UiDefine>
+          </BaseTemplate>
       );
     } else {
       let data = this.state.data;
