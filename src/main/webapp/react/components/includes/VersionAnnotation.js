@@ -1,5 +1,5 @@
 import React from 'react';
-import {IceOutputLink} from 'react-jsf';
+import {IceOutputLink} from 'react-jsf/src/index';
 
 export default class VersionAnnotation extends React.Component {
   render() {

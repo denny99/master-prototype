@@ -6,7 +6,7 @@ import {
   FFacet, HCommandButton, HForm, HInputHidden, HInputText, HMessage,
   HOutputLabel, HPanelGroup, HSelectBooleanCheckbox, IceOutputText,
   IcePanelGroup, IcePanelTooltip, UiDefine, ValidationResponse,
-} from 'react-jsf';
+} from 'react-jsf/src/index';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerForm from './PassengerForm';
 import AjaxService from '../../service/AjaxService';
@@ -18,7 +18,7 @@ export default class BookingForm extends React.Component {
     cancel: PropTypes.func.isRequired,
   };
 
-  updateSlider = function() {
+  updateSlider() {
     let currentValue = this.bookingForm.state.data.passengerCount;
     let maxValue = this.props.selectedFlight.aircraft.passengerCount;
     let minValue = 1;
@@ -29,8 +29,6 @@ export default class BookingForm extends React.Component {
         // to avoid a loop only change when changed through direct input
         this.slider.slider('value', currentValue);
       }
-      // Validierungsmeldung ausknipsen (falls vorhanden)
-      this.passengerCountOutput.setExternalError(false);
     }
   };
 
@@ -52,10 +50,6 @@ export default class BookingForm extends React.Component {
   }
 
   showPassengerForm() {
-    if (this.bookingForm.hasError()) {
-      return;
-    }
-
     this.setState({
       bookingFormVisible: false,
       passengerFormVisible: true,
@@ -84,9 +78,11 @@ export default class BookingForm extends React.Component {
     this.slider = $('#passengerCountSlider').slider({
       max: this.props.selectedFlight.aircraft.passengerCount,
       value: this.bookingForm.state.data.passengerCount,
-      change: (event, ui) => {
+      change: async (event, ui) => {
         this.bookingForm.state.data.passengerCount = ui.value;
         this.sliderChange = true;
+        // Validierungsmeldung ausknipsen (falls vorhanden)
+        await this.passengerCountOutput.validate();
         this.passengerCountOutput.handleChange({
           target: ui,
         });
@@ -212,6 +208,7 @@ export default class BookingForm extends React.Component {
                 </HPanelGroup>
                 <HCommandButton value="Cancel"
                                 action={this.props.cancel}
+                                immediate={true}
                                 id="cancelBookingButton"
                                 styleClass="iceCmdBtn btnOption"/>
                 <HCommandButton id="continueButton" value="Continue"

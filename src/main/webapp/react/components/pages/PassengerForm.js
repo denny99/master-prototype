@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Flight from '../../entity/Flight';
 import {
-  CChoose, CIf, COtherwise, CWhen, FAjax, FFacet, FSelectItems,
+  CChoose, CIf, COtherwise, CWhen, FAjax, FEvent, FFacet, FSelectItems,
   HCommandButton, HForm, HGraphicImage, HInputText, HMessage, HPanelGroup,
   HSelectOneRadio, IceOutputText, IcePanelPopup, SelectItem, UiDefine,
-} from 'react-jsf';
+  ValidationResponse,
+} from 'react-jsf/src/index';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import Passenger from '../../entity/Passenger';
 import IntegerConverter from '../../converter/IntegerConverter';
@@ -70,11 +71,7 @@ export default class PassengerForm extends React.Component {
     this.passengerForm.state.data.currentPassenger = passenger;
   }
 
-  next() {
-    if (this.passengerForm.hasError()) {
-      return;
-    }
-
+  async next() {
     // save current data
     this.state.data = this.passengerForm.state.data;
     // save entered passenger data
@@ -139,13 +136,11 @@ export default class PassengerForm extends React.Component {
   }
 
   /**
-   * originally performed on BE
-   * but this is no longer required
-   * @param {Input} input
+   * check for duplicated passengers
    */
-  validateForm(input) {
+  validateForm() {
     let key;
-    if (input.props.id === 'idCardNumberInput') {
+    if (!this.props.selectedFlight.foreignTravel()) {
       key = 'idCardNumber';
     } else {
       key = 'passportNumber';
@@ -159,14 +154,8 @@ export default class PassengerForm extends React.Component {
       }
     }
 
-    const msg = 'This passenger is already registered';
-    if (found > 1) {
-      // don't re render the input after applying the error
-      input.setExternalError(true, msg);
-      return false;
-    }
-    input.setExternalError(false, '');
-    return true;
+    return new ValidationResponse(found > 1,
+        'This passenger is already registered', key + 'Input');
   }
 
   togglePassportHelp() {
@@ -184,23 +173,20 @@ export default class PassengerForm extends React.Component {
     // only get when something was entered
     if (this.currentPassenger.passportNumber !== '' ||
         this.currentPassenger.idCardNumber !== '') {
-      // first validate input
-      if (this.validateForm(input)) {
-        let passengers = await PassengerService.getPassengers(
-            input.props.id === 'passportNumberInput' ?
-                this.currentPassenger.passportNumber :
-                '',
-            input.props.id === 'idCardNumberInput' ?
-                this.currentPassenger.idCardNumber :
-                '');
-        if (passengers) {
-          this.currentPassenger = passengers[0];
-          this.setState({
-            data: this.state.data,
-            existingUser: true,
-            forceEdit: false,
-          });
-        }
+      let passengers = await PassengerService.getPassengers(
+          input.props.id === 'passportNumberInput' ?
+              this.currentPassenger.passportNumber :
+              '',
+          input.props.id === 'idCardNumberInput' ?
+              this.currentPassenger.idCardNumber :
+              '');
+      if (passengers) {
+        this.currentPassenger = passengers[0];
+        this.setState({
+          data: this.state.data,
+          existingUser: true,
+          forceEdit: false,
+        });
       }
     }
   }
@@ -215,6 +201,9 @@ export default class PassengerForm extends React.Component {
                 this.passengerForm = form;
               }} id="passengerData" styleClass="ice-skin-rime"
                      data={this.state.data}>
+                <FEvent id="multiFieldValidationEvent"
+                        listener={this.validateForm}
+                        type="postValidate"/>
                 <div className="inputFieldGroup">
               <span
                   className="iceOutTxt headerLabel">Enter Data for Passenger #{this.state.currentPassengerIndex +
@@ -331,6 +320,7 @@ export default class PassengerForm extends React.Component {
                 </HPanelGroup>
 
                 <HCommandButton value="Cancel"
+                                immediate={true}
                                 action={this.props.cancel}
                                 id="cancelBookingButton"
                                 styleClass="iceCmdBtn btnOption"/>

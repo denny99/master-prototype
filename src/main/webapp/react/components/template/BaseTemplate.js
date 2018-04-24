@@ -1,10 +1,12 @@
 import React from 'react';
-import {UiComposition} from 'react-jsf';
+import {HBody, UiComposition} from 'react-jsf/src/index';
 
 export default class BaseTemplate extends UiComposition {
   render() {
-    return (<div>
+    return (<HBody>
+      <div>
       {this.getSection('content')}
-    </div>);
+      </div>
+    </HBody>);
   }
 }

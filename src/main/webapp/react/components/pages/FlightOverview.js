@@ -4,7 +4,7 @@ import {
   AceColumn, AceDataTable, FFacet, FSelectItem, FSelectItems,
   FValidateRegex, HCommandButton, HForm, HInputText, HMessage, HOutputText,
   HPanelGrid, HPanelGroup, HSelectOneMenu, SelectItem, UiDefine,
-} from 'react-jsf';
+} from 'react-jsf/src/index';
 import FlightService from '../../service/FlightService';
 import FlightDetails from './FlightDetails';
 import DateConverter from '../../converter/DateConverter';
@@ -45,11 +45,6 @@ export default class FlightOverview extends React.Component {
    * @param [currentPage] default 1
    */
   submit(currentPage) {
-    // check for form error and re-render messages if required
-    if (this.searchForm.hasError()) {
-      return;
-    }
-
     (async () => {
       // get form data
       let data = this.searchForm.state.data;

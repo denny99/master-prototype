@@ -6,7 +6,7 @@ import {
   AceDialog, AceTooltip, CChoose, COtherwise, CWhen, FConvertNumber,
   HCommandButton, HForm, HMessage, HOutputLabel, HOutputText, HPanelGroup,
   IceCommandButton, IceSelectBooleanCheckbox, UiDefine, UiRepeat,
-} from 'react-jsf';
+} from 'react-jsf/src/index';
 import BookingSuccess from './BookingSuccess';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import BookingService from '../../service/BookingService';
@@ -58,10 +58,6 @@ export default class BookingDetails extends React.Component {
   }
 
   confirmBooking() {
-    if (this.detailsForm.hasError()) {
-      return;
-    }
-
     this.setState({
       showInfo: true,
     });
