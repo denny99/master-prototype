@@ -58,6 +58,11 @@
             <artifactId>json-schema</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.uni.frankfurt</groupId>
+            <artifactId>swagger-json-schema</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- REST Docs -->
         <dependency>
