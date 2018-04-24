@@ -167,7 +167,7 @@ export default class PassengerForm extends React.Component {
   /**
    *
    * @param {Input} input
-   * @param {string} render
+   * @param {JsfCore} render
    */
   async passportIdListener(input, render) {
     // only get when something was entered
@@ -182,6 +182,7 @@ export default class PassengerForm extends React.Component {
               '');
       if (passengers) {
         this.currentPassenger = passengers[0];
+        await render.jsfOnRender();
         this.setState({
           data: this.state.data,
           existingUser: true,

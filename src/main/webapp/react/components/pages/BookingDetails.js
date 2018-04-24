@@ -174,6 +174,7 @@ export default class BookingDetails extends React.Component {
                 </HPanelGroup>
 
                 <HCommandButton value="Cancel"
+                                immediate={true}
                                 action={this.props.cancel}
                                 id="cancelBookingButton"
                                 styleClass="iceCmdBtn btnOption"/>
