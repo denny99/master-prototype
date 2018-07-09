@@ -6,7 +6,7 @@ import {
   AceDialog, AceTooltip, CChoose, COtherwise, CWhen, FConvertNumber,
   HCommandButton, HForm, HMessage, HOutputLabel, HOutputText, HPanelGroup,
   IceCommandButton, IceSelectBooleanCheckbox, UiDefine, UiRepeat,
-} from 'react-jsf/src/index';
+} from 'react-jsf';
 import BookingSuccess from './BookingSuccess';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import BookingService from '../../service/BookingService';

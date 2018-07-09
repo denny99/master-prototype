@@ -1,6 +1,6 @@
 import ApiConstants from '../constants/ApiConstants';
 import Flight from '../entity/Flight';
-import {ValidationResponse} from 'react-jsf/src/index';
+import {ValidationResponse} from 'react-jsf';
 
 export default class AjaxService {
   static URL = ApiConstants.BASE_URL + 'ajax/';

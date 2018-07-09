@@ -1,5 +1,5 @@
 import React from 'react';
-import {HBody, UiComposition} from 'react-jsf/src/index';
+import {HBody, UiComposition} from 'react-jsf';
 
 export default class BaseTemplate extends UiComposition {
   render() {

@@ -6,7 +6,7 @@ import {
   HCommandButton, HForm, HGraphicImage, HInputText, HMessage, HPanelGroup,
   HSelectOneRadio, IceOutputText, IcePanelPopup, SelectItem, UiDefine,
   ValidationResponse,
-} from 'react-jsf/src/index';
+} from 'react-jsf';
 import ShortDateConverter from '../../converter/ShortDateConverter';
 import Passenger from '../../entity/Passenger';
 import IntegerConverter from '../../converter/IntegerConverter';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {HCommandButton, HForm, UiDefine} from 'react-jsf/src/index';
+import {HCommandButton, HForm, UiDefine} from 'react-jsf';
 import FlightOverview from './pages/FlightOverview';
 import VersionAnnotation from './includes/VersionAnnotation';
 import BaseTemplate from './template/BaseTemplate';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   CChoose, CIf, COtherwise, CWhen, HCommandButton, HForm, HOutputText,
   HPanelGroup, UIFragment,
-} from 'react-jsf/src/index';
+} from 'react-jsf';
 import Flight from '../../entity/Flight';
 import DateConverter from '../../converter/DateConverter';
 

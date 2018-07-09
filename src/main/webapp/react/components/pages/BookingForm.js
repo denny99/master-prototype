@@ -6,7 +6,7 @@ import {
   FFacet, HCommandButton, HForm, HInputHidden, HInputText, HMessage,
   HOutputLabel, HPanelGroup, HSelectBooleanCheckbox, IceOutputText,
   IcePanelGroup, IcePanelTooltip, UiDefine, ValidationResponse,
-} from 'react-jsf/src/index';
+} from 'react-jsf';
 import IntegerConverter from '../../converter/IntegerConverter';
 import PassengerForm from './PassengerForm';
 import AjaxService from '../../service/AjaxService';

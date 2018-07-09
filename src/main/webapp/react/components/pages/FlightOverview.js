@@ -4,7 +4,7 @@ import {
   AceColumn, AceDataTable, FFacet, FSelectItem, FSelectItems,
   FValidateRegex, HCommandButton, HForm, HInputText, HMessage, HOutputText,
   HPanelGrid, HPanelGroup, HSelectOneMenu, SelectItem, UiDefine,
-} from 'react-jsf/src/index';
+} from 'react-jsf';
 import FlightService from '../../service/FlightService';
 import FlightDetails from './FlightDetails';
 import DateConverter from '../../converter/DateConverter';

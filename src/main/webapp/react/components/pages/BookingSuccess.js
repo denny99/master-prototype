@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HCommandButton, HForm, UiDefine} from 'react-jsf/src/index';
+import {HCommandButton, HForm, UiDefine} from 'react-jsf';
 import BaseTemplate from '../template/BaseTemplate';
 
 export default class BookingSuccess extends React.Component {

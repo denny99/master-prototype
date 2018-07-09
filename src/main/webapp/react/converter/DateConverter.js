@@ -1,4 +1,4 @@
-import {Converter} from 'react-jsf/src/index';
+import {Converter} from 'react-jsf';
 
 export default class DateConverter extends Converter {
   static format = {

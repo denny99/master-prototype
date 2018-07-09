@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CCFlightDetails from '../cc/CCFlightDetails';
 import Flight from '../../entity/Flight';
 import BaseTemplate from '../template/BaseTemplate';
-import {UiDefine} from 'react-jsf/src/index';
+import {UiDefine} from 'react-jsf';
 
 export default class FlightDetails extends React.Component {
   static propTypes = {

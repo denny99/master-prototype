@@ -1,4 +1,4 @@
-import {Converter, ConverterException} from 'react-jsf/src/index';
+import {Converter, ConverterException} from 'react-jsf';
 
 export default class IntegerConverter extends Converter {
   getAsObject(value) {
