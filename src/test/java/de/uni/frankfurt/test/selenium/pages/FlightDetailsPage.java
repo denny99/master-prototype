@@ -4,9 +4,9 @@ import de.uni.frankfurt.test.selenium.helper.ActionsOnPage;
 import org.openqa.selenium.WebDriver;
 
 public class FlightDetailsPage extends Page {
-    public static final String VIEW_FLIGHT_BUTTON = "datatableForm:flightsTable:%s:viewFlight";
-    public static final String FLIGHT_DETAILS_CONTAINER = "viewFlight:flightDetailsContainer";
-    public static final String BACK_BUTTON = "viewFlight:pageNav:backButton";
+    public static final String VIEW_FLIGHT_BUTTON = "datatableForm:viewFlight";
+    public static final String FLIGHT_DETAILS_CONTAINER = "flightDetailsContainer";
+    public static final String BACK_BUTTON = "pageNav:backButton";
 
     public FlightDetailsPage(
             WebDriver driver,
@@ -30,6 +30,6 @@ public class FlightDetailsPage extends Page {
      * @param index row id in datatable
      */
     public void getPage(int index) {
-        this.action.clickElement(String.format(VIEW_FLIGHT_BUTTON, index));
+        this.action.clickElement(VIEW_FLIGHT_BUTTON);
     }
 }

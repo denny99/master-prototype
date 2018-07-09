@@ -4,11 +4,11 @@ import de.uni.frankfurt.test.selenium.helper.ActionsOnPage;
 import org.openqa.selenium.WebDriver;
 
 public class BookingFormPage extends Page {
-    public static final String BOOK_FLIGHT_BUTTON = "datatableForm:flightsTable:%s:bookFlight";
+    public static final String BOOK_FLIGHT_BUTTON = "datatableForm:bookFlight";
     public static final String CANCEL_BOOKING_BUTTON = "bookingData:cancelBookingButton";
     public static final String PASSENGER_COUNT_OUTPUT = "bookingData:passengerCountOutput";
     public static final String PASSENGER_TOOLTIP_BUBBLE = "bookingData:passengerTooltipBubble";
-    public static final String PASSENGER_TOOLTIP = "bookingData:passengerTooltip";
+    public static final String PASSENGER_TOOLTIP = "bookingData:passengerTooltip_content";
     public static final String COST_ERROR_MESSAGE = "bookingData:costMsg";
     public static final String INVALID_INPUT = "Enter only Numbers";
 
@@ -46,7 +46,7 @@ public class BookingFormPage extends Page {
      * @param index row id in datatable
      */
     public void getPage(int index) {
-        this.action.clickElement(String.format(BOOK_FLIGHT_BUTTON, index));
+        this.action.clickElement(BOOK_FLIGHT_BUTTON);
     }
 
     /**

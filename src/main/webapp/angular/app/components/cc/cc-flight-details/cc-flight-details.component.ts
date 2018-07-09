@@ -9,6 +9,9 @@ import Flight from '../../../entity/Flight';
 })
 export class CCFlightDetailsComponent {
     @Input()
+    id: String;
+
+    @Input()
     flight: Flight;
 
     @Input()
